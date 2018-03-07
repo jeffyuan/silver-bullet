@@ -1,0 +1,19 @@
+package com.${context.prjPackage}.${context.modulePackage}.service;
+
+<% for(import in iservice.imports!){ %>
+import ${import};
+<% } %>
+
+
+/**
+ * ${context.bizChName} service接口
+ * Created by jeffyuan on 2018/2/11.
+ */
+public interface I${context.bizEnName}Service {
+    public int countNum();
+    public BaseDataResult<${context.bizEnName}> list(int pageNum, int pageSize);
+    public ${context.bizEnName} getOneById(String id);
+    public boolean Update(${context.bizEnName} ${context.bizEnNameCapSmall});
+    public boolean delete(String id);
+    public boolean Insert(${context.bizEnName} ${context.bizEnNameCapSmall});
+}

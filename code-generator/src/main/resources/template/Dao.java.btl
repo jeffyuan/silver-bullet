@@ -1,0 +1,9 @@
+package com.${context.prjPackage}.${context.modulePackage}.dao;
+
+<% for(import in dao.imports!){ %>
+import ${import};
+<% } %>
+
+public interface ${context.bizEnName}Mapper extends CrudRepository<${context.bizEnName}, String>{
+
+}

@@ -1,0 +1,35 @@
+package com.${context.prjPackage}.${context.modulePackage}.controller;
+
+<% for(import in controller.imports!){ %>
+import ${import};
+<% } %>
+
+/**
+ * ${context.bizChName} 控制器
+ * Created by jeffyuan on 2018/2/11.
+ */
+@Controller
+@RequestMapping(value = "/auth/${context.bizEnNameSmall}")
+public class ${context.bizEnName}Controller {
+
+    @Autowired
+    private I${context.bizEnName}Service ${context.bizEnNameCapSmall}Service;
+
+    @RequestMapping(value = "/list/{curpage}.html", method = RequestMethod.GET)
+    public ModelAndView index(@PathVariable("curpage") String curpage){
+        int nCurPage = 1;
+        if (curpage != null) {
+            nCurPage = Integer.valueOf(curpage);
+        }
+
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("/${context.bizEnName}/list");
+
+        BaseDataResult<${context.bizEnName}> results = ${context.bizEnNameCapSmall}Service.list(nCurPage, 5);
+
+        modelAndView.addObject("results", results);
+        modelAndView.addObject("curPage", nCurPage);
+
+        return modelAndView;
+    }
+}

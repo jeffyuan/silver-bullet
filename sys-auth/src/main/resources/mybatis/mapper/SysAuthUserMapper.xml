@@ -56,7 +56,13 @@
     LOGINTIME, IMGID, CLASSIFY
   </sql>
 
-  <select id="list" resultMap="ResultMap">
+  <select id="findList" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from sys_auth_user
+  </select>
+
+  <select id="findListWithMap" resultMap="ResultMap">
     select
     <include refid="Base_Column_List"/>
     from sys_auth_user

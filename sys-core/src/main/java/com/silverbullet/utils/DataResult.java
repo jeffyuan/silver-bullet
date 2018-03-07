@@ -13,30 +13,11 @@ import java.util.Map;
  * 所有list的返回类型
  * Created by jeffyuan on 2018/3/5.
  */
-public class DataResult {
+public class DataResult extends BaseDataResult<Map<String, Object>> {
 
     private static final Logger log = Logger.getLogger(DataResult.class);
 
-    private List<Map<String, Object>> resultList = null;
-    private int totalNum = 0;
-
-    public List<Map<String, Object>> getResultList() {
-        return resultList;
-    }
-
-    public void setResultList(List<Map<String, Object>> resultList) {
-        this.resultList = resultList;
-    }
-
-    public int getTotalNum() {
-        return totalNum;
-    }
-
-    public void setTotalNum(int totalNum) {
-        this.totalNum = totalNum;
-    }
-
-    /**
+     /**
      * 根据参数，替换显示的内容
      * @param key 需要List元素的关键字
      * @param value 替换的值，格式为 A:value1,B:value2
@@ -51,7 +32,6 @@ public class DataResult {
             if (node.length == 2) {
                 mapDictionary.put(node[0], node[1]);
             }
-
         }
 
         runDictionary(key, mapDictionary);

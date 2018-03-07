@@ -34,20 +34,20 @@
                         </tr>
                         </thead>
                         <tbody>
-                        @for(user in users.resultList){
+                        @for(result in results.resultList){
                         <tr>
-                            <td>${user.loginname}</td>
-                            <td>${user.name}</td>
-                            <td>${user.type}</td>
-                            <td>${user.state}</td>
+                            <td>${result.loginname}</td>
+                            <td>${result.name}</td>
+                            <td>${result.type}</td>
+                            <td>${result.state}</td>
                             <td></td>
-                            <td>${user.logintime}</td>
+                            <td>${result.logintime}</td>
                         </tr>
                         @}
                         </tbody>
                     </table>
                 </div>
-                <#PageTag action="${ctxPath}/auth/list/" totalNum="${users.totalNum}" perSize="5" curPage="${curPage}"></#PageTag>
+                <#PageTag action="${ctxPath}/auth/sysauthuser/list/" totalNum="${results.totalNum}" perSize="5" curPage="${curPage}"></#PageTag>
                 <!-- /.box-body -->
             </div>
             <!-- /.box -->
