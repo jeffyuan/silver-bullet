@@ -19,10 +19,13 @@ public class TableConfig {
     private boolean updateByExampleStatementEnabled = false;
     private boolean selectByExampleStatementEnabled = false;
 
-    public TableConfig(String tableName, String domainObjectName, String tableDiscript) {
+    private boolean onlyMybatis = false;
+
+    public TableConfig(String tableName, String domainObjectName, String tableDiscript, Boolean onlyMybatis) {
         this.tableName = tableName;
         this.domainObjectName = domainObjectName;
         this.tableDiscript = tableDiscript;
+        this.onlyMybatis = onlyMybatis;
     }
 
     public String getTableName() {
@@ -111,5 +114,13 @@ public class TableConfig {
 
     public void setUpdateByExampleStatementEnabled(boolean updateByExampleStatementEnabled) {
         this.updateByExampleStatementEnabled = updateByExampleStatementEnabled;
+    }
+
+    public boolean isOnlyMybatis() {
+        return onlyMybatis;
+    }
+
+    public void setOnlyMybatis(boolean onlyMybatis) {
+        this.onlyMybatis = onlyMybatis;
     }
 }

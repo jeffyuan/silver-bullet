@@ -2,14 +2,18 @@ package com.silverbullet.auth.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.silverbullet.auth.dao.SysAuthPostMapper;
+import com.silverbullet.auth.dao.SysAuthUserPostMapper;
 import com.silverbullet.auth.domain.SysAuthPost;
+import com.silverbullet.auth.domain.SysAuthUserPost;
 import com.silverbullet.auth.service.ISysAuthPostService;
 import com.silverbullet.utils.BaseDataResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
- * 机构管理 service接口
+ * 机构管理角色 service接口
  * Created by jeffyuan on 2018/2/11.
  */
 @Service
@@ -52,5 +56,15 @@ public class SysAuthPostService implements ISysAuthPostService {
     @Override
     public boolean Insert(SysAuthPost sysAuthPost) {
         return sysAuthPostMapper.insert(sysAuthPost) == 1 ? true : false;
+    }
+
+    /**
+     * 获取角色列表
+     * @param id
+     * @return
+     */
+    @Override
+    public List<SysAuthPost> getPostList(String id) {
+        return sysAuthPostMapper.findListByUserId(id);
     }
 }

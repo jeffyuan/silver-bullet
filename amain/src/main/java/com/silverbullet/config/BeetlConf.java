@@ -24,8 +24,8 @@ public class BeetlConf {
     @Value("${beetl.templatesPath}") String templatesPath;
 
     @Bean(initMethod = "init", name = "beetlConfig")
-    public BeetlGroupUtilConfiguration getBeetlGroupUtilConfiguration() {
-        BeetlGroupUtilConfiguration beetlGroupUtilConfiguration = new BeetlGroupUtilConfiguration();
+    public BeetlConfiguration getBeetlGroupUtilConfiguration() {
+        BeetlConfiguration beetlGroupUtilConfiguration = new BeetlConfiguration();
 
         ClassLoader loader = Thread.currentThread().getContextClassLoader();
         if(loader==null){

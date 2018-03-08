@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
- * 机构管理 控制器
+ * 机构管理角色 控制器
  * Created by jeffyuan on 2018/2/11.
  */
 @Controller

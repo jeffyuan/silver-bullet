@@ -6,6 +6,7 @@ import org.springframework.context.event.ContextRefreshedEvent;
 import java.io.IOException;
 
 /**
+ * 系统加载完成后初始化工作
  * Created by jeffyuan on 2018/3/5.
  */
 public class ApplicationStartup implements ApplicationListener<ContextRefreshedEvent> {
@@ -14,11 +15,11 @@ public class ApplicationStartup implements ApplicationListener<ContextRefreshedE
     public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
 
         // 初始化自定义标签
-        TagInit tagInit = new TagInit();
+       /* TagInit tagInit = new TagInit();
         try {
             tagInit.Init();
         } catch (IOException e) {
             e.printStackTrace();
-        }
+        }*/
     }
 }

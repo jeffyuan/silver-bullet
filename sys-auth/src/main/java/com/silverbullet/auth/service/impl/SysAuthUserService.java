@@ -2,13 +2,17 @@ package com.silverbullet.auth.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.silverbullet.auth.dao.SysAuthUserMapper;
+import com.silverbullet.auth.domain.SysAuthPost;
 import com.silverbullet.auth.domain.SysAuthUser;
 import com.silverbullet.auth.service.ISysAuthUserService;
-import com.silverbullet.utils.DataResult;
+import com.silverbullet.utils.BaseDataResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
+ * 用户管理 service接口
  * Created by jeffyuan on 2018/2/11.
  */
 @Service
@@ -23,19 +27,14 @@ public class SysAuthUserService implements ISysAuthUserService {
     }
 
     @Override
-    public DataResult list(int pageNum, int pageSize) {
+    public BaseDataResult<SysAuthUser> list(int pageNum, int pageSize) {
         PageHelper.startPage(pageNum, pageSize);
 
-        DataResult listResults = new DataResult();
-        listResults.setResultList(sysAuthUserMapper.findListWithMap());
+        BaseDataResult<SysAuthUser> listResults = new BaseDataResult<SysAuthUser>();
+        listResults.setResultList(sysAuthUserMapper.findList());
         listResults.setTotalNum(sysAuthUserMapper.countNum());
 
-        // 替换参数
-        listResults.runDictionary("state", "0:禁用,1:可用,2:删除");
-        listResults.runDictionary("type", "1:系统用户,2:其他,3:超级用户");
-        listResults.runformatTime("logintime", "yyyy-MM-dd HH:mm:ss");
-
-        return listResults;
+             return listResults;
     }
 
     @Override
@@ -56,5 +55,10 @@ public class SysAuthUserService implements ISysAuthUserService {
     @Override
     public boolean Insert(SysAuthUser sysAuthUser) {
         return sysAuthUserMapper.insert(sysAuthUser) == 1 ? true : false;
+    }
+
+    @Override
+    public SysAuthUser getOneByUserName(String userName) {
+        return sysAuthUserMapper.selectByUserName(userName);
     }
 }

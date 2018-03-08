@@ -1,7 +1,7 @@
 package com.silverbullet.auth.controller;
 
-import com.silverbullet.auth.domain.SysAuthUser;
-import com.silverbullet.auth.service.ISysAuthUserService;
+import com.silverbullet.auth.domain.SysAuthActionTree;
+import com.silverbullet.auth.service.ISysAuthActionTreeService;
 import com.silverbullet.utils.BaseDataResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,15 +11,15 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
- * 用户管理 控制器
+ * 权限定义 控制器
  * Created by jeffyuan on 2018/2/11.
  */
 @Controller
-@RequestMapping(value = "/auth/sysauthuser")
-public class SysAuthUserController {
+@RequestMapping(value = "/auth/sysauthactiontree")
+public class SysAuthActionTreeController {
 
     @Autowired
-    private ISysAuthUserService sysAuthUserService;
+    private ISysAuthActionTreeService sysAuthActionTreeService;
 
     @RequestMapping(value = "/list/{curpage}.html", method = RequestMethod.GET)
     public ModelAndView index(@PathVariable("curpage") String curpage){
@@ -29,9 +29,9 @@ public class SysAuthUserController {
         }
 
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("/SysAuthUser/list");
+        modelAndView.setViewName("/SysAuthActionTree/list");
 
-        BaseDataResult<SysAuthUser> results = sysAuthUserService.list(nCurPage, 5);
+        BaseDataResult<SysAuthActionTree> results = sysAuthActionTreeService.list(nCurPage, 5);
 
         modelAndView.addObject("results", results);
         modelAndView.addObject("curPage", nCurPage);

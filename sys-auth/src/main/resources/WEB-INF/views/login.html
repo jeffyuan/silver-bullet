@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html >
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>SilverBullet - 登录</title>
+    <link rel="stylesheet" href="${ctxPath}/static/bootstrap-3.3.7-dist/css/bootstrap.min.css" />
+</head>
+<body>
+    <div class="middle-box text-center loginscreen animated fadeInDown" style="max-width: 400px;margin:auto;">
+        <div style="padding: 100px 0px;">
+            <div>
+                <h1 class="logo-name">Silver Bullet</h1>
+            </div>
+            <h3>欢迎使用 Silver Bullet</h3>
+            <br/>
+            <h4 style="color: red;">${message!}</h4>
+            <form class="m-t" role="form" action="${ctxPath}/login" method="post">
+                <div class="form-group">
+                    <input type="text" name="username" class="form-control" placeholder="用户名" required="">
+                </div>
+                <div class="form-group">
+                    <input type="password" name="password" class="form-control" placeholder="密码" required="">
+                </div>
+
+                <div class="form-group" style="text-align: left">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" name="remember" style="margin-top: 2px;">记住我
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group" style="">
+                    <button type="submit" class="btn btn-primary block full-width m-b">登 录</button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+
+    <script>
+        $(function () {
+
+        });
+    </script>
+
+@include("/fragments/footer.html"){}
+
+<script src="${ctxPath}/static/jquery/jquery-1.9.1.min.js"></script>
+<script src="${ctxPath}/static/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+</body>
+</html>

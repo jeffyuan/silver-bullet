@@ -22,7 +22,7 @@ public class CodeGenerator
     public static void main( String[] args ) {
         //数据库配置路径
         String ClasspathEntry = "C:\\Users\\GESOFT\\.m2\\repository\\mysql\\mysql-connector-java\\5.1.29\\mysql-connector-java-5.1.29.jar";
-        String ConnectionURL = "jdbc:mysql://localhost:3306/gekw?useUnicode=true&characterEncoding=utf-8";
+        String ConnectionURL = "jdbc:mysql://localhost:3306/silverbullet?useUnicode=true&characterEncoding=utf-8";
         String DriverClass = "com.mysql.jdbc.Driver";
         String UserId = "tkrobot";
         String Password = "tkrobot";
@@ -34,7 +34,15 @@ public class CodeGenerator
 
         // 填写业务表的信息
         List<TableConfig> listTables = new ArrayList<TableConfig>();
-        listTables.add(new TableConfig("sys_auth_post", "SysAuthPost", "机构管理"));  //表名，domain类名，用途
+        /*listTables.add(new TableConfig("sys_auth_user", "SysAuthUser", "用户管理", false));//表名，domain类名，用途
+        listTables.add(new TableConfig("sys_auth_organization", "SysAuthOrganization", "组织机构管理", false));
+        listTables.add(new TableConfig("sys_auth_action", "SysAuthAction", "功能权限", false));
+        listTables.add(new TableConfig("sys_auth_actiontree", "SysAuthActionTree", "权限定义", false));
+        listTables.add(new TableConfig("sys_auth_post", "SysAuthPost", "机构管理角色", false));
+
+        listTables.add(new TableConfig("sys_auth_userorg", "SysAuthUserOrg", "用户对应组织机构", true));
+        listTables.add(new TableConfig("sys_auth_postaction", "SysAuthPostAction", "角色权限表定义",true));*/
+        listTables.add(new TableConfig("sys_auth_userpost", "SysAuthUserPost", "用户对应角色",true));
 
         String path = System.getProperty("user.dir");
         // controller、serivce、dao文件生成的路径
@@ -56,10 +64,12 @@ public class CodeGenerator
                     prjPackage, modulePackage, tableConfig.getTableDiscript(), tableConfig.getDomainObjectName());
 
             javaCodeGenerator.beetlGeneratorDao();
-            javaCodeGenerator.beetlGeneratorISerivce();
-            javaCodeGenerator.beetlGeneratorSerivce();
-            javaCodeGenerator.beetlGeneratorController();
-            javaCodeGenerator.beetlGeneratorHtml();
+            if (!tableConfig.isOnlyMybatis()) {
+                javaCodeGenerator.beetlGeneratorISerivce();
+                javaCodeGenerator.beetlGeneratorSerivce();
+                javaCodeGenerator.beetlGeneratorController();
+                javaCodeGenerator.beetlGeneratorHtml();
+            }
         }
 
         System.out.println("代码生成完成......");
