@@ -217,6 +217,6 @@
   </select>
 
     <select id="findListByUserId" parameterType="String" resultMap="BaseResultMap">
-        select sap.* from sys_auth_userpost sau, sys_auth_post sap where sau.user_id=#{id} and sau.user_id = sap.id and sap.state = '1'
+        select sap.* from sys_auth_userpost sau, sys_auth_post sap where sau.user_id=#{id} and sau.post_id = sap.id and sap.state = '1'
     </select>
 </mapper>

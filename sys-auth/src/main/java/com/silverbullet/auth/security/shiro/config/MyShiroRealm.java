@@ -37,9 +37,9 @@ public class MyShiroRealm extends AuthorizingRealm {
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
         System.out.println("权限配置-->MyShiroRealm.doGetAuthorizationInfo()");
         SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
-        String username = (String)principals.getPrimaryPrincipal();
+        SysAuthUser userInfo = (SysAuthUser)principals.getPrimaryPrincipal();
 
-        SysAuthUser userInfo = iSysAuthUserService.getOneByUserName(username);
+        //SysAuthUser userInfo = iSysAuthUserService.getOneByUserName(username);
 
         // 设置角色权限   @RequiresRoles("ADMIN")
         authorizationInfo.addRole(SysDictionary.getRoleNo(userInfo.getUserType()));
@@ -72,10 +72,10 @@ public class MyShiroRealm extends AuthorizingRealm {
         }
 
         SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(
-                userInfo.getUsername(), //用户名
+                userInfo, //用户名
                 userInfo.getPassword(), //密码
                 ByteSource.Util.bytes(userInfo.getSalt()),//salt=username+salt
-                userInfo.getName()  //realm name
+                getName()  //realm name
         );
         return authenticationInfo;
     }

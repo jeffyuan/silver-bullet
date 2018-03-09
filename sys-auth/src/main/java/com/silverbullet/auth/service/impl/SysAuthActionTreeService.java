@@ -3,10 +3,17 @@ package com.silverbullet.auth.service.impl;
 import com.github.pagehelper.PageHelper;
 import com.silverbullet.auth.dao.SysAuthActionTreeMapper;
 import com.silverbullet.auth.domain.SysAuthActionTree;
+import com.silverbullet.auth.domain.SysAuthPost;
+import com.silverbullet.auth.domain.SysAuthUserPost;
 import com.silverbullet.auth.service.ISysAuthActionTreeService;
+import com.silverbullet.auth.service.ISysAuthPostService;
 import com.silverbullet.utils.BaseDataResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 权限定义 service接口
@@ -17,6 +24,8 @@ public class SysAuthActionTreeService implements ISysAuthActionTreeService {
 
     @Autowired
     private SysAuthActionTreeMapper sysAuthActionTreeMapper;
+    @Autowired
+    private ISysAuthPostService iSysAuthPostService;
 
     @Override
     public int countNum() {
@@ -32,6 +41,28 @@ public class SysAuthActionTreeService implements ISysAuthActionTreeService {
         listResults.setTotalNum(sysAuthActionTreeMapper.countNum());
 
              return listResults;
+    }
+
+    /**
+     * 根据用户id号获取具有权限的菜单信息
+     * @param userId
+     * @return
+     */
+    @Override
+    public List<Map<String, String>> getActionsByUserId(String userId) {
+
+        // 根据userId获取岗位信息
+        List<SysAuthPost> listPosts = iSysAuthPostService.getPostList(userId);
+        if (listPosts.size() == 0) {
+            return null;
+        }
+
+        List<String> postIds = new ArrayList<String>();
+        for (SysAuthPost sap : listPosts) {
+            postIds.add(sap.getId());
+        }
+
+        return sysAuthActionTreeMapper.findListByPostids(postIds);
     }
 
     @Override

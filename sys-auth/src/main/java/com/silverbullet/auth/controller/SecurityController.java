@@ -1,6 +1,7 @@
 package com.silverbullet.auth.controller;
 
 import com.silverbullet.auth.domain.SysAuthUser;
+import com.silverbullet.auth.pojo.UserInfo;
 import com.silverbullet.auth.sysconfig.SysDictionary;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
@@ -31,13 +32,14 @@ public class SecurityController {
         return "/login";
     }
     @RequestMapping(value="/login",method= RequestMethod.POST)
-    public String login(@Valid SysAuthUser user, BindingResult bindingResult, RedirectAttributes redirectAttributes){
+    public String login(@Valid UserInfo user, BindingResult bindingResult, RedirectAttributes redirectAttributes){
         if(bindingResult.hasErrors()){
             return "login";
         }
 
         String username = user.getUsername();
         UsernamePasswordToken token = new UsernamePasswordToken(user.getUsername(), user.getPassword());
+        token.setRememberMe(user.getRemember());
         //获取当前的Subject
         Subject currentUser = SecurityUtils.getSubject();
         try {
