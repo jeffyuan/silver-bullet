@@ -9,7 +9,7 @@ import ${import};
  * Created by jeffyuan on 2018/2/11.
  */
 @Controller
-@RequestMapping(value = "/auth/${context.bizEnNameSmall}")
+@RequestMapping(value = "/${context.modulePackage}/${context.bizEnNameSmall}")
 public class ${context.bizEnName}Controller {
 
     @Autowired

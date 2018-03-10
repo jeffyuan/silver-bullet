@@ -1,6 +1,8 @@
 package com.silverbullet.codegenerator.beetl;
 
 import com.silverbullet.codegenerator.beetl.config.*;
+import com.silverbullet.codegenerator.pojo.TableColumnsInfo;
+import com.silverbullet.codegenerator.pojo.TableConfig;
 import com.silverbullet.utils.ToolUtil;
 import com.sun.javafx.PlatformUtil;
 import org.beetl.core.Configuration;
@@ -17,6 +19,8 @@ import java.io.IOException;
 import java.lang.reflect.Field;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 
 /**
@@ -33,6 +37,7 @@ public class JavaCodeGenerator {
     private ISerivceConfig iSerivceConfig;
     private ServiceConfig serviceConfig;
     private DaoConfig daoConfig;
+    private DomainConfig domainConfig;
     private HtmlConfig htmlConfig;
 
     private GroupTemplate groupTemplate;
@@ -53,6 +58,7 @@ public class JavaCodeGenerator {
         iSerivceConfig = new ISerivceConfig(contextConfig);
         serviceConfig = new ServiceConfig(contextConfig);
         daoConfig = new DaoConfig(contextConfig);
+        domainConfig = new DomainConfig();
         htmlConfig = new HtmlConfig();
 
         initBeetlEngine();
@@ -84,6 +90,7 @@ public class JavaCodeGenerator {
         template.binding("service", serviceConfig);
         template.binding("iservice", iSerivceConfig);
         template.binding("html", htmlConfig);
+        template.binding("domain", domainConfig);
     }
 
     /**
@@ -118,6 +125,40 @@ public class JavaCodeGenerator {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        }
+    }
+
+    /**
+     * 生成xmlMapper文件
+     * @param tableConfig
+     */
+    public void beetlGeneratorXMLMapper(TableConfig tableConfig) {
+        try {
+            // 设置import包 和 columns信息
+            domainConfig.SetTableConfig(tableConfig);
+
+            beetlGenerator("/template/XmlMapper.xml.btl",
+                    prjResAbsolutePath + File.separator + "mybatis" +
+                            File.separator + "mapper" + File.separator + contextConfig.getBizEnName() + "Mapper.xml");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 生成domain
+     */
+    public void beetlGeneratorDomain(TableConfig tableConfig) {
+        try {
+            // 设置import包 和 columns信息
+            domainConfig.SetTableConfig(tableConfig);
+
+            beetlGenerator("/template/Domain.java.btl",
+                    prjAbsolutePath + File.separator + "com" +
+                            File.separator + contextConfig.getPrjPackage() + File.separator + contextConfig.getModulePackage() +
+                            File.separator + "domain" + File.separator + contextConfig.getBizEnName() + ".java");
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
@@ -178,12 +219,38 @@ public class JavaCodeGenerator {
     }
 
     /**
-     * 生成列表
+     * 生成html
+     * @param tableConfig
+     */
+    public void beetlGeneratorHtml(TableConfig tableConfig) {
+        try {
+            List<String> tableNo = new ArrayList<String>();
+            for (TableColumnsInfo tableColumnsInfo : tableConfig.getColumns()) {
+                if (!tableColumnsInfo.isPrimaryKey()) {
+                    tableNo.add(tableColumnsInfo.getJavaName());
+                }
+            }
+            htmlConfig.setTableNo(tableNo);
+
+            // 生成列表
+            beetlGenerator("/template/view/list.html.btl",
+                    prjResAbsolutePath + File.separator + "WEB-INF" +
+                            File.separator + "views" + File.separator + contextConfig.getBizEnName() +
+                            File.separator + "list.html");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 生成html
      */
     public void beetlGeneratorHtml() {
         try {
-            String packName = "com." + contextConfig.getPrjPackage() +"." + contextConfig.getModulePackage() + ".domain." + contextConfig.getBizEnName();
-            htmlConfig.setTableNo(ToolUtil.getClassFields(prjAbsolutePath,packName));
+
+             //需要编译类，并获取变量
+            String packName = "com." + contextConfig.getPrjPackage() + "." + contextConfig.getModulePackage() + ".domain." + contextConfig.getBizEnName();
+            htmlConfig.setTableNo(ToolUtil.getClassFields(prjAbsolutePath, packName));
 
             // 生成列表
             beetlGenerator("/template/view/list.html.btl",

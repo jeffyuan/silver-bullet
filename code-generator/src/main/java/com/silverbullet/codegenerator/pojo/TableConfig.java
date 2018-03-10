@@ -1,5 +1,8 @@
 package com.silverbullet.codegenerator.pojo;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * mybatis table 配置文件
  * Created by jeffyuan on 2018/3/6.
@@ -8,6 +11,8 @@ public class TableConfig {
     private String tableName;
     private String domainObjectName ;
     private String tableDiscript;  //模块描述
+
+    private List<TableColumnsInfo> columns; //表列信息
 
     private boolean insertStatementEnabled = true;
     private boolean selectByPrimaryKeyStatementEnabled = true;
@@ -26,6 +31,8 @@ public class TableConfig {
         this.domainObjectName = domainObjectName;
         this.tableDiscript = tableDiscript;
         this.onlyMybatis = onlyMybatis;
+
+        columns = new ArrayList<TableColumnsInfo>();
     }
 
     public String getTableName() {
@@ -122,5 +129,13 @@ public class TableConfig {
 
     public void setOnlyMybatis(boolean onlyMybatis) {
         this.onlyMybatis = onlyMybatis;
+    }
+
+    public List<TableColumnsInfo> getColumns() {
+        return columns;
+    }
+
+    public void setColumns(List<TableColumnsInfo> columns) {
+        this.columns = columns;
     }
 }

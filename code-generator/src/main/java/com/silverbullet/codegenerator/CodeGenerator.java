@@ -2,6 +2,7 @@ package com.silverbullet.codegenerator;
 
 import com.silverbullet.codegenerator.beetl.JavaCodeGenerator;
 import com.silverbullet.codegenerator.mybatis.MybatisCodeGenerator;
+import com.silverbullet.codegenerator.mybatis.MysqlTableService;
 import com.silverbullet.codegenerator.pojo.TableConfig;
 import org.mybatis.generator.api.MyBatisGenerator;
 import org.mybatis.generator.config.*;
@@ -19,14 +20,18 @@ import java.util.List;
  */
 public class CodeGenerator
 {
-    public static void main( String[] args ) {
-        //数据库配置路径
-        String ClasspathEntry = "C:\\Users\\GESOFT\\.m2\\repository\\mysql\\mysql-connector-java\\5.1.29\\mysql-connector-java-5.1.29.jar";
-        String ConnectionURL = "jdbc:mysql://localhost:3306/silverbullet?useUnicode=true&characterEncoding=utf-8";
-        String DriverClass = "com.mysql.jdbc.Driver";
-        String UserId = "tkrobot";
-        String Password = "tkrobot";
+    //数据库配置路径
+    private String ClasspathEntry = "C:\\Users\\GESOFT\\.m2\\repository\\mysql\\mysql-connector-java\\5.1.29\\mysql-connector-java-5.1.29.jar";
+    private String DriverClass = "com.mysql.jdbc.Driver";
+    private String ConnectionURL = "jdbc:mysql://localhost:3306/silverbullet?useUnicode=true&characterEncoding=utf-8";
+    private String DatabaseName = "silverbullet";
+    private String UserId = "tkrobot";
+    private String Password = "tkrobot";
 
+    /**
+     * 通过mybatis codegenerator 生成xmlmapper和domain方式
+     */
+    public void codeGeneratorWithMybatisCodeGenerator() {
         //----------------------------------------------模块信息配置（重点配置此）-------------------------------------
         String prjPackage = "silverbullet";  // 工程的名称，一般为com下面的包名，例如com.silverbullet
         String modulePackage = "auth";       // 模块名称，一般为com.silverbullet下面的子包名，例如com.silverbullet.auth
@@ -79,5 +84,62 @@ public class CodeGenerator
         System.out.println("2. 在mapper 文件增加findList方法，返回所有字段一般select * from xxx表即可");
         System.out.println("3. 在mapper 文件增加countNum方法，返回所有字段一般select count(*) from xxx表即可");
         System.out.println("注: 2,3步骤对应的dao已经具备有，不用再添加");
+    }
+
+    /**
+     * 按照模板生成代码
+     */
+    public void codeGeneratorOwn() {
+        //----------------------------------------------模块信息配置（重点配置此）-------------------------------------
+        String prjPackage = "silverbullet";  // 工程的名称，一般为com下面的包名，例如com.silverbullet
+        String modulePackage = "ztest";       // 模块名称，一般为com.silverbullet下面的子包名，例如com.silverbullet.auth
+        String moduleName = "ztest";      // 子工程名称
+
+        // 填写业务表的信息
+        List<TableConfig> listTables = new ArrayList<TableConfig>();
+        listTables.add(new TableConfig("test", "SysTest", "测试", false));//表名，domain类名，用途
+
+        String path = System.getProperty("user.dir");
+        // controller、serivce、dao文件生成的路径
+        String prjAbsolutePath = path +  File.separator + moduleName;
+        // mapper.xml文件以及html资源文件的路径
+        String prjResAbsolutePath = path + File.separator + moduleName;
+        //----------------------------------------------开始生成-----------------------------------------
+
+        // 根据表获取表相关信息
+        MysqlTableService mysqlTableService = new MysqlTableService(DriverClass, ConnectionURL, DatabaseName, UserId, Password);
+        try {
+            mysqlTableService.getTableInfo(listTables);
+            // 和java Domain的对应关系
+            mysqlTableService.table2java(listTables);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        // 根据每个domain生成自己的管理代码
+        for (TableConfig tableConfig : listTables) {
+
+            JavaCodeGenerator javaCodeGenerator = new JavaCodeGenerator(prjAbsolutePath, prjResAbsolutePath,
+                    prjPackage, modulePackage, tableConfig.getTableDiscript(), tableConfig.getDomainObjectName());
+
+            javaCodeGenerator.beetlGeneratorXMLMapper(tableConfig);
+            javaCodeGenerator.beetlGeneratorDomain(tableConfig);
+            javaCodeGenerator.beetlGeneratorDao();
+
+            if (!tableConfig.isOnlyMybatis()) {
+                javaCodeGenerator.beetlGeneratorISerivce();
+                javaCodeGenerator.beetlGeneratorSerivce();
+                javaCodeGenerator.beetlGeneratorController();
+                javaCodeGenerator.beetlGeneratorHtml(tableConfig);
+            }
+        }
+
+        System.out.println("代码生成完成......");
+    }
+
+    public static void main( String[] args ) {
+
+        CodeGenerator codeGenerator = new CodeGenerator();
+        //codeGenerator.codeGeneratorOwn();
     }
 }

@@ -2,7 +2,7 @@
 <!-- Content Header (Page header) -->
 <section class="content-header">
     <h1>
-        ${context.bizChName}
+        测试
         <small>浏览</small>
     </h1>
     <ol class="breadcrumb">
@@ -18,30 +18,36 @@
         <div class="col-xs-12">
             <div class="box">
                 <div class="box-header">
-                    <h3 class="box-title">${context.bizChName}列表</h3>
+                    <h3 class="box-title">测试列表</h3>
                 </div>
                 <!-- /.box-header -->
                 <div class="box-body">
                     <table id="example2" class="table table-bordered table-hover">
                         <thead>
                         <tr>
-                        <% for(no in html.tableNo!){ %>
-                               <th>${no}</th>
-                        <% } %>
+                               <th>myName</th>
+                               <th>createTime</th>
+                               <th>cInt</th>
+                               <th>cLength</th>
+                               <th>commen</th>
+                               <th>delSign</th>
                         </tr>
                         </thead>
                         <tbody>
                         @for(result in results.resultList){
                         <tr>
-                            <% for(no in html.tableNo!){ %>
-                                   <th>\${result.${no}}</th>
-                            <% } %>
+                               <th>${result.myName}</th>
+                               <th>${result.createTime}</th>
+                               <th>${result.cInt}</th>
+                               <th>${result.cLength}</th>
+                               <th>${result.commen}</th>
+                               <th>${result.delSign}</th>
                         </tr>
                         @}
                         </tbody>
                     </table>
                 </div>
-                <${'#'}PageTag action="\${ctxPath}/${context.modulePackage}/${context.bizEnNameSmall}/list/" totalNum="\${results.totalNum}" perSize="5" curPage="\${curPage}"></${'#'}PageTag>
+                <#PageTag action="${ctxPath}/ztest/systest/list/" totalNum="${results.totalNum}" perSize="5" curPage="${curPage}"></#PageTag>
                 <!-- /.box-body -->
             </div>
             <!-- /.box -->

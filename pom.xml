@@ -14,6 +14,7 @@
         <module>sys-auth</module>
         <module>amain</module>
         <module>sys-tag</module>
+        <module>ztest</module>
     </modules>
 
     <parent>

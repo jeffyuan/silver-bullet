@@ -36,8 +36,8 @@ public class ${context.bizEnName}Service implements I${context.bizEnName}Service
     }
 
     @Override
-    public boolean Update(${context.bizEnName} sysAuthUser) {
-        return ${context.bizEnNameCapSmall}Mapper.updateByPrimaryKey(sysAuthUser) == 1 ? true : false;
+    public boolean Update(${context.bizEnName} ${context.bizEnNameCapSmall}) {
+        return ${context.bizEnNameCapSmall}Mapper.updateByPrimaryKey(${context.bizEnNameCapSmall}) == 1 ? true : false;
     }
 
     @Override

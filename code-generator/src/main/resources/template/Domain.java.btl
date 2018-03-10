@@ -1,0 +1,29 @@
+package com.${context.prjPackage}.${context.modulePackage}.domain;
+
+<% for(import in domain.imports!){ %>
+import ${import};
+<% } %>
+
+public class ${context.bizEnName} {
+
+<% for(column in domain.tableConfig.columns) {%>
+    // ${column.comments}
+    private ${column.javaType} ${column.javaName};
+<% } %>
+
+ <% for(column in domain.tableConfig.columns) {%>
+
+    public ${column.javaType} ${column.javaGetName}() {
+        return ${column.javaName};
+    }
+
+    public void ${column.javaSetName}(${column.javaType} ${column.javaName}) {
+
+    <% if (column.javaType == "String") {%>
+        this.${column.javaName} = ${column.javaName} == null ? null : ${column.javaName}.trim();
+    <% } else {%>
+        this.${column.javaName} = ${column.javaName};
+    <% }%>
+    }
+ <% } %>
+}

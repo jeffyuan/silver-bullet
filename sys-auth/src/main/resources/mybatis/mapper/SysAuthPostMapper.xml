@@ -196,16 +196,6 @@
     where organization_id = #{organizationId,jdbcType=VARCHAR}
   </update>
 
-    <sql id="findList">
-      select
-      <include refid="Base_Column_List" />
-        from sys_auth_post
-    </sql>
-
-    <sql id="countNum">
-        select count(*) from sys_auth_post
-    </sql>
-
   <select id="findList" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
