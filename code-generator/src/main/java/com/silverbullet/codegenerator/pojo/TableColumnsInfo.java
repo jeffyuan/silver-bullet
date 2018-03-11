@@ -10,14 +10,22 @@ import com.sun.xml.internal.ws.client.sei.ResponseBuilder;
 public class TableColumnsInfo {
     private String name;   //字段名称
     private String type;   //字段类型
+    private String defaultVlue;  //默认值
     private String typeAndLen;  //字段类型加长度
     private String comments;  //备注
+
+    private Long valueLength;  //长度约束
+    private Long numPrecision;  //某列类型的精确度(类型的长度)
+    private Long numSCALE;  //小数点后的位数
+    private String columnKey;  //PRI
+    private String privileges; //select,insert,update,references
+
     private boolean primaryKey = false; //是否是主键
+    private boolean keyIsNull = true;  //是否允许为空
 
     private String javaType;   //对应java的类型
     private String javaName;  // 对应java的字段名称
     private String javaTypePackage;  //对应java的包名
-
 
     private String javaGetName;
     private String javaSetName;
@@ -26,11 +34,20 @@ public class TableColumnsInfo {
 
     }
 
-    public TableColumnsInfo(String name, String type, String typeAndLen, String comments) {
+    public TableColumnsInfo(String name, String type, String typeAndLen, String comments,
+                            String defaultVlue, String columnKey, Long valueLength, Long numPrecision,Long numSCALE,
+                            String privileges,boolean bIsNull) {
         this.name = name;
         this.type = type;
         this.typeAndLen = typeAndLen;
         this.comments = comments;
+        this.defaultVlue = defaultVlue;
+        this.columnKey = columnKey;
+        this.valueLength = valueLength;
+        this.numPrecision = numPrecision;
+        this.numSCALE = numSCALE;
+        this.privileges = privileges;
+        this.keyIsNull = bIsNull;
     }
 
     public String getName() {
@@ -103,5 +120,61 @@ public class TableColumnsInfo {
 
     public void setPrimaryKey(boolean primaryKey) {
         this.primaryKey = primaryKey;
+    }
+
+    public String getDefaultVlue() {
+        return defaultVlue;
+    }
+
+    public void setDefaultVlue(String defaultVlue) {
+        this.defaultVlue = defaultVlue;
+    }
+
+    public Long getValueLength() {
+        return valueLength;
+    }
+
+    public void setValueLength(Long valueLength) {
+        this.valueLength = valueLength;
+    }
+
+    public Long getNumPrecision() {
+        return numPrecision;
+    }
+
+    public void setNumPrecision(Long numPrecision) {
+        this.numPrecision = numPrecision;
+    }
+
+    public Long getNumSCALE() {
+        return numSCALE;
+    }
+
+    public void setNumSCALE(Long numSCALE) {
+        this.numSCALE = numSCALE;
+    }
+
+    public String getColumnKey() {
+        return columnKey;
+    }
+
+    public void setColumnKey(String columnKey) {
+        this.columnKey = columnKey;
+    }
+
+    public String getPrivileges() {
+        return privileges;
+    }
+
+    public void setPrivileges(String privileges) {
+        this.privileges = privileges;
+    }
+
+    public boolean isKeyIsNull() {
+        return keyIsNull;
+    }
+
+    public void setKeyIsNull(boolean keyIsNull) {
+        this.keyIsNull = keyIsNull;
     }
 }

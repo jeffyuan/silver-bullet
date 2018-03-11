@@ -5,10 +5,7 @@ import com.silverbullet.codegenerator.pojo.TableColumnsInfo;
 import com.silverbullet.codegenerator.pojo.TableConfig;
 import com.silverbullet.utils.Table2JavaUtil;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -66,7 +63,9 @@ public class MysqlTableService {
         rs.close();
 
         sql = "select COLUMN_NAME as 'CNAME', DATA_TYPE as 'DTYPE' ,COLUMN_TYPE as 'CTYPE',COLUMN_COMMENT as 'COMMENT'" +
-                " FROM information_schema.`COLUMNS` where TABLE_SCHEMA='" +
+                ",COLUMN_DEFAULT as 'CDEFAULT', IS_NULLABLE as 'ISNULL', CHARACTER_MAXIMUM_LENGTH as 'CLENGTH'" +
+                ",NUMERIC_PRECISION as 'NUMPRECISION',NUMERIC_SCALE as 'NUMSCALE',COLUMN_KEY AS 'CKEY'" +
+                ",PRIVILEGES FROM information_schema.`COLUMNS` where TABLE_SCHEMA='" +
                 mysqlConnection.getDatabaseName() + "' AND table_name = '" + table.getTableName() + "';";
         rs = statement.executeQuery(sql);
         while (rs.next()) {
@@ -75,11 +74,20 @@ public class MysqlTableService {
             String type = rs.getString("DTYPE");
             String typeAndLen = rs.getString("CTYPE");
             String comments = rs.getString("COMMENT");
+            Long valueLen = rs.getLong("CLENGTH");
+            String isNull = rs.getString("ISNULL");  // YES NO
+            String defaultVal = rs.getString("CDEFAULT");
+            Long numPrecision = rs.getLong("NUMPRECISION");  //某列类型的精确度(类型的长度)
+            Long numSCALE = rs.getLong("NUMSCALE");  //小数点后的位数
+            String columnKey = rs.getString("CKEY");  //PRI
+            String privileges = rs.getString("PRIVILEGES"); //select,insert,update,references
 
             // 将数据库type 转为 batis的type
             type = Table2JavaUtil.tableType2BatisType(type);
 
-            TableColumnsInfo tableColumnsInfo = new TableColumnsInfo(name, type.toUpperCase(), typeAndLen.toUpperCase(), comments);
+            TableColumnsInfo tableColumnsInfo = new TableColumnsInfo(name, type.toUpperCase(),
+                    typeAndLen.toUpperCase(), comments,defaultVal, columnKey, valueLen, numPrecision, numSCALE,
+                    privileges,  isNull.equals("YES") ? true : false);
 
             if(name.equals(primaryKey)) {
                 tableColumnsInfo.setPrimaryKey(true);
@@ -93,6 +101,7 @@ public class MysqlTableService {
 
         return table;
     }
+
 
     /**
      * 完成从table到java的转换
