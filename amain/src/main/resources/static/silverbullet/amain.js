@@ -12,7 +12,7 @@ function loadMenu() {
 
     var obj = $.ajax({
         type:'post',
-        url: ctxPath + "/getmenus",
+        url: ctxPath + "getmenus.do",
         async:false,
         dataType:"html",
         beforeSend: beforeSend,

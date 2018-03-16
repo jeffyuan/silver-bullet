@@ -3,16 +3,20 @@ package com.silverbullet.utils;
 import com.sun.javafx.PlatformUtil;
 import com.sun.prism.PixelFormat;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.tools.JavaCompiler;
 import javax.tools.ToolProvider;
 import java.io.File;
 import java.lang.reflect.Field;
+import java.net.InetAddress;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.net.UnknownHostException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * 工具类
@@ -88,6 +92,70 @@ public class ToolUtil {
         }
 
         return null;
+    }
+
+    /**
+     * 返回请求的IP地址
+     * @param request
+     * @return
+     */
+    public static String getIpAddr(HttpServletRequest request) {
+        String ipAddress = null;
+        try {
+            ipAddress = request.getHeader("x-forwarded-for");
+            if (ipAddress == null || ipAddress.length() == 0 || "unknown".equalsIgnoreCase(ipAddress)) {
+                ipAddress = request.getHeader("Proxy-Client-IP");
+            }
+            if (ipAddress == null || ipAddress.length() == 0 || "unknown".equalsIgnoreCase(ipAddress)) {
+                ipAddress = request.getHeader("WL-Proxy-Client-IP");
+            }
+            if (ipAddress == null || ipAddress.length() == 0 || "unknown".equalsIgnoreCase(ipAddress)) {
+                ipAddress = request.getRemoteAddr();
+                if (ipAddress.equals("127.0.0.1")) {
+                    // 根据网卡取本机配置的IP
+                    InetAddress inet = null;
+                    try {
+                        inet = InetAddress.getLocalHost();
+                    } catch (UnknownHostException e) {
+                        e.printStackTrace();
+                    }
+                    ipAddress = inet.getHostAddress();
+                }
+            }
+            // 对于通过多个代理的情况，第一个IP为客户端真实IP,多个IP按照','分割
+            if (ipAddress != null && ipAddress.length() > 15) { // "***.***.***.***".length()
+                // = 15
+                if (ipAddress.indexOf(",") > 0) {
+                    ipAddress = ipAddress.substring(0, ipAddress.indexOf(","));
+                }
+            }
+        } catch (Exception e) {
+            ipAddress="";
+        }
+        // ipAddress = this.getRequest().getRemoteAddr();
+
+        return ipAddress;
+    }
+
+    /**
+     * 获取url的相对地址
+     * @param httpUrl  http地址 例如:http://xxxx:port/a/auth
+     * @return
+     */
+    public static String getRelativeUrl(String httpUrl) {
+        if (httpUrl.indexOf("http://") == -1 || httpUrl.length() <= 8) {
+            return httpUrl;
+        }
+
+        return httpUrl.substring(httpUrl.indexOf('/', 8));
+    }
+
+    /**
+     * 获取数据库的UUID
+     * @return
+     */
+    public static String getUUID() {
+        return UUID.randomUUID().toString().replace("-","");
     }
 
     public static void main(String [] args) {

@@ -3,11 +3,13 @@ package com.silverbullet.auth.controller;
 import com.silverbullet.auth.domain.SysAuthUser;
 import com.silverbullet.auth.pojo.UserInfo;
 import com.silverbullet.auth.sysconfig.SysDictionary;
+import com.silverbullet.utils.ToolUtil;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.apache.shiro.subject.Subject;
+import org.jboss.logging.MDC;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 /**
@@ -28,11 +31,12 @@ public class SecurityController {
 
     @RequestMapping(value="/login",method= RequestMethod.GET)
     public String loginForm(Model model){
-        model.addAttribute("user", new SysAuthUser());
+        model.addAttribute("user", new UserInfo());
         return "/login";
     }
     @RequestMapping(value="/login",method= RequestMethod.POST)
-    public String login(@Valid UserInfo user, BindingResult bindingResult, RedirectAttributes redirectAttributes){
+    public String login(@Valid UserInfo user, BindingResult bindingResult, RedirectAttributes redirectAttributes,
+                        HttpServletRequest httpServletRequest){
         if(bindingResult.hasErrors()){
             return "login";
         }
@@ -40,6 +44,7 @@ public class SecurityController {
         String username = user.getUsername();
         UsernamePasswordToken token = new UsernamePasswordToken(user.getUsername(), user.getPassword());
         token.setRememberMe(user.getRemember());
+
         //获取当前的Subject
         Subject currentUser = SecurityUtils.getSubject();
         try {
@@ -70,6 +75,13 @@ public class SecurityController {
         //验证是否登录成功
         if(currentUser.isAuthenticated()){
             logger.info("用户[" + username + "]登录认证通过(这里可以进行一些认证通过后的一些系统参数初始化操作)");
+            logger.debug("aaa");
+
+            String ip = ToolUtil.getIpAddr(httpServletRequest);
+
+            MDC.put("username", username);
+            MDC.put("ip", ip);
+
             return "/index";
         }else{
             token.clear();

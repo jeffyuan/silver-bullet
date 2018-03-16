@@ -77,12 +77,13 @@ public class MyShiroRealm extends AuthorizingRealm {
                 ByteSource.Util.bytes(userInfo.getSalt()),//salt=username+salt
                 getName()  //realm name
         );
+
         return authenticationInfo;
     }
 
 
     /**
-     * 明文进行谜面进行加密
+     * 明文进行密码进行加密
      * @param args
      */
     public static void main(String[] args) {

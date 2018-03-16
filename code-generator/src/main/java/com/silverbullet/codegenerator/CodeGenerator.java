@@ -91,13 +91,13 @@ public class CodeGenerator
      */
     public void codeGeneratorOwn() {
         //----------------------------------------------模块信息配置（重点配置此）-------------------------------------
+        String moduleName = "sys-core";      // 子工程名称
         String prjPackage = "silverbullet";  // 工程的名称，一般为com下面的包名，例如com.silverbullet
-        String modulePackage = "ztest";       // 模块名称，一般为com.silverbullet下面的子包名，例如com.silverbullet.auth
-        String moduleName = "ztest";      // 子工程名称
+        String modulePackage = "core";       // 模块名称，一般为com.silverbullet下面的子包名，例如com.silverbullet.auth
 
         // 填写业务表的信息
         List<TableConfig> listTables = new ArrayList<TableConfig>();
-        listTables.add(new TableConfig("test", "SysTest", "测试", false));//表名，domain类名，用途
+        listTables.add(new TableConfig("sys_log_applog", "SysAppLog", "测试类", false));//表名，domain类名，用途
 
         String path = System.getProperty("user.dir");
         // controller、serivce、dao文件生成的路径
@@ -140,6 +140,6 @@ public class CodeGenerator
     public static void main( String[] args ) {
 
         CodeGenerator codeGenerator = new CodeGenerator();
-        //codeGenerator.codeGeneratorOwn();
+       // codeGenerator.codeGeneratorOwn();
     }
 }

@@ -4,10 +4,11 @@ import com.silverbullet.auth.domain.SysAuthUser;
 import com.silverbullet.service.UserActionService;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresRoles;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -17,26 +18,29 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 public class AmainController {
 
+    private static final Logger logger = LoggerFactory.getLogger(AmainController.class);
+
     @Autowired
     protected UserActionService userActionService;
 
     //@RequiresRoles("SYSSSO")
     @RequestMapping(value="/index",method= RequestMethod.GET)
     public String index(Model model){
+        //logger.info("[APP]/index");
 
         SysAuthUser userInfo = (SysAuthUser) SecurityUtils.getSubject().getPrincipal();
-        model.addAttribute("username", userInfo.getName());
+        model.addAttribute("username", userInfo.getUsername());
 
         return "index";
     }
 
     @RequestMapping(value="",method= RequestMethod.GET)
     public String defaultIndex(Model model){
-
+        //logger.info("[APP]/index");
         return "index";
     }
 
-    @RequestMapping(value = "/getmenus", method = RequestMethod.POST)
+    @RequestMapping(value = "/getmenus.do", method = RequestMethod.POST)
     public String getMenus(Model model) {
 
         SysAuthUser userInfo = (SysAuthUser) SecurityUtils.getSubject().getPrincipal();

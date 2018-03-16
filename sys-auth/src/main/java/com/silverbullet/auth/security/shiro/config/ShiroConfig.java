@@ -7,10 +7,13 @@ import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.apache.shiro.mgt.SecurityManager;
 import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
+import org.springframework.core.annotation.Order;
 
+import javax.servlet.Filter;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -20,10 +23,16 @@ import java.util.Map;
 @Configuration
 public class ShiroConfig {
     @Bean
+    @Order(1)
     public ShiroFilterFactoryBean shirFilter(SecurityManager securityManager) {
         System.out.println("ShiroConfiguration.shirFilter()");
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
         shiroFilterFactoryBean.setSecurityManager(securityManager);
+
+//        Map<String, Filter> filterMap = shiroFilterFactoryBean.getFilters();
+//        filterMap.put("silverBulletFilter", silverBulletFilter());
+//        shiroFilterFactoryBean.setFilters(filterMap);
+
         //拦截器.
         Map<String,String> filterChainDefinitionMap = new LinkedHashMap<String,String>();
         // 配置不会被拦截的链接 顺序判断
@@ -43,9 +52,23 @@ public class ShiroConfig {
 
         //未授权界面;
         shiroFilterFactoryBean.setUnauthorizedUrl("/403");
+
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
+
         return shiroFilterFactoryBean;
     }
+
+//    @Bean
+//    public SilverBulletFilter silverBulletFilter() {
+//        return new SilverBulletFilter();
+//    }
+//
+//    @Bean
+//    public FilterRegistrationBean registration(SilverBulletFilter filter) {
+//        FilterRegistrationBean registration = new FilterRegistrationBean(filter);
+//        registration.setEnabled(false);
+//        return registration;
+//    }
 
     @Bean
     public MyShiroRealm myShiroRealm(){

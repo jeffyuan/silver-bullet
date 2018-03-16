@@ -1,11 +1,14 @@
 package com.silverbullet.utils;
 
 import org.springframework.beans.BeansException;
+import org.springframework.boot.SpringApplication;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 /**
+ * 获取ApplicationContext
  * Created by jeffyuan on 2018/3/5.
  */
 @Component
@@ -14,9 +17,7 @@ public class SpringUtil implements ApplicationContextAware {
 
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-        if(SpringUtil.applicationContext == null) {
-            SpringUtil.applicationContext = applicationContext;
-        }
+        this.applicationContext = applicationContext;
     }
 
     //获取applicationContext
@@ -38,4 +39,5 @@ public class SpringUtil implements ApplicationContextAware {
     public static <T> T getBean(String name,Class<T> clazz){
         return getApplicationContext().getBean(name, clazz);
     }
+
 }
