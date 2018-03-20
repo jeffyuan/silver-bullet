@@ -1,6 +1,7 @@
 package com.silverbullet.utils;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -15,8 +16,7 @@ import java.util.Map;
  */
 public class DataResult extends BaseDataResult<Map<String, Object>> {
 
-    private static final Logger log = Logger.getLogger(DataResult.class);
-
+    private static final Logger log = LoggerFactory.getLogger(DataResult.class);
      /**
      * 根据参数，替换显示的内容
      * @param key 需要List元素的关键字
@@ -81,7 +81,7 @@ public class DataResult extends BaseDataResult<Map<String, Object>> {
                     }
                 }
             } catch (Exception e) {
-                log.warn(e);
+                log.warn(e.getMessage());
             }
         }
     }

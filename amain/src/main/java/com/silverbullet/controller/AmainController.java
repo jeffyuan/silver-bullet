@@ -11,6 +11,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by jeffyuan on 2018/2/11.
@@ -48,5 +52,17 @@ public class AmainController {
         model.addAttribute("username", userInfo.getName());
 
         return "/fragments/bk-leftmenu-tmp";
+    }
+
+    @RequestMapping(value = "/getmsginfo.do", method = RequestMethod.POST)
+    @ResponseBody
+    public Map<String, String> getMsgInfo() {
+        Map<String, String> mapInfo = new HashMap<String, String>();
+
+        SysAuthUser userInfo = (SysAuthUser) SecurityUtils.getSubject().getPrincipal();
+        mapInfo.put("clientid", userInfo.getUsername());
+        mapInfo.put("topic", "sysmsg.topic");
+
+        return mapInfo;
     }
 }

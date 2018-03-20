@@ -16,6 +16,8 @@
         <module>sys-tag</module>
         <module>ztest</module>
         <module>sys-log</module>
+        <module>cms-core</module>
+        <module>sys-message</module>
     </modules>
 
     <parent>

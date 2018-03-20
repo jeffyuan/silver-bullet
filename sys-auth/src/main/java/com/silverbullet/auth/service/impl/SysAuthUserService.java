@@ -34,7 +34,7 @@ public class SysAuthUserService implements ISysAuthUserService {
         listResults.setResultList(sysAuthUserMapper.findList());
         listResults.setTotalNum(sysAuthUserMapper.countNum());
 
-             return listResults;
+        return listResults;
     }
 
     @Override
