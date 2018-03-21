@@ -18,6 +18,7 @@
         <module>sys-log</module>
         <module>cms-core</module>
         <module>sys-message</module>
+        <module>sys-params</module>
     </modules>
 
     <parent>

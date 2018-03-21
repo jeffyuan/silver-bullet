@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.silverbullet.log.dao.SysAppLogMapper">
+  <resultMap id="BaseResultMap" type="com.silverbullet.log.domain.SysAppLog">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="create_time" jdbcType="VARCHAR" property="createTime" />
+    <result column="action_url" jdbcType="VARCHAR" property="actionUrl" />
+    <result column="descripts" jdbcType="VARCHAR" property="descripts" />
+    <result column="create_user" jdbcType="VARCHAR" property="createUser" />
+    <result column="log_levels" jdbcType="VARCHAR" property="logLevels" />
+    <result column="method" jdbcType="VARCHAR" property="method" />
+    <result column="class_name" jdbcType="VARCHAR" property="className" />
+    <result column="ip" jdbcType="VARCHAR" property="ip" />
+  </resultMap>
+
+  <sql id="Base_Column_List">
+    id,create_time,action_url,descripts,create_user,log_levels,method,class_name,ip
+  </sql>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from sys_log_applog
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from sys_log_applog
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insert" parameterType="com.silverbullet.log.domain.SysAppLog">
+    insert into sys_log_applog (id,create_time,action_url,descripts,create_user,log_levels,method,class_name,ip)
+    values (#{id,jdbcType=VARCHAR},#{createTime,jdbcType=VARCHAR},#{actionUrl,jdbcType=VARCHAR},#{descripts,jdbcType=VARCHAR},#{createUser,jdbcType=VARCHAR},#{logLevels,jdbcType=VARCHAR},#{method,jdbcType=VARCHAR},#{className,jdbcType=VARCHAR},#{ip,jdbcType=VARCHAR})
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.silverbullet.log.domain.SysAppLog">
+    insert into sys_log_applog
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+
+        <if test="id != null">
+               id ,
+        </if>
+        <if test="createTime != null">
+               create_time ,
+        </if>
+        <if test="actionUrl != null">
+               action_url ,
+        </if>
+        <if test="descripts != null">
+               descripts ,
+        </if>
+        <if test="createUser != null">
+               create_user ,
+        </if>
+        <if test="logLevels != null">
+               log_levels ,
+        </if>
+        <if test="method != null">
+               method ,
+        </if>
+        <if test="className != null">
+               class_name ,
+        </if>
+        <if test="ip != null">
+               ip ,
+        </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+        <if test="id != null">
+            #{id,jdbcType=VARCHAR},
+         </if>
+        <if test="createTime != null">
+            #{createTime,jdbcType=VARCHAR},
+         </if>
+        <if test="actionUrl != null">
+            #{actionUrl,jdbcType=VARCHAR},
+         </if>
+        <if test="descripts != null">
+            #{descripts,jdbcType=VARCHAR},
+         </if>
+        <if test="createUser != null">
+            #{createUser,jdbcType=VARCHAR},
+         </if>
+        <if test="logLevels != null">
+            #{logLevels,jdbcType=VARCHAR},
+         </if>
+        <if test="method != null">
+            #{method,jdbcType=VARCHAR},
+         </if>
+        <if test="className != null">
+            #{className,jdbcType=VARCHAR},
+         </if>
+        <if test="ip != null">
+            #{ip,jdbcType=VARCHAR},
+         </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.silverbullet.log.domain.SysAppLog">
+    update sys_log_applog
+    <set>
+        <if test="id != null">
+         id = #{id,jdbcType=VARCHAR},
+        </if>
+        <if test="createTime != null">
+         id = #{createTime,jdbcType=VARCHAR},
+        </if>
+        <if test="actionUrl != null">
+         id = #{actionUrl,jdbcType=VARCHAR},
+        </if>
+        <if test="descripts != null">
+         id = #{descripts,jdbcType=VARCHAR},
+        </if>
+        <if test="createUser != null">
+         id = #{createUser,jdbcType=VARCHAR},
+        </if>
+        <if test="logLevels != null">
+         id = #{logLevels,jdbcType=VARCHAR},
+        </if>
+        <if test="method != null">
+         id = #{method,jdbcType=VARCHAR},
+        </if>
+        <if test="className != null">
+         id = #{className,jdbcType=VARCHAR},
+        </if>
+        <if test="ip != null">
+         id = #{ip,jdbcType=VARCHAR},
+        </if>
+    </set>
+     where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="com.silverbullet.log.domain.SysAppLog">
+
+    update sys_log_applog
+    set id = #{id,jdbcType=VARCHAR},create_time = #{createTime,jdbcType=VARCHAR},action_url = #{actionUrl,jdbcType=VARCHAR},descripts = #{descripts,jdbcType=VARCHAR},create_user = #{createUser,jdbcType=VARCHAR},log_levels = #{logLevels,jdbcType=VARCHAR},method = #{method,jdbcType=VARCHAR},class_name = #{className,jdbcType=VARCHAR},ip = #{ip,jdbcType=VARCHAR}
+     where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <select id="findList" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from sys_log_applog
+  </select>
+
+  <select id="countNum" resultType="Integer">
+    select count(*) from sys_log_applog
+  </select>
+
+</mapper>
