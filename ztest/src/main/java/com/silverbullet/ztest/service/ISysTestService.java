@@ -13,6 +13,6 @@ public interface ISysTestService {
     public BaseDataResult<SysTest> list(int pageNum, int pageSize);
     public SysTest getOneById(String id);
     public boolean Update(SysTest sysTest);
-    public boolean delete(String id);
+    public boolean delete(String ids);
     public boolean Insert(SysTest sysTest);
 }

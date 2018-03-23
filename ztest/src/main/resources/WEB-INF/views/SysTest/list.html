@@ -1,3 +1,11 @@
+<style type="text/css">
+    .box-controls {
+        padding: 5px;
+    }
+    .btn-header {
+        height: 34px;
+    }
+</style>
 @layout("/layouts/bk-base.html") {
 <!-- Content Header (Page header) -->
 <section class="content-header">
@@ -16,39 +24,69 @@
 <section class="content">
     <div class="row">
         <div class="col-xs-12">
-            <div class="box">
-                <div class="box-header">
+            <div class="box box-primary">
+                <div class="box-header with-border">
                     <h3 class="box-title">测试列表</h3>
                 </div>
                 <!-- /.box-header -->
-                <div class="box-body">
-                    <table id="example2" class="table table-bordered table-hover">
-                        <thead>
-                        <tr>
-                               <th>myName</th>
-                               <th>createTime</th>
-                               <th>cInt</th>
-                               <th>cLength</th>
-                               <th>commen</th>
-                               <th>delSign</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        @for(result in results.resultList){
-                        <tr>
-                               <th>${result.myName}</th>
-                               <th>${result.createTime}</th>
-                               <th>${result.cInt}</th>
-                               <th>${result.cLength}</th>
-                               <th>${result.commen}</th>
-                               <th>${result.delSign}</th>
-                        </tr>
-                        @}
-                        </tbody>
-                    </table>
+                <div class="box-body no-padding">
+                    <div class="box-controls">
+                        <button type="button" class="btn btn-default btn-header checkbox-toggle">
+                            <i class="fa fa-square-o"></i>
+                        </button>
+                        <div class="btn-group">
+                            <button name="添加" class="btn btn-default" onclick="Ztest.add()">
+                                <i class="fa fa-fw fa-plus"></i>添加
+                            </button>
+                            <button name="修改" class="btn btn-default" onclick="Ztest.edit()" space="true">
+                                <i class="fa fa-fw fa-edit"></i>修改
+                            </button>
+                            <button name="删除" class="btn btn-default" onclick="Ztest.delete()" space="true">
+                                <i class="fa fa-fw fa-trash-o"></i>删除
+                            </button>
+                        </div>
+                    </div>
+                    <div class="table-responsive data-table-list">
+                        <table id="data-list" class="table table-bordered table-hover">
+                            <thead>
+                            <tr>
+                                <th></th>
+                                   <th>myName</th>
+                                   <th>createTime</th>
+                                   <th>cInt</th>
+                                   <th>cLength</th>
+                                   <th>commen</th>
+                                   <th>delSign</th>
+                                <th>操作</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                                <td></td>
+                            @for(var i = 0; i< results.resultList.~size; i++){
+                            <tr id="data-r${i}" data-u="${results.resultList[i].id}">
+                                <td><input type="checkbox"></td>
+                                       <td>${results.resultList[i].myName}</td>
+                                       <td>${results.resultList[i].createTime}</td>
+                                       <td>${results.resultList[i].cInt}</td>
+                                       <td>${results.resultList[i].cLength}</td>
+                                       <td>${results.resultList[i].commen}</td>
+                                       <td>${results.resultList[i].delSign}</td>
+                                <td>
+                                   <button name="修改" class="btn btn-default btn-sm" onclick="Ztest.editOne(this)" space="true">
+                                       <i class="fa fa-fw fa-edit"></i>
+                                   </button>
+                                   <button name="删除" class="btn btn-default btn-sm" onclick="Ztest.deleteOne(this)" space="true">
+                                       <i class="fa fa-fw fa-trash-o"></i>
+                                   </button>
+                               </td>
+                            </tr>
+                            @}
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
-                <#PageTag action="${ctxPath}/ztest/systest/list/" totalNum="${results.totalNum}" perSize="5" curPage="${curPage}"></#PageTag>
                 <!-- /.box-body -->
+                <#PageTag action="${ctxPath}/ztest/systest/list/" totalNum="${results.totalNum}" perSize="5" curPage="${curPage}"></#PageTag>
             </div>
             <!-- /.box -->
         </div>
@@ -56,4 +94,5 @@
     </div>
     <!-- /.row -->
 </section>
+<script src="${ctxPath}/static/silverbullet/js/silverbullet-ztest.js"></script>
 @}

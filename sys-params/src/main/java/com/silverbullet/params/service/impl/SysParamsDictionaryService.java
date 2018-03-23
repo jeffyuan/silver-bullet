@@ -7,9 +7,7 @@ import com.silverbullet.params.domain.SysParamsDictionary;
 import com.silverbullet.params.service.ISysParamsDictionaryService;
 import com.silverbullet.utils.BaseDataResult;
 import com.silverbullet.utils.ToolUtil;
-import org.apache.catalina.User;
 import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,7 +53,7 @@ public class SysParamsDictionaryService implements ISysParamsDictionaryService {
     public boolean Update(SysParamsDictionary sysParamsDictionary) {
         try {
             SysParamsDictionary sysParamsDictionaryNew = getOneById(sysParamsDictionary.getId());
-            if (sysParamsDictionary == null) {
+            if (sysParamsDictionaryNew == null) {
                 return false;
             }
 

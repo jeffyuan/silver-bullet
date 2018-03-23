@@ -7,6 +7,12 @@ import com.silverbullet.ztest.service.ISysTestService;
 import com.silverbullet.utils.BaseDataResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import com.silverbullet.utils.ToolUtil;
+import com.silverbullet.core.pojo.UserInfo;;
+import org.apache.shiro.SecurityUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * 测试 service接口
@@ -14,6 +20,8 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class SysTestService implements ISysTestService {
+
+    private static final Logger logger = LoggerFactory.getLogger(SysTestService.class);
 
     @Autowired
     private SysTestMapper sysTestMapper;
@@ -31,7 +39,7 @@ public class SysTestService implements ISysTestService {
         listResults.setResultList(sysTestMapper.findList());
         listResults.setTotalNum(sysTestMapper.countNum());
 
-             return listResults;
+        return listResults;
     }
 
     @Override
@@ -41,16 +49,47 @@ public class SysTestService implements ISysTestService {
 
     @Override
     public boolean Update(SysTest sysTest) {
-        return sysTestMapper.updateByPrimaryKey(sysTest) == 1 ? true : false;
+        try {
+            SysTest sysTestNew = getOneById(sysTest.getId());
+
+            if (sysTestNew == null) {
+                return false;
+            }
+
+            UserInfo userInfo = (UserInfo) SecurityUtils.getSubject().getPrincipal();
+
+            return sysTestMapper.updateByPrimaryKey(sysTest) == 1 ? true : false;
+        } catch (Exception ex) {
+            logger.error("Update Error: " + ex.getMessage());
+            return false;
+        }
     }
 
     @Override
-    public boolean delete(String id) {
-        return sysTestMapper.deleteByPrimaryKey(id) == 1 ? true : false;
+    @Transactional
+    public boolean delete(String ids) {
+        String [] arrIds = ids.split(",");
+        boolean bret = true;
+        for (String id : arrIds) {
+            bret = sysTestMapper.deleteByPrimaryKey(id) == 1 ? true : false;
+            if (!bret) {
+                throw new RuntimeException("delete faild");
+            }
+        }
+
+        return bret;
     }
 
     @Override
     public boolean Insert(SysTest sysTest) {
-        return sysTestMapper.insert(sysTest) == 1 ? true : false;
+      try {
+            UserInfo userInfo = (UserInfo) SecurityUtils.getSubject().getPrincipal();
+            sysTest.setId(ToolUtil.getUUID());
+
+            return sysTestMapper.insert(sysTest) == 1 ? true : false;
+        } catch (Exception ex) {
+            logger.error("Insert Error: " + ex.getMessage());
+            return false;
+        }
     }
 }
