@@ -20,7 +20,13 @@ public class ServiceConfig {
         imports.add("com." + contextConfig.getPrjPackage() + ".utils.BaseDataResult");
         imports.add("org.springframework.beans.factory.annotation.Autowired");
         imports.add("org.springframework.stereotype.Service");
+        imports.add("org.springframework.transaction.annotation.Transactional");
 
+        imports.add("com." + contextConfig.getPrjPackage() +".utils.ToolUtil");
+        imports.add("com." + contextConfig.getPrjPackage() + ".core.pojo.UserInfo;");
+        imports.add("org.apache.shiro.SecurityUtils");
+        imports.add("org.slf4j.Logger");
+        imports.add("org.slf4j.LoggerFactory");
     }
 
 

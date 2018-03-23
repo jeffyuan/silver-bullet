@@ -2,6 +2,7 @@ package com.silverbullet.codegenerator.beetl.config;
 
 import com.silverbullet.codegenerator.pojo.TableColumnsInfo;
 import com.silverbullet.codegenerator.pojo.TableConfig;
+import com.silverbullet.utils.ToolUtil;
 
 import javax.swing.table.TableColumn;
 import java.util.ArrayList;
@@ -41,6 +42,15 @@ public class DomainConfig {
                 imports.add(tableColumnsInfo.getJavaTypePackage());
             }
         }
+
+        ToolUtil.removeDuplicate(imports);
+
+        imports.add("com.silverbullet.core.validate.AddValidate");
+        imports.add("com.silverbullet.core.validate.FullValidate");
+        imports.add("org.hibernate.validator.constraints.NotBlank");
+        imports.add("org.hibernate.validator.constraints.NotEmpty");
+        imports.add("javax.validation.constraints.NotNull");
+        imports.add("javax.validation.constraints.Size");
     }
 
     public TableConfig getTableConfig() {

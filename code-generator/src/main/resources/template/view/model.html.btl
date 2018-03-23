@@ -1,0 +1,15 @@
+<div>
+    <h4 id="msg" style="color: red;"></h4>
+    <form id="form${context.modulePackageCapUpper}" class="m-t" role="form" method="post">
+         <% for(column in domain.tableConfig.columns!) {%>
+             <% if (column.primaryKey) {%>
+              <input type="hidden" name="${column.javaName}" class="form-control" value="\${obj.${column.javaName}!}">
+             <%} else {%>
+             <div class="form-group">
+                 <label>${column.javaName}</label><label style="color: red;" id="msg-${column.javaName}"></label>
+                 <input type="text" name="${column.javaName}" class="form-control" value="\${obj.${column.javaName}!}" placeholder="${column.javaName}" required="">
+             </div>
+             <%}%>
+         <% } %>
+    </form>
+</div>

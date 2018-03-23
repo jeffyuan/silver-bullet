@@ -9,6 +9,7 @@ import java.lang.reflect.Field;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 /**
@@ -27,6 +28,18 @@ public class ToolUtil {
             return cont;
         else
             return (new StringBuilder()).append(Character.toLowerCase(cont.charAt(0))).append(cont.substring(1)).toString();
+    }
+
+    /**
+     * 首字母转大写
+     * @param cont 英文
+     * @return
+     */
+    public static String formatStringCapUpper(String cont) {
+        if(Character.isUpperCase(cont.charAt(0)))
+            return cont;
+        else
+            return (new StringBuilder()).append(Character.toUpperCase(cont.charAt(0))).append(cont.substring(1)).toString();
     }
 
     /**
@@ -75,6 +88,16 @@ public class ToolUtil {
         }
 
         return null;
+    }
+
+    /**
+     * 将list中的内容进行去重
+     * @param lists
+     */
+    public static void removeDuplicate(List<String> lists) {
+        HashSet<String> hashSet = new HashSet<String>(lists);
+        lists.clear();
+        lists.addAll(hashSet);
     }
 
     public static void main(String [] args) {

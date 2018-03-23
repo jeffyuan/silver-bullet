@@ -14,6 +14,7 @@ public class ContextConfig {
 
     private String prjPackage; //项目包名，可以理解为com下面的子包名，如com.silverbullet
     private String modulePackage; // 模块的包名, 项目报下的子包名，如com.silverbullet.auth
+    private String modulePackageCapUpper; //模块名，首字母大写
 
     public String getBizChName() {
         return bizChName;
@@ -40,6 +41,7 @@ public class ContextConfig {
 
     public void setModulePackage(String modulePackage) {
         this.modulePackage = modulePackage;
+        this.modulePackageCapUpper = ToolUtil.formatStringCapUpper(modulePackage);
     }
 
     public String getPrjPackage() {
@@ -64,5 +66,13 @@ public class ContextConfig {
 
     public void setBizEnNameCapSmall(String bizEnNameCapSmall) {
         this.bizEnNameCapSmall = bizEnNameCapSmall;
+    }
+
+    public String getModulePackageCapUpper() {
+        return modulePackageCapUpper;
+    }
+
+    public void setModulePackageCapUpper(String modulePackageCapUpper) {
+        this.modulePackageCapUpper = modulePackageCapUpper;
     }
 }

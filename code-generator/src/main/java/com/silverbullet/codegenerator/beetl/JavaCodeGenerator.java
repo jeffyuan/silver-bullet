@@ -237,6 +237,19 @@ public class JavaCodeGenerator {
                     prjResAbsolutePath + File.separator + "WEB-INF" +
                             File.separator + "views" + File.separator + contextConfig.getBizEnName() +
                             File.separator + "list.html");
+
+            // 生成model.html
+            beetlGenerator("/template/view/model.html.btl",
+                    prjResAbsolutePath + File.separator + "WEB-INF" +
+                            File.separator + "views" + File.separator + contextConfig.getBizEnName() +
+                            File.separator + "model.html");
+
+            // 生成javascript
+            beetlGenerator("/template/view/model.js.btl",
+                    prjResAbsolutePath + File.separator + "static" +
+                            File.separator + contextConfig.getPrjPackage() + File.separator + "js" + File.separator +
+                            contextConfig.getPrjPackage() + "-" + contextConfig.getModulePackage() + ".js");
+
         } catch (IOException e) {
             e.printStackTrace();
         }

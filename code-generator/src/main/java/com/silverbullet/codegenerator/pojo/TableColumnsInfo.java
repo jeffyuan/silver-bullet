@@ -27,6 +27,8 @@ public class TableColumnsInfo {
     private String javaName;  // 对应java的字段名称
     private String javaTypePackage;  //对应java的包名
 
+    private String validate; // 验证
+
     private String javaGetName;
     private String javaSetName;
 
@@ -48,6 +50,9 @@ public class TableColumnsInfo {
         this.numSCALE = numSCALE;
         this.privileges = privileges;
         this.keyIsNull = bIsNull;
+        this.validate = "";
+        this.javaGetName = "";
+        this.javaSetName = "";
     }
 
     public String getName() {
@@ -176,5 +181,35 @@ public class TableColumnsInfo {
 
     public void setKeyIsNull(boolean keyIsNull) {
         this.keyIsNull = keyIsNull;
+    }
+
+    public String getValidate() {
+        // 判断数据库中要求，得到validate的条件
+
+        String group = "";
+        if (isPrimaryKey()) {
+            group = ", groups = {FullValidate.class}";
+        } else {
+            group = ", groups = {FullValidate.class, AddValidate.class}";
+        }
+
+        if (!keyIsNull) {
+            if (javaType.equals("String")) {
+                validate = "@NotBlank(message = \"" + javaName +" 不能为空\" #GROUP#)";
+                validate += "\n    @Size(max="+ valueLength +", message = \"" + javaName + " 长度不能超过"+ valueLength +"\"#GROUP#)";
+            } else if (javaType.equals("Date") || javaType.equals("Long") || javaName.equals("Integer")) {
+                validate = "@NotNull(message = \"" + javaName +" 不能为空\" #GROUP#)";
+                if (javaType.equals("Long")) {
+                    validate += "\n    @Size(max="+ Long.MAX_VALUE +", message = \"" + javaName + " 长度不能超过"+ Long.MAX_VALUE +"\"#GROUP#)";
+                } else if (javaType.equals("Integer")) {
+                    validate += "\n    @Size(max="+ Integer.MAX_VALUE +", message = \"" + javaName + " 长度不能超过"+ Integer.MAX_VALUE +"\"#GROUP#)";
+                }
+            } else {
+                validate = "@NotNull(message = \"" + javaName +" 不能为空\" #GROUP#)";
+            }
+        }
+
+
+        return validate.replaceAll("#GROUP#", group);
     }
 }

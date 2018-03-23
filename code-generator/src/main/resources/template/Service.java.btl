@@ -11,6 +11,8 @@ import ${import};
 @Service
 public class ${context.bizEnName}Service implements I${context.bizEnName}Service {
 
+    private static final Logger logger = LoggerFactory.getLogger(${context.bizEnName}Service.class);
+
     @Autowired
     private ${context.bizEnName}Mapper ${context.bizEnNameCapSmall}Mapper;
 
@@ -27,7 +29,7 @@ public class ${context.bizEnName}Service implements I${context.bizEnName}Service
         listResults.setResultList(${context.bizEnNameCapSmall}Mapper.findList());
         listResults.setTotalNum(${context.bizEnNameCapSmall}Mapper.countNum());
 
-             return listResults;
+        return listResults;
     }
 
     @Override
@@ -37,16 +39,47 @@ public class ${context.bizEnName}Service implements I${context.bizEnName}Service
 
     @Override
     public boolean Update(${context.bizEnName} ${context.bizEnNameCapSmall}) {
-        return ${context.bizEnNameCapSmall}Mapper.updateByPrimaryKey(${context.bizEnNameCapSmall}) == 1 ? true : false;
+        try {
+            ${context.bizEnName} ${context.bizEnNameCapSmall}New = getOneById(${context.bizEnNameCapSmall}.getId());
+
+            if (${context.bizEnNameCapSmall}New == null) {
+                return false;
+            }
+
+            UserInfo userInfo = (UserInfo) SecurityUtils.getSubject().getPrincipal();
+
+            return ${context.bizEnNameCapSmall}Mapper.updateByPrimaryKey(${context.bizEnNameCapSmall}) == 1 ? true : false;
+        } catch (Exception ex) {
+            logger.error("Update Error: " + ex.getMessage());
+            return false;
+        }
     }
 
     @Override
-    public boolean delete(String id) {
-        return ${context.bizEnNameCapSmall}Mapper.deleteByPrimaryKey(id) == 1 ? true : false;
+    @Transactional
+    public boolean delete(String ids) {
+        String [] arrIds = ids.split(",");
+        boolean bret = true;
+        for (String id : arrIds) {
+            bret = ${context.bizEnNameCapSmall}Mapper.deleteByPrimaryKey(id) == 1 ? true : false;
+            if (!bret) {
+                throw new RuntimeException("delete faild");
+            }
+        }
+
+        return bret;
     }
 
     @Override
     public boolean Insert(${context.bizEnName} ${context.bizEnNameCapSmall}) {
-        return ${context.bizEnNameCapSmall}Mapper.insert(${context.bizEnNameCapSmall}) == 1 ? true : false;
+      try {
+            UserInfo userInfo = (UserInfo) SecurityUtils.getSubject().getPrincipal();
+            ${context.bizEnNameCapSmall}.setId(ToolUtil.getUUID());
+
+            return ${context.bizEnNameCapSmall}Mapper.insert(${context.bizEnNameCapSmall}) == 1 ? true : false;
+        } catch (Exception ex) {
+            logger.error("Insert Error: " + ex.getMessage());
+            return false;
+        }
     }
 }

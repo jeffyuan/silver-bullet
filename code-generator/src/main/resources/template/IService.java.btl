@@ -14,6 +14,6 @@ public interface I${context.bizEnName}Service {
     public BaseDataResult<${context.bizEnName}> list(int pageNum, int pageSize);
     public ${context.bizEnName} getOneById(String id);
     public boolean Update(${context.bizEnName} ${context.bizEnNameCapSmall});
-    public boolean delete(String id);
+    public boolean delete(String ids);
     public boolean Insert(${context.bizEnName} ${context.bizEnNameCapSmall});
 }

@@ -32,4 +32,59 @@ public class ${context.bizEnName}Controller {
 
         return modelAndView;
     }
+
+    @RequestMapping(value = "/add.html", method = RequestMethod.POST)
+    public String add(Model model) {
+        return "/${context.bizEnName}/model";
+    }
+
+    @RequestMapping(value = "/edit.html", method = RequestMethod.POST)
+    public String edit(Model model, String id) {
+        ${context.bizEnName} ${context.bizEnNameCapSmall} = ${context.bizEnNameCapSmall}Service.getOneById(id);
+        model.addAttribute("obj", ${context.bizEnNameCapSmall});
+
+        return "/${context.bizEnName}/model";
+    }
+
+    @RequestMapping(value = "/delete.do", method = RequestMethod.POST)
+    @ResponseBody
+    public Map<String, Object> delete(String ids) {
+        Map<String,Object> mapRet = new HashMap<String, Object>();
+        if (ids == null || ids.isEmpty()) {
+            mapRet.put("result", false);
+            return mapRet;
+        }
+
+        boolean bRet = ${context.bizEnNameCapSmall}Service.delete(ids);
+
+        mapRet.put("result", bRet);
+        return mapRet;
+    }
+
+    @RequestMapping(value = "/save.do", method = RequestMethod.POST)
+    @ResponseBody
+    public Map<String, Object> save(@Validated({AddValidate.class}) ${context.bizEnName} ${context.bizEnNameCapSmall},
+                                    BindingResult result) {
+        Map<String,Object> mapRet = new HashMap<String, Object>();
+        if (result.hasErrors()) {
+            mapRet.put("result", false);
+            mapRet.put("errors", result.getFieldErrors());
+            return mapRet;
+        }
+
+        boolean bTrue = false;
+        String message = "";
+        if (${context.bizEnNameCapSmall}.getId().isEmpty()) {
+            bTrue = ${context.bizEnNameCapSmall}Service.Insert(${context.bizEnNameCapSmall});
+            message = bTrue ? "添加成功！" : "添加失败！";
+        } else {
+            bTrue = ${context.bizEnNameCapSmall}Service.Update(${context.bizEnNameCapSmall});
+            message = bTrue ? "修改成功！" : "修改失败！";
+        }
+
+        mapRet.put("result", bTrue);
+        mapRet.put("message", message);
+
+        return mapRet;
+    }
 }
