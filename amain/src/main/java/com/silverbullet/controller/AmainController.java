@@ -1,6 +1,7 @@
 package com.silverbullet.controller;
 
 import com.silverbullet.auth.domain.SysAuthUser;
+import com.silverbullet.core.pojo.UserInfo;
 import com.silverbullet.service.UserActionService;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresRoles;
@@ -32,7 +33,7 @@ public class AmainController {
     public String index(Model model){
         //logger.info("[APP]/index");
 
-        SysAuthUser userInfo = (SysAuthUser) SecurityUtils.getSubject().getPrincipal();
+        UserInfo userInfo = (UserInfo) SecurityUtils.getSubject().getPrincipal();
         model.addAttribute("username", userInfo.getUsername());
 
         return "index";
@@ -47,7 +48,7 @@ public class AmainController {
     @RequestMapping(value = "/getmenus.do", method = RequestMethod.POST)
     public String getMenus(Model model) {
 
-        SysAuthUser userInfo = (SysAuthUser) SecurityUtils.getSubject().getPrincipal();
+        UserInfo userInfo = (UserInfo) SecurityUtils.getSubject().getPrincipal();
         model.addAttribute("menus", userActionService.getUserLeftMenu(userInfo.getUsername()));
         model.addAttribute("username", userInfo.getName());
 
@@ -59,7 +60,7 @@ public class AmainController {
     public Map<String, String> getMsgInfo() {
         Map<String, String> mapInfo = new HashMap<String, String>();
 
-        SysAuthUser userInfo = (SysAuthUser) SecurityUtils.getSubject().getPrincipal();
+        UserInfo userInfo = (UserInfo) SecurityUtils.getSubject().getPrincipal();
         mapInfo.put("clientid", userInfo.getUsername());
         mapInfo.put("topic", "sysmsg.topic");
 

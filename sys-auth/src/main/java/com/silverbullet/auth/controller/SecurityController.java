@@ -1,13 +1,9 @@
 package com.silverbullet.auth.controller;
 
-import com.silverbullet.auth.domain.SysAuthUser;
-import com.silverbullet.auth.pojo.UserInfo;
-import com.silverbullet.auth.sysconfig.SysDictionary;
+import com.silverbullet.core.pojo.UserInfo;
 import com.silverbullet.utils.ToolUtil;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.apache.shiro.subject.Subject;
 import org.jboss.logging.MDC;
 import org.slf4j.Logger;

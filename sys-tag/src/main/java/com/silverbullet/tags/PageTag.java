@@ -39,55 +39,67 @@ public class PageTag extends GeneralVarTagBinding {
      */
     private void withAction() {
         StringBuilder paging = new StringBuilder("");
-        paging.append("<div class=\"pagination\">");
+        paging.append("<div class=\"box-footer no-padding\">");
+        paging.append("<div class=\"row box-controls\">");
+        paging.append("<div class=\"col-sm-5\">");
+        paging.append("<div class=\"dataTables_info\">");
+        paging.append("<span class=\"pageSkip\">").append("共&nbsp;").append(pageNum).append("&nbsp;页&nbsp;&nbsp;").append(totalNum).append("&nbsp;条记录</span>");
+        paging.append("</div></div>");
+
+        paging.append("<div class=\"col-sm-7\">");
+        paging.append("<div class=\"pull-right\">");
+        paging.append("<ul class=\"pagination\" style=\"margin:0 0 10px 0;\">");
+
 
         if(curPage > 1){
-            paging.append("<a class=\"firstPage\" href=\"" + action + "1.html\">首页</a>")
-                    .append("<a class=\"previousPage\" href=\"" + action + (curPage - 1) + ".html\">上一页</a>");
+            paging.append("<li class=\"paginate_button\"><a href=\"" + action + "1.html\">首页</a></li>")
+                    .append("<li class=\"paginate_button previous\"><a href=\"" + action + (curPage - 1) + ".html\">上一页</a></li>");
 
             if(curPage > 4){
-                paging.append("<span class=\"pageBreak\">...</span>");
+                paging.append("<li class=\"paginate_button disabled\"><a href=\"#\">...</a></li>");
             }
 
             if(curPage - 2 > 0){
-                paging.append("<a href=\"" + action + (curPage - 2) + ".html\">").append(curPage - 2).append("</a>");
+                paging.append("<li class=\"paginate_button\"><a href=\"" + action + (curPage - 2) + ".html\">")
+                        .append(curPage - 2).append("</a></li>");
             }
 
             if(curPage - 1 > 0){
-                paging.append("<a href=\"" + action + (curPage - 1) + ".html\">").append(curPage - 1).append("</a>");
+                paging.append("<li class=\"paginate_button\"><a href=\"" + action + (curPage - 1) + ".html\">")
+                        .append(curPage - 1).append("</a></i>");
             }
         } else if(curPage == 1){
-            paging.append("<span class=\"firstPage\"> </span>").append("<span class=\"previousPage\"> </span>");
+            paging.append("<li class=\"paginate_button disabled\"><a href=\"#\">首页</a>")
+                    .append("<li class=\"paginate_button next disabled\"><a href=\"#\">下一页</a></li>");
         }
 
 
-        paging.append("<span class=\"currentPage\">").append(curPage).append("</span>");
+        paging.append("<li class=\"paginate_button active\"><span>").append(curPage).append("</span></li>");
+
         if(curPage + 1 <= pageNum){
-            paging.append("<a href=\"" + action + (curPage + 1) + ".html\">").append(curPage + 1).append("</a>");
+            paging.append("<li class=\"paginate_button\"><a href=\"" + action + (curPage + 1) + ".html\">")
+                    .append(curPage + 1).append("</a></li>");
         }
 
         if(curPage + 2 <= pageNum){
-            paging.append("<a href=\"" + action + (curPage + 2) + ".html\">").append(curPage + 2).append("</a>");
+            paging.append("<li class=\"paginate_button\"><a href=\"" + action + (curPage + 2) + ".html\">")
+                    .append(curPage + 2).append("</a></li>");
         }
 
         if(pageNum - curPage > 2){
-            paging.append("<span class=\"pageBreak\">...</span>");
+            paging.append("<li class=\"paginate_button disabled\"><a href=\"#\">...</a></li>");
         }
 
         if(curPage >= pageNum){
-            paging.append("<span class=\"nextPage\" href=\"javascript:;\"> </span>")
-                    .append("<span class=\"lastPage\" href=\"javascript:;\"> </span>");
+            paging.append("<li class=\"paginate_button next disabled\"><a href=\"#\">下一页</a></li>")
+                    .append("<li class=\"paginate_button disabled\"><a href=\"#\">最后一页</a></li>");
         } else{
-            paging.append("<a class=\"nextPage\" href=\"" + action + (curPage + 1) +".html\">下一页</a>")
-                    .append("<a class=\"lastPage\" href=\"" + action + pageNum + ".html\">尾页</a>");
+            paging.append("<li class=\"paginate_button next\"><a href=\"" + action + (curPage + 1) +".html\">下一页</a></li>")
+                    .append("<li class=\"paginate_button\"><a href=\"" + action + pageNum + ".html\">最后一页</a></li>");
         }
 
+        paging.append("</ul></div></div></div></div></div>");
 
-        paging.append("<span class=\"pageSkip\">")
-                .append("共").append(pageNum).append("页").append(totalNum)
-//                .append("条记录 到第<input id=\"pageNumber\" name=\"pageNumber\" value=\"1\" maxlength=\"9\" onpaste=\"return false;\" />")
-//                .append("页<button type=\"submit\"> </button>")
-                .append("条记录</span></div>");
         try{
             ctx.byteWriter.writeString(paging.toString());
             this.doBodyRender();
@@ -101,55 +113,61 @@ public class PageTag extends GeneralVarTagBinding {
      * 没有超链接情况
      */
     private void noAction() {
-        StringBuilder paging = new StringBuilder("");
-        paging.append("<div class=\"pagination\">");
+        StringBuilder paging = new StringBuilder("");paging.append("<div class=\"box-footer no-padding\">");
+        paging.append("<div class=\"row box-controls\">");
+        paging.append("<div class=\"col-sm-5\">");
+        paging.append("<div class=\"dataTables_info\">");
+        paging.append("<span class=\"pageSkip\">").append("共").append(pageNum).append("页").append(totalNum).append("条记录</span>");
+        paging.append("</div></div>");
+
+        paging.append("<div class=\"col-sm-7\">");
+        paging.append("<div class=\"pull-right\">");
+        paging.append("<ul class=\"pagination\" style=\"margin:0 0 10px 0;\">");
 
         if(curPage > 1){
-            paging.append("<a class=\"firstPage\"> </a>").append("<a class=\"previousPage\"> </a>");
+            paging.append("<li class=\"paginate_button disabled\"><a href=\"#\">首页</a>")
+                    .append("<li class=\"paginate_button previous disabled\"><a href=\"#\">上一页</a></li>");
 
             if(curPage > 4){
-                paging.append("<span class=\"pageBreak\">...</span>");
+                paging.append("<li class=\"paginate_button disabled\"><a href=\"#\">...</a></li>");
             }
 
             if(curPage - 2 > 0){
-                paging.append("<a href=\"javascript:;\">").append(curPage - 2).append("</a>");
+                paging.append("<li class=\"paginate_button\"><a href=\"#\">").append(curPage - 2).append("</a></li>");
             }
 
             if(curPage - 1 > 0){
-                paging.append("<a href=\"javascript:;\">").append(curPage - 1).append("</a>");
+                paging.append("<li class=\"paginate_button\"><a href=\"#\">").append(curPage - 1).append("</a></li>");
             }
         } else if(curPage == 1){
-            paging.append("<span class=\"firstPage\"> </span>").append("<span class=\"previousPage\"> </span>");
+            paging.append("<li class=\"paginate_button disabled\"><a href=\"#\">首页</a></li>")
+                    .append("<li class=\"paginate_button previous disabled\"><a href=\"#\">下一页</a></li>");
         }
 
 
-        paging.append("<span class=\"currentPage\">").append(curPage).append("</span>");
+        paging.append("<li class=\"paginate_button active\"><a href=\"#\">").append(curPage).append("</a></li>");
         if(curPage + 1 <= pageNum){
-            paging.append("<a href=\"javascript:;\">").append(curPage + 1).append("</a>");
+            paging.append("<li class=\"paginate_button\"><a href=\"#\">").append(curPage + 1).append("</a></li>");
         }
 
         if(curPage + 2 <= pageNum){
-            paging.append("<a href=\"javascript:;\">").append(curPage + 2).append("</a>");
+            paging.append("<li class=\"paginate_button\"><a href=\"#\">").append(curPage + 2).append("</a></li>");
         }
 
         if(pageNum - curPage > 2){
-            paging.append("<span class=\"pageBreak\">...</span>");
+            paging.append("<li class=\"paginate_button\"><a href=\"#\">...</a></li>");
         }
 
         if(curPage >= pageNum){
-            paging.append("<span class=\"nextPage\" href=\"javascript:;\"> </span>")
-                    .append("<span class=\"lastPage\" href=\"javascript:;\"> </span>");
+            paging.append("<li class=\"paginate_button next\"><a href=\"#\">下一页</span></li>")
+                    .append("<li class=\"paginate_button \"><a href=\"#\">最后一页</span></li>");
         } else{
-            paging.append("<a class=\"nextPage\" href=\"javascript:;\"> </a>")
-                    .append("<a class=\"lastPage\" href=\"javascript:;\"> </a>");
+            paging.append("<li class=\"paginate_button next\"><a href=\"#\">下一页</a></li>")
+                    .append("<li class=\"paginate_button\"><a href=\"#\">最后一页</a></li>");
         }
 
 
-        paging.append("<span class=\"pageSkip\">")
-                .append("共").append(pageNum).append("页").append(totalNum)
-//                .append("条记录 到第<input id=\"pageNumber\" name=\"pageNumber\" value=\"1\" maxlength=\"9\" onpaste=\"return false;\" />")
-//                .append("页<button type=\"submit\"> </button>")
-                .append("条记录</span></div>");
+        paging.append("</ul></div></div></div></div></div>");
         try{
             ctx.byteWriter.writeString(paging.toString());
             this.doBodyRender();

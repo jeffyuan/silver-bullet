@@ -1,7 +1,7 @@
 package com.silverbullet.auth.security.shiro;
 
 import com.silverbullet.auth.domain.SysAuthUser;
-import com.silverbullet.auth.pojo.UserInfo;
+import com.silverbullet.core.pojo.UserInfo;
 import com.silverbullet.utils.ToolUtil;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
@@ -58,12 +58,7 @@ public class ShiroMan {
             return new UserInfo();
         }
 
-        UserInfo userInfo = new UserInfo();
-        SysAuthUser sysAuthUser = (SysAuthUser) getSubject().getPrincipal();
-
-        userInfo.setName(sysAuthUser.getName());
-        userInfo.setUsername(sysAuthUser.getUsername());
-        userInfo.setLoginTime(ToolUtil.formatDate(sysAuthUser.getLoginTime()));
+        UserInfo userInfo = (UserInfo) getSubject().getPrincipal();
 
         return userInfo;
     }

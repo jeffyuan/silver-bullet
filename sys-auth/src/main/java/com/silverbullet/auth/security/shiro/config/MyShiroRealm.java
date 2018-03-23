@@ -7,6 +7,8 @@ import com.silverbullet.auth.service.ISysAuthActionService;
 import com.silverbullet.auth.service.ISysAuthPostService;
 import com.silverbullet.auth.service.ISysAuthUserService;
 import com.silverbullet.auth.sysconfig.SysDictionary;
+import com.silverbullet.core.pojo.UserInfo;
+import org.apache.catalina.User;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
@@ -19,6 +21,7 @@ import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.util.ByteSource;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 /**
@@ -37,7 +40,7 @@ public class MyShiroRealm extends AuthorizingRealm {
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
         System.out.println("权限配置-->MyShiroRealm.doGetAuthorizationInfo()");
         SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
-        SysAuthUser userInfo = (SysAuthUser)principals.getPrimaryPrincipal();
+        UserInfo userInfo = (UserInfo)principals.getPrimaryPrincipal();
 
         //SysAuthUser userInfo = iSysAuthUserService.getOneByUserName(username);
 
@@ -71,8 +74,15 @@ public class MyShiroRealm extends AuthorizingRealm {
             return null;
         }
 
+        UserInfo user = new UserInfo();
+        user.setId(userInfo.getId());
+        user.setName(userInfo.getName());
+        user.setUsername(userInfo.getName());
+        user.setUserType(userInfo.getUserType());
+        user.setLoginTime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(userInfo.getLoginTime()));
+
         SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(
-                userInfo, //用户名
+                user, //用户名
                 userInfo.getPassword(), //密码
                 ByteSource.Util.bytes(userInfo.getSalt()),//salt=username+salt
                 getName()  //realm name

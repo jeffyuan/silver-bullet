@@ -1,13 +1,15 @@
-package com.silverbullet.auth.pojo;
+package com.silverbullet.core.pojo;
 
 /**
  * 用户信息的实体类
  * Created by jeffyuan on 2018/3/9.
  */
 public class UserInfo {
+    private String id;
     private String username;
     private String password;
     private boolean remember;
+    private String userType;
     private String name;
     private String loginTime;
 
@@ -49,5 +51,21 @@ public class UserInfo {
 
     public void setLoginTime(String loginTime) {
         this.loginTime = loginTime;
+    }
+
+    public String getUserType() {
+        return userType;
+    }
+
+    public void setUserType(String userType) {
+        this.userType = userType;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }

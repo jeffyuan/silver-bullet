@@ -47,9 +47,14 @@
 			<artifactId>cms-core</artifactId>
 			<version>1.0-SNAPSHOT</version>
 		</dependency>
+		<!--<dependency>-->
+			<!--<groupId>com.silverbullet</groupId>-->
+			<!--<artifactId>sys-message</artifactId>-->
+			<!--<version>1.0-SNAPSHOT</version>-->
+		<!--</dependency>-->
 		<dependency>
 			<groupId>com.silverbullet</groupId>
-			<artifactId>sys-message</artifactId>
+			<artifactId>sys-params</artifactId>
 			<version>1.0-SNAPSHOT</version>
 		</dependency>
     </dependencies>

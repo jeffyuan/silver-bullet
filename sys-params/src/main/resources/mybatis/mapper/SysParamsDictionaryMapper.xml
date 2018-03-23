@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.silverbullet.params.dao.SysParamsDictionaryMapper">
+  <resultMap id="BaseResultMap" type="com.silverbullet.params.domain.SysParamsDictionary">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="dic_key" jdbcType="VARCHAR" property="dicKey" />
+    <result column="dic_value" jdbcType="VARCHAR" property="dicValue" />
+    <result column="comments" jdbcType="VARCHAR" property="comments" />
+    <result column="type" jdbcType="CHAR" property="type" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="modify_time" jdbcType="TIMESTAMP" property="modifyTime" />
+    <result column="create_username" jdbcType="VARCHAR" property="createUsername" />
+    <result column="create_user" jdbcType="VARCHAR" property="createUser" />
+    <result column="modify_username" jdbcType="VARCHAR" property="modifyUsername" />
+    <result column="modify_user" jdbcType="VARCHAR" property="modifyUser" />
+    <result column="state" jdbcType="CHAR" property="state" />
+  </resultMap>
+
+  <sql id="Base_Column_List">
+    id,name,dic_key,dic_value,comments,type,create_time,modify_time,create_username,create_user,modify_username,modify_user,state
+  </sql>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from sys_params_dictionary
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from sys_params_dictionary
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insert" parameterType="com.silverbullet.params.domain.SysParamsDictionary">
+    insert into sys_params_dictionary (id,name,dic_key,dic_value,comments,type,create_time,modify_time,create_username,create_user,modify_username,modify_user,state)
+    values (#{id,jdbcType=VARCHAR},#{name,jdbcType=VARCHAR},#{dicKey,jdbcType=VARCHAR},#{dicValue,jdbcType=VARCHAR},#{comments,jdbcType=VARCHAR},#{type,jdbcType=CHAR},#{createTime,jdbcType=TIMESTAMP},#{modifyTime,jdbcType=TIMESTAMP},#{createUsername,jdbcType=VARCHAR},#{createUser,jdbcType=VARCHAR},#{modifyUsername,jdbcType=VARCHAR},#{modifyUser,jdbcType=VARCHAR},#{state,jdbcType=CHAR})
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.silverbullet.params.domain.SysParamsDictionary">
+    insert into sys_params_dictionary
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+
+        <if test="id != null">
+               id ,
+        </if>
+        <if test="name != null">
+               name ,
+        </if>
+        <if test="dicKey != null">
+               dic_key ,
+        </if>
+        <if test="dicValue != null">
+               dic_value ,
+        </if>
+        <if test="comments != null">
+               comments ,
+        </if>
+        <if test="type != null">
+               type ,
+        </if>
+        <if test="createTime != null">
+               create_time ,
+        </if>
+        <if test="modifyTime != null">
+               modify_time ,
+        </if>
+        <if test="createUsername != null">
+               create_username ,
+        </if>
+        <if test="createUser != null">
+               create_user ,
+        </if>
+        <if test="modifyUsername != null">
+               modify_username ,
+        </if>
+        <if test="modifyUser != null">
+               modify_user ,
+        </if>
+        <if test="state != null">
+               state ,
+        </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+        <if test="id != null">
+            #{id,jdbcType=VARCHAR},
+         </if>
+        <if test="name != null">
+            #{name,jdbcType=VARCHAR},
+         </if>
+        <if test="dicKey != null">
+            #{dicKey,jdbcType=VARCHAR},
+         </if>
+        <if test="dicValue != null">
+            #{dicValue,jdbcType=VARCHAR},
+         </if>
+        <if test="comments != null">
+            #{comments,jdbcType=VARCHAR},
+         </if>
+        <if test="type != null">
+            #{type,jdbcType=CHAR},
+         </if>
+        <if test="createTime != null">
+            #{createTime,jdbcType=TIMESTAMP},
+         </if>
+        <if test="modifyTime != null">
+            #{modifyTime,jdbcType=TIMESTAMP},
+         </if>
+        <if test="createUsername != null">
+            #{createUsername,jdbcType=VARCHAR},
+         </if>
+        <if test="createUser != null">
+            #{createUser,jdbcType=VARCHAR},
+         </if>
+        <if test="modifyUsername != null">
+            #{modifyUsername,jdbcType=VARCHAR},
+         </if>
+        <if test="modifyUser != null">
+            #{modifyUser,jdbcType=VARCHAR},
+         </if>
+        <if test="state != null">
+            #{state,jdbcType=CHAR},
+         </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.silverbullet.params.domain.SysParamsDictionary">
+    update sys_params_dictionary
+    <set>
+        <if test="id != null">
+         id = #{id,jdbcType=VARCHAR},
+        </if>
+        <if test="name != null">
+         id = #{name,jdbcType=VARCHAR},
+        </if>
+        <if test="dicKey != null">
+         id = #{dicKey,jdbcType=VARCHAR},
+        </if>
+        <if test="dicValue != null">
+         id = #{dicValue,jdbcType=VARCHAR},
+        </if>
+        <if test="comments != null">
+         id = #{comments,jdbcType=VARCHAR},
+        </if>
+        <if test="type != null">
+         id = #{type,jdbcType=CHAR},
+        </if>
+        <if test="createTime != null">
+         id = #{createTime,jdbcType=TIMESTAMP},
+        </if>
+        <if test="modifyTime != null">
+         id = #{modifyTime,jdbcType=TIMESTAMP},
+        </if>
+        <if test="createUsername != null">
+         id = #{createUsername,jdbcType=VARCHAR},
+        </if>
+        <if test="createUser != null">
+         id = #{createUser,jdbcType=VARCHAR},
+        </if>
+        <if test="modifyUsername != null">
+         id = #{modifyUsername,jdbcType=VARCHAR},
+        </if>
+        <if test="modifyUser != null">
+         id = #{modifyUser,jdbcType=VARCHAR},
+        </if>
+        <if test="state != null">
+         id = #{state,jdbcType=CHAR},
+        </if>
+    </set>
+     where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="com.silverbullet.params.domain.SysParamsDictionary">
+
+    update sys_params_dictionary
+    set id = #{id,jdbcType=VARCHAR},name = #{name,jdbcType=VARCHAR},dic_key = #{dicKey,jdbcType=VARCHAR},dic_value = #{dicValue,jdbcType=VARCHAR},comments = #{comments,jdbcType=VARCHAR},type = #{type,jdbcType=CHAR},create_time = #{createTime,jdbcType=TIMESTAMP},modify_time = #{modifyTime,jdbcType=TIMESTAMP},create_username = #{createUsername,jdbcType=VARCHAR},create_user = #{createUser,jdbcType=VARCHAR},modify_username = #{modifyUsername,jdbcType=VARCHAR},modify_user = #{modifyUser,jdbcType=VARCHAR},state = #{state,jdbcType=CHAR}
+     where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <select id="findList" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from sys_params_dictionary
+  </select>
+
+  <select id="countNum" resultType="Integer">
+    select count(*) from sys_params_dictionary
+  </select>
+
+</mapper>

@@ -1,6 +1,7 @@
 package com.silverbullet.aop;
 
 import com.silverbullet.auth.domain.SysAuthUser;
+import com.silverbullet.core.pojo.UserInfo;
 import com.silverbullet.log.service.ISysAppLogService;
 import com.silverbullet.utils.ToolUtil;
 import org.apache.catalina.security.SecurityUtil;
@@ -44,7 +45,7 @@ public class LogAspect {
         HttpServletRequest request = attributes.getRequest();
 
         MDC.put("url", ToolUtil.getRelativeUrl(request.getRequestURL().toString()));
-        MDC.put("username", ((SysAuthUser)SecurityUtils.getSubject().getPrincipal()).getName());
+        MDC.put("username", ((UserInfo)SecurityUtils.getSubject().getPrincipal()).getName());
         MDC.put("ip", ToolUtil.getIpAddr(request));
         MDC.put("class_method", joinPoint.getSignature().getDeclaringTypeName() + "." + joinPoint.getSignature().getName());
         MDC.put("http_method", request.getMethod());
