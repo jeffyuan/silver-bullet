@@ -48,7 +48,7 @@ public class SysParamsDictionaryItem {
     // 
     private Integer sort;
     // 
-    private String parentId;
+    private String parentId = "NONE";
     // 
     private String path;
     // 
@@ -66,7 +66,7 @@ public class SysParamsDictionaryItem {
     // 
     private String modifyUser;
     // 
-    private String state;
+    private String state = "0";
 
 
     public String getId() {

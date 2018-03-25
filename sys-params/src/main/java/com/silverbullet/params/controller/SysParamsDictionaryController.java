@@ -2,6 +2,7 @@ package com.silverbullet.params.controller;
 
 import com.silverbullet.core.validate.AddValidate;
 import com.silverbullet.params.domain.SysParamsDictionary;
+import com.silverbullet.params.domain.SysParamsDictionaryItem;
 import com.silverbullet.params.service.ISysParamsDictionaryService;
 import com.silverbullet.utils.BaseDataResult;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,6 +50,7 @@ public class SysParamsDictionaryController {
 
     @RequestMapping(value = "/add.html", method = RequestMethod.POST)
     public String add(Model model) {
+        model.addAttribute("obj", new SysParamsDictionary());
         return "/SysParamsDictionary/model";
     }
 
@@ -98,6 +100,87 @@ public class SysParamsDictionaryController {
 
         mapRet.put("result", bTrue);
         mapRet.put("message", message);
+
+        return mapRet;
+    }
+
+    @RequestMapping(value = "/dictitem/list/{dicKeyId}.html", method = RequestMethod.POST)
+    public ModelAndView loadDictItem(@PathVariable("dicKeyId") String dicKeyId, String curpage) {
+        int nCurPage = 1;
+        if (curpage != null) {
+            nCurPage = Integer.valueOf(curpage);
+        }
+
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("/SysParamsDictionary/itemList");
+
+        BaseDataResult<SysParamsDictionaryItem> results = sysParamsDictionaryService.itemList(dicKeyId, nCurPage, 5);
+
+        modelAndView.addObject("dicKeyId", dicKeyId);
+        modelAndView.addObject("results", results);
+        modelAndView.addObject("curPage", nCurPage);
+
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "/dictitem/add.html", method = RequestMethod.POST)
+    public String addItem(Model model, String dicKeyId) {
+
+        SysParamsDictionaryItem sysParamsDictionaryItem = new SysParamsDictionaryItem();
+        sysParamsDictionaryItem.setDicKeyId(dicKeyId);
+
+        model.addAttribute("obj", sysParamsDictionaryItem);
+
+        return "/SysParamsDictionary/itemModel";
+    }
+
+    @RequestMapping(value = "/dictitem/edit.html", method = RequestMethod.POST)
+    public String editItem(Model model, String id) {
+        SysParamsDictionaryItem sysParamsDictionaryItem = sysParamsDictionaryService.getOneItemById(id);
+        model.addAttribute("obj", sysParamsDictionaryItem);
+
+        return "/SysParamsDictionary/itemModel";
+    }
+
+    @RequestMapping(value = "/dictitem/delete.do", method = RequestMethod.POST)
+    @ResponseBody
+    public Map<String, Object> deleteItem(String ids) {
+        Map<String,Object> mapRet = new HashMap<String, Object>();
+        if (ids == null || ids.isEmpty()) {
+            mapRet.put("result", false);
+            return mapRet;
+        }
+
+        boolean bRet = sysParamsDictionaryService.deleteItem(ids);
+
+        mapRet.put("result", bRet);
+        return mapRet;
+    }
+
+    @RequestMapping(value = "/dictitem/save.do", method = RequestMethod.POST)
+    @ResponseBody
+    public Map<String, Object> saveItem(@Validated({AddValidate.class}) SysParamsDictionaryItem sysParamsDictionaryItem,
+                                    BindingResult result) {
+        Map<String,Object> mapRet = new HashMap<String, Object>();
+        if (result.hasErrors()) {
+            mapRet.put("result", false);
+            mapRet.put("errors", result.getFieldErrors());
+            return mapRet;
+        }
+
+        boolean bTrue = false;
+        String message = "";
+        if (sysParamsDictionaryItem.getId().isEmpty()) {
+            bTrue = sysParamsDictionaryService.insertItem(sysParamsDictionaryItem);
+            message = bTrue ? "添加成功！" : "添加失败！";
+        } else {
+            bTrue = sysParamsDictionaryService.updateItem(sysParamsDictionaryItem);
+            message = bTrue ? "修改成功！" : "修改失败！";
+        }
+
+        mapRet.put("result", bTrue);
+        mapRet.put("message", message);
+        mapRet.put("dicKeyId", sysParamsDictionaryItem.getDicKeyId());
 
         return mapRet;
     }

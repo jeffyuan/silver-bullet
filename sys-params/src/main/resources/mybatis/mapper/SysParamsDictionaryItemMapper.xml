@@ -218,4 +218,14 @@
     select count(*) from sys_params_dictionary_item
   </select>
 
+    <select id="findListByDictKeyId" parameterType="String" resultMap="BaseResultMap">
+       select
+       <include refid="Base_Column_List"/>
+        from sys_params_dictionary_item where dic_key_id = #{dictKeyId} and state = '0'
+    </select>
+
+    <select id="countNumByDictKeyId" parameterType="String" resultType="Integer">
+        select count(*) from sys_params_dictionary_item where dic_key_id = #{dictKeyId} and state = '0'
+    </select>
+
 </mapper>

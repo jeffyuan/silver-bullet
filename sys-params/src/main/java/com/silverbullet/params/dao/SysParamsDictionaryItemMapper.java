@@ -6,5 +6,6 @@ import java.util.List;
 import java.util.Map;
 
 public interface SysParamsDictionaryItemMapper extends CrudRepository<SysParamsDictionaryItem, String>{
-
+    public List<SysParamsDictionaryItem> findListByDictKeyId(String dictKeyId);
+    public int countNumByDictKeyId(String dictKeyId);
 }
