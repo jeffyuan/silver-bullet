@@ -57,20 +57,20 @@ public class PageTag extends GeneralVarTagBinding {
 
 
         if(curPage > 1){
-            paging.append("<li class=\"paginate_button\"><a href=\"" + action + "1.html\">首页</a></li>")
-                    .append("<li class=\"paginate_button previous\"><a href=\"" + action + (curPage - 1) + ".html\">上一页</a></li>");
+            paging.append("<li class=\"paginate_button\"><a href=\"" + getGlobalLoadDataAHref(1) + "\">首页</a></li>")
+                    .append("<li class=\"paginate_button previous\"><a href=\"" + getGlobalLoadDataAHref(curPage - 1)  + "\">上一页</a></li>");
 
             if(curPage > 4){
                 paging.append("<li class=\"paginate_button disabled\"><a href=\"#\">...</a></li>");
             }
 
             if(curPage - 2 > 0){
-                paging.append("<li class=\"paginate_button\"><a href=\"" + action + (curPage - 2) + ".html\">")
+                paging.append("<li class=\"paginate_button\"><a href=\"" + getGlobalLoadDataAHref(curPage - 2) + "\">")
                         .append(curPage - 2).append("</a></li>");
             }
 
             if(curPage - 1 > 0){
-                paging.append("<li class=\"paginate_button\"><a href=\"" + action + (curPage - 1) + ".html\">")
+                paging.append("<li class=\"paginate_button\"><a href=\"" + getGlobalLoadDataAHref(curPage - 1) + "\">")
                         .append(curPage - 1).append("</a></i>");
             }
         } else if(curPage == 1){
@@ -82,12 +82,12 @@ public class PageTag extends GeneralVarTagBinding {
         paging.append("<li class=\"paginate_button active\"><span>").append(curPage).append("</span></li>");
 
         if(curPage + 1 <= pageNum){
-            paging.append("<li class=\"paginate_button\"><a href=\"" + action + (curPage + 1) + ".html\">")
+            paging.append("<li class=\"paginate_button\"><a href=\"" + getGlobalLoadDataAHref(curPage + 1) + "\">")
                     .append(curPage + 1).append("</a></li>");
         }
 
         if(curPage + 2 <= pageNum){
-            paging.append("<li class=\"paginate_button\"><a href=\"" + action + (curPage + 2) + ".html\">")
+            paging.append("<li class=\"paginate_button\"><a href=\"" + getGlobalLoadDataAHref(curPage + 2)+ "\">")
                     .append(curPage + 2).append("</a></li>");
         }
 
@@ -99,8 +99,8 @@ public class PageTag extends GeneralVarTagBinding {
             paging.append("<li class=\"paginate_button next disabled\"><a href=\"#\">下一页</a></li>")
                     .append("<li class=\"paginate_button disabled\"><a href=\"#\">最后一页</a></li>");
         } else{
-            paging.append("<li class=\"paginate_button next\"><a href=\"" + action + (curPage + 1) +".html\">下一页</a></li>")
-                    .append("<li class=\"paginate_button\"><a href=\"" + action + pageNum + ".html\">最后一页</a></li>");
+            paging.append("<li class=\"paginate_button next\"><a href=\"" + getGlobalLoadDataAHref(curPage + 1) +"\">下一页</a></li>")
+                    .append("<li class=\"paginate_button\"><a href=\"" + getGlobalLoadDataAHref(pageNum) + "\">最后一页</a></li>");
         }
 
         paging.append("</ul></div></div></div></div></div>");
@@ -112,6 +112,22 @@ public class PageTag extends GeneralVarTagBinding {
         }catch (IOException e){
             throw new RuntimeException(e);
         }
+    }
+
+    /**
+     * 获取连接跳转的href
+     * @param pageNum
+     * @return
+     */
+    private String getGlobalLoadDataAHref(int pageNum) {
+        if (action.isEmpty()) {
+            return "";
+        }
+
+        String aHref = action;
+        aHref += pageNum + ".html";
+
+        return aHref;
     }
 
     /**
