@@ -30,7 +30,7 @@ public class SysParamsDictionaryController {
     @Autowired
     private ISysParamsDictionaryService sysParamsDictionaryService;
 
-    @RequestMapping(value = "/list/index.html", method = RequestMethod.GET)
+    @RequestMapping(value = "/list/pub.html", method = RequestMethod.GET)
     public ModelAndView index(){
         int nCurPage = 1;
 
