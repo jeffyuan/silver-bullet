@@ -74,4 +74,3 @@
     </div>
     <!-- /.row -->
 </section>
-<script src="\${ctxPath}/static/${context.prjPackage}/js/${context.prjPackage}-${context.modulePackage}.js"></script>

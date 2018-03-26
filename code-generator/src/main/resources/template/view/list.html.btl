@@ -23,4 +23,6 @@
 <div id="data-list-content">
     @include("/${context.bizEnName}/listContent.html"){}
 </div>
+
+<script src="\${ctxPath}/static/${context.prjPackage}/js/${context.prjPackage}-${context.modulePackage}.js"></script>
 @}
