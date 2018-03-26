@@ -30,6 +30,20 @@ Params.getHtmlInfo = function(url, params){
 };
 
 /**
+ * 加载页面
+ * @param obj
+ * @param action url地址
+ * @param curpage 当前页
+ * @returns {boolean}
+ */
+Params.loadData = function(obj, action, curpage) {
+    var dialogInfo = Params.getHtmlInfo(action, {"curpage" : curpage});
+    dialogInfo += "<script>Params.checkboxInit();</script>";
+    $("#data-list-content").html(dialogInfo);
+    return true;
+};
+
+/**
  * 表格头部添加方法
  */
 Params.add = function() {

@@ -30,15 +30,30 @@ public class SysParamsDictionaryController {
     @Autowired
     private ISysParamsDictionaryService sysParamsDictionaryService;
 
-    @RequestMapping(value = "/list/{curpage}.html", method = RequestMethod.GET)
-    public ModelAndView index(@PathVariable("curpage") String curpage){
+    @RequestMapping(value = "/list/index.html", method = RequestMethod.GET)
+    public ModelAndView index(){
+        int nCurPage = 1;
+
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("/SysParamsDictionary/list");
+
+        BaseDataResult<SysParamsDictionary> results = sysParamsDictionaryService.list(nCurPage, 5);
+
+        modelAndView.addObject("results", results);
+        modelAndView.addObject("curPage", nCurPage);
+
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "/list.html", method = RequestMethod.POST)
+    public ModelAndView listData(String curpage){
         int nCurPage = 1;
         if (curpage != null) {
             nCurPage = Integer.valueOf(curpage);
         }
 
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("/SysParamsDictionary/list");
+        modelAndView.setViewName("/SysParamsDictionary/listContent");
 
         BaseDataResult<SysParamsDictionary> results = sysParamsDictionaryService.list(nCurPage, 5);
 
