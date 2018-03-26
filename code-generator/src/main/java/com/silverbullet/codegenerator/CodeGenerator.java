@@ -54,6 +54,8 @@ public class CodeGenerator
         String prjAbsolutePath = path +  File.separator + moduleName;
         // mapper.xml文件以及html资源文件的路径
         String prjResAbsolutePath = path + File.separator + moduleName;
+
+        String navigationType = "local";  //页面加载方式 local：局部加载  global：页面跳转
         //----------------------------------------------开始生成-----------------------------------------
         // 生成mybatis的xml文件和domain文件
         MybatisCodeGenerator mybatisCodeGenerator = new MybatisCodeGenerator(ClasspathEntry, ConnectionURL,
@@ -66,7 +68,7 @@ public class CodeGenerator
         for (TableConfig tableConfig : listTables) {
 
             JavaCodeGenerator javaCodeGenerator = new JavaCodeGenerator(prjAbsolutePath, prjResAbsolutePath,
-                    prjPackage, modulePackage, tableConfig.getTableDiscript(), tableConfig.getDomainObjectName());
+                    prjPackage, modulePackage, tableConfig.getTableDiscript(), tableConfig.getDomainObjectName(), navigationType);
 
             javaCodeGenerator.beetlGeneratorDao();
             if (!tableConfig.isOnlyMybatis()) {
@@ -91,19 +93,22 @@ public class CodeGenerator
      */
     public void codeGeneratorOwn() {
         //----------------------------------------------模块信息配置（重点配置此）-------------------------------------
-        String moduleName = "sys-core";      // 子工程名称
+        String moduleName = "ztest";      // 子工程名称
         String prjPackage = "silverbullet";  // 工程的名称，一般为com下面的包名，例如com.silverbullet
-        String modulePackage = "core";       // 模块名称，一般为com.silverbullet下面的子包名，例如com.silverbullet.auth
+        String modulePackage = "ztest";       // 模块名称，一般为com.silverbullet下面的子包名，例如com.silverbullet.auth
 
         // 填写业务表的信息
         List<TableConfig> listTables = new ArrayList<TableConfig>();
-        listTables.add(new TableConfig("sys_log_applog", "SysAppLog", "测试类", false));//表名，domain类名，用途
+        listTables.add(new TableConfig("test", "SysTest", "测试", false));//表名，domain类名，用途
+        //listTables.add(new TableConfig("sys_params_dictionary_item", "SysParamsDictionaryItem", "字典下的子项", true));
 
         String path = System.getProperty("user.dir");
         // controller、serivce、dao文件生成的路径
         String prjAbsolutePath = path +  File.separator + moduleName;
         // mapper.xml文件以及html资源文件的路径
         String prjResAbsolutePath = path + File.separator + moduleName;
+
+        String navigationType = "local";  //页面加载方式 local：局部加载  global：页面跳转
         //----------------------------------------------开始生成-----------------------------------------
 
         // 根据表获取表相关信息
@@ -120,7 +125,7 @@ public class CodeGenerator
         for (TableConfig tableConfig : listTables) {
 
             JavaCodeGenerator javaCodeGenerator = new JavaCodeGenerator(prjAbsolutePath, prjResAbsolutePath,
-                    prjPackage, modulePackage, tableConfig.getTableDiscript(), tableConfig.getDomainObjectName());
+                    prjPackage, modulePackage, tableConfig.getTableDiscript(), tableConfig.getDomainObjectName(), navigationType);
 
             javaCodeGenerator.beetlGeneratorXMLMapper(tableConfig);
             javaCodeGenerator.beetlGeneratorDomain(tableConfig);
@@ -129,8 +134,8 @@ public class CodeGenerator
             if (!tableConfig.isOnlyMybatis()) {
                 javaCodeGenerator.beetlGeneratorISerivce();
                 javaCodeGenerator.beetlGeneratorSerivce();
-                javaCodeGenerator.beetlGeneratorController();
                 javaCodeGenerator.beetlGeneratorHtml(tableConfig);
+                javaCodeGenerator.beetlGeneratorController();
             }
         }
 
@@ -140,6 +145,6 @@ public class CodeGenerator
     public static void main( String[] args ) {
 
         CodeGenerator codeGenerator = new CodeGenerator();
-       // codeGenerator.codeGeneratorOwn();
+        //codeGenerator.codeGeneratorOwn();
     }
 }

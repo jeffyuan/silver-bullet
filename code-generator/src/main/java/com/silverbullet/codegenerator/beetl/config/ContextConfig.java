@@ -16,6 +16,9 @@ public class ContextConfig {
     private String modulePackage; // 模块的包名, 项目报下的子包名，如com.silverbullet.auth
     private String modulePackageCapUpper; //模块名，首字母大写
 
+    //网页切换方式 local:局部加载方式，global:整体刷新网页
+    private String navigationType;
+
     public String getBizChName() {
         return bizChName;
     }
@@ -74,5 +77,13 @@ public class ContextConfig {
 
     public void setModulePackageCapUpper(String modulePackageCapUpper) {
         this.modulePackageCapUpper = modulePackageCapUpper;
+    }
+
+    public String getNavigationType() {
+        return navigationType;
+    }
+
+    public void setNavigationType(String navigationType) {
+        this.navigationType = navigationType;
     }
 }

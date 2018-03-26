@@ -15,13 +15,20 @@ public class ${context.bizEnName}Controller {
     @Autowired
     private I${context.bizEnName}Service ${context.bizEnNameCapSmall}Service;
 
+    <% if (context.navigationType == "local") {%>
+    @RequestMapping(value = "/list/pub.html", method = RequestMethod.GET)
+    public ModelAndView index(){
+        int nCurPage = 1;
+
+    <%} else {%>
+
     @RequestMapping(value = "/list/{curpage}.html", method = RequestMethod.GET)
     public ModelAndView index(@PathVariable("curpage") String curpage){
         int nCurPage = 1;
         if (curpage != null) {
-            nCurPage = Integer.valueOf(curpage);
+             nCurPage = Integer.valueOf(curpage);
         }
-
+    <% } %>
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("/${context.bizEnName}/list");
 
@@ -32,6 +39,24 @@ public class ${context.bizEnName}Controller {
 
         return modelAndView;
     }
+
+    @RequestMapping(value = "/list.html", method = RequestMethod.POST)
+    public ModelAndView listData(String curpage){
+        int nCurPage = 1;
+        if (curpage != null) {
+            nCurPage = Integer.valueOf(curpage);
+        }
+
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("/${context.bizEnName}/listContent");
+
+        BaseDataResult<${context.bizEnName}> results = ${context.bizEnNameCapSmall}Service.list(nCurPage, 5);
+
+        modelAndView.addObject("results", results);
+        modelAndView.addObject("curPage", nCurPage);
+
+        return modelAndView;
+     }
 
     @RequestMapping(value = "/add.html", method = RequestMethod.POST)
     public String add(Model model) {

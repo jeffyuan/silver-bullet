@@ -43,7 +43,7 @@ public class JavaCodeGenerator {
     private GroupTemplate groupTemplate;
 
     public JavaCodeGenerator(String prjAbsolutePath, String prjResAbsolutePath,
-                             String prjPackage, String modulePackage, String bizChName, String bizEnName) {
+                             String prjPackage, String modulePackage, String bizChName, String bizEnName, String navigationType) {
 
         this.prjAbsolutePath = prjAbsolutePath + File.separator + "src" + File.separator + "main" + File.separator + "java";
         this.prjResAbsolutePath = prjResAbsolutePath + File.separator + "src" + File.separator + "main" + File.separator + "resources";
@@ -53,6 +53,7 @@ public class JavaCodeGenerator {
         contextConfig.setModulePackage(modulePackage);
         contextConfig.setBizChName(bizChName);
         contextConfig.setBizEnName(bizEnName);
+        contextConfig.setNavigationType(navigationType);
 
         controllerConfig = new ControllerConfig(contextConfig);
         iSerivceConfig = new ISerivceConfig(contextConfig);
@@ -238,6 +239,12 @@ public class JavaCodeGenerator {
                             File.separator + "views" + File.separator + contextConfig.getBizEnName() +
                             File.separator + "list.html");
 
+            // 生成列表的body部分
+            beetlGenerator("/template/view/listContent.html.btl",
+                    prjResAbsolutePath + File.separator + "WEB-INF" +
+                            File.separator + "views" + File.separator + contextConfig.getBizEnName() +
+                            File.separator + "listContent.html");
+
             // 生成model.html
             beetlGenerator("/template/view/model.html.btl",
                     prjResAbsolutePath + File.separator + "WEB-INF" +
@@ -270,6 +277,11 @@ public class JavaCodeGenerator {
                     prjResAbsolutePath + File.separator + "WEB-INF" +
                             File.separator + "views" + File.separator + contextConfig.getBizEnName() +
                             File.separator + "list.html");
+            // 生成列表的body部分
+            beetlGenerator("/template/view/listContent.html.btl",
+                    prjResAbsolutePath + File.separator + "WEB-INF" +
+                            File.separator + "views" + File.separator + contextConfig.getBizEnName() +
+                            File.separator + "listContent.html");
         } catch (IOException e) {
             e.printStackTrace();
         }
