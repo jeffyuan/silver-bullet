@@ -77,7 +77,7 @@ public class MyShiroRealm extends AuthorizingRealm {
         UserInfo user = new UserInfo();
         user.setId(userInfo.getId());
         user.setName(userInfo.getName());
-        user.setUsername(userInfo.getName());
+        user.setUsername(userInfo.getUsername());
         user.setUserType(userInfo.getUserType());
         user.setLoginTime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(userInfo.getLoginTime()));
 
