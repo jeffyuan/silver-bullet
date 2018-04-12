@@ -48,7 +48,7 @@ public class ${context.bizEnName}Service implements I${context.bizEnName}Service
 
             UserInfo userInfo = (UserInfo) SecurityUtils.getSubject().getPrincipal();
 
-            return ${context.bizEnNameCapSmall}Mapper.updateByPrimaryKey(${context.bizEnNameCapSmall}) == 1 ? true : false;
+            return ${context.bizEnNameCapSmall}Mapper.updateByPrimaryKey(${context.bizEnNameCapSmall}) == 1;
         } catch (Exception ex) {
             logger.error("Update Error: " + ex.getMessage());
             return false;
@@ -61,7 +61,7 @@ public class ${context.bizEnName}Service implements I${context.bizEnName}Service
         String [] arrIds = ids.split(",");
         boolean bret = true;
         for (String id : arrIds) {
-            bret = ${context.bizEnNameCapSmall}Mapper.deleteByPrimaryKey(id) == 1 ? true : false;
+            bret = ${context.bizEnNameCapSmall}Mapper.deleteByPrimaryKey(id) == 1;
             if (!bret) {
                 throw new RuntimeException("delete faild");
             }
@@ -76,7 +76,7 @@ public class ${context.bizEnName}Service implements I${context.bizEnName}Service
             UserInfo userInfo = (UserInfo) SecurityUtils.getSubject().getPrincipal();
             ${context.bizEnNameCapSmall}.setId(ToolUtil.getUUID());
 
-            return ${context.bizEnNameCapSmall}Mapper.insert(${context.bizEnNameCapSmall}) == 1 ? true : false;
+            return ${context.bizEnNameCapSmall}Mapper.insert(${context.bizEnNameCapSmall}) == 1;
         } catch (Exception ex) {
             logger.error("Insert Error: " + ex.getMessage());
             return false;
