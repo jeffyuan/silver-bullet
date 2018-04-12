@@ -188,4 +188,8 @@
     select count(*) from cms_article_content
   </select>
 
+    <delete id="deleteByArtId" parameterType="java.lang.String">
+        delete from cms_article_content where art_id = #{artId ,jdbcType=VARCHAR}
+    </delete>
+
 </mapper>

@@ -2,6 +2,7 @@ package com.silverbullet.cms.service;
 
 import com.silverbullet.cms.domain.CmsArticle;
 import com.silverbullet.cms.domain.CmsArticleFile;
+import com.silverbullet.cms.pojo.CmsArticleEntity;
 import com.silverbullet.cms.pojo.CmsFileInfo;
 import com.silverbullet.utils.BaseDataResult;
 
@@ -18,7 +19,7 @@ public interface ICmsArticleService {
     public CmsArticle getOneById(String id);
     public boolean Update(CmsArticle cmsArticle);
     public boolean delete(String ids);
-    public boolean Insert(CmsArticle cmsArticle);
+    public boolean createArticle(CmsArticleEntity cmsArticleEntity);
 
     /**
      * 插入文件

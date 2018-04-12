@@ -14,7 +14,7 @@
     <result column="art_img_id" jdbcType="VARCHAR" property="artImgId" />
     <result column="art_state" jdbcType="VARCHAR" property="artState" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
-    <result column="modify_time" jdbcType="VARCHAR" property="modifyTime" />
+    <result column="modify_time" jdbcType="TIMESTAMP" property="modifyTime" />
     <result column="create_username" jdbcType="VARCHAR" property="createUsername" />
     <result column="create_user" jdbcType="VARCHAR" property="createUser" />
     <result column="modify_username" jdbcType="VARCHAR" property="modifyUsername" />
@@ -242,7 +242,7 @@
          create_time = #{createTime,jdbcType=TIMESTAMP},
         </if>
         <if test="modifyTime != null">
-         modify_time = #{modifyTime,jdbcType=VARCHAR},
+         modify_time = #{modifyTime,jdbcType=TIMESTAMP},
         </if>
         <if test="createUsername != null">
          create_username = #{createUsername,jdbcType=VARCHAR},
@@ -284,7 +284,7 @@
   <update id="updateByPrimaryKey" parameterType="com.silverbullet.cms.domain.CmsArticle">
 
     update cms_article
-    set id = #{id,jdbcType=VARCHAR},title = #{title,jdbcType=VARCHAR},abs = #{abs,jdbcType=VARCHAR},author = #{author,jdbcType=VARCHAR},public_time = #{publicTime,jdbcType=TIMESTAMP},art_type = #{artType,jdbcType=VARCHAR},tagkey = #{tagkey,jdbcType=VARCHAR},source = #{source,jdbcType=VARCHAR},top_level = #{topLevel,jdbcType=INTEGER},art_img_id = #{artImgId,jdbcType=VARCHAR},art_state = #{artState,jdbcType=VARCHAR},create_time = #{createTime,jdbcType=TIMESTAMP},modify_time = #{modifyTime,jdbcType=VARCHAR},create_username = #{createUsername,jdbcType=VARCHAR},create_user = #{createUser,jdbcType=VARCHAR},modify_username = #{modifyUsername,jdbcType=VARCHAR},modify_user = #{modifyUser,jdbcType=VARCHAR},write_authority = #{writeAuthority,jdbcType=CHAR},read_authority = #{readAuthority,jdbcType=CHAR},runinfo_id = #{runinfoId,jdbcType=VARCHAR},module = #{module,jdbcType=VARCHAR},module_filter_key = #{moduleFilterKey,jdbcType=VARCHAR},last_update_time = #{lastUpdateTime,jdbcType=TIMESTAMP},state = #{state,jdbcType=CHAR}
+    set id = #{id,jdbcType=VARCHAR},title = #{title,jdbcType=VARCHAR},abs = #{abs,jdbcType=VARCHAR},author = #{author,jdbcType=VARCHAR},public_time = #{publicTime,jdbcType=TIMESTAMP},art_type = #{artType,jdbcType=VARCHAR},tagkey = #{tagkey,jdbcType=VARCHAR},source = #{source,jdbcType=VARCHAR},top_level = #{topLevel,jdbcType=INTEGER},art_img_id = #{artImgId,jdbcType=VARCHAR},art_state = #{artState,jdbcType=VARCHAR},create_time = #{createTime,jdbcType=TIMESTAMP},modify_time = #{modifyTime,jdbcType=TIMESTAMP},create_username = #{createUsername,jdbcType=VARCHAR},create_user = #{createUser,jdbcType=VARCHAR},modify_username = #{modifyUsername,jdbcType=VARCHAR},modify_user = #{modifyUser,jdbcType=VARCHAR},write_authority = #{writeAuthority,jdbcType=CHAR},read_authority = #{readAuthority,jdbcType=CHAR},runinfo_id = #{runinfoId,jdbcType=VARCHAR},module = #{module,jdbcType=VARCHAR},module_filter_key = #{moduleFilterKey,jdbcType=VARCHAR},last_update_time = #{lastUpdateTime,jdbcType=TIMESTAMP},state = #{state,jdbcType=CHAR}
      where id = #{id,jdbcType=VARCHAR}
   </update>
 

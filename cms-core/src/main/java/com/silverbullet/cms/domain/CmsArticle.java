@@ -61,7 +61,7 @@ public class CmsArticle {
     // modifyTime 
     @NotBlank(message = "modifyTime 不能为空" , groups = {FullValidate.class, AddValidate.class})
     @Size(max=16, message = "modifyTime 长度不能超过16", groups = {FullValidate.class, AddValidate.class})
-    private String modifyTime;
+    private Date modifyTime;
     // createUsername 
     @NotBlank(message = "createUsername 不能为空" , groups = {FullValidate.class, AddValidate.class})
     @Size(max=64, message = "createUsername 长度不能超过64", groups = {FullValidate.class, AddValidate.class})
@@ -214,13 +214,13 @@ public class CmsArticle {
         this.createTime = createTime;
     }
 
-    public String getModifyTime() {
+    public Date getModifyTime() {
         return modifyTime;
     }
 
-    public void setModifyTime(String modifyTime) {
+    public void setModifyTime(Date modifyTime) {
 
-        this.modifyTime = modifyTime == null ? null : modifyTime.trim();
+        this.modifyTime = modifyTime;
     }
 
     public String getCreateUsername() {

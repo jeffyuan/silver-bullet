@@ -6,5 +6,5 @@ import java.util.List;
 import java.util.Map;
 
 public interface CmsArticleFileMapper extends CrudRepository<CmsArticleFile, String>{
-
+    public List<CmsArticleFile> findListByArtId(String artId);
 }

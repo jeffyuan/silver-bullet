@@ -104,7 +104,7 @@ public class CmsArticleController {
         boolean bTrue = false;
         String message = "";
         if (cmsArticle.getId().isEmpty()) {
-            bTrue = cmsArticleService.Insert(cmsArticle);
+            //bTrue = cmsArticleService.Insert(cmsArticle);
             message = bTrue ? "添加成功！" : "添加失败！";
         } else {
             bTrue = cmsArticleService.Update(cmsArticle);

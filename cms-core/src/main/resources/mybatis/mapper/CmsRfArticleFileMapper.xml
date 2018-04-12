@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.silverbullet.cms.dao.CmsRfArticleFileMapper">
+  <resultMap id="BaseResultMap" type="com.silverbullet.cms.domain.CmsRfArticleFile">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="file_id" jdbcType="VARCHAR" property="fileId" />
+    <result column="art_id" jdbcType="VARCHAR" property="artId" />
+  </resultMap>
+
+  <sql id="Base_Column_List">
+    id,file_id,art_id
+  </sql>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from cms_rf_article_file
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from cms_rf_article_file
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insert" parameterType="com.silverbullet.cms.domain.CmsRfArticleFile">
+    insert into cms_rf_article_file (id,file_id,art_id)
+    values (#{id,jdbcType=VARCHAR},#{fileId,jdbcType=VARCHAR},#{artId,jdbcType=VARCHAR})
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.silverbullet.cms.domain.CmsRfArticleFile">
+    insert into cms_rf_article_file
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+
+        <if test="id != null">
+               id ,
+        </if>
+        <if test="fileId != null">
+               file_id ,
+        </if>
+        <if test="artId != null">
+               art_id ,
+        </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+        <if test="id != null">
+            #{id,jdbcType=VARCHAR},
+         </if>
+        <if test="fileId != null">
+            #{fileId,jdbcType=VARCHAR},
+         </if>
+        <if test="artId != null">
+            #{artId,jdbcType=VARCHAR},
+         </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.silverbullet.cms.domain.CmsRfArticleFile">
+    update cms_rf_article_file
+    <set>
+        <if test="id != null">
+         id = #{id,jdbcType=VARCHAR},
+        </if>
+        <if test="fileId != null">
+         file_id = #{fileId,jdbcType=VARCHAR},
+        </if>
+        <if test="artId != null">
+         art_id = #{artId,jdbcType=VARCHAR},
+        </if>
+    </set>
+     where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="com.silverbullet.cms.domain.CmsRfArticleFile">
+
+    update cms_rf_article_file
+    set id = #{id,jdbcType=VARCHAR},file_id = #{fileId,jdbcType=VARCHAR},art_id = #{artId,jdbcType=VARCHAR}
+     where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <select id="findList" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from cms_rf_article_file
+  </select>
+
+  <select id="countNum" resultType="Integer">
+    select count(*) from cms_rf_article_file
+  </select>
+
+    <delete id="deleteByArtId" parameterType="java.lang.String">
+        delete from cms_rf_article_file where art_id = #{artId,jdbcType=VARCHAR}
+    </delete>
+
+</mapper>

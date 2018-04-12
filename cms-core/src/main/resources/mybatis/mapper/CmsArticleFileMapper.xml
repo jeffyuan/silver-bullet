@@ -228,4 +228,8 @@
     select count(*) from cms_article_file
   </select>
 
+    <select id="findListByArtId" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select caf.* from cms_rf_article_file cmrf, cms_article_file caf where cmrf.file_id = caf.id and cmrf.art_id = #{artId}
+    </select>
+
 </mapper>
