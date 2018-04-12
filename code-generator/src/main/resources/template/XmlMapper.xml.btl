@@ -56,7 +56,7 @@
     <set>
     <% for(column in domain.tableConfig.columns!) {%>
         <if test="${column.javaName} != null">
-         id = #{${column.javaName},jdbcType=${column.type}},
+         ${column.name} = #{${column.javaName},jdbcType=${column.type}},
         </if>
     <% } %>
     </set>

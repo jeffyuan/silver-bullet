@@ -108,14 +108,19 @@ public class Table2JavaUtil {
             javaType.add("java.lang.Long");
         } else if (tableType.equals("blog")) {
             javaType.add("byte[]");
+            javaType.add("java.lang.Byte");
         } else if (tableType.equals("bit")) {
             javaType.add("boolean");
+            javaType.add("java.lang.Boolean");
         } else if (tableType.equals("float")) {
             javaType.add("Float");
+            javaType.add("java.lang.Float");
         } else if (tableType.equals("double")) {
             javaType.add("Double");
+            javaType.add("java.lang.Double");
         } else if (tableType.equals("decimal")) {
             javaType.add("BigDecimal");
+            javaType.add("java.math.BigDecimal");
         }
 
         return javaType;

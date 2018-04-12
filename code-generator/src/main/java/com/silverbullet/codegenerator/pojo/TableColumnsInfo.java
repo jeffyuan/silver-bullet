@@ -25,7 +25,7 @@ public class TableColumnsInfo {
 
     private String javaType;   //对应java的类型
     private String javaName;  // 对应java的字段名称
-    private String javaTypePackage;  //对应java的包名
+    private String javaTypePackage = "";  //对应java的包名
 
     private String validate; // 验证
 
