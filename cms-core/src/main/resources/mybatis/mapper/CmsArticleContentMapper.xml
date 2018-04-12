@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.silverbullet.cms.dao.CmsArticleContentMapper">
+  <resultMap id="BaseResultMap" type="com.silverbullet.cms.domain.CmsArticleContent">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="art_id" jdbcType="VARCHAR" property="artId" />
+    <result column="cont_html" jdbcType="VARCHAR" property="contHtml" />
+    <result column="cont_text" jdbcType="VARCHAR" property="contText" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="modify_time" jdbcType="TIMESTAMP" property="modifyTime" />
+    <result column="create_username" jdbcType="VARCHAR" property="createUsername" />
+    <result column="create_user" jdbcType="VARCHAR" property="createUser" />
+    <result column="modify_username" jdbcType="VARCHAR" property="modifyUsername" />
+    <result column="modify_user" jdbcType="VARCHAR" property="modifyUser" />
+    <result column="cont_version" jdbcType="INTEGER" property="contVersion" />
+    <result column="cont_state" jdbcType="VARCHAR" property="contState" />
+    <result column="cont_modify_reason" jdbcType="VARCHAR" property="contModifyReason" />
+  </resultMap>
+
+  <sql id="Base_Column_List">
+    id,art_id,cont_html,cont_text,create_time,modify_time,create_username,create_user,modify_username,modify_user,cont_version,cont_state,cont_modify_reason
+  </sql>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from cms_article_content
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from cms_article_content
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insert" parameterType="com.silverbullet.cms.domain.CmsArticleContent">
+    insert into cms_article_content (id,art_id,cont_html,cont_text,create_time,modify_time,create_username,create_user,modify_username,modify_user,cont_version,cont_state,cont_modify_reason)
+    values (#{id,jdbcType=VARCHAR},#{artId,jdbcType=VARCHAR},#{contHtml,jdbcType=VARCHAR},#{contText,jdbcType=VARCHAR},#{createTime,jdbcType=TIMESTAMP},#{modifyTime,jdbcType=TIMESTAMP},#{createUsername,jdbcType=VARCHAR},#{createUser,jdbcType=VARCHAR},#{modifyUsername,jdbcType=VARCHAR},#{modifyUser,jdbcType=VARCHAR},#{contVersion,jdbcType=INTEGER},#{contState,jdbcType=VARCHAR},#{contModifyReason,jdbcType=VARCHAR})
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.silverbullet.cms.domain.CmsArticleContent">
+    insert into cms_article_content
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+
+        <if test="id != null">
+               id ,
+        </if>
+        <if test="artId != null">
+               art_id ,
+        </if>
+        <if test="contHtml != null">
+               cont_html ,
+        </if>
+        <if test="contText != null">
+               cont_text ,
+        </if>
+        <if test="createTime != null">
+               create_time ,
+        </if>
+        <if test="modifyTime != null">
+               modify_time ,
+        </if>
+        <if test="createUsername != null">
+               create_username ,
+        </if>
+        <if test="createUser != null">
+               create_user ,
+        </if>
+        <if test="modifyUsername != null">
+               modify_username ,
+        </if>
+        <if test="modifyUser != null">
+               modify_user ,
+        </if>
+        <if test="contVersion != null">
+               cont_version ,
+        </if>
+        <if test="contState != null">
+               cont_state ,
+        </if>
+        <if test="contModifyReason != null">
+               cont_modify_reason ,
+        </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+        <if test="id != null">
+            #{id,jdbcType=VARCHAR},
+         </if>
+        <if test="artId != null">
+            #{artId,jdbcType=VARCHAR},
+         </if>
+        <if test="contHtml != null">
+            #{contHtml,jdbcType=VARCHAR},
+         </if>
+        <if test="contText != null">
+            #{contText,jdbcType=VARCHAR},
+         </if>
+        <if test="createTime != null">
+            #{createTime,jdbcType=TIMESTAMP},
+         </if>
+        <if test="modifyTime != null">
+            #{modifyTime,jdbcType=TIMESTAMP},
+         </if>
+        <if test="createUsername != null">
+            #{createUsername,jdbcType=VARCHAR},
+         </if>
+        <if test="createUser != null">
+            #{createUser,jdbcType=VARCHAR},
+         </if>
+        <if test="modifyUsername != null">
+            #{modifyUsername,jdbcType=VARCHAR},
+         </if>
+        <if test="modifyUser != null">
+            #{modifyUser,jdbcType=VARCHAR},
+         </if>
+        <if test="contVersion != null">
+            #{contVersion,jdbcType=INTEGER},
+         </if>
+        <if test="contState != null">
+            #{contState,jdbcType=VARCHAR},
+         </if>
+        <if test="contModifyReason != null">
+            #{contModifyReason,jdbcType=VARCHAR},
+         </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.silverbullet.cms.domain.CmsArticleContent">
+    update cms_article_content
+    <set>
+        <if test="id != null">
+         id = #{id,jdbcType=VARCHAR},
+        </if>
+        <if test="artId != null">
+         art_id = #{artId,jdbcType=VARCHAR},
+        </if>
+        <if test="contHtml != null">
+         cont_html = #{contHtml,jdbcType=VARCHAR},
+        </if>
+        <if test="contText != null">
+         cont_text = #{contText,jdbcType=VARCHAR},
+        </if>
+        <if test="createTime != null">
+         create_time = #{createTime,jdbcType=TIMESTAMP},
+        </if>
+        <if test="modifyTime != null">
+         modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+        </if>
+        <if test="createUsername != null">
+         create_username = #{createUsername,jdbcType=VARCHAR},
+        </if>
+        <if test="createUser != null">
+         create_user = #{createUser,jdbcType=VARCHAR},
+        </if>
+        <if test="modifyUsername != null">
+         modify_username = #{modifyUsername,jdbcType=VARCHAR},
+        </if>
+        <if test="modifyUser != null">
+         modify_user = #{modifyUser,jdbcType=VARCHAR},
+        </if>
+        <if test="contVersion != null">
+         cont_version = #{contVersion,jdbcType=INTEGER},
+        </if>
+        <if test="contState != null">
+         cont_state = #{contState,jdbcType=VARCHAR},
+        </if>
+        <if test="contModifyReason != null">
+         cont_modify_reason = #{contModifyReason,jdbcType=VARCHAR},
+        </if>
+    </set>
+     where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="com.silverbullet.cms.domain.CmsArticleContent">
+
+    update cms_article_content
+    set id = #{id,jdbcType=VARCHAR},art_id = #{artId,jdbcType=VARCHAR},cont_html = #{contHtml,jdbcType=VARCHAR},cont_text = #{contText,jdbcType=VARCHAR},create_time = #{createTime,jdbcType=TIMESTAMP},modify_time = #{modifyTime,jdbcType=TIMESTAMP},create_username = #{createUsername,jdbcType=VARCHAR},create_user = #{createUser,jdbcType=VARCHAR},modify_username = #{modifyUsername,jdbcType=VARCHAR},modify_user = #{modifyUser,jdbcType=VARCHAR},cont_version = #{contVersion,jdbcType=INTEGER},cont_state = #{contState,jdbcType=VARCHAR},cont_modify_reason = #{contModifyReason,jdbcType=VARCHAR}
+     where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <select id="findList" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from cms_article_content
+  </select>
+
+  <select id="countNum" resultType="Integer">
+    select count(*) from cms_article_content
+  </select>
+
+</mapper>

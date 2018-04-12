@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.silverbullet.cms.dao.CmsArticleRunBehaviorMapper">
+  <resultMap id="BaseResultMap" type="com.silverbullet.cms.domain.CmsArticleRunBehavior">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="visit_num" jdbcType="INTEGER" property="visitNum" />
+    <result column="hot_num" jdbcType="INTEGER" property="hotNum" />
+    <result column="last_visit_time" jdbcType="TIMESTAMP" property="lastVisitTime" />
+    <result column="prais_yes" jdbcType="INTEGER" property="praisYes" />
+    <result column="prais_no" jdbcType="INTEGER" property="praisNo" />
+    <result column="comment_num" jdbcType="INTEGER" property="commentNum" />
+  </resultMap>
+
+  <sql id="Base_Column_List">
+    id,visit_num,hot_num,last_visit_time,prais_yes,prais_no,comment_num
+  </sql>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from cms_article_run_behavior
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from cms_article_run_behavior
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insert" parameterType="com.silverbullet.cms.domain.CmsArticleRunBehavior">
+    insert into cms_article_run_behavior (id,visit_num,hot_num,last_visit_time,prais_yes,prais_no,comment_num)
+    values (#{id,jdbcType=VARCHAR},#{visitNum,jdbcType=INTEGER},#{hotNum,jdbcType=INTEGER},#{lastVisitTime,jdbcType=TIMESTAMP},#{praisYes,jdbcType=INTEGER},#{praisNo,jdbcType=INTEGER},#{commentNum,jdbcType=INTEGER})
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.silverbullet.cms.domain.CmsArticleRunBehavior">
+    insert into cms_article_run_behavior
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+
+        <if test="id != null">
+               id ,
+        </if>
+        <if test="visitNum != null">
+               visit_num ,
+        </if>
+        <if test="hotNum != null">
+               hot_num ,
+        </if>
+        <if test="lastVisitTime != null">
+               last_visit_time ,
+        </if>
+        <if test="praisYes != null">
+               prais_yes ,
+        </if>
+        <if test="praisNo != null">
+               prais_no ,
+        </if>
+        <if test="commentNum != null">
+               comment_num ,
+        </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+        <if test="id != null">
+            #{id,jdbcType=VARCHAR},
+         </if>
+        <if test="visitNum != null">
+            #{visitNum,jdbcType=INTEGER},
+         </if>
+        <if test="hotNum != null">
+            #{hotNum,jdbcType=INTEGER},
+         </if>
+        <if test="lastVisitTime != null">
+            #{lastVisitTime,jdbcType=TIMESTAMP},
+         </if>
+        <if test="praisYes != null">
+            #{praisYes,jdbcType=INTEGER},
+         </if>
+        <if test="praisNo != null">
+            #{praisNo,jdbcType=INTEGER},
+         </if>
+        <if test="commentNum != null">
+            #{commentNum,jdbcType=INTEGER},
+         </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.silverbullet.cms.domain.CmsArticleRunBehavior">
+    update cms_article_run_behavior
+    <set>
+        <if test="id != null">
+         id = #{id,jdbcType=VARCHAR},
+        </if>
+        <if test="visitNum != null">
+         visit_num = #{visitNum,jdbcType=INTEGER},
+        </if>
+        <if test="hotNum != null">
+         hot_num = #{hotNum,jdbcType=INTEGER},
+        </if>
+        <if test="lastVisitTime != null">
+         last_visit_time = #{lastVisitTime,jdbcType=TIMESTAMP},
+        </if>
+        <if test="praisYes != null">
+         prais_yes = #{praisYes,jdbcType=INTEGER},
+        </if>
+        <if test="praisNo != null">
+         prais_no = #{praisNo,jdbcType=INTEGER},
+        </if>
+        <if test="commentNum != null">
+         comment_num = #{commentNum,jdbcType=INTEGER},
+        </if>
+    </set>
+     where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="com.silverbullet.cms.domain.CmsArticleRunBehavior">
+
+    update cms_article_run_behavior
+    set id = #{id,jdbcType=VARCHAR},visit_num = #{visitNum,jdbcType=INTEGER},hot_num = #{hotNum,jdbcType=INTEGER},last_visit_time = #{lastVisitTime,jdbcType=TIMESTAMP},prais_yes = #{praisYes,jdbcType=INTEGER},prais_no = #{praisNo,jdbcType=INTEGER},comment_num = #{commentNum,jdbcType=INTEGER}
+     where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <select id="findList" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from cms_article_run_behavior
+  </select>
+
+  <select id="countNum" resultType="Integer">
+    select count(*) from cms_article_run_behavior
+  </select>
+
+</mapper>

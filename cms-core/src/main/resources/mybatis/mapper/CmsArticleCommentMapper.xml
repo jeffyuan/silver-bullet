@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.silverbullet.cms.dao.CmsArticleCommentMapper">
+  <resultMap id="BaseResultMap" type="com.silverbullet.cms.domain.CmsArticleComment">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="module" jdbcType="VARCHAR" property="module" />
+    <result column="module_filter_key" jdbcType="VARCHAR" property="moduleFilterKey" />
+    <result column="content" jdbcType="VARCHAR" property="content" />
+    <result column="content_html" jdbcType="VARCHAR" property="contentHtml" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="create_username" jdbcType="VARCHAR" property="createUsername" />
+    <result column="create_user" jdbcType="VARCHAR" property="createUser" />
+    <result column="prais_yes" jdbcType="INTEGER" property="praisYes" />
+    <result column="prais_no" jdbcType="INTEGER" property="praisNo" />
+    <result column="adopt" jdbcType="CHAR" property="adopt" />
+  </resultMap>
+
+  <sql id="Base_Column_List">
+    id,module,module_filter_key,content,content_html,create_time,create_username,create_user,prais_yes,prais_no,adopt
+  </sql>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from cms_article_comment
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from cms_article_comment
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insert" parameterType="com.silverbullet.cms.domain.CmsArticleComment">
+    insert into cms_article_comment (id,module,module_filter_key,content,content_html,create_time,create_username,create_user,prais_yes,prais_no,adopt)
+    values (#{id,jdbcType=VARCHAR},#{module,jdbcType=VARCHAR},#{moduleFilterKey,jdbcType=VARCHAR},#{content,jdbcType=VARCHAR},#{contentHtml,jdbcType=VARCHAR},#{createTime,jdbcType=TIMESTAMP},#{createUsername,jdbcType=VARCHAR},#{createUser,jdbcType=VARCHAR},#{praisYes,jdbcType=INTEGER},#{praisNo,jdbcType=INTEGER},#{adopt,jdbcType=CHAR})
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.silverbullet.cms.domain.CmsArticleComment">
+    insert into cms_article_comment
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+
+        <if test="id != null">
+               id ,
+        </if>
+        <if test="module != null">
+               module ,
+        </if>
+        <if test="moduleFilterKey != null">
+               module_filter_key ,
+        </if>
+        <if test="content != null">
+               content ,
+        </if>
+        <if test="contentHtml != null">
+               content_html ,
+        </if>
+        <if test="createTime != null">
+               create_time ,
+        </if>
+        <if test="createUsername != null">
+               create_username ,
+        </if>
+        <if test="createUser != null">
+               create_user ,
+        </if>
+        <if test="praisYes != null">
+               prais_yes ,
+        </if>
+        <if test="praisNo != null">
+               prais_no ,
+        </if>
+        <if test="adopt != null">
+               adopt ,
+        </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+        <if test="id != null">
+            #{id,jdbcType=VARCHAR},
+         </if>
+        <if test="module != null">
+            #{module,jdbcType=VARCHAR},
+         </if>
+        <if test="moduleFilterKey != null">
+            #{moduleFilterKey,jdbcType=VARCHAR},
+         </if>
+        <if test="content != null">
+            #{content,jdbcType=VARCHAR},
+         </if>
+        <if test="contentHtml != null">
+            #{contentHtml,jdbcType=VARCHAR},
+         </if>
+        <if test="createTime != null">
+            #{createTime,jdbcType=TIMESTAMP},
+         </if>
+        <if test="createUsername != null">
+            #{createUsername,jdbcType=VARCHAR},
+         </if>
+        <if test="createUser != null">
+            #{createUser,jdbcType=VARCHAR},
+         </if>
+        <if test="praisYes != null">
+            #{praisYes,jdbcType=INTEGER},
+         </if>
+        <if test="praisNo != null">
+            #{praisNo,jdbcType=INTEGER},
+         </if>
+        <if test="adopt != null">
+            #{adopt,jdbcType=CHAR},
+         </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.silverbullet.cms.domain.CmsArticleComment">
+    update cms_article_comment
+    <set>
+        <if test="id != null">
+         id = #{id,jdbcType=VARCHAR},
+        </if>
+        <if test="module != null">
+         module = #{module,jdbcType=VARCHAR},
+        </if>
+        <if test="moduleFilterKey != null">
+         module_filter_key = #{moduleFilterKey,jdbcType=VARCHAR},
+        </if>
+        <if test="content != null">
+         content = #{content,jdbcType=VARCHAR},
+        </if>
+        <if test="contentHtml != null">
+         content_html = #{contentHtml,jdbcType=VARCHAR},
+        </if>
+        <if test="createTime != null">
+         create_time = #{createTime,jdbcType=TIMESTAMP},
+        </if>
+        <if test="createUsername != null">
+         create_username = #{createUsername,jdbcType=VARCHAR},
+        </if>
+        <if test="createUser != null">
+         create_user = #{createUser,jdbcType=VARCHAR},
+        </if>
+        <if test="praisYes != null">
+         prais_yes = #{praisYes,jdbcType=INTEGER},
+        </if>
+        <if test="praisNo != null">
+         prais_no = #{praisNo,jdbcType=INTEGER},
+        </if>
+        <if test="adopt != null">
+         adopt = #{adopt,jdbcType=CHAR},
+        </if>
+    </set>
+     where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="com.silverbullet.cms.domain.CmsArticleComment">
+
+    update cms_article_comment
+    set id = #{id,jdbcType=VARCHAR},module = #{module,jdbcType=VARCHAR},module_filter_key = #{moduleFilterKey,jdbcType=VARCHAR},content = #{content,jdbcType=VARCHAR},content_html = #{contentHtml,jdbcType=VARCHAR},create_time = #{createTime,jdbcType=TIMESTAMP},create_username = #{createUsername,jdbcType=VARCHAR},create_user = #{createUser,jdbcType=VARCHAR},prais_yes = #{praisYes,jdbcType=INTEGER},prais_no = #{praisNo,jdbcType=INTEGER},adopt = #{adopt,jdbcType=CHAR}
+     where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <select id="findList" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from cms_article_comment
+  </select>
+
+  <select id="countNum" resultType="Integer">
+    select count(*) from cms_article_comment
+  </select>
+
+</mapper>

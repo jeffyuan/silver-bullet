@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.silverbullet.cms.dao.CmsArticleFileMapper">
+  <resultMap id="BaseResultMap" type="com.silverbullet.cms.domain.CmsArticleFile">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="file_url" jdbcType="VARCHAR" property="fileUrl" />
+    <result column="file_url_short" jdbcType="VARCHAR" property="fileUrlShort" />
+    <result column="file_type" jdbcType="CHAR" property="fileType" />
+    <result column="file_name" jdbcType="VARCHAR" property="fileName" />
+    <result column="file_exname" jdbcType="VARCHAR" property="fileExname" />
+    <result column="file_len" jdbcType="FLOAT" property="fileLen" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="modify_time" jdbcType="TIMESTAMP" property="modifyTime" />
+    <result column="create_username" jdbcType="VARCHAR" property="createUsername" />
+    <result column="create_user" jdbcType="VARCHAR" property="createUser" />
+    <result column="modify_username" jdbcType="VARCHAR" property="modifyUsername" />
+    <result column="modify_user" jdbcType="VARCHAR" property="modifyUser" />
+    <result column="page_num" jdbcType="INTEGER" property="pageNum" />
+    <result column="cont_text" jdbcType="VARCHAR" property="contText" />
+    <result column="cont_modify_reason" jdbcType="VARCHAR" property="contModifyReason" />
+    <result column="cont_version" jdbcType="INTEGER" property="contVersion" />
+  </resultMap>
+
+  <sql id="Base_Column_List">
+    id,file_url,file_url_short,file_type,file_name,file_exname,file_len,create_time,modify_time,create_username,create_user,modify_username,modify_user,page_num,cont_text,cont_modify_reason,cont_version
+  </sql>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from cms_article_file
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from cms_article_file
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insert" parameterType="com.silverbullet.cms.domain.CmsArticleFile">
+    insert into cms_article_file (id,file_url,file_url_short,file_type,file_name,file_exname,file_len,create_time,modify_time,create_username,create_user,modify_username,modify_user,page_num,cont_text,cont_modify_reason,cont_version)
+    values (#{id,jdbcType=VARCHAR},#{fileUrl,jdbcType=VARCHAR},#{fileUrlShort,jdbcType=VARCHAR},#{fileType,jdbcType=CHAR},#{fileName,jdbcType=VARCHAR},#{fileExname,jdbcType=VARCHAR},#{fileLen,jdbcType=FLOAT},#{createTime,jdbcType=TIMESTAMP},#{modifyTime,jdbcType=TIMESTAMP},#{createUsername,jdbcType=VARCHAR},#{createUser,jdbcType=VARCHAR},#{modifyUsername,jdbcType=VARCHAR},#{modifyUser,jdbcType=VARCHAR},#{pageNum,jdbcType=INTEGER},#{contText,jdbcType=VARCHAR},#{contModifyReason,jdbcType=VARCHAR},#{contVersion,jdbcType=INTEGER})
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.silverbullet.cms.domain.CmsArticleFile">
+    insert into cms_article_file
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+
+        <if test="id != null">
+               id ,
+        </if>
+        <if test="fileUrl != null">
+               file_url ,
+        </if>
+        <if test="fileUrlShort != null">
+               file_url_short ,
+        </if>
+        <if test="fileType != null">
+               file_type ,
+        </if>
+        <if test="fileName != null">
+               file_name ,
+        </if>
+        <if test="fileExname != null">
+               file_exname ,
+        </if>
+        <if test="fileLen != null">
+               file_len ,
+        </if>
+        <if test="createTime != null">
+               create_time ,
+        </if>
+        <if test="modifyTime != null">
+               modify_time ,
+        </if>
+        <if test="createUsername != null">
+               create_username ,
+        </if>
+        <if test="createUser != null">
+               create_user ,
+        </if>
+        <if test="modifyUsername != null">
+               modify_username ,
+        </if>
+        <if test="modifyUser != null">
+               modify_user ,
+        </if>
+        <if test="pageNum != null">
+               page_num ,
+        </if>
+        <if test="contText != null">
+               cont_text ,
+        </if>
+        <if test="contModifyReason != null">
+               cont_modify_reason ,
+        </if>
+        <if test="contVersion != null">
+               cont_version ,
+        </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+        <if test="id != null">
+            #{id,jdbcType=VARCHAR},
+         </if>
+        <if test="fileUrl != null">
+            #{fileUrl,jdbcType=VARCHAR},
+         </if>
+        <if test="fileUrlShort != null">
+            #{fileUrlShort,jdbcType=VARCHAR},
+         </if>
+        <if test="fileType != null">
+            #{fileType,jdbcType=CHAR},
+         </if>
+        <if test="fileName != null">
+            #{fileName,jdbcType=VARCHAR},
+         </if>
+        <if test="fileExname != null">
+            #{fileExname,jdbcType=VARCHAR},
+         </if>
+        <if test="fileLen != null">
+            #{fileLen,jdbcType=FLOAT},
+         </if>
+        <if test="createTime != null">
+            #{createTime,jdbcType=TIMESTAMP},
+         </if>
+        <if test="modifyTime != null">
+            #{modifyTime,jdbcType=TIMESTAMP},
+         </if>
+        <if test="createUsername != null">
+            #{createUsername,jdbcType=VARCHAR},
+         </if>
+        <if test="createUser != null">
+            #{createUser,jdbcType=VARCHAR},
+         </if>
+        <if test="modifyUsername != null">
+            #{modifyUsername,jdbcType=VARCHAR},
+         </if>
+        <if test="modifyUser != null">
+            #{modifyUser,jdbcType=VARCHAR},
+         </if>
+        <if test="pageNum != null">
+            #{pageNum,jdbcType=INTEGER},
+         </if>
+        <if test="contText != null">
+            #{contText,jdbcType=VARCHAR},
+         </if>
+        <if test="contModifyReason != null">
+            #{contModifyReason,jdbcType=VARCHAR},
+         </if>
+        <if test="contVersion != null">
+            #{contVersion,jdbcType=INTEGER},
+         </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.silverbullet.cms.domain.CmsArticleFile">
+    update cms_article_file
+    <set>
+        <if test="id != null">
+         id = #{id,jdbcType=VARCHAR},
+        </if>
+        <if test="fileUrl != null">
+         file_url = #{fileUrl,jdbcType=VARCHAR},
+        </if>
+        <if test="fileUrlShort != null">
+         file_url_short = #{fileUrlShort,jdbcType=VARCHAR},
+        </if>
+        <if test="fileType != null">
+         file_type = #{fileType,jdbcType=CHAR},
+        </if>
+        <if test="fileName != null">
+         file_name = #{fileName,jdbcType=VARCHAR},
+        </if>
+        <if test="fileExname != null">
+         file_exname = #{fileExname,jdbcType=VARCHAR},
+        </if>
+        <if test="fileLen != null">
+         file_len = #{fileLen,jdbcType=FLOAT},
+        </if>
+        <if test="createTime != null">
+         create_time = #{createTime,jdbcType=TIMESTAMP},
+        </if>
+        <if test="modifyTime != null">
+         modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+        </if>
+        <if test="createUsername != null">
+         create_username = #{createUsername,jdbcType=VARCHAR},
+        </if>
+        <if test="createUser != null">
+         create_user = #{createUser,jdbcType=VARCHAR},
+        </if>
+        <if test="modifyUsername != null">
+         modify_username = #{modifyUsername,jdbcType=VARCHAR},
+        </if>
+        <if test="modifyUser != null">
+         modify_user = #{modifyUser,jdbcType=VARCHAR},
+        </if>
+        <if test="pageNum != null">
+         page_num = #{pageNum,jdbcType=INTEGER},
+        </if>
+        <if test="contText != null">
+         cont_text = #{contText,jdbcType=VARCHAR},
+        </if>
+        <if test="contModifyReason != null">
+         cont_modify_reason = #{contModifyReason,jdbcType=VARCHAR},
+        </if>
+        <if test="contVersion != null">
+         cont_version = #{contVersion,jdbcType=INTEGER},
+        </if>
+    </set>
+     where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="com.silverbullet.cms.domain.CmsArticleFile">
+
+    update cms_article_file
+    set id = #{id,jdbcType=VARCHAR},file_url = #{fileUrl,jdbcType=VARCHAR},file_url_short = #{fileUrlShort,jdbcType=VARCHAR},file_type = #{fileType,jdbcType=CHAR},file_name = #{fileName,jdbcType=VARCHAR},file_exname = #{fileExname,jdbcType=VARCHAR},file_len = #{fileLen,jdbcType=FLOAT},create_time = #{createTime,jdbcType=TIMESTAMP},modify_time = #{modifyTime,jdbcType=TIMESTAMP},create_username = #{createUsername,jdbcType=VARCHAR},create_user = #{createUser,jdbcType=VARCHAR},modify_username = #{modifyUsername,jdbcType=VARCHAR},modify_user = #{modifyUser,jdbcType=VARCHAR},page_num = #{pageNum,jdbcType=INTEGER},cont_text = #{contText,jdbcType=VARCHAR},cont_modify_reason = #{contModifyReason,jdbcType=VARCHAR},cont_version = #{contVersion,jdbcType=INTEGER}
+     where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <select id="findList" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from cms_article_file
+  </select>
+
+  <select id="countNum" resultType="Integer">
+    select count(*) from cms_article_file
+  </select>
+
+</mapper>

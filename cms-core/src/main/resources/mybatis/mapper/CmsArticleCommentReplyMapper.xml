@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.silverbullet.cms.dao.CmsArticleCommentReplyMapper">
+  <resultMap id="BaseResultMap" type="com.silverbullet.cms.domain.CmsArticleCommentReply">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="comment_id" jdbcType="VARCHAR" property="commentId" />
+    <result column="content" jdbcType="VARCHAR" property="content" />
+    <result column="create_user" jdbcType="VARCHAR" property="createUser" />
+    <result column="create_username" jdbcType="VARCHAR" property="createUsername" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+  </resultMap>
+
+  <sql id="Base_Column_List">
+    id,comment_id,content,create_user,create_username,create_time
+  </sql>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from cms_article_comment_reply
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from cms_article_comment_reply
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insert" parameterType="com.silverbullet.cms.domain.CmsArticleCommentReply">
+    insert into cms_article_comment_reply (id,comment_id,content,create_user,create_username,create_time)
+    values (#{id,jdbcType=VARCHAR},#{commentId,jdbcType=VARCHAR},#{content,jdbcType=VARCHAR},#{createUser,jdbcType=VARCHAR},#{createUsername,jdbcType=VARCHAR},#{createTime,jdbcType=TIMESTAMP})
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.silverbullet.cms.domain.CmsArticleCommentReply">
+    insert into cms_article_comment_reply
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+
+        <if test="id != null">
+               id ,
+        </if>
+        <if test="commentId != null">
+               comment_id ,
+        </if>
+        <if test="content != null">
+               content ,
+        </if>
+        <if test="createUser != null">
+               create_user ,
+        </if>
+        <if test="createUsername != null">
+               create_username ,
+        </if>
+        <if test="createTime != null">
+               create_time ,
+        </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+        <if test="id != null">
+            #{id,jdbcType=VARCHAR},
+         </if>
+        <if test="commentId != null">
+            #{commentId,jdbcType=VARCHAR},
+         </if>
+        <if test="content != null">
+            #{content,jdbcType=VARCHAR},
+         </if>
+        <if test="createUser != null">
+            #{createUser,jdbcType=VARCHAR},
+         </if>
+        <if test="createUsername != null">
+            #{createUsername,jdbcType=VARCHAR},
+         </if>
+        <if test="createTime != null">
+            #{createTime,jdbcType=TIMESTAMP},
+         </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.silverbullet.cms.domain.CmsArticleCommentReply">
+    update cms_article_comment_reply
+    <set>
+        <if test="id != null">
+         id = #{id,jdbcType=VARCHAR},
+        </if>
+        <if test="commentId != null">
+         comment_id = #{commentId,jdbcType=VARCHAR},
+        </if>
+        <if test="content != null">
+         content = #{content,jdbcType=VARCHAR},
+        </if>
+        <if test="createUser != null">
+         create_user = #{createUser,jdbcType=VARCHAR},
+        </if>
+        <if test="createUsername != null">
+         create_username = #{createUsername,jdbcType=VARCHAR},
+        </if>
+        <if test="createTime != null">
+         create_time = #{createTime,jdbcType=TIMESTAMP},
+        </if>
+    </set>
+     where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="com.silverbullet.cms.domain.CmsArticleCommentReply">
+
+    update cms_article_comment_reply
+    set id = #{id,jdbcType=VARCHAR},comment_id = #{commentId,jdbcType=VARCHAR},content = #{content,jdbcType=VARCHAR},create_user = #{createUser,jdbcType=VARCHAR},create_username = #{createUsername,jdbcType=VARCHAR},create_time = #{createTime,jdbcType=TIMESTAMP}
+     where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <select id="findList" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from cms_article_comment_reply
+  </select>
+
+  <select id="countNum" resultType="Integer">
+    select count(*) from cms_article_comment_reply
+  </select>
+
+</mapper>
