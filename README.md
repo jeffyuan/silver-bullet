@@ -4,7 +4,8 @@
 
 本系统工程采用maven进行代码管理
 >silver-bullet
->>amain　　　　　　　　　//存放WEB部分内容<br> 
+>>amain　　　　　　　　　//存放WEB部分内容<br>
+>>cms-app　　　　　　　　//通用文章管理的应用服务
 >>cms-core　　　　　　　//通用的文章管理core，包括对文件的管理、文章类别管理，包括评论、回复<br> 
 >>code-generator　　　　//基于mybatic的代码自动生成<br> 
 >>doc　　　　　　　　　　//文档<br> 
@@ -18,6 +19,31 @@
 
 
 # 操作手册
+## code-generator
+>配置工作
+```java
+String moduleName = "cms-core";      // 子工程名称
+String prjPackage = "silverbullet";  // 工程的名称，一般为com下面的包名，例如com.silverbullet
+String modulePackage = "cms";       // 模块名称，一般为com.silverbullet下面的子包名，例如com.silverbullet.auth
+
+>填写业务表的信息
+List<TableConfig> listTables = new ArrayList<TableConfig>();
+
+>>业务信息两类，第一类实体业务，这一类会生成完整管理模块，包括controller、service、mapper、domain、view、js等
+例如：
+listTables.add(new TableConfig("cms_article_typetree", "CmsArticleTypetree", "文章类别", false));//表名，domain类名，用途
+
+>>第二类为关系类，这一类将生成mapper、dao和domain
+例如：
+listTables.add(new TableConfig("cms_rf_article_file", "CmsRfArticleFile", "文章附件表", true));
+```
+
+>执行代码
+```java
+CodeGenerator codeGenerator = new CodeGenerator();
+codeGenerator.codeGeneratorOwn();
+```
+
 ## sys-core
 >SpringUtil类，用于动态获取spring bean的类
 ```java

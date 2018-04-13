@@ -44,7 +44,7 @@
 		</dependency>
 		<dependency>
 			<groupId>com.silverbullet</groupId>
-			<artifactId>cms-core</artifactId>
+			<artifactId>cms-app</artifactId>
 			<version>1.0-SNAPSHOT</version>
 		</dependency>
 		<!--<dependency>-->

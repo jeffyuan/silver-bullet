@@ -19,6 +19,7 @@
         <module>cms-core</module>
         <module>sys-message</module>
         <module>sys-params</module>
+        <module>cms-app</module>
     </modules>
 
     <parent>
