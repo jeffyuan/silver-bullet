@@ -198,4 +198,8 @@
     select count(*) from cms_article_typetree
   </select>
 
+    <select id="findArticleTypeByModule" parameterType="java.util.HashMap" resultType="java.util.Map">
+        select id,name,sort,parent_id, path, type, comments from cms_article_typetree
+        where module = #{moduleName} AND domain = #{domain} AND parent_id=#{parentId} ORDER BY length(path), sort ASC
+    </select>
 </mapper>

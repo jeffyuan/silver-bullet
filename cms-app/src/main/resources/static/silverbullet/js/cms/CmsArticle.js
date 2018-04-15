@@ -1,24 +1,24 @@
 /**
  * Created by jeffyuan on 2018/3/21.
  */
-var Ztest = {
-    'url': 'ztest/systest/'
+var Cms = {
+    'url': 'cms/cmsarticle/'
 };
-Ztest.ctxPath = $(".logo").attr('href');
+Cms.ctxPath = $(".logo").attr('href');
 
 /**
  * 获取编辑和保存的子html内容
  * @param url 后台访问地址
- * @param uid 数据id
+ * @param params 参数
  * @returns {string}
  */
-Ztest.getHtmlInfo = function(url, uid){
+Cms.getHtmlInfo = function(url, params){
     var dialogInfo = '';
     $.ajax({
         type: "post",
         url: url,
         async: false,
-        data: {"id":uid},
+        data: params,
         dataType: 'html',
         success: function (data) {
             dialogInfo = data.replace(/\r|\n/g,"");
@@ -29,10 +29,24 @@ Ztest.getHtmlInfo = function(url, uid){
 };
 
 /**
+ * 加载页面
+ * @param obj
+ * @param action url地址
+ * @param curpage 当前页
+ * @returns {boolean}
+ */
+Cms.loadData = function(obj, action, curpage) {
+    var dialogInfo = Cms.getHtmlInfo(action, {"curpage" : curpage});
+    dialogInfo += "<script>Cms.checkboxInit();</script>";
+    $("#data-list-content").html(dialogInfo);
+    return true;
+};
+
+/**
  * 表格头部添加方法
  */
-Ztest.add = function() {
-    var dialogInfo = Ztest.getHtmlInfo(Ztest.ctxPath + Ztest.url + 'add.html', '');
+Cms.add = function() {
+    var dialogInfo = Cms.getHtmlInfo(Cms.ctxPath + Cms.url + 'add.html', '');
     BootstrapDialog.show({
         title: '添加',
         closable: true,
@@ -50,7 +64,7 @@ Ztest.add = function() {
                 $("#msg").text("");
 
                 // 保存
-                Ztest.save(Ztest.ctxPath + Ztest.url + 'save.do', dialogItself);
+                Cms.save(Cms.ctxPath + Cms.url + 'save.do', dialogItself);
             }
         }, {
             label: '关闭',
@@ -67,11 +81,11 @@ Ztest.add = function() {
  * @param url
  * @param dialogItself
  */
-Ztest.save = function(url, dialogItself) {
+Cms.save = function(url, dialogItself) {
     $.ajax({
         type: "post",
         url: url,
-        data: $("#formZtest").serialize(),
+        data: $("#formCms").serialize(),
         dataType: "json",
         success: function(data) {
             if (data.result == true) {
@@ -83,7 +97,8 @@ Ztest.save = function(url, dialogItself) {
                 });
                 dialogItself.close();
                 // 刷新页面
-                window.location.reload();
+
+                Cms.loadData(null, Cms.ctxPath + Cms.url + 'list.html', 1);
             } else {
                 if (data.errors != null) {
                     // 错误信息反馈到页面上
@@ -101,16 +116,16 @@ Ztest.save = function(url, dialogItself) {
 /**
  * 表格中编辑按钮
  */
-Ztest.editOne = function(obj) {
+Cms.editOne = function(obj) {
 
     var uid = $(obj).parent().parent().attr("data-u");
-    Ztest.editCommon(uid);
+    Cms.editCommon(uid);
 };
 
 /**
  * 表格头部编辑按钮，只能编辑一条记录
  */
-Ztest.edit = function() {
+Cms.edit = function() {
     var arrays = [];
     $("div[aria-checked='true']").each(function(){
         arrays.push($(this).parent().parent().attr('data-u'));
@@ -126,17 +141,17 @@ Ztest.edit = function() {
         return ;
     }
 
-    Ztest.editCommon(arrays[0]);
+    Cms.editCommon(arrays[0]);
 };
 
 /**
  * 编辑通用方法
  * @param uid 编辑的一个id
  */
-Ztest.editCommon = function(uid) {
-    var dialogInfo = Ztest.getHtmlInfo(Ztest.ctxPath + Ztest.url + 'edit.html', uid);
+Cms.editCommon = function(uid) {
+    var dialogInfo = Cms.getHtmlInfo(Cms.ctxPath + Cms.url + 'edit.html', uid);
     BootstrapDialog.show({
-        title: '编辑字典',
+        title: '编辑文章',
         closable: true,
         closeByBackdrop: false,
         closeByKeyboard: false,
@@ -152,7 +167,7 @@ Ztest.editCommon = function(uid) {
                 $("#msg").text("");
 
                 // 保存
-                Ztest.save(Ztest.ctxPath + Ztest.url + 'save.do', dialogItself);
+                Cms.save(Cms.ctxPath + Cms.url + 'save.do', dialogItself);
             }
         }, {
             label: '关闭',
@@ -167,7 +182,7 @@ Ztest.editCommon = function(uid) {
 /**
  * 表格头部，统一删除按钮
  */
-Ztest.delete = function() {
+Cms.delete = function() {
     var arrays = [];
     $("div[aria-checked='true']").each(function(){
         arrays.push($(this).parent().parent().attr('data-u'));
@@ -183,22 +198,22 @@ Ztest.delete = function() {
         return ;
     }
     var ids = arrays.join(",");
-    Ztest.deleteCommon(ids);
+    Cms.deleteCommon(ids);
 };
 
 /**
  * 表格中删除一条数据
  */
-Ztest.deleteOne = function(obj) {
+Cms.deleteOne = function(obj) {
     var uid = $(obj).parent().parent().attr("data-u");
-    Ztest.deleteCommon(uid);
+    Cms.deleteCommon(uid);
 };
 
 /**
  * 删除通用该方法
  * @param ids 以,号分割的字符串
  */
-Ztest.deleteCommon = function(ids) {
+Cms.deleteCommon = function(ids) {
     BootstrapDialog.confirm({
         title: '删除提示',
         message: '是否确定删除?',
@@ -212,7 +227,7 @@ Ztest.deleteCommon = function(ids) {
             if (result) {
                 $.ajax({
                     type: "POST",
-                    url: Ztest.ctxPath + Ztest.url + "delete.do",
+                    url: Cms.ctxPath + Cms.url + "delete.do",
                     data: { ids: ids },
                     dataType: "json",
                     success: function (data) {
@@ -240,9 +255,8 @@ Ztest.deleteCommon = function(ids) {
     });
 };
 
-$(function () {
-
-    $('.data-table-list input[type="checkbox"]').iCheck({
+Cms.checkboxInit = function() {
+    $('#data-list input[type="checkbox"]').iCheck({
         checkboxClass: 'icheckbox_flat-blue',
         radioClass: 'iradio_flat-blue'
     });
@@ -252,13 +266,17 @@ $(function () {
         var clicks = $(this).data('clicks');
         if (clicks) {
             //Uncheck all checkboxes
-            $(".box-body input[type='checkbox']").iCheck("uncheck");
+            $("#data-list input[type='checkbox']").iCheck("uncheck");
             $(".fa", this).removeClass("fa-check-square-o").addClass('fa-square-o');
         } else {
             //Check all checkboxes
-            $(".box-body input[type='checkbox']").iCheck("check");
+            $("#data-list input[type='checkbox']").iCheck("check");
             $(".fa", this).removeClass("fa-square-o").addClass('fa-check-square-o');
         }
         $(this).data("clicks", !clicks);
     });
+};
+
+$(function () {
+    Cms.checkboxInit();
 });

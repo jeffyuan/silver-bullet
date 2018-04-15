@@ -14,6 +14,10 @@ import org.apache.shiro.SecurityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 /**
  * 文章类别 service接口
  * Created by jeffyuan on 2018/2/11.
@@ -40,6 +44,16 @@ public class CmsArticleTypetreeService implements ICmsArticleTypetreeService {
         listResults.setTotalNum(cmsArticleTypetreeMapper.countNum());
 
         return listResults;
+    }
+
+    @Override
+    public List<Map<String, Object>> findListByModule(String moduleName, String domain, String parentId) {
+
+        HashMap<String, String> mapParams = new HashMap<String,String>();
+        mapParams.put("moduleName", moduleName);
+        mapParams.put("domain", domain);
+        mapParams.put("parentId", parentId);
+        return cmsArticleTypetreeMapper.findArticleTypeByModule(mapParams);
     }
 
     @Override
@@ -83,8 +97,9 @@ public class CmsArticleTypetreeService implements ICmsArticleTypetreeService {
     @Override
     public boolean Insert(CmsArticleTypetree cmsArticleTypetree) {
       try {
-            UserInfo userInfo = (UserInfo) SecurityUtils.getSubject().getPrincipal();
-            cmsArticleTypetree.setId(ToolUtil.getUUID());
+            if (cmsArticleTypetree.getId() == null || cmsArticleTypetree.getId().equals("")) {
+                cmsArticleTypetree.setId(ToolUtil.getUUID());
+            }
 
             return cmsArticleTypetreeMapper.insert(cmsArticleTypetree) == 1 ? true : false;
         } catch (Exception ex) {
