@@ -26,7 +26,7 @@
             </a>
             <ul class="treeview-menu">
                 @for(submenu in menu.children!) {
-                    <li><a href="${ctxPath}/${submenu.url}"><i class="fa fa-circle-o"></i> ${submenu.name}</a></li>
+                    <li><a href="${ctxPath}/${submenu.params.url}"><i class="fa fa-circle-o"></i> ${submenu.name}</a></li>
                 @}
             </ul>
         </li>

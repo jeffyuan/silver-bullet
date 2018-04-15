@@ -35,13 +35,12 @@ public class UserActionService {
             return new ArrayList<TreeNode>();
         }
 
-        List<Map<String, String>> listMenus = iSysAuthActionTreeService.getActionsByUserId(sysAuthUser.getId());
+        List<Map<String, Object>> listMenus = iSysAuthActionTreeService.getActionsByUserId(sysAuthUser.getId());
         if (listMenus == null) {
             return new ArrayList<TreeNode>();
         }
 
-        List<TreeNode> nodes = TreeNode.formatNodes2TreeNode(listMenus,"name","parent_id", "id", "url",
-                "permission","params", "icon");
+        List<TreeNode> nodes = TreeNode.formatNodes2TreeNode(listMenus,"name","parent_id", "id");
         if (nodes != null) {
             return nodes;
         }

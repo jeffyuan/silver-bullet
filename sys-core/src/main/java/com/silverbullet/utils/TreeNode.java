@@ -3,6 +3,7 @@ package com.silverbullet.utils;
 import org.apache.log4j.Logger;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -17,34 +18,19 @@ public class TreeNode implements Serializable{
 
     private String id;
     private String name;
-    private String url;
-    private String permission;
-    private String params;
-    private String icon;
-    private boolean bCheck;
+    // 子节点
     private List<TreeNode> children = new ArrayList<TreeNode>();
+    // 其他参数
+    private Map<String, Object> params = new HashMap<String, Object>();
 
     public TreeNode() {
 
     }
 
-    public TreeNode(String id, String name, String url, String permission, String params, String icon, boolean bCheck) {
+    public TreeNode(String id, String name, Map<String,Object> params) {
         this.id = id;
         this.name = name;
-        this.url = url;
-        this.permission = permission;
         this.params = params;
-        this.icon = icon;
-        this.bCheck = bCheck;
-    }
-
-    public TreeNode(String id, String name, String url, String permission, String params, String icon) {
-        this.id = id;
-        this.name = name;
-        this.url = url;
-        this.permission = permission;
-        this.params = params;
-        this.icon = icon;
     }
 
     /**
@@ -52,29 +38,23 @@ public class TreeNode implements Serializable{
      * @param listMapNodes  需要格式化的数据
      * @param parentIdKeyName parentId的Key的名称
      * @param idKeyName  id的key的名称
-     * @param urlKeyName url的key的名称
-     * @param permissionKeyName permission的key名称
-     * @param paramsKeyName params的key名称
-     * @param iconKeyName icon的key名称
      * @return
      */
-    public static List<TreeNode> formatNodes2TreeNode(List<Map<String, String>> listMapNodes, String nameKeyName,
-                                               String parentIdKeyName, String idKeyName, String urlKeyName,
-                                               String permissionKeyName, String paramsKeyName, String iconKeyName) {
+    public static List<TreeNode> formatNodes2TreeNode(List<Map<String, Object>> listMapNodes, String nameKeyName,
+                                               String parentIdKeyName, String idKeyName) {
         List<TreeNode> treeNodes = new ArrayList<TreeNode>();
 
-        for (Map<String, String> node : listMapNodes) {
+        for (Map<String, Object> node : listMapNodes) {
             if (!node.containsKey(idKeyName)) {
                 continue;
             }
 
             //创建新节点
-            TreeNode treeNode = new TreeNode(node.get(idKeyName),
-                     node.get(nameKeyName), node.get(urlKeyName), node.get(permissionKeyName),
-                    node.get(paramsKeyName),node.get(iconKeyName) );
+            TreeNode treeNode = new TreeNode(String.valueOf(node.get(idKeyName)),
+                    String.valueOf(node.get(nameKeyName)), node );
 
             // 查找新节点父位置，并插入
-            treeNodes = addNodeInit(treeNodes, node.get(parentIdKeyName), treeNode);
+            treeNodes = addNodeInit(treeNodes, String.valueOf(node.get(parentIdKeyName)), treeNode);
 
         }
 
@@ -149,22 +129,6 @@ public class TreeNode implements Serializable{
         this.name = name;
     }
 
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
-    }
-
-    public String getPermission() {
-        return permission;
-    }
-
-    public void setPermission(String permission) {
-        this.permission = permission;
-    }
-
     public List<TreeNode> getChildren() {
         return children;
     }
@@ -173,27 +137,11 @@ public class TreeNode implements Serializable{
         this.children = children;
     }
 
-    public String getParams() {
+    public Map<String, Object> getParams() {
         return params;
     }
 
-    public void setParams(String params) {
+    public void setParams(Map<String, Object> params) {
         this.params = params;
-    }
-
-    public String getIcon() {
-        return icon;
-    }
-
-    public void setIcon(String icon) {
-        this.icon = icon;
-    }
-
-    public boolean isbCheck() {
-        return bCheck;
-    }
-
-    public void setbCheck(boolean bCheck) {
-        this.bCheck = bCheck;
     }
 }

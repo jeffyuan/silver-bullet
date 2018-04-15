@@ -49,7 +49,7 @@ public class SysAuthActionTreeService implements ISysAuthActionTreeService {
      * @return
      */
     @Override
-    public List<Map<String, String>> getActionsByUserId(String userId) {
+    public List<Map<String, Object>> getActionsByUserId(String userId) {
 
         // 根据userId获取岗位信息
         List<SysAuthPost> listPosts = iSysAuthPostService.getPostList(userId);

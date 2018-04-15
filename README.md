@@ -53,7 +53,7 @@ SpringUtil.getBean(String name)
 >>例子
 ```java
 List<Map<String, String>> listMenus = iSysAuthActionTreeService.getActionsByUserId(sysAuthUser.getId());
-List<TreeNode> nodes = TreeNode.formatNodes2TreeNode(listMenus,"name","parent_id", "id", "url","permission","params", "icon");
+List<TreeNode> nodes = TreeNode.formatNodes2TreeNode(listMenus,"name","parent_id", "id");
 ```
 
 ## cms-core

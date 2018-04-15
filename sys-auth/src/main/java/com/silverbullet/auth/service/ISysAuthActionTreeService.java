@@ -14,7 +14,7 @@ import java.util.Map;
 public interface ISysAuthActionTreeService {
     public int countNum();
     public BaseDataResult<SysAuthActionTree> list(int pageNum, int pageSize);
-    public List<Map<String,String>> getActionsByUserId(String userId);
+    public List<Map<String,Object>> getActionsByUserId(String userId);
     public SysAuthActionTree getOneById(String id);
     public boolean Update(SysAuthActionTree sysAuthActionTree);
     public boolean delete(String id);
