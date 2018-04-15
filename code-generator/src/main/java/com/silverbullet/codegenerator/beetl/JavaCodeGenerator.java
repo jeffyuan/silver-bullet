@@ -255,7 +255,8 @@ public class JavaCodeGenerator {
             beetlGenerator("/template/view/model.js.btl",
                     prjResAbsolutePath + File.separator + "static" +
                             File.separator + contextConfig.getPrjPackage() + File.separator + "js" + File.separator +
-                            contextConfig.getPrjPackage() + "-" + contextConfig.getModulePackage() + ".js");
+                            contextConfig.getModulePackage() + File.separator +
+                            contextConfig.getBizEnName() + ".js");
 
         } catch (IOException e) {
             e.printStackTrace();

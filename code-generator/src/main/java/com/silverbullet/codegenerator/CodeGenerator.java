@@ -99,8 +99,17 @@ public class CodeGenerator
 
         // 填写业务表的信息
         List<TableConfig> listTables = new ArrayList<TableConfig>();
-        listTables.add(new TableConfig("test", "SysTest", "测试", false));//表名，domain类名，用途
-        //listTables.add(new TableConfig("sys_params_dictionary_item", "SysParamsDictionaryItem", "字典下的子项", true));
+        listTables.add(new TableConfig("test", "SysTest", "文章类别", false));//表名，domain类名，用途
+//        listTables.add(new TableConfig("cms_article_typetree", "CmsArticleTypetree", "文章类别", false));//表名，domain类名，用途
+//        listTables.add(new TableConfig("cms_article", "CmsArticle", "文章表", false));//表名，domain类名，用途
+//        listTables.add(new TableConfig("cms_article_comment", "CmsArticleComment", "文章评论", false));
+//
+//        listTables.add(new TableConfig("cms_article_run_behavior", "CmsArticleRunBehavior", "文章在线访问行为", true));
+//        listTables.add(new TableConfig("cms_article_content", "CmsArticleContent", "在线文章内容", true));
+//        listTables.add(new TableConfig("cms_article_comment_reply", "CmsArticleCommentReply", "文章评论回复", true));
+//        listTables.add(new TableConfig("cms_article_file", "CmsArticleFile", "文章中附件", true));
+//        listTables.add(new TableConfig("cms_article_file_history", "CmsArticleFileHistory", "文章附件历史", true));
+//        listTables.add(new TableConfig("cms_rf_article_file", "CmsRfArticleFile", "文章附件表", true));
 
         String path = System.getProperty("user.dir");
         // controller、serivce、dao文件生成的路径
@@ -145,6 +154,6 @@ public class CodeGenerator
     public static void main( String[] args ) {
 
         CodeGenerator codeGenerator = new CodeGenerator();
-        //codeGenerator.codeGeneratorOwn();
+        codeGenerator.codeGeneratorOwn();
     }
 }
