@@ -17,6 +17,6 @@ public interface ISysAuthActionTreeService {
     public List<Map<String,Object>> getActionsByUserId(String userId);
     public SysAuthActionTree getOneById(String id);
     public boolean Update(SysAuthActionTree sysAuthActionTree);
-    public boolean delete(String id);
+    public boolean delete(String ids);
     public boolean Insert(SysAuthActionTree sysAuthActionTree);
 }

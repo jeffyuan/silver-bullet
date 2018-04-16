@@ -1,0 +1,97 @@
+
+<!-- Main content -->
+<section class="content">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">组织机构管理列表</h3>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body no-padding">
+                    <div class="box-controls">
+                        <button type="button" class="btn btn-default btn-header checkbox-toggle">
+                            <i class="fa fa-square-o"></i>
+                        </button>
+                        <div class="btn-group">
+                        @if(shiro.hasPermission("auth:sysauthorganization:add")){
+                            <button name="添加" class="btn btn-default" onclick="Auth.add()">
+                                <i class="fa fa-fw fa-plus"></i>添加
+                            </button>
+                        @}
+                        @if(shiro.hasPermission("auth:sysauthorganization:edit")){
+                            <button name="修改" class="btn btn-default" onclick="Auth.edit()" space="true">
+                                <i class="fa fa-fw fa-edit"></i>修改
+                            </button>
+                        @}
+                        @if(shiro.hasPermission("auth:sysauthorganization:delete")){
+                            <button name="删除" class="btn btn-default" onclick="Auth.delete()" space="true">
+                                <i class="fa fa-fw fa-trash-o"></i>删除
+                            </button>
+                        @}
+                        </div>
+                    </div>
+                    <div class="table-responsive data-table-list">
+                        <table id="data-list" class="table table-bordered table-hover">
+                            <thead>
+                            <tr>
+                                <th></th>
+                                   <th>name</th>
+                                   <th>parentId</th>
+                                   <th>path</th>
+                                   <th>comments</th>
+                                   <th>state</th>
+                                   <th>sort</th>
+                                   <th>createUser</th>
+                                   <th>createTime</th>
+                                   <th>modifyUser</th>
+                                   <th>modifyTime</th>
+                                   <th>type</th>
+                                <th>操作</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                                <td></td>
+                            @for(var i = 0; i< results.resultList.~size; i++){
+                            <tr id="data-r${i}" data-u="${results.resultList[i].id}">
+                                <td><input type="checkbox"></td>
+                                       <td>${results.resultList[i].name}</td>
+                                       <td>${results.resultList[i].parentId}</td>
+                                       <td>${results.resultList[i].path}</td>
+                                       <td>${results.resultList[i].comments}</td>
+                                       <td>${results.resultList[i].state}</td>
+                                       <td>${results.resultList[i].sort}</td>
+                                       <td>${results.resultList[i].createUser}</td>
+                                       <td>${results.resultList[i].createTime}</td>
+                                       <td>${results.resultList[i].modifyUser}</td>
+                                       <td>${results.resultList[i].modifyTime}</td>
+                                       <td>${results.resultList[i].type}</td>
+                                <td>
+                                   @if(shiro.hasPermission("auth:sysauthorganization:edit")){
+                                   <button name="修改" class="btn btn-default btn-sm" onclick="Auth.editOne(this)" space="true">
+                                       <i class="fa fa-fw fa-edit"></i>
+                                   </button>
+                                   @}
+                                   @if(shiro.hasPermission("auth:sysauthorganization:delete")){
+                                   <button name="删除" class="btn btn-default btn-sm" onclick="Auth.deleteOne(this)" space="true">
+                                       <i class="fa fa-fw fa-trash-o"></i>
+                                   </button>
+                                   @}
+                               </td>
+                            </tr>
+                            @}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <!-- /.box-body -->
+
+                <#PageTag action="${ctxPath}/auth/sysauthorganization/list.html" totalNum="${results.totalNum}" perSize="5"
+                                        curPage="${curPage}" loadDataFunName="Auth.loadData"></#PageTag>
+            </div>
+            <!-- /.box -->
+        </div>
+        <!-- /.col -->
+    </div>
+    <!-- /.row -->
+</section>

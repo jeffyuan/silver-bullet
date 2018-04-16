@@ -1,3 +1,11 @@
+<style type="text/css">
+    .box-controls {
+        padding: 5px;
+    }
+    .btn-header {
+        height: 34px;
+    }
+</style>
 @layout("/layouts/bk-base.html") {
 <!-- Content Header (Page header) -->
 <section class="content-header">
@@ -12,60 +20,9 @@
     </ol>
 </section>
 
-<!-- Main content -->
-<section class="content">
-    <div class="row">
-        <div class="col-xs-12">
-            <div class="box">
-                <div class="box-header">
-                    <h3 class="box-title">组织机构管理列表</h3>
-                </div>
-                <!-- /.box-header -->
-                <div class="box-body">
-                    <table id="example2" class="table table-bordered table-hover">
-                        <thead>
-                        <tr>
-                               <th>id</th>
-                               <th>name</th>
-                               <th>parentId</th>
-                               <th>parentIds</th>
-                               <th>comments</th>
-                               <th>state</th>
-                               <th>sort</th>
-                               <th>createUser</th>
-                               <th>createTime</th>
-                               <th>modifyUser</th>
-                               <th>modifyTime</th>
-                               <th>type</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        @for(result in results.resultList){
-                        <tr>
-                                   <th>${result.id}</th>
-                                   <th>${result.name}</th>
-                                   <th>${result.parentId}</th>
-                                   <th>${result.parentIds}</th>
-                                   <th>${result.comments}</th>
-                                   <th>${result.state}</th>
-                                   <th>${result.sort}</th>
-                                   <th>${result.createUser}</th>
-                                   <th>${result.createTime}</th>
-                                   <th>${result.modifyUser}</th>
-                                   <th>${result.modifyTime}</th>
-                                   <th>${result.type}</th>
-                        </tr>
-                        @}
-                        </tbody>
-                    </table>
-                </div>
-                <#PageTag action="${ctxPath}/auth/sysauthorganization/list/" totalNum="${results.totalNum}" perSize="5" curPage="${curPage}"></#PageTag>
-                <!-- /.box-body -->
-            </div>
-            <!-- /.box -->
-        </div>
-        <!-- /.col -->
-    </div>
-    <!-- /.row -->
-</section>
+<div id="data-list-content">
+    @include("/SysAuthOrganization/listContent.html"){}
+</div>
+
+<script src="${ctxPath}/static/silverbullet/js/auth/SysAuthOrganization.js"></script>
 @}

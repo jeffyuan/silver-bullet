@@ -7,6 +7,12 @@ import com.silverbullet.auth.service.ISysAuthOrganizationService;
 import com.silverbullet.utils.BaseDataResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import com.silverbullet.utils.ToolUtil;
+import com.silverbullet.core.pojo.UserInfo;;
+import org.apache.shiro.SecurityUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * 组织机构管理 service接口
@@ -14,6 +20,8 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class SysAuthOrganizationService implements ISysAuthOrganizationService {
+
+    private static final Logger logger = LoggerFactory.getLogger(SysAuthOrganizationService.class);
 
     @Autowired
     private SysAuthOrganizationMapper sysAuthOrganizationMapper;
@@ -31,7 +39,7 @@ public class SysAuthOrganizationService implements ISysAuthOrganizationService {
         listResults.setResultList(sysAuthOrganizationMapper.findList());
         listResults.setTotalNum(sysAuthOrganizationMapper.countNum());
 
-             return listResults;
+        return listResults;
     }
 
     @Override
@@ -40,17 +48,48 @@ public class SysAuthOrganizationService implements ISysAuthOrganizationService {
     }
 
     @Override
-    public boolean Update(SysAuthOrganization sysAuthUser) {
-        return sysAuthOrganizationMapper.updateByPrimaryKey(sysAuthUser) == 1 ? true : false;
+    public boolean Update(SysAuthOrganization sysAuthOrganization) {
+        try {
+            SysAuthOrganization sysAuthOrganizationNew = getOneById(sysAuthOrganization.getId());
+
+            if (sysAuthOrganizationNew == null) {
+                return false;
+            }
+
+            UserInfo userInfo = (UserInfo) SecurityUtils.getSubject().getPrincipal();
+
+            return sysAuthOrganizationMapper.updateByPrimaryKey(sysAuthOrganization) == 1;
+        } catch (Exception ex) {
+            logger.error("Update Error: " + ex.getMessage());
+            return false;
+        }
     }
 
     @Override
-    public boolean delete(String id) {
-        return sysAuthOrganizationMapper.deleteByPrimaryKey(id) == 1 ? true : false;
+    @Transactional
+    public boolean delete(String ids) {
+        String [] arrIds = ids.split(",");
+        boolean bret = true;
+        for (String id : arrIds) {
+            bret = sysAuthOrganizationMapper.deleteByPrimaryKey(id) == 1;
+            if (!bret) {
+                throw new RuntimeException("delete faild");
+            }
+        }
+
+        return bret;
     }
 
     @Override
     public boolean Insert(SysAuthOrganization sysAuthOrganization) {
-        return sysAuthOrganizationMapper.insert(sysAuthOrganization) == 1 ? true : false;
+      try {
+            UserInfo userInfo = (UserInfo) SecurityUtils.getSubject().getPrincipal();
+            sysAuthOrganization.setId(ToolUtil.getUUID());
+
+            return sysAuthOrganizationMapper.insert(sysAuthOrganization) == 1;
+        } catch (Exception ex) {
+            logger.error("Insert Error: " + ex.getMessage());
+            return false;
+        }
     }
 }

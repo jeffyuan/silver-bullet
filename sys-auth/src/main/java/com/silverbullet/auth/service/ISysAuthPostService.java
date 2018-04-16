@@ -15,9 +15,8 @@ public interface ISysAuthPostService {
     public BaseDataResult<SysAuthPost> list(int pageNum, int pageSize);
     public SysAuthPost getOneById(String id);
     public boolean Update(SysAuthPost sysAuthPost);
-    public boolean delete(String id);
+    public boolean delete(String ids);
     public boolean Insert(SysAuthPost sysAuthPost);
-
     /**
      * 获取角色列表
      * @param id

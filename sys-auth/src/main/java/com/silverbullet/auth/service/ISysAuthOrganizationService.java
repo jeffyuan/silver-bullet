@@ -13,6 +13,6 @@ public interface ISysAuthOrganizationService {
     public BaseDataResult<SysAuthOrganization> list(int pageNum, int pageSize);
     public SysAuthOrganization getOneById(String id);
     public boolean Update(SysAuthOrganization sysAuthOrganization);
-    public boolean delete(String id);
+    public boolean delete(String ids);
     public boolean Insert(SysAuthOrganization sysAuthOrganization);
 }

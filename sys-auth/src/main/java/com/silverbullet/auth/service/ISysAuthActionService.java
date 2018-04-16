@@ -15,9 +15,8 @@ public interface ISysAuthActionService {
     public BaseDataResult<SysAuthAction> list(int pageNum, int pageSize);
     public SysAuthAction getOneById(String id);
     public boolean Update(SysAuthAction sysAuthAction);
-    public boolean delete(String id);
+    public boolean delete(String ids);
     public boolean Insert(SysAuthAction sysAuthAction);
-
     /**
      * 获取岗位下的功能权限
      * @param postId
