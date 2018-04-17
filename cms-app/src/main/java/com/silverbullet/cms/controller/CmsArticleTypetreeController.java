@@ -4,6 +4,7 @@ import com.silverbullet.cms.domain.CmsArticleTypetree;
 import com.silverbullet.cms.service.ICmsArticleTypetreeService;
 import com.silverbullet.utils.BaseDataResult;
 import com.silverbullet.core.validate.AddValidate;
+import com.silverbullet.utils.TreeNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,6 +17,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.ResponseBody;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -36,34 +38,24 @@ public class CmsArticleTypetreeController {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("/CmsArticleTypetree/list");
 
-        BaseDataResult<CmsArticleTypetree> results = cmsArticleTypetreeService.list(nCurPage, 5);
-
-        modelAndView.addObject("results", results);
-        modelAndView.addObject("curPage", nCurPage);
-
         return modelAndView;
     }
 
-    @RequestMapping(value = "/list.html", method = RequestMethod.POST)
-    public ModelAndView listData(String curpage){
-        int nCurPage = 1;
-        if (curpage != null) {
-            nCurPage = Integer.valueOf(curpage);
+    @RequestMapping(value = "/list", method = RequestMethod.POST)
+    @ResponseBody
+    public List<Map<String,Object>> listData(String parentId){
+        if (parentId == null) {
+            parentId = "NONE";
         }
-
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("/CmsArticleTypetree/listContent");
-
-        BaseDataResult<CmsArticleTypetree> results = cmsArticleTypetreeService.list(nCurPage, 5);
-
-        modelAndView.addObject("results", results);
-        modelAndView.addObject("curPage", nCurPage);
-
-        return modelAndView;
+        List<Map<String, Object>> results = cmsArticleTypetreeService.findListByModule("NEWS", "back", parentId);
+        return results;
      }
 
     @RequestMapping(value = "/add.html", method = RequestMethod.POST)
-    public String add(Model model) {
+    public String add(Model model, String parentId) {
+        CmsArticleTypetree cmsArticleTypetree = new CmsArticleTypetree();
+        cmsArticleTypetree.setParentId(parentId);
+        model.addAttribute("obj", cmsArticleTypetree);
         return "/CmsArticleTypetree/model";
     }
 
@@ -104,10 +96,15 @@ public class CmsArticleTypetreeController {
         boolean bTrue = false;
         String message = "";
         if (cmsArticleTypetree.getId().isEmpty()) {
+            cmsArticleTypetree.setModule("NEWS");
+            cmsArticleTypetree.setState("1");
+            cmsArticleTypetree.setDomain("back");
+            cmsArticleTypetree.setChildrenNum(0);
             bTrue = cmsArticleTypetreeService.Insert(cmsArticleTypetree);
             message = bTrue ? "添加成功！" : "添加失败！";
         } else {
-            bTrue = cmsArticleTypetreeService.Update(cmsArticleTypetree);
+
+            bTrue = cmsArticleTypetreeService.Update(cmsArticleTypetree.getId(), cmsArticleTypetree);
             message = bTrue ? "修改成功！" : "修改失败！";
         }
 

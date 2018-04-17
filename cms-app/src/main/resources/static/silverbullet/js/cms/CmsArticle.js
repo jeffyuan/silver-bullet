@@ -149,7 +149,7 @@ Cms.edit = function() {
  * @param uid 编辑的一个id
  */
 Cms.editCommon = function(uid) {
-    var dialogInfo = Cms.getHtmlInfo(Cms.ctxPath + Cms.url + 'edit.html', uid);
+    var dialogInfo = Cms.getHtmlInfo(Cms.ctxPath + Cms.url + 'edit.html', {id: uid});
     BootstrapDialog.show({
         title: '编辑文章',
         closable: true,

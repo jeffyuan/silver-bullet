@@ -82,6 +82,11 @@ public class CmsArticleTypetreeTest {
     }
 
     @Test
+    public void deleteArticleTypeTree() {
+        assert iCmsArticleTypetreeService.delete("d4814a027f3e410ca85987bd9295ec11") == true;
+    }
+
+    @Test
     public void getArticleTypeTree() {
 
         List<Map<String, Object>> cmsArticleTypetreeList = iCmsArticleTypetreeService.findListByModule("NEWS", "back", "NONE");

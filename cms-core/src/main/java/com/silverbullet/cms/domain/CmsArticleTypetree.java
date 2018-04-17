@@ -34,8 +34,8 @@ public class CmsArticleTypetree {
     @Size(max=32, message = "parentId 长度不能超过32", groups = {FullValidate.class, AddValidate.class})
     private String parentId;
     // path 
-    @NotBlank(message = "path 不能为空" , groups = {FullValidate.class, AddValidate.class})
-    @Size(max=256, message = "path 长度不能超过256", groups = {FullValidate.class, AddValidate.class})
+    @NotBlank(message = "path 不能为空" , groups = {FullValidate.class})
+    @Size(max=256, message = "path 长度不能超过256", groups = {FullValidate.class})
     private String path;
     // comments 
     
@@ -45,32 +45,39 @@ public class CmsArticleTypetree {
     @Size(max=1, message = "type 长度不能超过1", groups = {FullValidate.class, AddValidate.class})
     private String type;
     // createUser 
-    @NotBlank(message = "createUser 不能为空" , groups = {FullValidate.class, AddValidate.class})
-    @Size(max=32, message = "createUser 长度不能超过32", groups = {FullValidate.class, AddValidate.class})
+    @NotBlank(message = "createUser 不能为空" , groups = {FullValidate.class})
+    @Size(max=32, message = "createUser 长度不能超过32", groups = {FullValidate.class})
     private String createUser;
     // createTime 
-    @NotNull(message = "createTime 不能为空" , groups = {FullValidate.class, AddValidate.class})
+    @NotNull(message = "createTime 不能为空" , groups = {FullValidate.class})
     private Date createTime;
     // modifyUser 
-    @NotBlank(message = "modifyUser 不能为空" , groups = {FullValidate.class, AddValidate.class})
-    @Size(max=32, message = "modifyUser 长度不能超过32", groups = {FullValidate.class, AddValidate.class})
+    @NotBlank(message = "modifyUser 不能为空" , groups = {FullValidate.class})
+    @Size(max=32, message = "modifyUser 长度不能超过32", groups = {FullValidate.class})
     private String modifyUser;
     // modifyTime 
-    @NotNull(message = "modifyTime 不能为空" , groups = {FullValidate.class, AddValidate.class})
+    @NotNull(message = "modifyTime 不能为空" , groups = {FullValidate.class})
     private Date modifyTime;
     // state 
-    @NotBlank(message = "state 不能为空" , groups = {FullValidate.class, AddValidate.class})
-    @Size(max=1, message = "state 长度不能超过1", groups = {FullValidate.class, AddValidate.class})
+    @NotBlank(message = "state 不能为空" , groups = {FullValidate.class})
+    @Size(max=1, message = "state 长度不能超过1", groups = {FullValidate.class})
     private String state;
     // module 所属的模块名称
-    @NotBlank(message = "module 不能为空" , groups = {FullValidate.class, AddValidate.class})
-    @Size(max=32, message = "module 长度不能超过32", groups = {FullValidate.class, AddValidate.class})
+    @NotBlank(message = "module 不能为空" , groups = {FullValidate.class})
+    @Size(max=32, message = "module 长度不能超过32", groups = {FullValidate.class})
     private String module;
     // domain 
-    @NotBlank(message = "domain 不能为空" , groups = {FullValidate.class, AddValidate.class})
-    @Size(max=64, message = "domain 长度不能超过64", groups = {FullValidate.class, AddValidate.class})
+    @NotBlank(message = "domain 不能为空" , groups = {FullValidate.class})
+    @Size(max=64, message = "domain 长度不能超过64", groups = {FullValidate.class})
     private String domain;
 
+    private String icon;
+    // params 参数
+
+    private String params;
+    // childrenNum 子节点数量
+    @NotNull(message = "childrenNum 不能为空" , groups = {FullValidate.class})
+    private Integer childrenNum = 0;
 
     public String getId() {
         return id;
@@ -196,5 +203,23 @@ public class CmsArticleTypetree {
     public void setDomain(String domain) {
 
         this.domain = domain == null ? null : domain.trim();
+    }
+
+    public String getIcon() {
+        return icon;
+    }
+
+    public void setIcon(String icon) {
+
+        this.icon = icon == null ? null : icon.trim();
+    }
+
+    public Integer getChildrenNum() {
+        return childrenNum;
+    }
+
+    public void setChildrenNum(Integer childrenNum) {
+
+        this.childrenNum = childrenNum;
     }
 }

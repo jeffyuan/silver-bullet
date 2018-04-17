@@ -16,7 +16,7 @@ public interface ICmsArticleTypetreeService {
     public BaseDataResult<CmsArticleTypetree> list(int pageNum, int pageSize);
     public List<Map<String, Object>> findListByModule(String moduleName, String domain, String parentId);
     public CmsArticleTypetree getOneById(String id);
-    public boolean Update(CmsArticleTypetree cmsArticleTypetree);
+    public boolean Update(String id, CmsArticleTypetree cmsArticleTypetree);
     public boolean delete(String ids);
     public boolean Insert(CmsArticleTypetree cmsArticleTypetree);
 }

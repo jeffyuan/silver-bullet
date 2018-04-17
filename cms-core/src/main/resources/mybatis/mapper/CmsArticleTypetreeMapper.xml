@@ -16,10 +16,12 @@
     <result column="state" jdbcType="CHAR" property="state" />
     <result column="module" jdbcType="VARCHAR" property="module" />
     <result column="domain" jdbcType="VARCHAR" property="domain" />
+      <result column="icon" jdbcType="VARCHAR" property="icon" />
+      <result column="children_num" jdbcType="INTEGER" property="childrenNum" />
   </resultMap>
 
   <sql id="Base_Column_List">
-    id,name,sort,parent_id,path,comments,type,create_user,create_time,modify_user,modify_time,state,module,domain
+    id,name,sort,parent_id,path,comments,type,create_user,create_time,modify_user,modify_time,state,module,domain,icon,children_num
   </sql>
 
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
@@ -35,8 +37,8 @@
   </delete>
 
   <insert id="insert" parameterType="com.silverbullet.cms.domain.CmsArticleTypetree">
-    insert into cms_article_typetree (id,name,sort,parent_id,path,comments,type,create_user,create_time,modify_user,modify_time,state,module,domain)
-    values (#{id,jdbcType=VARCHAR},#{name,jdbcType=VARCHAR},#{sort,jdbcType=INTEGER},#{parentId,jdbcType=VARCHAR},#{path,jdbcType=VARCHAR},#{comments,jdbcType=VARCHAR},#{type,jdbcType=CHAR},#{createUser,jdbcType=VARCHAR},#{createTime,jdbcType=TIMESTAMP},#{modifyUser,jdbcType=VARCHAR},#{modifyTime,jdbcType=TIMESTAMP},#{state,jdbcType=CHAR},#{module,jdbcType=VARCHAR},#{domain,jdbcType=VARCHAR})
+    insert into cms_article_typetree (id,name,sort,parent_id,path,comments,type,create_user,create_time,modify_user,modify_time,state,module,domain,icon,children_num)
+    values (#{id,jdbcType=VARCHAR},#{name,jdbcType=VARCHAR},#{sort,jdbcType=INTEGER},#{parentId,jdbcType=VARCHAR},#{path,jdbcType=VARCHAR},#{comments,jdbcType=VARCHAR},#{type,jdbcType=CHAR},#{createUser,jdbcType=VARCHAR},#{createTime,jdbcType=TIMESTAMP},#{modifyUser,jdbcType=VARCHAR},#{modifyTime,jdbcType=TIMESTAMP},#{state,jdbcType=CHAR},#{module,jdbcType=VARCHAR},#{domain,jdbcType=VARCHAR},#{icon,jdbcType=VARCHAR},#{childrenNum,jdbcType=INTEGER})
   </insert>
 
   <insert id="insertSelective" parameterType="com.silverbullet.cms.domain.CmsArticleTypetree">
@@ -85,6 +87,12 @@
         <if test="domain != null">
                domain ,
         </if>
+        <if test="icon != null">
+            icon ,
+        </if>
+        <if test="childrenNum != null">
+            children_num ,
+        </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
         <if test="id != null">
@@ -129,6 +137,12 @@
         <if test="domain != null">
             #{domain,jdbcType=VARCHAR},
          </if>
+        <if test="icon != null">
+            #{icon,jdbcType=VARCHAR},
+        </if>
+        <if test="childrenNum != null">
+            #{childrenNum,jdbcType=INTEGER},
+        </if>
     </trim>
   </insert>
 
@@ -177,6 +191,12 @@
         <if test="domain != null">
          domain = #{domain,jdbcType=VARCHAR},
         </if>
+        <if test="icon != null">
+            icon = #{icon,jdbcType=VARCHAR},
+        </if>
+        <if test="childrenNum != null">
+            children_num = #{childrenNum,jdbcType=INTEGER},
+        </if>
     </set>
      where id = #{id,jdbcType=VARCHAR}
   </update>
@@ -184,7 +204,7 @@
   <update id="updateByPrimaryKey" parameterType="com.silverbullet.cms.domain.CmsArticleTypetree">
 
     update cms_article_typetree
-    set id = #{id,jdbcType=VARCHAR},name = #{name,jdbcType=VARCHAR},sort = #{sort,jdbcType=INTEGER},parent_id = #{parentId,jdbcType=VARCHAR},path = #{path,jdbcType=VARCHAR},comments = #{comments,jdbcType=VARCHAR},type = #{type,jdbcType=CHAR},create_user = #{createUser,jdbcType=VARCHAR},create_time = #{createTime,jdbcType=TIMESTAMP},modify_user = #{modifyUser,jdbcType=VARCHAR},modify_time = #{modifyTime,jdbcType=TIMESTAMP},state = #{state,jdbcType=CHAR},module = #{module,jdbcType=VARCHAR},domain = #{domain,jdbcType=VARCHAR}
+    set id = #{id,jdbcType=VARCHAR},name = #{name,jdbcType=VARCHAR},sort = #{sort,jdbcType=INTEGER},parent_id = #{parentId,jdbcType=VARCHAR},path = #{path,jdbcType=VARCHAR},comments = #{comments,jdbcType=VARCHAR},type = #{type,jdbcType=CHAR},create_user = #{createUser,jdbcType=VARCHAR},create_time = #{createTime,jdbcType=TIMESTAMP},modify_user = #{modifyUser,jdbcType=VARCHAR},modify_time = #{modifyTime,jdbcType=TIMESTAMP},state = #{state,jdbcType=CHAR},module = #{module,jdbcType=VARCHAR},domain = #{domain,jdbcType=VARCHAR},icon = #{icon,jdbcType=VARCHAR},children_num = #{childrenNum,jdbcType=INTEGER}
      where id = #{id,jdbcType=VARCHAR}
   </update>
 
@@ -199,7 +219,11 @@
   </select>
 
     <select id="findArticleTypeByModule" parameterType="java.util.HashMap" resultType="java.util.Map">
-        select id,name,sort,parent_id, path, type, comments from cms_article_typetree
-        where module = #{moduleName} AND domain = #{domain} AND parent_id=#{parentId} ORDER BY length(path), sort ASC
+        select id,name,sort,parent_id, path, type, comments,icon, children_num from cms_article_typetree
+        where module = #{moduleName} AND domain = #{domain}
+        <if test="parentId != null">
+            AND parent_id=#{parentId}
+        </if>
+        ORDER BY length(path) asc, sort asc
     </select>
 </mapper>

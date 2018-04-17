@@ -29,24 +29,17 @@ Cms.getHtmlInfo = function(url, params){
 };
 
 /**
- * 加载页面
- * @param obj
- * @param action url地址
- * @param curpage 当前页
- * @returns {boolean}
- */
-Cms.loadData = function(obj, action, curpage) {
-    var dialogInfo = Cms.getHtmlInfo(action, {"curpage" : curpage});
-    dialogInfo += "<script>Cms.checkboxInit();</script>";
-    $("#data-list-content").html(dialogInfo);
-    return true;
-};
-
-/**
  * 表格头部添加方法
  */
-Cms.add = function() {
-    var dialogInfo = Cms.getHtmlInfo(Cms.ctxPath + Cms.url + 'add.html', '');
+Cms.add = function(obj) {
+    var parentId;
+    if (typeof obj == 'string') {
+        parentId = obj;
+    } else {
+        parentId = $(obj).parent().parent().attr("data-u");
+    }
+
+    var dialogInfo = Cms.getHtmlInfo(Cms.ctxPath + Cms.url + 'add.html',  {parentId: parentId});
     BootstrapDialog.show({
         title: '添加',
         closable: true,
@@ -98,7 +91,7 @@ Cms.save = function(url, dialogItself) {
                 dialogItself.close();
                 // 刷新页面
 
-                Cms.loadData(null, Cms.ctxPath + Cms.url + 'list.html', 1);
+                Cms.initTable();
             } else {
                 if (data.errors != null) {
                     // 错误信息反馈到页面上
@@ -117,7 +110,6 @@ Cms.save = function(url, dialogItself) {
  * 表格中编辑按钮
  */
 Cms.editOne = function(obj) {
-
     var uid = $(obj).parent().parent().attr("data-u");
     Cms.editCommon(uid);
 };
@@ -149,7 +141,7 @@ Cms.edit = function() {
  * @param uid 编辑的一个id
  */
 Cms.editCommon = function(uid) {
-    var dialogInfo = Cms.getHtmlInfo(Cms.ctxPath + Cms.url + 'edit.html', uid);
+    var dialogInfo = Cms.getHtmlInfo(Cms.ctxPath + Cms.url + 'edit.html', {id: uid});
     BootstrapDialog.show({
         title: '编辑文章',
         closable: true,
@@ -262,7 +254,7 @@ Cms.checkboxInit = function() {
     });
 
     //Enable check and uncheck all functionality
-    $(".checkbox-toggle").click(function () {
+    $(".checkbox-toggle").unbind("click").click(function () {
         var clicks = $(this).data('clicks');
         if (clicks) {
             //Uncheck all checkboxes
@@ -277,6 +269,34 @@ Cms.checkboxInit = function() {
     });
 };
 
+Cms.initTable = function() {
+    var columns = [
+        {field: 'selectItem', checkbox: true},
+        {title: '名称', field: 'name', align: 'left', valign: 'middle'},
+        {title: '排序', field: 'sort', align: 'center', valign: 'middle', sortable: true},
+        {title: '类型', field: 'type', align: 'center', valign: 'middle', sortable: true},
+        {title: '备注', field: 'comments', align: 'left', valign: 'middle', sortable: true},
+        {title: '操作', field: 'lastControl', fieldVal:'<button name="添加子元素" class="btn btn-default btn-sm" onclick="Cms.add(this)" space="true"><i class="fa fa-fw fa-plus"></i></button><button name="修改" class="btn btn-default btn-sm" onclick="Cms.editOne(this)" space="true"><i class="fa fa-fw fa-edit"></i></button><button name="删除" class="btn btn-default btn-sm" onclick="Cms.deleteOne(this)" space="true"><i class="fa fa-fw fa-trash-o"></i></button>'}];
+
+    $('#data-list').bootstrapAjaxTreeTable({
+        id: "id",// 选取记录返回的值
+        code: "id",// 用于设置父子关系
+        parentCode: "parent_id",// 用于设置父子关系
+        rootCodeValue: "NONE", //设置根节点code值----可指定根节点，默认为null,"",0,"0"
+        hasChildren: "children_num",  //是否存在子节点
+        type: "POST", //请求数据的ajax类型
+        url: Cms.ctxPath + Cms.url + "list",   //请求数据的ajax的url
+        ajaxParams: {}, //请求数据的ajax的data属性
+        expandColumn: 1,//在哪一列上面显示展开按钮,从0开始
+        striped: true,   //是否各行渐变色
+        expandAll: true,  //是否全部展开
+        columns: columns,		//列数组
+        toolbar: "#" + this.toolbarId,//顶部工具条
+        height: this.height,
+        callBackFun: Cms.checkboxInit,   //回调处理一些操作的方法
+    });
+}
+
 $(function () {
-    Cms.checkboxInit();
+    Cms.initTable();
 });
