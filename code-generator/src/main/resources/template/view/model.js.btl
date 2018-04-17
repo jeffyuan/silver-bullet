@@ -153,7 +153,7 @@ ${context.modulePackageCapUpper}.edit = function() {
  * @param uid 编辑的一个id
  */
 ${context.modulePackageCapUpper}.editCommon = function(uid) {
-    var dialogInfo = ${context.modulePackageCapUpper}.getHtmlInfo(${context.modulePackageCapUpper}.ctxPath + ${context.modulePackageCapUpper}.url + 'edit.html', uid);
+    var dialogInfo = ${context.modulePackageCapUpper}.getHtmlInfo(${context.modulePackageCapUpper}.ctxPath + ${context.modulePackageCapUpper}.url + 'edit.html', , {id: uid});
     BootstrapDialog.show({
         title: '编辑字典',
         closable: true,
