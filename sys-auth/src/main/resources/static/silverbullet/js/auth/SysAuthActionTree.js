@@ -149,7 +149,7 @@ Auth.edit = function() {
  * @param uid 编辑的一个id
  */
 Auth.editCommon = function(uid) {
-    var dialogInfo = Auth.getHtmlInfo(Auth.ctxPath + Auth.url + 'edit.html', uid);
+    var dialogInfo = Auth.getHtmlInfo(Auth.ctxPath + Auth.url + 'edit.html' , {id: uid});
     BootstrapDialog.show({
         title: '编辑字典',
         closable: true,
