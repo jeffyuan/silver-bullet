@@ -285,7 +285,7 @@ Cms.initTable = function() {
         rootCodeValue: "NONE", //设置根节点code值----可指定根节点，默认为null,"",0,"0"
         hasChildren: "children_num",  //是否存在子节点
         type: "POST", //请求数据的ajax类型
-        url: Cms.ctxPath + Cms.url + "list",   //请求数据的ajax的url
+        url: Cms.ctxPath + Cms.url + "list.do",   //请求数据的ajax的url
         ajaxParams: {}, //请求数据的ajax的data属性
         expandColumn: 1,//在哪一列上面显示展开按钮,从0开始
         striped: true,   //是否各行渐变色

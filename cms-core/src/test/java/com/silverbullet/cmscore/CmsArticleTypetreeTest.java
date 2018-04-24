@@ -92,7 +92,7 @@ public class CmsArticleTypetreeTest {
         List<Map<String, Object>> cmsArticleTypetreeList = iCmsArticleTypetreeService.findListByModule("NEWS", "back", "NONE");
 
         List<TreeNode> nodes = TreeNode.formatNodes2TreeNode(cmsArticleTypetreeList,
-                "name","parent_id", "id");
+                "name","parent_id", "id", "", "children_num");
 
         Assert.assertNotNull(nodes);
     }

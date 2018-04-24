@@ -41,7 +41,7 @@ public class CmsArticleTypetreeController {
         return modelAndView;
     }
 
-    @RequestMapping(value = "/list", method = RequestMethod.POST)
+    @RequestMapping(value = "/list.do", method = RequestMethod.POST)
     @ResponseBody
     public List<Map<String,Object>> listData(String parentId){
         if (parentId == null) {
@@ -50,6 +50,18 @@ public class CmsArticleTypetreeController {
         List<Map<String, Object>> results = cmsArticleTypetreeService.findListByModule("NEWS", "back", parentId);
         return results;
      }
+
+    @RequestMapping(value = "/tree/list.do", method = RequestMethod.POST)
+    @ResponseBody
+    public List<TreeNode> listDataForTree(String parentId){
+        if (parentId == null) {
+            parentId = "NONE";
+        }
+
+        List<Map<String, Object>> results = cmsArticleTypetreeService.findListByModule("NEWS", "back", parentId);
+        List<TreeNode> treeNodeList = TreeNode.formatNodes2TreeNode(results, "name","parent_id", "id", "", "children_num");
+        return treeNodeList;
+    }
 
     @RequestMapping(value = "/add.html", method = RequestMethod.POST)
     public String add(Model model, String parentId) {

@@ -1,98 +1,48 @@
 <div>
     <h4 id="msg" style="color: red;"></h4>
     <form id="formCms" class="m-t" role="form" method="post">
-              <input type="hidden" name="id" class="form-control" value="${obj.id!}">
-             <div class="form-group">
-                 <label>title</label><label style="color: red;" id="msg-title"></label>
-                 <input type="text" name="title" class="form-control" value="${obj.title!}" placeholder="title" required="">
-             </div>
-             <div class="form-group">
-                 <label>abs</label><label style="color: red;" id="msg-abs"></label>
-                 <input type="text" name="abs" class="form-control" value="${obj.abs!}" placeholder="abs" required="">
-             </div>
-             <div class="form-group">
-                 <label>author</label><label style="color: red;" id="msg-author"></label>
-                 <input type="text" name="author" class="form-control" value="${obj.author!}" placeholder="author" required="">
-             </div>
-             <div class="form-group">
-                 <label>publicTime</label><label style="color: red;" id="msg-publicTime"></label>
-                 <input type="text" name="publicTime" class="form-control" value="${obj.publicTime!}" placeholder="publicTime" required="">
-             </div>
-             <div class="form-group">
-                 <label>artType</label><label style="color: red;" id="msg-artType"></label>
-                 <input type="text" name="artType" class="form-control" value="${obj.artType!}" placeholder="artType" required="">
-             </div>
-             <div class="form-group">
-                 <label>tagkey</label><label style="color: red;" id="msg-tagkey"></label>
-                 <input type="text" name="tagkey" class="form-control" value="${obj.tagkey!}" placeholder="tagkey" required="">
-             </div>
-             <div class="form-group">
-                 <label>source</label><label style="color: red;" id="msg-source"></label>
-                 <input type="text" name="source" class="form-control" value="${obj.source!}" placeholder="source" required="">
-             </div>
-             <div class="form-group">
-                 <label>topLevel</label><label style="color: red;" id="msg-topLevel"></label>
-                 <input type="text" name="topLevel" class="form-control" value="${obj.topLevel!}" placeholder="topLevel" required="">
-             </div>
-             <div class="form-group">
-                 <label>artImgId</label><label style="color: red;" id="msg-artImgId"></label>
-                 <input type="text" name="artImgId" class="form-control" value="${obj.artImgId!}" placeholder="artImgId" required="">
-             </div>
-             <div class="form-group">
-                 <label>artState</label><label style="color: red;" id="msg-artState"></label>
-                 <input type="text" name="artState" class="form-control" value="${obj.artState!}" placeholder="artState" required="">
-             </div>
-             <div class="form-group">
-                 <label>createTime</label><label style="color: red;" id="msg-createTime"></label>
-                 <input type="text" name="createTime" class="form-control" value="${obj.createTime!}" placeholder="createTime" required="">
-             </div>
-             <div class="form-group">
-                 <label>modifyTime</label><label style="color: red;" id="msg-modifyTime"></label>
-                 <input type="text" name="modifyTime" class="form-control" value="${obj.modifyTime!}" placeholder="modifyTime" required="">
-             </div>
-             <div class="form-group">
-                 <label>createUsername</label><label style="color: red;" id="msg-createUsername"></label>
-                 <input type="text" name="createUsername" class="form-control" value="${obj.createUsername!}" placeholder="createUsername" required="">
-             </div>
-             <div class="form-group">
-                 <label>createUser</label><label style="color: red;" id="msg-createUser"></label>
-                 <input type="text" name="createUser" class="form-control" value="${obj.createUser!}" placeholder="createUser" required="">
-             </div>
-             <div class="form-group">
-                 <label>modifyUsername</label><label style="color: red;" id="msg-modifyUsername"></label>
-                 <input type="text" name="modifyUsername" class="form-control" value="${obj.modifyUsername!}" placeholder="modifyUsername" required="">
-             </div>
-             <div class="form-group">
-                 <label>modifyUser</label><label style="color: red;" id="msg-modifyUser"></label>
-                 <input type="text" name="modifyUser" class="form-control" value="${obj.modifyUser!}" placeholder="modifyUser" required="">
-             </div>
-             <div class="form-group">
-                 <label>writeAuthority</label><label style="color: red;" id="msg-writeAuthority"></label>
-                 <input type="text" name="writeAuthority" class="form-control" value="${obj.writeAuthority!}" placeholder="writeAuthority" required="">
-             </div>
-             <div class="form-group">
-                 <label>readAuthority</label><label style="color: red;" id="msg-readAuthority"></label>
-                 <input type="text" name="readAuthority" class="form-control" value="${obj.readAuthority!}" placeholder="readAuthority" required="">
-             </div>
-             <div class="form-group">
-                 <label>runinfoId</label><label style="color: red;" id="msg-runinfoId"></label>
-                 <input type="text" name="runinfoId" class="form-control" value="${obj.runinfoId!}" placeholder="runinfoId" required="">
-             </div>
-             <div class="form-group">
-                 <label>module</label><label style="color: red;" id="msg-module"></label>
-                 <input type="text" name="module" class="form-control" value="${obj.module!}" placeholder="module" required="">
-             </div>
-             <div class="form-group">
-                 <label>moduleFilterKey</label><label style="color: red;" id="msg-moduleFilterKey"></label>
-                 <input type="text" name="moduleFilterKey" class="form-control" value="${obj.moduleFilterKey!}" placeholder="moduleFilterKey" required="">
-             </div>
-             <div class="form-group">
-                 <label>lastUpdateTime</label><label style="color: red;" id="msg-lastUpdateTime"></label>
-                 <input type="text" name="lastUpdateTime" class="form-control" value="${obj.lastUpdateTime!}" placeholder="lastUpdateTime" required="">
-             </div>
-             <div class="form-group">
-                 <label>state</label><label style="color: red;" id="msg-state"></label>
-                 <input type="text" name="state" class="form-control" value="${obj.state!}" placeholder="state" required="">
-             </div>
+        <input type="hidden" name="id" class="form-control" value="${obj.id!}">
+        <input type="hidden" name="moduleFilterKey" class="form-control" value="${obj.moduleFilterKey!}" placeholder="moduleFilterKey" required="">
+        <input type="hidden" name="artType" class="form-control" value="1">
+        <div class="form-group">
+             <label>title</label><label style="color: red;" id="msg-title"></label>
+             <input type="text" name="title" class="form-control" value="${obj.title!}" placeholder="title" required="">
+        </div>
+        <div class="form-group">
+             <label>abs</label><label style="color: red;" id="msg-abs"></label>
+             <input type="text" name="abs" class="form-control" value="${obj.abs!}" placeholder="abs" required="">
+        </div>
+        <div class="form-group">
+            <label>contHtml</label><label style="color: red;" id="msg-content"></label>
+            <input type="text" name="contHtml" class="form-control" value="${obj.contHtml!}" placeholder="contHtml" required="">
+        </div>
+        <div class="form-group">
+             <label>tagkey</label><label style="color: red;" id="msg-tagkey"></label>
+             <input type="text" name="tagkey" class="form-control" value="${obj.tagkey!}" placeholder="tagkey" required="">
+        </div>
+        <div class="form-group">
+             <label>source</label><label style="color: red;" id="msg-source"></label>
+             <input type="text" name="source" class="form-control" value="${obj.source!}" placeholder="source" required="">
+        </div>
+        <div class="form-group">
+             <label>topLevel</label><label style="color: red;" id="msg-topLevel"></label>
+             <input type="text" name="topLevel" class="form-control" value="${obj.topLevel!}" placeholder="topLevel" required="">
+        </div>
+        <div class="form-group">
+             <label>artImgId</label><label style="color: red;" id="msg-artImgId"></label>
+             <input type="text" name="artImgId" class="form-control" value="${obj.artImgId!}" placeholder="artImgId" required="">
+        </div>
+        <div class="form-group">
+             <label>artState</label><label style="color: red;" id="msg-artState"></label>
+             <input type="text" name="artState" class="form-control" value="${obj.artState!}" placeholder="artState" required="">
+        </div>
+        <div class="form-group">
+             <label>writeAuthority</label><label style="color: red;" id="msg-writeAuthority"></label>
+             <input type="text" name="writeAuthority" class="form-control" value="${obj.writeAuthority!}" placeholder="writeAuthority" required="">
+        </div>
+        <div class="form-group">
+             <label>readAuthority</label><label style="color: red;" id="msg-readAuthority"></label>
+             <input type="text" name="readAuthority" class="form-control" value="${obj.readAuthority!}" placeholder="readAuthority" required="">
+        </div>
     </form>
 </div>

@@ -3,6 +3,7 @@ package com.silverbullet.cms.service;
 import com.silverbullet.cms.domain.CmsArticle;
 import com.silverbullet.cms.domain.CmsArticleFile;
 import com.silverbullet.cms.pojo.CmsArticleEntity;
+import com.silverbullet.cms.pojo.CmsArticleEx;
 import com.silverbullet.cms.pojo.CmsFileInfo;
 import com.silverbullet.utils.BaseDataResult;
 
@@ -15,9 +16,10 @@ import java.io.InputStream;
  */
 public interface ICmsArticleService {
     public int countNum();
-    public BaseDataResult<CmsArticle> list(int pageNum, int pageSize);
+    public BaseDataResult<CmsArticle> list(String module, String moduleFilterKey, int pageNum, int pageSize);
     public CmsArticle getOneById(String id);
-    public boolean Update(CmsArticle cmsArticle);
+    public CmsArticleEx getOneExById(String id);
+    public boolean Update(CmsArticleEx cmsArticle);
     public boolean delete(String ids);
     public boolean createArticle(CmsArticleEntity cmsArticleEntity);
 

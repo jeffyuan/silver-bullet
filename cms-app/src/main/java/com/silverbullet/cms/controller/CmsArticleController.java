@@ -1,9 +1,15 @@
 package com.silverbullet.cms.controller;
 
 import com.silverbullet.cms.domain.CmsArticle;
+import com.silverbullet.cms.domain.CmsArticleContent;
+import com.silverbullet.cms.pojo.CmsArticleEntity;
+import com.silverbullet.cms.pojo.CmsArticleEx;
 import com.silverbullet.cms.service.ICmsArticleService;
+import com.silverbullet.cms.service.ICmsArticleTypetreeService;
+import com.silverbullet.cms.util.EntryCreateFactory;
 import com.silverbullet.utils.BaseDataResult;
 import com.silverbullet.core.validate.AddValidate;
+import com.silverbullet.utils.HtmlUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,7 +21,10 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -28,6 +37,8 @@ public class CmsArticleController {
 
     @Autowired
     private ICmsArticleService cmsArticleService;
+    @Autowired
+    private ICmsArticleTypetreeService cmsArticleTypetreeService;
 
     @RequestMapping(value = "/list/pub.html", method = RequestMethod.GET)
     public ModelAndView index(){
@@ -36,7 +47,7 @@ public class CmsArticleController {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("/CmsArticle/list");
 
-        BaseDataResult<CmsArticle> results = cmsArticleService.list(nCurPage, 5);
+        BaseDataResult<CmsArticle> results = cmsArticleService.list("NEWS","", nCurPage, 5);
 
         modelAndView.addObject("results", results);
         modelAndView.addObject("curPage", nCurPage);
@@ -45,7 +56,7 @@ public class CmsArticleController {
     }
 
     @RequestMapping(value = "/list.html", method = RequestMethod.POST)
-    public ModelAndView listData(String curpage){
+    public ModelAndView listData(String curpage, String typeId){
         int nCurPage = 1;
         if (curpage != null) {
             nCurPage = Integer.valueOf(curpage);
@@ -54,7 +65,7 @@ public class CmsArticleController {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("/CmsArticle/listContent");
 
-        BaseDataResult<CmsArticle> results = cmsArticleService.list(nCurPage, 5);
+        BaseDataResult<CmsArticle> results = cmsArticleService.list("NEWS",typeId, nCurPage, 5);
 
         modelAndView.addObject("results", results);
         modelAndView.addObject("curPage", nCurPage);
@@ -63,13 +74,19 @@ public class CmsArticleController {
      }
 
     @RequestMapping(value = "/add.html", method = RequestMethod.POST)
-    public String add(Model model) {
+    public String add(Model model, String typeId) {
+
+        CmsArticleEx cmsArticle = new CmsArticleEx();
+        cmsArticle.setModuleFilterKey(typeId);
+
+        model.addAttribute("obj", cmsArticle);
+
         return "/CmsArticle/model";
     }
 
     @RequestMapping(value = "/edit.html", method = RequestMethod.POST)
     public String edit(Model model, String id) {
-        CmsArticle cmsArticle = cmsArticleService.getOneById(id);
+        CmsArticleEx cmsArticle = cmsArticleService.getOneExById(id);
         model.addAttribute("obj", cmsArticle);
 
         return "/CmsArticle/model";
@@ -92,7 +109,7 @@ public class CmsArticleController {
 
     @RequestMapping(value = "/save.do", method = RequestMethod.POST)
     @ResponseBody
-    public Map<String, Object> save(@Validated({AddValidate.class}) CmsArticle cmsArticle,
+    public Map<String, Object> save(@Validated({AddValidate.class}) CmsArticleEx cmsArticle,
                                     BindingResult result) {
         Map<String,Object> mapRet = new HashMap<String, Object>();
         if (result.hasErrors()) {
@@ -104,7 +121,18 @@ public class CmsArticleController {
         boolean bTrue = false;
         String message = "";
         if (cmsArticle.getId().isEmpty()) {
-            //bTrue = cmsArticleService.Insert(cmsArticle);
+
+            cmsArticle.setModule("NEWS");
+            CmsArticleEntity cmsArticleEntity = EntryCreateFactory.createCmsArticleEntry();
+
+            CmsArticleContent cmsArticleContent = EntryCreateFactory.createCmsArticleContent();
+            cmsArticleContent.setContHtml(cmsArticle.getContHtml());
+            cmsArticleContent.setContText(HtmlUtils.removeHtmlTag(cmsArticle.getContHtml()));
+
+            cmsArticleEntity.setCmsArticle(EntryCreateFactory.initCmsArticle(cmsArticle));
+            cmsArticleEntity.setCmsArticleContent(cmsArticleContent);
+
+            bTrue = cmsArticleService.createArticle(cmsArticleEntity);
             message = bTrue ? "添加成功！" : "添加失败！";
         } else {
             bTrue = cmsArticleService.Update(cmsArticle);

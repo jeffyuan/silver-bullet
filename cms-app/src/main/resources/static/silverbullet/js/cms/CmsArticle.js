@@ -36,7 +36,8 @@ Cms.getHtmlInfo = function(url, params){
  * @returns {boolean}
  */
 Cms.loadData = function(obj, action, curpage) {
-    var dialogInfo = Cms.getHtmlInfo(action, {"curpage" : curpage});
+    var typeId = $("#typeTree").tree('getSelected').id;
+    var dialogInfo = Cms.getHtmlInfo(action, {"curpage" : curpage, "typeId": typeId});
     dialogInfo += "<script>Cms.checkboxInit();</script>";
     $("#data-list-content").html(dialogInfo);
     return true;
@@ -46,7 +47,18 @@ Cms.loadData = function(obj, action, curpage) {
  * 表格头部添加方法
  */
 Cms.add = function() {
-    var dialogInfo = Cms.getHtmlInfo(Cms.ctxPath + Cms.url + 'add.html', '');
+    var node = $("#typeTree").tree('getSelected');
+    if (node == null || node.id == null) {
+        BootstrapDialog.alert({
+            type: BootstrapDialog.TYPE_WARNING,
+            title: '提示',
+            message: "请选择一个栏目",
+            buttonLabel: "确定"
+        });
+        return ;
+    }
+
+    var dialogInfo = Cms.getHtmlInfo(Cms.ctxPath + Cms.url + 'add.html', {typeId: node.id});
     BootstrapDialog.show({
         title: '添加',
         closable: true,
@@ -278,5 +290,32 @@ Cms.checkboxInit = function() {
 };
 
 $(function () {
+    Cms.loadTree();
     Cms.checkboxInit();
 });
+
+
+Cms.loadTree = function(){
+    //首先在loadTree时，定义一个声明是否请求所有数据的全局变量isAll，默认值为false，代表逐级加载
+    var isAll = false;
+    $('#typeTree').tree({
+        url: Cms.ctxPath + "cms/cmsarticletypetree/tree/list.do",
+        method:"post",
+        queryParams:{parentId: "NONE"},//传递请求参数，与下面的方式一相对应
+
+        //添加onBeforeExpand展开前事件处理函数，通过isAll参数，让前端或者后台知道此时应该获取的是全部数据还是逐级加载数据
+        onBeforeExpand:function(node){
+
+            //方式一：重置请求参数，让服务器端判断是否获取全部数据
+            $('#typeTree').tree('options').queryParams = {parentId:node.id};
+
+            //方式二：重置请求地址，前端进行判断，是否发送到请求全部数据的地址
+            // if(isAll == true){
+            //     $('#tree').tree('options').url = '/tree/all/ajax';
+            // }
+        },
+        onClick : function(node) {
+            Cms.loadData(null, Cms.ctxPath + Cms.url + 'list.html', 1);
+        }
+    });
+}

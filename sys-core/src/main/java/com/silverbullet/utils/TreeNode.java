@@ -17,11 +17,13 @@ public class TreeNode implements Serializable{
     static final Logger log = Logger.getLogger(TreeNode.class);
 
     private String id;
-    private String name;
+    private String text;
+    private String iconCls; //系统图标
+    private String state;  //closed或open 表示节点是展开还是折叠
     // 子节点
     private List<TreeNode> children = new ArrayList<TreeNode>();
     // 其他参数
-    private Map<String, Object> params = new HashMap<String, Object>();
+    private Map<String, Object> attributes = new HashMap<String, Object>();
 
     public TreeNode() {
 
@@ -29,8 +31,8 @@ public class TreeNode implements Serializable{
 
     public TreeNode(String id, String name, Map<String,Object> params) {
         this.id = id;
-        this.name = name;
-        this.params = params;
+        this.text = name;
+        this.attributes = params;
     }
 
     /**
@@ -38,10 +40,13 @@ public class TreeNode implements Serializable{
      * @param listMapNodes  需要格式化的数据
      * @param parentIdKeyName parentId的Key的名称
      * @param idKeyName  id的key的名称
+     * @param iconClsKeyName 图标key的名称
+     * @param childrenNumKeyName 拥有children的名称
      * @return
      */
     public static List<TreeNode> formatNodes2TreeNode(List<Map<String, Object>> listMapNodes, String nameKeyName,
-                                               String parentIdKeyName, String idKeyName) {
+                                               String parentIdKeyName, String idKeyName,
+                                                      String iconClsKeyName, String childrenNumKeyName) {
         List<TreeNode> treeNodes = new ArrayList<TreeNode>();
 
         for (Map<String, Object> node : listMapNodes) {
@@ -52,6 +57,25 @@ public class TreeNode implements Serializable{
             //创建新节点
             TreeNode treeNode = new TreeNode(String.valueOf(node.get(idKeyName)),
                     String.valueOf(node.get(nameKeyName)), node );
+
+            // 设置图标
+            if (iconClsKeyName != null && iconClsKeyName.length() > 0) {
+                treeNode.setIconCls(String.valueOf(node.get(iconClsKeyName)));
+            }
+
+            // 设置是否有子叶
+            if (childrenNumKeyName != null && childrenNumKeyName.length() > 0) {
+                long nNode = 0;
+                try {
+                    nNode = Long.valueOf(String.valueOf(node.get(childrenNumKeyName)));
+                } catch (Exception e) { e.printStackTrace();}
+
+                if (nNode > 0) {
+                    treeNode.setState("closed");
+                } else {
+                    treeNode.setState("open");
+                }
+            }
 
             // 查找新节点父位置，并插入
             treeNodes = addNodeInit(treeNodes, String.valueOf(node.get(parentIdKeyName)), treeNode);
@@ -121,12 +145,20 @@ public class TreeNode implements Serializable{
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getText() {
+        return text;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setText(String text) {
+        this.text = text;
+    }
+
+    public Map<String, Object> getAttributes() {
+        return attributes;
+    }
+
+    public void setAttributes(Map<String, Object> attributes) {
+        this.attributes = attributes;
     }
 
     public List<TreeNode> getChildren() {
@@ -137,11 +169,19 @@ public class TreeNode implements Serializable{
         this.children = children;
     }
 
-    public Map<String, Object> getParams() {
-        return params;
+    public String getIconCls() {
+        return iconCls;
     }
 
-    public void setParams(Map<String, Object> params) {
-        this.params = params;
+    public void setIconCls(String iconCls) {
+        this.iconCls = iconCls;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
     }
 }

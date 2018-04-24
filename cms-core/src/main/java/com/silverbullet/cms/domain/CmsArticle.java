@@ -33,9 +33,9 @@ public class CmsArticle {
     
     private String author;
     // publicTime 
-    @NotNull(message = "publicTime 不能为空" , groups = {FullValidate.class, AddValidate.class})
+    @NotNull(message = "publicTime 不能为空" , groups = {FullValidate.class})
     private Date publicTime;
-    // artType 1:web doc; 2:file doc; 3:site
+    // artType 1:html; 2:file doc; 3:site 4: text
     @NotBlank(message = "artType 不能为空" , groups = {FullValidate.class, AddValidate.class})
     @Size(max=2, message = "artType 长度不能超过2", groups = {FullValidate.class, AddValidate.class})
     private String artType;
@@ -56,27 +56,27 @@ public class CmsArticle {
     @Size(max=2, message = "artState 长度不能超过2", groups = {FullValidate.class, AddValidate.class})
     private String artState;
     // createTime 
-    @NotNull(message = "createTime 不能为空" , groups = {FullValidate.class, AddValidate.class})
+    @NotNull(message = "createTime 不能为空" , groups = {FullValidate.class})
     private Date createTime;
     // modifyTime 
-    @NotBlank(message = "modifyTime 不能为空" , groups = {FullValidate.class, AddValidate.class})
-    @Size(max=16, message = "modifyTime 长度不能超过16", groups = {FullValidate.class, AddValidate.class})
+    @NotBlank(message = "modifyTime 不能为空" , groups = {FullValidate.class})
+    @Size(max=16, message = "modifyTime 长度不能超过16", groups = {FullValidate.class})
     private Date modifyTime;
     // createUsername 
-    @NotBlank(message = "createUsername 不能为空" , groups = {FullValidate.class, AddValidate.class})
-    @Size(max=64, message = "createUsername 长度不能超过64", groups = {FullValidate.class, AddValidate.class})
+    @NotBlank(message = "createUsername 不能为空" , groups = {FullValidate.class})
+    @Size(max=64, message = "createUsername 长度不能超过64", groups = {FullValidate.class})
     private String createUsername;
     // createUser 
-    @NotBlank(message = "createUser 不能为空" , groups = {FullValidate.class, AddValidate.class})
-    @Size(max=32, message = "createUser 长度不能超过32", groups = {FullValidate.class, AddValidate.class})
+    @NotBlank(message = "createUser 不能为空" , groups = {FullValidate.class})
+    @Size(max=32, message = "createUser 长度不能超过32", groups = {FullValidate.class})
     private String createUser;
     // modifyUsername 
-    @NotBlank(message = "modifyUsername 不能为空" , groups = {FullValidate.class, AddValidate.class})
-    @Size(max=64, message = "modifyUsername 长度不能超过64", groups = {FullValidate.class, AddValidate.class})
+    @NotBlank(message = "modifyUsername 不能为空" , groups = {FullValidate.class})
+    @Size(max=64, message = "modifyUsername 长度不能超过64", groups = {FullValidate.class})
     private String modifyUsername;
     // modifyUser 
-    @NotBlank(message = "modifyUser 不能为空" , groups = {FullValidate.class, AddValidate.class})
-    @Size(max=32, message = "modifyUser 长度不能超过32", groups = {FullValidate.class, AddValidate.class})
+    @NotBlank(message = "modifyUser 不能为空" , groups = {FullValidate.class})
+    @Size(max=32, message = "modifyUser 长度不能超过32", groups = {FullValidate.class})
     private String modifyUser;
     // writeAuthority 1:公开; 0:本人; 2:站点; 3:禁止编辑
     @NotBlank(message = "writeAuthority 不能为空" , groups = {FullValidate.class, AddValidate.class})
@@ -87,23 +87,23 @@ public class CmsArticle {
     @Size(max=2, message = "readAuthority 长度不能超过2", groups = {FullValidate.class, AddValidate.class})
     private String readAuthority;
     // runinfoId 
-    @NotBlank(message = "runinfoId 不能为空" , groups = {FullValidate.class, AddValidate.class})
-    @Size(max=32, message = "runinfoId 长度不能超过32", groups = {FullValidate.class, AddValidate.class})
+    @NotBlank(message = "runinfoId 不能为空" , groups = {FullValidate.class})
+    @Size(max=32, message = "runinfoId 长度不能超过32", groups = {FullValidate.class})
     private String runinfoId;
     // module 所属的模块名称
-    @NotBlank(message = "module 不能为空" , groups = {FullValidate.class, AddValidate.class})
-    @Size(max=32, message = "module 长度不能超过32", groups = {FullValidate.class, AddValidate.class})
+    @NotBlank(message = "module 不能为空" , groups = {FullValidate.class})
+    @Size(max=32, message = "module 长度不能超过32", groups = {FullValidate.class})
     private String module;
     // moduleFilterKey 用于在某个模块下过滤的字段
     
     private String moduleFilterKey;
     // lastUpdateTime 
-    @NotNull(message = "lastUpdateTime 不能为空" , groups = {FullValidate.class, AddValidate.class})
+    @NotNull(message = "lastUpdateTime 不能为空" , groups = {FullValidate.class})
     private Date lastUpdateTime;
     // state 
-    @NotBlank(message = "state 不能为空" , groups = {FullValidate.class, AddValidate.class})
-    @Size(max=1, message = "state 长度不能超过1", groups = {FullValidate.class, AddValidate.class})
-    private String state;
+    @NotBlank(message = "state 不能为空" , groups = {FullValidate.class})
+    @Size(max=1, message = "state 长度不能超过1", groups = {FullValidate.class})
+    private String state = "1";
 
 
     public String getId() {

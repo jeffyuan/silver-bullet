@@ -20,8 +20,23 @@
     </ol>
 </section>
 
-<div id="data-list-content">
-    @include("/CmsArticle/listContent.html"){}
+<div>
+    <section class="content col-lg-3">
+        <div class="box box-primary">
+            <div class="box-header with-border">
+                <h3 class="box-title">栏目列表</h3>
+            </div>
+            <div class="box-body no-padding">
+                <ul class="easyui-tree" id="typeTree" style="padding: 15px"></ul>
+            </div>
+        </div>
+    </section>
+    <!-- Main content -->
+    <section class="content col-lg-9">
+        <div id="data-list-content">
+            @include("/CmsArticle/listContent.html"){}
+        </div>
+    </section>
 </div>
 
 <script src="${ctxPath}/static/silverbullet/js/cms/CmsArticle.js"></script>

@@ -192,4 +192,8 @@
         delete from cms_article_content where art_id = #{artId ,jdbcType=VARCHAR}
     </delete>
 
+    <select id="findByArtId" resultMap="BaseResultMap">
+        select * from cms_article_content where art_id = #{artId ,jdbcType=VARCHAR} AND cont_state = 1
+    </select>
+
 </mapper>

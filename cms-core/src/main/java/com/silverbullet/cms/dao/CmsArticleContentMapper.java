@@ -7,4 +7,5 @@ import java.util.Map;
 
 public interface CmsArticleContentMapper extends CrudRepository<CmsArticleContent, String>{
     public int deleteByArtId(String artId);
+    public CmsArticleContent findByArtId(String artId);
 }

@@ -5,11 +5,15 @@ import com.silverbullet.cms.config.RepositoryProperties;
 import com.silverbullet.cms.dao.*;
 import com.silverbullet.cms.domain.*;
 import com.silverbullet.cms.pojo.CmsArticleEntity;
+import com.silverbullet.cms.pojo.CmsArticleEx;
 import com.silverbullet.cms.pojo.CmsFileInfo;
 import com.silverbullet.cms.service.ICmsArticleService;
 import com.silverbullet.cms.service.IFileService;
+import com.silverbullet.cms.util.EntryCreateFactory;
 import com.silverbullet.utils.BaseDataResult;
+import com.silverbullet.utils.HtmlUtils;
 import com.silverbullet.utils.SpringUtil;
+import org.apache.commons.beanutils.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,9 +23,12 @@ import org.apache.shiro.SecurityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.awt.color.CMMException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -57,12 +64,20 @@ public class CmsArticleService implements ICmsArticleService {
     }
 
     @Override
-    public BaseDataResult<CmsArticle> list(int pageNum, int pageSize) {
+    public BaseDataResult<CmsArticle> list(String module, String moduleFilterKey, int pageNum, int pageSize) {
         PageHelper.startPage(pageNum, pageSize);
 
         BaseDataResult<CmsArticle> listResults = new BaseDataResult<CmsArticle>();
-        listResults.setResultList(cmsArticleMapper.findList());
-        listResults.setTotalNum(cmsArticleMapper.countNum());
+
+        HashMap<String, String> mapParams = new HashMap<String, String>();
+        if (module != null && module.length() > 0) {
+            mapParams.put("module", module);
+        }
+        if (moduleFilterKey != null && moduleFilterKey.length() >0) {
+            mapParams.put("moduleFilterKey", moduleFilterKey);
+        }
+        listResults.setResultList(cmsArticleMapper.findArticleByModule(mapParams));
+        listResults.setTotalNum(cmsArticleMapper.countNumByModule(mapParams));
 
         return listResults;
     }
@@ -73,17 +88,88 @@ public class CmsArticleService implements ICmsArticleService {
     }
 
     @Override
-    public boolean Update(CmsArticle cmsArticle) {
+    public CmsArticleEx getOneExById(String id) {
+        CmsArticle cmsArticle = cmsArticleMapper.selectByPrimaryKey(id);
+        if (cmsArticle == null) {
+            return null;
+        }
+
+        CmsArticleEx cmsArticleEx = new CmsArticleEx();
+        try {
+            BeanUtils.copyProperties(cmsArticleEx, cmsArticle);
+
+            if (cmsArticle.getArtType().equals("1")) {
+                CmsArticleContent articleContent = cmsArticleContentMapper.findByArtId(id);
+                if (articleContent != null) {
+                    cmsArticleEx.setContHtml(articleContent.getContHtml());
+                }
+            }
+
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        }
+
+        return cmsArticleEx;
+    }
+
+    @Transactional
+    @Override
+    public boolean Update(CmsArticleEx cmsArticle) {
         try {
             CmsArticle cmsArticleNew = getOneById(cmsArticle.getId());
-
             if (cmsArticleNew == null) {
                 return false;
             }
 
             UserInfo userInfo = (UserInfo) SecurityUtils.getSubject().getPrincipal();
+            cmsArticleNew.setModifyTime(Calendar.getInstance().getTime());
+            cmsArticleNew.setModifyUser(userInfo.getId());
+            cmsArticleNew.setModifyUsername(userInfo.getUsername());
+            cmsArticleNew.setTitle(cmsArticle.getTitle());
+            cmsArticleNew.setAbs(cmsArticle.getAbs());
+            cmsArticleNew.setSource(cmsArticle.getSource());
+            cmsArticleNew.setTagkey(cmsArticle.getTagkey());
+            cmsArticleNew.setTopLevel(cmsArticle.getTopLevel());
+            cmsArticleNew.setArtState(cmsArticle.getArtState());
+            cmsArticleNew.setReadAuthority(cmsArticle.getReadAuthority());
+            cmsArticleNew.setWriteAuthority(cmsArticle.getWriteAuthority());
 
-            return cmsArticleMapper.updateByPrimaryKey(cmsArticle) == 1;
+            // 修改当前内容为历史
+            CmsArticleContent cmsArticleContent = cmsArticleContentMapper.findByArtId(cmsArticle.getId());
+            if (cmsArticleContent == null) {
+                return false;
+            }
+
+            // 去除html内容
+            String contText = HtmlUtils.removeHtmlTag(cmsArticle.getContHtml());
+            // 不相同情况需要更新内容
+            if (!cmsArticleContent.getContText().equals(contText)) {
+                CmsArticleContent cmsArticleContentNew = new CmsArticleContent();
+                BeanUtils.copyProperties(cmsArticleContentNew, cmsArticleContent);
+
+                cmsArticleContentNew.setId(ToolUtil.getUUID());
+                cmsArticleContentNew.setContHtml(cmsArticle.getContHtml());
+                cmsArticleContentNew.setContText(contText);
+                cmsArticleContentNew.setContVersion(cmsArticleContentNew.getContVersion() + 1);
+                cmsArticleContentNew.setModifyTime(Calendar.getInstance().getTime());
+                cmsArticleContentNew.setModifyUser(userInfo.getId());
+                cmsArticleContentNew.setModifyUsername(userInfo.getUsername());
+
+                boolean bRet = cmsArticleContentMapper.insert(cmsArticleContentNew) == 1;
+                if (!bRet) {
+                    return false;
+                }
+
+                cmsArticleContent.setContState("2"); //历史信息
+                bRet = cmsArticleContentMapper.updateByPrimaryKeySelective(cmsArticleContent) == 1;
+                if (!bRet) {
+                    return false;
+                }
+            }
+
+            return cmsArticleMapper.updateByPrimaryKey(cmsArticleNew) == 1;
         } catch (Exception ex) {
             logger.error("Update Error: " + ex.getMessage());
             return false;
@@ -138,9 +224,11 @@ public class CmsArticleService implements ICmsArticleService {
             }
 
             // 删除图片
-            bret = this.deleteFile(cmsArticle.getArtImgId());
-            if (!bret) {
-                throw new RuntimeException("delete faild");
+            if (cmsArticle.getArtImgId() != null && cmsArticle.getArtImgId().length() > 0) {
+                bret = this.deleteFile(cmsArticle.getArtImgId());
+                if (!bret) {
+                    throw new RuntimeException("delete faild");
+                }
             }
         }
 
@@ -160,10 +248,6 @@ public class CmsArticleService implements ICmsArticleService {
             CmsArticle cmsArticle = cmsArticleEntity.getCmsArticle();
             if (cmsArticle == null) {
                 return false;
-            }
-
-            if (cmsArticle.getId() == null) {
-                cmsArticle.setId(ToolUtil.getUUID());
             }
 
             // 存储文档内容
@@ -193,10 +277,6 @@ public class CmsArticleService implements ICmsArticleService {
 
             // 保存文档内容
             if (cmsArticleContent != null) {
-                if (cmsArticleContent.getId() == null || cmsArticleContent.getId().length() == 0) {
-                    cmsArticleContent.setId(ToolUtil.getUUID());
-                }
-
                 cmsArticleContent.setArtId(cmsArticle.getId());
                 boolean bSuccessCont = cmsArticleContentMapper.insert(cmsArticleContent) == 1;
                 if (!bSuccessCont) {
@@ -204,14 +284,8 @@ public class CmsArticleService implements ICmsArticleService {
                 }
             }
 
-            CmsArticleRunBehavior cmsArticleRunBehavior = new CmsArticleRunBehavior();
-            cmsArticleRunBehavior.setId(ToolUtil.getUUID());
-            cmsArticleRunBehavior.setCommentNum(0);
-            cmsArticleRunBehavior.setHotNum(0);
-            cmsArticleRunBehavior.setLastVisitTime(Calendar.getInstance().getTime());
-            cmsArticleRunBehavior.setPraisNo(0);
-            cmsArticleRunBehavior.setPraisYes(0);
-            cmsArticleRunBehavior.setVisitNum(0);
+            CmsArticleRunBehavior cmsArticleRunBehavior = EntryCreateFactory.createCmsArticleRunBehavior();
+
             boolean bSuccess = cmsArticleRunBehaviorMapper.insert(cmsArticleRunBehavior) == 1;
             if (!bSuccess) {
                 throw new RuntimeException("创建文档失败");

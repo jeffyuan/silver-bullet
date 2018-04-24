@@ -40,7 +40,7 @@ public class UserActionService {
             return new ArrayList<TreeNode>();
         }
 
-        List<TreeNode> nodes = TreeNode.formatNodes2TreeNode(listMenus,"name","parent_id", "id");
+        List<TreeNode> nodes = TreeNode.formatNodes2TreeNode(listMenus,"name","parent_id", "id", "icon", "");
         if (nodes != null) {
             return nodes;
         }

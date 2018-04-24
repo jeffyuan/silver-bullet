@@ -297,5 +297,25 @@
   <select id="countNum" resultType="Integer">
     select count(*) from cms_article
   </select>
+    <select id="findArticleByModule" parameterType="java.util.HashMap" resultMap="BaseResultMap">
+       select * from cms_article where state = '1'
+        <if test="module != null">
+            AND module=#{module}
+        </if>
+        <if test="moduleFilterKey != null">
+            AND module_filter_key=#{moduleFilterKey}
+        </if>
+        ORDER BY modify_time desc
+    </select>
+
+    <select id="countNumByModule" parameterType="java.util.HashMap" resultType="Integer">
+        select count(*) from cms_article where state = '1'
+        <if test="module != null">
+            AND module=#{module}
+        </if>
+        <if test="moduleFilterKey != null">
+            AND module_filter_key=#{moduleFilterKey}
+        </if>
+    </select>
 
 </mapper>
