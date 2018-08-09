@@ -1,0 +1,35 @@
+<!--&lt;!&ndash; Resolve conflict in jQuery UI tooltip with Bootstrap tooltip &ndash;&gt;-->
+
+<!-- Select2 -->
+<!--<script src="${ctxPath}/static/adminlte/bower_components/select2/dist/js/select2.js"></script>-->
+<!-- InputMask -->
+<!--<script src="${ctxPath}/static/adminlte/plugins/input-mask/jquery.inputmask.js"></script>-->
+<!--<script src="${ctxPath}/static/adminlte/plugins/input-mask/jquery.inputmask.date.extensions.js"></script>-->
+<!--<script src="${ctxPath}/static/adminlte/plugins/input-mask/jquery.inputmask.extensions.js"></script>-->
+<!-- Sparkline -->
+<!--<script src="${ctxPath}/static/adminlte/bower_components/jquery-sparkline/dist/jquery.sparkline.min.js"></script>-->
+<!-- jvectormap -->
+<!--<script src="${ctxPath}/static/adminlte/plugins/jvectormap/jquery-jvectormap-1.2.2.min.js"></script>-->
+<!--<script src="${ctxPath}/static/adminlte/plugins/jvectormap/jquery-jvectormap-world-mill-en.js"></script>-->
+<!-- jQuery Knob Chart -->
+<!--<script src="${ctxPath}/static/adminlte/bower_components/jquery-knob/dist/jquery.knob.min.js"></script>-->
+<!-- daterangepicker -->
+<!--<script src="${ctxPath}/static/adminlte/bower_components/moment/min/moment.min.js"></script>-->
+<!--<script src="${ctxPath}/static/adminlte/bower_components/bootstrap-daterangepicker/daterangepicker.js"></script>-->
+<!-- datepicker -->
+<!--<script src="${ctxPath}/static/adminlte/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>-->
+<!-- Bootstrap WYSIHTML5 -->
+<!--<script src="${ctxPath}/static/adminlte/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js"></script>-->
+<!-- FastClick -->
+<!--<script src="${ctxPath}/static/adminlte/bower_components/fastclick/lib/fastclick.js"></script>-->
+<!--<script src="${ctxPath}/static/js/amq_jquery_adapter.js"></script>
+<script src="${ctxPath}/static/js/amq.js"></script>
+<script src="${ctxPath}/static/silverbullet/js/silverbullet-msg.js"></script>-->
+<!-- treegrid -->
+<!--<script src="${ctxPath}/static/jquery/treegrid/js/jquery.treegrid.js"></script>-->
+
+<!--<script src="${ctxPath}/static/jquery/treegrid/js/jquery.treegrid.bootstrap3.js"></script>-->
+<!-- easyui -->
+<!--<script src="${ctxPath}/static/jquery/easyui/jquery.easyui.min.js"></script>-->
+<!-- jQuery UI 1.11.4 -->
+<script src="${ctxPath}/static/adminlte/bower_components/jquery-ui/jquery-ui.min.js"></script>

@@ -1,0 +1,118 @@
+<!-- Main content -->
+<div id="listContent" class="fadeInCon">
+    <section class="content">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">维修业务列表</h3>
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body">
+                        <div class="box-controls no-padding" style="margin-bottom:15px;">
+                            <button type="button" class="btn btn-default btn-header checkbox-toggle">
+                                <i class="fa fa-square-o"></i>
+                            </button>
+
+                            <div class="btn-group margin">
+                                <button name="查看" class="btn btn-default" onclick="CmsRepairService.check()" space="true">
+                                    <i class="fa fa-fw fa-search"></i>查看
+                                </button>
+                                <button name="添加" class="btn btn-default" onclick="CmsRepairService.add()">
+                                    <i class="fa fa-fw fa-plus"></i>添加
+                                </button>
+                                <button name="修改" class="btn btn-default" onclick="CmsRepairService.edit()" space="true">
+                                    <i class="fa fa-fw fa-edit"></i>修改
+                                </button>
+                                <button name="删除" class="btn btn-danger" onclick="CmsRepairService.delete()" space="true">
+                                    <i class="fa fa-fw fa-trash-o"></i>删除
+                                </button>
+                            </div>
+                            <button name="设置业务状态" class="btn bg-teal-active color-palette" onclick="CmsRepairService.status()" space="true">
+                                    <i class="fa fa-cog"></i>设置任务状态
+                            </button>
+                            <div class="search-group margin-bottom float-r" id="faultUser-form" role="form" style="margin-top:10px;">
+                                <select name="selectKey" class="form-control select tb-w-120" id="selectKey" data-obj="CmsRepairService.search(this)" data-re="CmsRepairService.refresh(this)" onchange="select(this)">
+                                    <option style="display: none;" value="" class="fault">选择关键字</option>
+                                    <option value="rf.fault_name" data-control="input">故障名称</option>
+                                    <option value="ru.custom_Name" data-control="input">客户姓名</option>
+                                    <option value="rfs.status" data-control="selectStatus">任务状态</option>
+                                    <option value="ru.address" data-control="input">维修地址</option>
+                                    <option value="ru.mob_phone" data-control="input">客户电话</option>
+                                    <option value="rfs.create_time" data-control="input">创建时间</option>
+                                    <option value="rfs.create_username" data-control="input">客户信息创建人</option>
+                                </select>
+                                <div class="box-tools" id="box-tools">
+                                    <!--Input content-->
+                                    <div class="input-group" style="width:150px;">
+                                        <input type="text" id="selectValue" name="selectValue" class="form-control pull-right" placeholder="Search" >
+                                        <div class="input-group-btn">
+                                            <button type="submit" class="btn btn-default" onclick="${searchObj!}" style="padding-top:9px; padding-bottom:9px;"><i class="fa fa-search"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button type="button" class="btn btn-default" onclick="CmsRepairService.refresh()" style="margin-top:-4px;"><i class="fa fa-refresh"></i>&nbsp;</button>
+                            </div>
+                        </div>
+                        <div class="table-responsive data-table-list">
+                            <table id="data-list" class="table table-bordered table-hover">
+                                <thead>
+                                <tr clas="fs-n">
+                                    <th class="text-center">#</th>
+                                    <th class="text-center">故障名称</th>
+                                    <th class="text-center">客户姓名</th>
+                                    <th class="text-center">任务状态</th>
+                                    <th class="text-center">维修地址</th>
+                                    <th class="text-center">客户电话</th>
+                                    <th class="text-center">创建时间</th>
+                                    <th class="text-center">创建人</th>
+                                    <th class="text-center">操作</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                @for(var i = 0; i< results.resultList.~size; i++){
+                                <tr id="data-r${i}" data-u="${results.resultList[i].id}">
+                                    <td class="tb-cb-w"><input type="checkbox"></td>
+                                    <td class="text-center"><span class="table-link" onclick="CmsRepairService.tableInfoFault('${results.resultList[i].repairFaultId}')">${results.resultList[i].faultName}</span></td>
+                                    <td class="tb-w-60 text-center"><span class="table-link" onclick="CmsRepairService.tableInfoUser('${results.resultList[i].repairUserId}')">${results.resultList[i].customName}</span></td>
+                                    <td class="height-middle text-center"><span class="border bor border${results.resultList[i].status}"><span class="round round${results.resultList[i].status}"></span>${(results.resultList[i].status == 0)?"未开始":(results.resultList[i].status == 1)?"进行中":"已完成"}</span></td>
+                                    <td class="text-center">${results.resultList[i].address}</td>
+                                    <td class="text-center">${results.resultList[i].mobPhone}</td>
+                                    <td class="text-center">${results.resultList[i].createTime}</td>
+                                    <td class="height-middle text-center tb-w-120 ofg-font-size-normal"><span class="label label-warning font-size-default">${results.resultList[i].createUsername}</span></td>
+                                    <td class="tb-w-170 text-center">
+                                        <button name="修改" class="btn btn-default btn-sm" onclick="CmsRepairService.checkOne(this)" space="true">
+                                            <i class="fa fa-fw fa-search"></i>
+                                        </button>
+                                        <button name="修改" class="btn btn-default btn-sm" onclick="CmsRepairService.editOne(this)" space="true">
+                                            <i class="fa fa-fw fa-edit"></i>
+                                        </button>
+                                        <button name="删除" class="btn btn-default btn-sm" onclick="CmsRepairService.deleteOne(this)" space="true">
+                                            <i class="fa fa-fw fa-trash-o"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                @}
+                                <tbody/>
+                            </table>
+                            <h3 style="width:100%; text-align: center; ">
+                                <i class="${noData.icon!}"></i>${noData.text!}
+                            </h3>
+                        </div>
+                    </div>
+                    <!-- /.box-body -->
+
+                    <#PageTag action="${ctxPath}/cms/cmsrepairfaultservice/${list}.html" totalNum="${results.totalNum}" perSize="10"
+                            curPage="${curPage!}" loadDataFunName="${method!}" searchValue="${searchValue!}"></#PageTag>
+
+                </div>
+                <!-- /.box -->
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+    </section>
+</div>
+<script>
+    $(".fadeInCon").fadeIn("300");
+</script>

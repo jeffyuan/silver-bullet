@@ -29,6 +29,8 @@ public class TreeNode implements Serializable{
 
     }
 
+
+
     public TreeNode(String id, String name, Map<String,Object> params) {
         this.id = id;
         this.text = name;
@@ -84,6 +86,7 @@ public class TreeNode implements Serializable{
 
         return treeNodes;
     }
+
 
     /**
      * 在树节点中查找节点

@@ -23,4 +23,7 @@ public class CmsArticleEx extends CmsArticle {
     public void setContHtml(String contHtml) {
         this.contHtml = contHtml;
     }
+
+
+
 }

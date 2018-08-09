@@ -29,8 +29,6 @@ import java.util.List;
  */
 public class MyShiroRealm extends AuthorizingRealm {
 
-    final static String AUTHCACHENAME = "AUTHCACHENAME";
-
     @Autowired
     private ISysAuthUserService iSysAuthUserService;
     @Autowired

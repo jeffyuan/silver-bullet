@@ -1,0 +1,22 @@
+<div>
+    <h4 id="msg" style="color: red;"></h4>
+    <form id="formParams" class="m-t" role="form" method="post">
+        <input type="hidden" name="id" class="form-control" value="${obj.id!}">
+        <div class="form-group">
+            <label>名称</label><label style="color: red;" id="msg-name"></label>
+            <input type="text" name="name" class="form-control" value="${obj.name!}" placeholder="名称" required="">
+        </div>
+        <div class="form-group">
+            <label>词典KEY</label><label style="color: red;" id="msg-dicKey"></label>
+            <input type="text" name="dicKey" class="form-control" value="${obj.dicKey!}" placeholder="词典KEY" required="">
+        </div>
+        <div class="form-group">
+            <label>类型</label><label id="msg-type" style="color: red;"></label>
+            <input type="text" name="type" class="form-control" value="${obj.type!}" placeholder="类型" required="">
+        </div>
+        <div class="form-group">
+            <label>备注</label><label id="msg-comments" style="color: red;"></label>
+            <textarea name="comments" class="form-control" value="${obj.comments!}"placeholder="Enter ..."></textarea>
+        </div>
+    </form>
+</div>

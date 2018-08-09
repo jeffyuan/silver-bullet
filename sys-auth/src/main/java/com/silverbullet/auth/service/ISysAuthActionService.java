@@ -13,10 +13,12 @@ import java.util.List;
 public interface ISysAuthActionService {
     public int countNum();
     public BaseDataResult<SysAuthAction> list(int pageNum, int pageSize);
+    public BaseDataResult<SysAuthAction> list();
     public SysAuthAction getOneById(String id);
     public boolean Update(SysAuthAction sysAuthAction);
-    public boolean delete(String ids);
+    public boolean delete(String id);
     public boolean Insert(SysAuthAction sysAuthAction);
+
     /**
      * 获取岗位下的功能权限
      * @param postId

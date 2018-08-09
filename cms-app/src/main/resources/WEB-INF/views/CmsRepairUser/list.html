@@ -1,0 +1,28 @@
+<style type="text/css">
+    .box-controls {
+        padding: 5px;
+    }
+    .btn-header {
+        height: 34px;
+    }
+</style>
+@layout("/layouts/bk-base.html") {
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <h1>
+        客户管理
+        <small>浏览</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li><a href="#">Tables</a></li>
+        <li class="active">Data tables</li>
+    </ol>
+</section>
+
+<div id="data-list-content">
+    @include("/CmsRepairUser/listContent.html"){}
+</div>
+<script src="${ctxPath}/static/silverbullet/js/cms/CmsRepair/CmsRepairUser.js"></script>
+@}
+

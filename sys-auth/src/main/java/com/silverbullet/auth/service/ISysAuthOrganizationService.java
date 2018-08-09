@@ -2,6 +2,10 @@ package com.silverbullet.auth.service;
 
 import com.silverbullet.auth.domain.SysAuthOrganization;
 import com.silverbullet.utils.BaseDataResult;
+import com.silverbullet.utils.TreeNode;
+import com.silverbullet.utils.TreeNode1;
+
+import java.util.List;
 
 
 /**
@@ -10,9 +14,17 @@ import com.silverbullet.utils.BaseDataResult;
  */
 public interface ISysAuthOrganizationService {
     public int countNum();
-    public BaseDataResult<SysAuthOrganization> list(int pageNum, int pageSize);
+    public BaseDataResult<SysAuthOrganization> list(String parentId, int pageNum, int pageSize);
     public SysAuthOrganization getOneById(String id);
     public boolean Update(SysAuthOrganization sysAuthOrganization);
-    public boolean delete(String ids);
+    public boolean delete(String id);
     public boolean Insert(SysAuthOrganization sysAuthOrganization);
+
+    public BaseDataResult<SysAuthOrganization> itemList(String dictKeyId, int pageNum, int pageSize);
+
+    BaseDataResult<SysAuthOrganization> getOrgSelect();
+
+    public BaseDataResult<SysAuthOrganization> localList(String parentId, int pageNum, int pageSize);
+
+    public List<TreeNode1> findTreeNode();
 }

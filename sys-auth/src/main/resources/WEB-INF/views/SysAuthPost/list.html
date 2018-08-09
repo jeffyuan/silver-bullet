@@ -1,28 +1,50 @@
-<style type="text/css">
-    .box-controls {
-        padding: 5px;
-    }
-    .btn-header {
-        height: 34px;
-    }
-</style>
-@layout("/layouts/bk-base.html") {
-<!-- Content Header (Page header) -->
-<section class="content-header">
-    <h1>
-        机构管理角色
-        <small>浏览</small>
-    </h1>
-    <ol class="breadcrumb">
-        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li><a href="#">Tables</a></li>
-        <li class="active">Data tables</li>
-    </ol>
-</section>
-
-<div id="data-list-content">
-    @include("/SysAuthPost/listContent.html"){}
+<div class="row">
+    <input type="hidden" id="AuthOrganizationIdList" value="${OrganizationId}">
+    <div class="organizationview">
+        <div class="box-controls col-xs-12" style="margin-bottom:20px;">
+            <div class="btn-group">
+                <button name="添加" class="btn btn-default" onclick="AuthPost.add()"> <i class="fa fa-fw fa-plus"></i>添加 </button>
+                <button name="修改" class="btn btn-default" onclick="AuthPost.edit()" space="true"> <i class="fa fa-fw fa-edit"></i>修改 </button>
+                <button name="删除" class="btn btn-default" onclick="AuthPost.delete()" space="true"> <i class="fa fa-fw fa-trash-o"></i>删除 </button>
+            </div>
+            <button name="配置权限" class="btn btn-warning" onclick="AuthPost.check()" space="true"> <i class="fa fa-fw fa-trash-o"></i>配置权限</button>
+        </div>
+        <div class="table-responsive data-table-list col-xs-12">
+            <table id="data-list" class="table table-bordered table-hover">
+                <thead>
+                <tr>
+                    <th></th>
+                    <th>名称</th>
+                    <th>创建人</th>
+                    <th>创建时间</th>
+                    <th>修改人</th>
+                    <th>修改时间</th>
+                    <th>是否可见</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                @for(var i = 0; i < results.resultList.~size; i++){
+                <tr id="data-r${i}" data-u="${results.resultList[i].id}">
+                    <td><input type="checkbox" /></td>
+                    <th>${results.resultList[i].name}</th>
+                    <th>${results.resultList[i].createTime}</th>
+                    <th>${results.resultList[i].modifyUsername}</th>
+                    <th>${results.resultList[i].modifyTime}</th>
+                    <th>${results.resultList[i].modifyUsername}</th>
+                    <th>${results.resultList[i].isExtends}</th>
+                    <th>
+                        <button name="修改" class="btn btn-default btn-sm" onclick="AuthPost.editOne(this)" space="true">
+                            <i class="fa fa-fw fa-edit"></i>
+                        </button>
+                        <button name="删除" class="btn btn-default btn-sm" onclick="AuthPost.deleteOne(this)" space="true">
+                            <i class="fa fa-fw fa-trash-o"></i>
+                        </button>
+                    </th>
+                </tr> @}
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
-
-<script src="${ctxPath}/static/silverbullet/js/auth/SysAuthPost.js"></script>
-@}
+<script src="${ctxPath}/static/sysAuthPost/AuthPost.js"></script>

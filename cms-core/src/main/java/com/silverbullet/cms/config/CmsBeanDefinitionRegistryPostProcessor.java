@@ -58,7 +58,7 @@ public class CmsBeanDefinitionRegistryPostProcessor implements BeanDefinitionReg
                     propertiesMap.put(keyStr, new String(properties.getProperty(keyStr).getBytes("ISO-8859-1"),"utf-8"));
                 } catch (UnsupportedEncodingException e) {
                     e.printStackTrace();
-                }catch (java.lang.Exception e){
+                }catch (Exception e){
                     e.printStackTrace();
                 };
             }

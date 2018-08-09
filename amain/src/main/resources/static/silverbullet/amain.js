@@ -2,12 +2,13 @@
  * Created by GESOFT on 2018/3/9.
  */
 
+// loadMenu();
 jQuery(document).ready(function(){
-    loadMenu();
+   loadMenu();
 
     // 初始化消息队列
-    initMsg();
-})
+    // initMsg();
+});
 
 function loadMenu() {
 
@@ -18,10 +19,18 @@ function loadMenu() {
         async:false,
         dataType:"html",
         beforeSend: beforeSend,
+        cache: false,
         success: function (data) {
             // $("#loading").remove();
             $("#menus").empty();
             $("#menus").html(data);
+
+            $('#menus').tree({
+                animationSpeed: 500,
+                accordion     : true,
+                followLink    : false,
+                trigger       : '.treeview a'
+            });
         },
         complete: complete,
         error: error,

@@ -1,18 +1,19 @@
 package com.silverbullet.auth.security.shiro.config;
 
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
-import org.apache.shiro.cache.ehcache.EhCacheManager;
 import org.apache.shiro.spring.LifecycleBeanPostProcessor;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.apache.shiro.mgt.SecurityManager;
 import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.core.annotation.Order;
 
+import javax.servlet.Filter;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -74,21 +75,8 @@ public class ShiroConfig {
         MyShiroRealm myShiroRealm = new MyShiroRealm();
         //告诉realm,使用credentialsMatcher加密算法类来验证密文
         myShiroRealm.setCredentialsMatcher(hashedCredentialsMatcher());
-        myShiroRealm.setCachingEnabled(true);
-        myShiroRealm.setCacheManager(ehCacheManager());
+        myShiroRealm.setCachingEnabled(false);
         return myShiroRealm;
-    }
-
-    /**
-     * shiro 缓存
-     * @return
-     */
-    @Bean
-    public EhCacheManager ehCacheManager(){
-        System.out.println("ShiroConfiguration.getEhCacheManager()");
-        EhCacheManager cacheManager = new EhCacheManager();
-        cacheManager.setCacheManagerConfigFile("classpath:config/ehcache-shiro.xml");
-        return cacheManager;
     }
 
     /**

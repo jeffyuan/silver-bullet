@@ -86,7 +86,7 @@ public class MybatisCodeGenerator {
             javaModelGeneratorConfiguration.addProperty("enableSubPackages", "false");
             javaModelGeneratorConfiguration.addProperty("trimStrings", "true");
             context.setJavaModelGeneratorConfiguration(javaModelGeneratorConfiguration);
-        }
+
 
         if (mappPackage != null && mappPackage.length() > 0) {
             SqlMapGeneratorConfiguration sqlMapGeneratorConfiguration = new SqlMapGeneratorConfiguration();

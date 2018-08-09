@@ -1,0 +1,42 @@
+<div class="row">
+    <h4 id="msg" style="color: red;"></h4>
+    <form id="formCmsRepairUser" class="m-t" role="form" method="post">
+        <input type="hidden" name="id" class="form-control" value="${obj.id!}">
+        <div class="col-xs-3 b-r">
+            <div class="form-group">
+                <label>姓名：</label><label style="color: red;" id="msg-cName"></label>
+                <input type="text" name="cName" class="form-control" value="${obj.cName!}" placeholder="输入客户姓名" ${disabled}>
+            </div>
+            <div class="form-group">
+                <label>姓氏：<span class="font-red">*</span></label><label style="color: red;" id="msg-name"></label>
+                <input type="text" name="familyName" class="form-control" value="${obj.familyName!}" placeholder="输入客户姓氏" ${disabled}>
+            </div>
+            <div class="form-group">
+                <label>性别：<span class="font-red">*</span></label><label style="color: red;" id="msg-sex"></label>
+                <select name="sex" class="form-control" ${disabled}>
+                    <option value="${obj.sex!}" style="display: none;">${obj.sex=="1"?"女":obj.sex=="0"?"男":"选择性别"}</option>
+                    <option value="0">男</option>
+                    <option value="1">女</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-xs-9">
+            <div class="form-group">
+                <label>移动电话：<span class="font-red">*</span></label><label style="color: red;" id="msg-sort"></label>
+                <input type="text" name="mobPhone" class="form-control" value="${obj.mobPhone!}" placeholder="输入移动电话" ${disabled}>
+            </div>
+            <div class="form-group">
+                <label>住址：<span class="font-red">*</span></label><label style="color: red;" id="msg-type"></label>
+                <input type="text" name="address" class="form-control" value="${obj.address!}" placeholder="输入住址" ${disabled}>
+            </div>
+            <div class="form-group">
+                <label>电子邮件：<span class="font-red">*</span></label><label style="color: red;" id="msg-domain"></label>
+                <input type="text" name="email" class="form-control" value="${obj.email!}" placeholder="输入电子邮件" ${disabled}>
+            </div>
+        </div>
+        <div class="form-group col-xs-12">
+            <label>备注：</label><label style="color: red;" id="msg-comments"></label>
+            <textarea name="comments" class="form-control" placeholder="输入备注 ..." style="height:180px;" ${disabled}>${obj.comments!}</textarea>
+        </div>
+    </form>
+</div>

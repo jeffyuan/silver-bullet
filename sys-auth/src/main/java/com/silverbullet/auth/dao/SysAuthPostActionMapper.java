@@ -7,4 +7,6 @@ import java.util.Map;
 
 public interface SysAuthPostActionMapper extends CrudRepository<SysAuthPostAction, String>{
 
+    List findListByPostId(String postId);
+
 }

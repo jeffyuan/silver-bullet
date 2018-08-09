@@ -7,4 +7,5 @@ import java.util.Map;
 
 public interface SysAuthActionMapper extends CrudRepository<SysAuthAction, String>{
     List<SysAuthAction> findListByPostId(String postId);
+    List<Map<String, String>> findTreeNode();
 }

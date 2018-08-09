@@ -6,6 +6,7 @@ import com.silverbullet.cms.domain.CmsArticleContent;
 import com.silverbullet.cms.domain.CmsArticleFile;
 import com.silverbullet.cms.pojo.CmsArticleEntity;
 import com.silverbullet.cms.pojo.CmsFileInfo;
+import com.silverbullet.cms.service.ICmsRepairFaultService;
 import com.silverbullet.cms.service.impl.CmsArticleService;
 import org.apache.shiro.util.Assert;
 import org.junit.Test;
@@ -32,6 +33,7 @@ public class CmsArticleServiceTest {
 
     @Autowired
     private CmsArticleService cmsArticleService;
+
 
     @Test
     public void testInsertFile() throws FileNotFoundException {

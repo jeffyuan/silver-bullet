@@ -19,6 +19,7 @@ public class PageTag extends GeneralVarTagBinding {
 
     private String action = "";
     private String loadDataFunName = "";  //加载数据的方法，否则将通过ajax方式进行加载到
+    private String searchValue = "";
 
     private void init(){
        // String tagName = (String) this.args[0];
@@ -27,6 +28,7 @@ public class PageTag extends GeneralVarTagBinding {
         perSize = Integer.valueOf((String)getAttributeValue("perSize"));
         curPage = (Integer)getAttributeValue("curPage");
         action = (String)getAttributeValue("action");
+        searchValue = (String)getAttributeValue("searchValue");
 
         Object obj = getAttributeValue("loadDataFunName");
         if (obj != null) {
@@ -58,7 +60,7 @@ public class PageTag extends GeneralVarTagBinding {
 
         if(curPage > 1){
             paging.append("<li class=\"paginate_button\"><a href=\"" + getGlobalLoadDataAHref(1) + "\">首页</a></li>")
-                    .append("<li class=\"paginate_button previous\"><a href=\"" + getGlobalLoadDataAHref(curPage - 1)  + "\">上一页</a></li>");
+                    .append("<li class=\"paginate_button previous\"><a href=\"" + getGlobalLoadDataAHref(curPage - 1)  + "\">上页</a></li>");
 
             if(curPage > 4){
                 paging.append("<li class=\"paginate_button disabled\"><a href=\"#\">...</a></li>");
@@ -75,7 +77,7 @@ public class PageTag extends GeneralVarTagBinding {
             }
         } else if(curPage == 1){
             paging.append("<li class=\"paginate_button disabled\"><a href=\"#\">首页</a>")
-                    .append("<li class=\"paginate_button next disabled\"><a href=\"#\">下一页</a></li>");
+                    .append("<li class=\"paginate_button next disabled\"><a href=\"#\">上页</a></li>");
         }
 
 
@@ -96,10 +98,10 @@ public class PageTag extends GeneralVarTagBinding {
         }
 
         if(curPage >= pageNum){
-            paging.append("<li class=\"paginate_button next disabled\"><a href=\"#\">下一页</a></li>")
+            paging.append("<li class=\"paginate_button next disabled\"><a href=\"#\">下页</a></li>")
                     .append("<li class=\"paginate_button disabled\"><a href=\"#\">最后一页</a></li>");
         } else{
-            paging.append("<li class=\"paginate_button next\"><a href=\"" + getGlobalLoadDataAHref(curPage + 1) +"\">下一页</a></li>")
+            paging.append("<li class=\"paginate_button next\"><a href=\"" + getGlobalLoadDataAHref(curPage + 1) +"\">下页</a></li>")
                     .append("<li class=\"paginate_button\"><a href=\"" + getGlobalLoadDataAHref(pageNum) + "\">最后一页</a></li>");
         }
 
@@ -141,7 +143,7 @@ public class PageTag extends GeneralVarTagBinding {
         }
 
         String loadDataFun = loadDataFunName;
-        loadDataFun += "(this, '"+ action +"', " + pageNum +")";
+        loadDataFun += "("+searchValue +",'"+ action +"', " + pageNum +")";
 
         return loadDataFun;
     }
@@ -153,19 +155,19 @@ public class PageTag extends GeneralVarTagBinding {
         StringBuilder paging = new StringBuilder("");
         paging.append("<div class=\"box-footer no-padding\">");
         paging.append("<div class=\"row box-controls\">");
-        paging.append("<div class=\"col-sm-5\">");
+        paging.append("<div class=\"col-sm-3\">");
         paging.append("<div class=\"dataTables_info\">");
         paging.append("<span class=\"pageSkip\">").append("共&nbsp;").append(pageNum).append("&nbsp;页&nbsp;&nbsp;").append(totalNum).append("&nbsp;条记录</span>");
         paging.append("</div></div>");
 
-        paging.append("<div class=\"col-sm-7\">");
+        paging.append("<div class=\"col-sm-9\">");
         paging.append("<div class=\"pull-right\">");
         paging.append("<ul class=\"pagination\" style=\"margin:0 0 10px 0;\">");
 
 
         if(curPage > 1){
             paging.append("<li class=\"paginate_button\"><a href=\"javascript:void(0)\" onclick=\"" + getAjaxLoadDataFunTmp(1) + "\">首页</a></li>")
-                    .append("<li class=\"paginate_button previous\"><a href=\"javascript:void(0)\" onclick=\"" + getAjaxLoadDataFunTmp(curPage - 1)+ "\">上一页</a></li>");
+                    .append("<li class=\"paginate_button previous\"><a href=\"javascript:void(0)\" onclick=\"" + getAjaxLoadDataFunTmp(curPage - 1)+ "\">上页</a></li>");
 
             if(curPage > 4){
                 paging.append("<li class=\"paginate_button disabled\"><a href=\"#\">...</a></li>");
@@ -182,7 +184,7 @@ public class PageTag extends GeneralVarTagBinding {
             }
         } else if(curPage == 1){
             paging.append("<li class=\"paginate_button disabled\"><a href=\"#\">首页</a>")
-                    .append("<li class=\"paginate_button next disabled\"><a href=\"#\">下一页</a></li>");
+                    .append("<li class=\"paginate_button next disabled\"><a href=\"#\">上页</a></li>");
         }
 
 
@@ -194,7 +196,7 @@ public class PageTag extends GeneralVarTagBinding {
         }
 
         if(curPage + 2 <= pageNum){
-            paging.append("<li class=\"paginate_button\"><a href=\"javascript:void(0)\" onclick=\"" + getAjaxLoadDataFunTmp(curPage + 1)+"\">")
+            paging.append("<li class=\"paginate_button\"><a href=\"javascript:void(0)\" onclick=\"" + getAjaxLoadDataFunTmp(curPage + 2)+"\">")
                     .append(curPage + 2).append("</a></li>");
         }
 
@@ -203,11 +205,11 @@ public class PageTag extends GeneralVarTagBinding {
         }
 
         if(curPage >= pageNum){
-            paging.append("<li class=\"paginate_button next disabled\"><a href=\"#\">下一页</a></li>")
-                    .append("<li class=\"paginate_button disabled\"><a href=\"#\">最后一页</a></li>");
+            paging.append("<li class=\"paginate_button next disabled\"><a href=\"#\">下页</a></li>")
+                    .append("<li class=\"paginate_button disabled\"><a href=\"#\">末页</a></li>");
         } else{
-            paging.append("<li class=\"paginate_button next\"><a href=\"javascript:void(0)\" onclick=\"" + getAjaxLoadDataFunTmp(curPage + 1) + "\">下一页</a></li>")
-                    .append("<li class=\"paginate_button\"><a href=\"javascript:void(0)\" onclick=\"" + getAjaxLoadDataFunTmp(pageNum) + "\">最后一页</a></li>");
+            paging.append("<li class=\"paginate_button next\"><a href=\"javascript:void(0)\" onclick=\"" + getAjaxLoadDataFunTmp(curPage + 1) + "\">下页</a></li>")
+                    .append("<li class=\"paginate_button\"><a href=\"javascript:void(0)\" onclick=\"" + getAjaxLoadDataFunTmp(pageNum) + "\">末页</a></li>");
         }
 
         paging.append("</ul></div></div></div></div></div>");

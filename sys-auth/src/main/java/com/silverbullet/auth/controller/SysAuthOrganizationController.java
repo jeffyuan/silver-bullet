@@ -1,21 +1,23 @@
 package com.silverbullet.auth.controller;
 
+import com.silverbullet.auth.domain.SysAuthAction;
 import com.silverbullet.auth.domain.SysAuthOrganization;
 import com.silverbullet.auth.service.ISysAuthOrganizationService;
-import com.silverbullet.utils.BaseDataResult;
 import com.silverbullet.core.validate.AddValidate;
+import com.silverbullet.utils.BaseDataResult;
+import com.silverbullet.utils.TreeNode1;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.ui.Model;
-import org.springframework.web.servlet.ModelAndView;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
+import com.silverbullet.utils.TreeNode;
+
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -26,54 +28,76 @@ import java.util.Map;
 @RequestMapping(value = "/auth/sysauthorganization")
 public class SysAuthOrganizationController {
 
+
+
     @Autowired
     private ISysAuthOrganizationService sysAuthOrganizationService;
 
-    @RequestMapping(value = "/list/pub.html", method = RequestMethod.GET)
-    public ModelAndView index(){
+
+
+
+    @RequestMapping(value = "/list/{curpage}.html", method = RequestMethod.GET)
+    public ModelAndView index(@PathVariable("curpage") String parentId, String curpage){
         int nCurPage = 1;
-
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("/SysAuthOrganization/list");
-
-        BaseDataResult<SysAuthOrganization> results = sysAuthOrganizationService.list(nCurPage, 5);
-
-        modelAndView.addObject("results", results);
-        modelAndView.addObject("curPage", nCurPage);
-
-        return modelAndView;
-    }
-
-    @RequestMapping(value = "/list.html", method = RequestMethod.POST)
-    public ModelAndView listData(String curpage){
-        int nCurPage = 1;
+        parentId = "402888ac547fe1050154800171f30000";
         if (curpage != null) {
             nCurPage = Integer.valueOf(curpage);
         }
 
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("/SysAuthOrganization/listContent");
+        modelAndView.setViewName("/SysAuthOrganization/list");
 
-        BaseDataResult<SysAuthOrganization> results = sysAuthOrganizationService.list(nCurPage, 5);
+        BaseDataResult<SysAuthOrganization> results = sysAuthOrganizationService.list(parentId, nCurPage, 5);
 
         modelAndView.addObject("results", results);
         modelAndView.addObject("curPage", nCurPage);
 
         return modelAndView;
-     }
+    }
+
+
+
 
     @RequestMapping(value = "/add.html", method = RequestMethod.POST)
     public String add(Model model) {
+        model.addAttribute("obj", new SysAuthOrganization());
         return "/SysAuthOrganization/model";
     }
+
+
+
+
 
     @RequestMapping(value = "/edit.html", method = RequestMethod.POST)
     public String edit(Model model, String id) {
-        SysAuthOrganization sysAuthOrganization = sysAuthOrganizationService.getOneById(id);
-        model.addAttribute("obj", sysAuthOrganization);
-
+        SysAuthOrganization sysAuthUser = sysAuthOrganizationService.getOneById(id);
+        model.addAttribute("obj", sysAuthUser);
         return "/SysAuthOrganization/model";
     }
+
+
+
+
+    @RequestMapping(value = "checkPermission/{curpage}.html", method = RequestMethod.POST)
+    public ModelAndView check(@PathVariable("curpage") String curpage, String parentId ){
+        int nCurPage = 1;
+        parentId = "402888ac547fe1050154800171f30000";
+        if (curpage != null) {
+            nCurPage = Integer.valueOf(curpage);
+        }
+
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("/SysAuthPost/list");
+
+        BaseDataResult<SysAuthOrganization> results = sysAuthOrganizationService.list(parentId, nCurPage, 5);
+
+        modelAndView.addObject("results", results);
+        modelAndView.addObject("curPage", nCurPage);
+
+        return modelAndView;
+    }
+
+
 
     @RequestMapping(value = "/delete.do", method = RequestMethod.POST)
     @ResponseBody
@@ -83,16 +107,18 @@ public class SysAuthOrganizationController {
             mapRet.put("result", false);
             return mapRet;
         }
-
         boolean bRet = sysAuthOrganizationService.delete(ids);
-
         mapRet.put("result", bRet);
         return mapRet;
     }
 
+
+
+
+
     @RequestMapping(value = "/save.do", method = RequestMethod.POST)
     @ResponseBody
-    public Map<String, Object> save(@Validated({AddValidate.class}) SysAuthOrganization sysAuthOrganization,
+    public Map<String, Object> save(@Validated({AddValidate.class}) SysAuthOrganization sysAuthUser,
                                     BindingResult result) {
         Map<String,Object> mapRet = new HashMap<String, Object>();
         if (result.hasErrors()) {
@@ -103,11 +129,11 @@ public class SysAuthOrganizationController {
 
         boolean bTrue = false;
         String message = "";
-        if (sysAuthOrganization.getId().isEmpty()) {
-            bTrue = sysAuthOrganizationService.Insert(sysAuthOrganization);
+        if (sysAuthUser.getId().isEmpty()) {
+            bTrue = sysAuthOrganizationService.Insert(sysAuthUser);
             message = bTrue ? "添加成功！" : "添加失败！";
         } else {
-            bTrue = sysAuthOrganizationService.Update(sysAuthOrganization);
+            bTrue = sysAuthOrganizationService.Update(sysAuthUser);
             message = bTrue ? "修改成功！" : "修改失败！";
         }
 
@@ -116,4 +142,44 @@ public class SysAuthOrganizationController {
 
         return mapRet;
     }
+
+
+
+
+
+    @RequestMapping(value = "/list/{id}.do", method = RequestMethod.POST)
+    @ResponseBody
+    public Map<String,Object> getOrgSelect(@PathVariable("id") String Id){
+        Map<String, Object> model = new HashMap<String, Object>();
+        SysAuthOrganization results= sysAuthOrganizationService.getOneById(Id);
+        model.put("results", results);
+        return model;
+    }
+
+
+
+    @RequestMapping(value = "/local/{id}.html", method = RequestMethod.GET)
+    public ModelAndView local(@PathVariable("id") String parentId, String curpage){
+        int nCurPage = 1;
+        if (curpage != null) {
+            nCurPage = Integer.valueOf(curpage);
+        }
+
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("/SysAuthOrganization/listContent");
+
+        BaseDataResult<SysAuthOrganization> results = sysAuthOrganizationService.localList(parentId, nCurPage, 5);
+
+        modelAndView.addObject("parentId", parentId);
+        modelAndView.addObject("results", results);
+        modelAndView.addObject("curPage", nCurPage);
+            return modelAndView;
+    }
+
+    @RequestMapping(value = "/organizationTree.do", method = RequestMethod.POST)
+    @ResponseBody
+    public List<TreeNode1> treeNode(){
+        return sysAuthOrganizationService.findTreeNode();
+    }
+
 }
