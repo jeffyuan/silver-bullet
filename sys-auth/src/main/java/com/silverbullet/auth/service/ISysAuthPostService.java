@@ -1,9 +1,11 @@
 package com.silverbullet.auth.service;
 
 import com.silverbullet.auth.domain.SysAuthPost;
+import com.silverbullet.auth.domain.SysAuthPostAction;
 import com.silverbullet.utils.BaseDataResult;
 
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -15,8 +17,15 @@ public interface ISysAuthPostService {
     public BaseDataResult<SysAuthPost> list(int pageNum, int pageSize);
     public SysAuthPost getOneById(String id);
     public boolean Update(SysAuthPost sysAuthPost);
-    public boolean delete(String ids);
+    public boolean delete(String id);
     public boolean Insert(SysAuthPost sysAuthPost);
+
+
+    public boolean Handle(String data);
+    public List<SysAuthPostAction> findCheck(String postId);
+
+    public BaseDataResult<SysAuthPost>getPostByOrgId(String organizationId, int pageNum, int pageSize);
+
     /**
      * 获取角色列表
      * @param id

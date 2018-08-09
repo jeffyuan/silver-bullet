@@ -1,34 +1,35 @@
 <!-- /.search form -->
 <!-- sidebar menu: : style can be found in sidebar.less -->
-<ul class="sidebar-menu" data-widget="tree">
+<ul class="sidebar-menu">
     <li class="header">导航栏</li>
-    <li class="active treeview">
+    <li class="treeview"><!--active-->
         <a href="#">
-            <i class="fa fa-dashboard"></i> <span>我的桌面</span>
+            <i class="fa fa-desktop"></i> <span>我的桌面</span>
                         <span class="pull-right-container">
                             <i class="fa fa-angle-left pull-right"></i>
                         </span>
         </a>
         <ul class="treeview-menu">
-            <li class="active"><a href="/admin/dashboard"><i class="fa fa-circle-o"></i> 桌面1</a></li>
-            <li><a href="index2.html"><i class="fa fa-circle-o"></i> 桌面2</a></li>
+            <li class=""><a href="${ctxPath}"><i class="fa fa-circle-o"></i> 桌面1</a></li><!--active-->
+            <li><a href="${ctxPath}"><i class="fa fa-circle-o"></i> 桌面2</a></li>
         </ul>
     </li>
-
     @for(menu in menus!) {
-        <li class="treeview">
-            <a href="#">
-                <i class="fa fa-files-o"></i>
-                <span>${menu.text}</span>
-                 <span class="pull-right-container">
+    <li class="treeview">
+        <a href="#">
+            <i class="${menu.iconCls}"></i>
+            <span>${menu.text}</span>
+            <span class="pull-right-container">
                   <i class="fa fa-angle-left pull-right"></i>
                 </span>
-            </a>
-            <ul class="treeview-menu">
-                @for(submenu in menu.children!) {
-                    <li><a href="${ctxPath}/${submenu.attributes.url}"><i class="fa fa-circle-o"></i> ${submenu.text}</a></li>
-                @}
-            </ul>
-        </li>
+        </a>
+        <ul class="treeview-menu">
+            @for(submenu in menu.children!) {
+            <li><a href="${ctxPath}/${submenu.attributes.url}"><i class="${submenu.iconCls}"></i> ${submenu.text}</a></li>
+            @}
+        </ul>
+    </li>
     @}
+
 </ul>
+

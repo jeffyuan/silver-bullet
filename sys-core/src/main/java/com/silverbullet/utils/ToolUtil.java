@@ -2,6 +2,7 @@ package com.silverbullet.utils;
 
 import com.sun.javafx.PlatformUtil;
 import com.sun.prism.PixelFormat;
+import org.apache.shiro.crypto.hash.SimpleHash;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.tools.JavaCompiler;
@@ -13,10 +14,7 @@ import java.net.URL;
 import java.net.URLClassLoader;
 import java.net.UnknownHostException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * 工具类
@@ -158,11 +156,108 @@ public class ToolUtil {
         return UUID.randomUUID().toString().replace("-","");
     }
 
-    public static void main(String [] args) {
-        System.out.println(ToolUtil.formatStringCapLower("SysAuthUser"));
 
-        String javaPath = "C:\\Users\\GESOFT\\Documents\\GitHub\\silver-bullet\\sys-auth\\src\\main\\java";
-        String packName = "com.silverbullet.auth.domain.SysAuthUser";
-        System.out.println(ToolUtil.getClassFields(javaPath,packName));
+    /**
+     * 获取密码
+     * @param num
+     * @param saltVal
+     * @param pwd
+     * @param pwdType
+     * @return
+     */
+    public static String getPassword(int num,String saltVal,String pwd,String pwdType){
+        int hashIterations = num;//加密的次数
+        Object salt = saltVal;//盐值
+        Object credentials = pwd;//密码
+        String hashAlgorithmName = pwdType;//加密方式
+        Object simpleHash = new SimpleHash(hashAlgorithmName, credentials,
+                salt, hashIterations);
+        return simpleHash.toString();
+    }
+
+    /**
+     * 将“/”转换成“:”
+     * 如果有.html 则删除
+     * 例如 输入：auth/sys/1.html
+     *     输出：auth:sys
+     * @param url
+     * @return
+     */
+    public static String getPermission(String url){
+        if(url == null && "".equals(url.trim())){
+            return ":";
+        }
+        StringBuffer sb = new StringBuffer("");
+        String  s[] = url.split("/");
+        if(s[s.length-1].contains(".")){
+            for(int i = 0;i<s.length-1;i++){
+                sb.append(s[i]);
+                sb.append(":");
+            }
+        }else{
+            return url.replace("/",":");
+        }
+        return sb.substring(0,sb.length()-1).trim().toString();
+    }
+
+    public static void main(String [] args) {
+//        System.out.println(ToolUtil.formatStringCapLower("SysAuthUser"));
+//
+//        String javaPath = "C:\\Users\\GESOFT\\Documents\\GitHub\\silver-bullet\\sys-auth\\src\\main\\java";
+//        String packName = "com.silverbullet.auth.domain.SysAuthUser";
+//        System.out.println(ToolUtil.getClassFields(javaPath,packName));
+        String s = getPermission("sys/auth/list");
+        System.out.println(s);
+    }
+
+
+    /**
+     * 搜索数据格式化为map
+     * @param data
+     * @return
+     */
+    public static Map<String, String> searchJsonData(String data){
+        Map<String, String> map = new HashMap<>();
+        String x[] = data.split(":");
+        for(int i = 0; x.length > i; i++){
+            if(x.length == 1){
+
+            }else{
+                map.put(x[0], x[1]);
+            }
+
+        }
+        return map;
+    }
+
+
+
+    public static List<String> searchJsonList(String data){
+        List<String> list = new ArrayList<>();
+        String x[] = data.split("&");
+        for(int i = 0; x.length > i; i++){
+            String y[] = x[i].split(":");
+            if(y.length == 1){
+                list.add(" ");
+            }else{
+                list.add(y[i]);
+            }
+
+        }
+
+        return list;
+    }
+
+    /**
+     * 无数据信息返回内容
+     * @return
+     */
+    public static Map<String, String> noData() {
+
+        Map<String, String> noData = new HashMap<>();
+        noData.put("icon", "fa fa fa-warning");
+        noData.put("text", "无相关数据");
+
+        return noData;
     }
 }

@@ -1,7 +1,10 @@
 package com.silverbullet.auth.service;
 
-import com.silverbullet.auth.domain.SysAuthUser;
+import com.silverbullet.auth.domain.*;
 import com.silverbullet.utils.BaseDataResult;
+
+import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -12,8 +15,12 @@ public interface ISysAuthUserService {
     public int countNum();
     public BaseDataResult<SysAuthUser> list(int pageNum, int pageSize);
     public SysAuthUser getOneById(String id);
+    public List<Map<String, String>> getOneByUserId(String id);
+    public List<Map<String, String>> getPostByUserId(String id);
     public SysAuthUser getOneByUserName(String userName);
-    public boolean Update(SysAuthUser sysAuthUser);
-    public boolean delete(String ids);
-    public boolean Insert(SysAuthUser sysAuthUser);
+    public boolean Update(SysAuthUser sysAuthUser, String postId, String OrganizationId, String UorgId, String UpostId);
+    public boolean delete(String id);
+    public boolean Insert(SysAuthUser sysAuthUser, String postId, String OrganizationId);
+    public List<SysAuthActionTree> findList(SysAuthActionTree sysAuthActionTree);
+    public List<Map<String, Object>> findPostNameByActionTreeId(String id);
 }

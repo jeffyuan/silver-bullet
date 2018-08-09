@@ -1,0 +1,27 @@
+<div>
+    <h4 id="msg" style="color: red;"></h4>
+    <form id="formParamsItem" class="m-t" role="form" method="post">
+        <input type="hidden" name="id" class="form-control" value="${obj.id!}">
+        <input type="hidden" name="dicKeyId" class="form-control" value="${obj.dicKeyId!}">
+        <div class="form-group">
+            <label>名称</label><label style="color: red;" id="msg-name"></label>
+            <input type="text" name="name" class="form-control" value="${obj.name!}" placeholder="名称" required="">
+        </div>
+        <div class="form-group">
+            <label>关键字</label><label style="color: red;" id="msg-itemKey"></label>
+            <input type="text" name="itemKey" class="form-control" value="${obj.itemKey!}" placeholder="关键字" required="">
+        </div>
+        <div class="form-group">
+            <label>值</label><label id="msg-itemValue" style="color: red;"></label>
+            <input type="text" name="itemValue" class="form-control" value="${obj.itemValue!}" placeholder="值" required="">
+        </div>
+        <div class="form-group">
+            <label>排序</label><label id="msg-sort" style="color: red;"></label>
+            <input type="text" name="sort" class="form-control" value="${obj.sort!}" placeholder="排序" required="">
+        </div>
+        <div class="form-group">
+            <label>备注</label><label id="msg-comments" style="color: red;"></label>
+            <textarea name="comments" class="form-control" value="${obj.comments!}"placeholder="Enter ..."></textarea>
+        </div>
+    </form>
+</div>

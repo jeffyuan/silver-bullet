@@ -1,0 +1,57 @@
+<div class="border fadeInCon" style="display:none;">
+    <div class="box-body">
+        <div class="box-control">
+            <button name="确认选择" class="btn bg-teal-active color-palette margin-bottom" onclick="CmsRepairService.setFaultName()" space="true">
+                <i class="fa fa-cog"></i>确认选择
+            </button>
+            <div class="search-group margin-bottom float-r">
+                <select name="selectKey" class="form-control select tb-w-120" id="selectKey" onchange="select(this)" data-obj="CmsRepairFault.modelSearch(this)">
+                    <option style="display: none;" value="" class="fault">选择关键字</option>
+                    <option value="fault_name" data-control="input">故障名称</option>
+                    <option value="fault_describe" data-control="input">故障描述</option>
+                </select>
+                <div class="box-tools" id="box-tools">
+                    <div>
+                        <div class="input-group " style="width: 150px;">
+                            <input type="text" name="search" class="form-control pull-right" placeholder="Search">
+                            <div class="input-group-btn">
+                                <button type="submit" class="btn btn-default" onclick="${searchObj!}" style="padding-top:9px; padding-bottom:9px;"><i class="fa fa-search"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button type="button" class="btn btn-default" onclick="CmsRepairFault.modelRefresh()" style=" margin-top:-4px;" ><i class="fa fa-refresh"></i>&nbsp;</button>
+            </div>
+        </div>
+        <div>
+            <div class="table-responsive data-table-list">
+                <table id="data-list" class="table table-bordered table-hover">
+                    <thead>
+                    <tr clas="fs-n">
+                        <th class="text-center">#</th>
+                        <th class="text-center">故障名称</th>
+                        <th>故障描述</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @for(var i = 0; i< results.resultList.~size; i++){
+                    <tr id="data-r${i}" data-u="${results.resultList[i].id}">
+                        <td class="tb-cb-w"><input type="checkbox"></td>
+                        <td class="tb-w-120 text-center" data-name="name">${results.resultList[i].faultName}</td>
+                        <td>${results.resultList[i].faultDescribe}</td>
+                    </tr>
+                    @}
+                    <tbody/>
+                </table>
+                <h3 style="width:100%; text-align: center; ">
+                    <i class="${noData.icon!}"></i>${noData.text!}
+                </h3>
+            </div>
+        </div>
+    </div>
+    <#PageTag action="${ctxPath}/cms/cmsrepairfault/${list}.html" totalNum="${results.totalNum}" perSize="5"
+            curPage="${curPage!}" loadDataFunName="${method!}" searchValue="${searchValue!}"></#PageTag>
+</div>
+<script>
+    $(".fadeInCon").fadeIn("300");
+</script>

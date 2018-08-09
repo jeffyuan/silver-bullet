@@ -6,5 +6,10 @@ import java.util.List;
 import java.util.Map;
 
 public interface SysAuthPostMapper extends CrudRepository<SysAuthPost, String>{
-    public List<SysAuthPost> findListByUserId(String id);
+    public List<SysAuthPost> findListByUserId(String KeyId);
+
+    public int countNumByOrganizationId(String organizationId);
+
+    public List<SysAuthPost> findListByOrganizationId(String organizationId);
+
 }

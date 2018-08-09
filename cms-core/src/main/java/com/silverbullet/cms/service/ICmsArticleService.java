@@ -6,8 +6,12 @@ import com.silverbullet.cms.pojo.CmsArticleEntity;
 import com.silverbullet.cms.pojo.CmsArticleEx;
 import com.silverbullet.cms.pojo.CmsFileInfo;
 import com.silverbullet.utils.BaseDataResult;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 import java.io.InputStream;
+import java.util.Map;
 
 
 /**
@@ -58,4 +62,11 @@ public interface ICmsArticleService {
      * @return
      */
     public CmsArticleFile getOneFileById(String fileId);
+
+    public CmsFileInfo fileDispose(MultipartFile file, HttpServletRequest request) throws IOException;
+
+    /**
+     * 弹窗内置提示判断
+     */
+    public String ops(String con);
 }

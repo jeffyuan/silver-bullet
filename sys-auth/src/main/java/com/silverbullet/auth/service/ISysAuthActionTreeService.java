@@ -1,7 +1,10 @@
 package com.silverbullet.auth.service;
 
 import com.silverbullet.auth.domain.SysAuthActionTree;
+import com.silverbullet.auth.domain.SysAuthUser;
 import com.silverbullet.utils.BaseDataResult;
+import com.silverbullet.utils.TreeNode;
+import com.silverbullet.utils.TreeNode1;
 
 import java.util.List;
 import java.util.Map;
@@ -14,9 +17,12 @@ import java.util.Map;
 public interface ISysAuthActionTreeService {
     public int countNum();
     public BaseDataResult<SysAuthActionTree> list(int pageNum, int pageSize);
+    public BaseDataResult<SysAuthActionTree> list();
+    public List<SysAuthUser> findUserById(List<SysAuthUser> result);
     public List<Map<String,Object>> getActionsByUserId(String userId);
     public SysAuthActionTree getOneById(String id);
     public boolean Update(SysAuthActionTree sysAuthActionTree);
-    public boolean delete(String ids);
+    public boolean delete(String id);
     public boolean Insert(SysAuthActionTree sysAuthActionTree);
+    public List<TreeNode1> findTreeNode();
 }

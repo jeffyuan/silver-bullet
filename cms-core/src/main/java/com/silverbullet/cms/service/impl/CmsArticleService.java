@@ -14,6 +14,9 @@ import com.silverbullet.utils.BaseDataResult;
 import com.silverbullet.utils.HtmlUtils;
 import com.silverbullet.utils.SpringUtil;
 import org.apache.commons.beanutils.BeanUtils;
+import org.apache.tomcat.util.http.fileupload.FileItem;
+import org.apache.tomcat.util.http.fileupload.disk.DiskFileItemFactory;
+import org.apache.tomcat.util.http.fileupload.servlet.ServletFileUpload;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,14 +25,17 @@ import com.silverbullet.core.pojo.UserInfo;;
 import org.apache.shiro.SecurityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.web.multipart.MultipartFile;
+import javax.servlet.http.HttpServletRequest;
+
 
 import java.awt.color.CMMException;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 文章表 service接口
@@ -113,6 +119,13 @@ public class CmsArticleService implements ICmsArticleService {
 
         return cmsArticleEx;
     }
+
+    /**
+     *
+     *
+     * @param cmsArticle
+     * @return
+     */
 
     @Transactional
     @Override
@@ -242,12 +255,15 @@ public class CmsArticleService implements ICmsArticleService {
      */
     @Override
     @Transactional
-    public boolean createArticle(CmsArticleEntity cmsArticleEntity) {
+        public boolean createArticle(CmsArticleEntity cmsArticleEntity) {
+        UserInfo userInfo = (UserInfo) SecurityUtils.getSubject().getPrincipal();
         try {
             // 存储文档信息
             CmsArticle cmsArticle = cmsArticleEntity.getCmsArticle();
             if (cmsArticle == null) {
                 return false;
+            }else{
+                cmsArticle.setAuthor(userInfo.getUsername());
             }
 
             // 存储文档内容
@@ -348,6 +364,7 @@ public class CmsArticleService implements ICmsArticleService {
             if (path == null) {
                 return null;
             }
+
 
             // 存储基本信息
             CmsArticleFile cmsArticleFile = new CmsArticleFile();
@@ -559,5 +576,32 @@ public class CmsArticleService implements ICmsArticleService {
         }
 
         return cmsArticleFileMapper.selectByPrimaryKey(fileId);
+    }
+
+    @Override
+    public CmsFileInfo fileDispose(MultipartFile file, HttpServletRequest request) throws IOException {
+        UserInfo userInfo = (UserInfo) SecurityUtils.getSubject().getPrincipal();
+
+        CmsFileInfo cmsFileInfo = new CmsFileInfo();
+        cmsFileInfo.setFileName(file.getOriginalFilename());
+        cmsFileInfo.setFileExname(file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf(".")));
+        cmsFileInfo.setCreateUser(userInfo.getName());
+        cmsFileInfo.setCreateUsername(userInfo.getUsername());
+        cmsFileInfo.setFileType("2");
+        cmsFileInfo.setFileUrlShort(request.getPathInfo());
+        cmsFileInfo.setFileLen((float)file.getSize());
+        cmsFileInfo.setInputStream(file.getInputStream());
+        return cmsFileInfo;
+    }
+
+    @Override
+    public String ops(String con) {
+
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("fileDoc", "");
+        map.put("webDoc", "(*文章图片不能大于1M)");
+        map.put("site", "");
+
+        return map.get(con);
     }
 }

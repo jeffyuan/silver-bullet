@@ -1,0 +1,62 @@
+<div class="border fadeInCon" style="display:none;">
+    <div class="box-body">
+        <div class="box-control">
+            <button name="确认选择" class="btn bg-teal-active color-palette margin-bottom" onclick="CmsRepairService.setCustomName()" space="true">
+                <i class="fa fa-cog"></i>确认选择
+            </button>
+            <div class="search-group margin-bottom float-r">
+                <select name="selectKey" class="form-control select tb-w-120" id="selectKey" onchange="select(this)" data-obj="CmsRepairUser.modelSearch(this)">
+                    <option style="display: none;" value="" class="fault">选择关键字</option>
+                    <option value="custom_name" data-control="input">客户姓名</option>
+                    <option value="family_name" data-control="input">客户姓氏</option>
+                    <option value="sex" data-control="select">客户性别</option>
+                    <option value="mob_phone" data-control="input">移动电话</option>
+                    <option value="address" data-control="input">客户住址</option>
+                    <option value="create_username" data-control="input">客户信息创建人</option>
+                    <option value="create_time" data-control="input">创建时间</option>
+                </select>
+                <div class="box-tools" id="box-tools">
+                    <div class="input-group " style="width: 150px;">
+                        <input type="text" name="table_search" class="form-control pull-right" placeholder="Search">
+                        <div class="input-group-btn">
+                            <button type="submit" class="btn btn-default" style="padding-top:9px; padding-bottom:9px;" onclick="${searchObj!}"><i class="fa fa-search"></i></button>
+                        </div>
+                    </div>
+                </div>
+                <button type="button" class="btn btn-default" style=" margin-top:-4px;" onclick="CmsRepairUser.modelRefresh()"><i class="fa fa-refresh"></i>&nbsp;</button>
+            </div>
+        </div>
+        <div>
+            <div class="table-responsive data-table-list">
+                <table id="data-list" class="table table-bordered table-hover">
+                    <thead>
+                    <tr clas="fs-n">
+                        <th class="text-center">#</th>
+                        <th class="text-center">客户姓名</th>
+                        <th>住址</th>
+                        <th>联系电话</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @for(var i = 0; i< results.resultList.~size; i++){
+                    <tr id="data-r${i}" data-u="${results.resultList[i].id}">
+                        <td class="tb-cb-w"><input type="checkbox"></td>
+                        <td class="tb-w-120 text-center" data-name="name" data-u="name">${results.resultList[i].cName}</td>
+                        <td>${results.resultList[i].address}</td>
+                        <td>${results.resultList[i].mobPhone}</td>
+                    </tr>
+                    @}
+                    <tbody/>
+                </table>
+                <h3 style="width:100%; text-align: center; ">
+                    <i class="${noData.icon!}"></i>${noData.text!}
+                </h3>
+            </div>
+        </div>
+    </div>
+    <#PageTag action="${ctxPath}/cms/cmsrepairuser/${list}.html" totalNum="${results.totalNum}" perSize="5"
+            curPage="${curPage!}" loadDataFunName="${method!}" searchValue="${searchValue!}"></#PageTag>
+</div>
+<script>
+    $(".fadeInCon").fadeIn("300");
+</script>

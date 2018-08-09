@@ -21,7 +21,7 @@ public class CmsArticleFile {
 
     // id 
     @NotBlank(message = "id 不能为空" , groups = {FullValidate.class})
-    @Size(max=32, message = "id 长度不能超过32", groups = {FullValidate.class})
+        @Size(max=32, message = "id 长度不能超过32", groups = {FullValidate.class})
     private String id;
     // fileUrl 
     @NotBlank(message = "fileUrl 不能为空" , groups = {FullValidate.class, AddValidate.class})
