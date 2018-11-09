@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html >
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>baselayout</title>
+    <link rel="stylesheet" href="${ctxPath}/static/bootstrap-3.3.7-dist/css/bootstrap.min.css" />
+</head>
+<body>
+    @include("/fragments/header.html"){}
+    <div>
+        <div class="wrapper wrapper-content animated fadeInRight">
+            ${layoutContent}
+        </div>
+    </div>
+    @include("/fragments/footer.html"){}
+
+    <script src="${ctxPath}/static/jquery/jquery-1.9.1.min.js"></script>
+    <script src="${ctxPath}/static/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+</body>
+</html>
+
