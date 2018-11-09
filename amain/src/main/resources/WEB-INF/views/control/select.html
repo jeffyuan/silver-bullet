@@ -1,12 +1,14 @@
 <div class="fadeInCon">
-    <select name="selectValue" class="form-control select" id="selectValue" style="width:112px;
-                                            float:left; border-right:none; border-radius: 3px 0 0 3px;" id="selectValue">
-        <option style="display: none;" value="" class="fault"></option>
-        <option value="0" data-control="input">男</option>
-        <option value="1" data-control="input">女</option>
-    </select>
-    <div class="input-group-btn" style="display: table-header-group">
-        <button type="submit" class="btn btn-default" style="padding-top:9px; padding-bottom:9px;" onclick="${searchObj}"><i class="fa fa-search"></i></button>
+    <div class="input-group" style="width:100%;">
+        <select name="selectValue" class="form-control pull-right" id="selectValue" style="
+                                            border-right:none; border-radius: 3px 0 0 3px;" id="selectValue">
+            <option style="display: none;" value="" class="fault"></option>
+            <option value="0" data-control="input">男</option>
+            <option value="1" data-control="input">女</option>
+        </select>
+        <div class="input-group-btn">
+            <button type="submit" class="btn btn-default btn-header" onclick="${searchObj}"><i class="fa fa-search"></i></button>
+        </div>
     </div>
 </div>
 <script>

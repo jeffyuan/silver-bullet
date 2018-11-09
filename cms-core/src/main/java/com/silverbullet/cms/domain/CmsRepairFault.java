@@ -15,7 +15,7 @@ public class CmsRepairFault {
     private String id;
 
     //faultName
-    @NotBlank(message = "faultName 不能为空", groups = {FullValidate.class})
+    @NotBlank(message = "不能为空", groups = {FullValidate.class, AddValidate.class})
     @Size(max=64, message = "faultName 长度不能超过64", groups = {FullValidate.class})
     private String faultName;
 

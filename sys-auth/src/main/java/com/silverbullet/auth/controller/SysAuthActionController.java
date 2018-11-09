@@ -1,7 +1,6 @@
 package com.silverbullet.auth.controller;
 
 import com.silverbullet.auth.domain.SysAuthAction;
-
 import com.silverbullet.auth.service.ISysAuthActionService;
 import com.silverbullet.core.validate.AddValidate;
 import com.silverbullet.utils.BaseDataResult;
@@ -10,13 +9,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.lang.reflect.Array;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -26,23 +23,42 @@ import java.util.Map;
  */
 @Controller
 @RequestMapping(value = "/auth/sysauthaction")
-public class SysAuthActionController {
+public class    SysAuthActionController {
 
     @Autowired
     private ISysAuthActionService sysAuthActionService;
 
-    @RequestMapping(value = "/list/{curpage}.html", method = RequestMethod.GET)
-    public ModelAndView index(@PathVariable("curpage") String curpage){
+    @RequestMapping(value = "list/pub.html", method = RequestMethod.GET)
+    public ModelAndView index(){
+        int nCurPage = 1;
+
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("/SysAuthAction/list");
+
+        BaseDataResult<SysAuthAction> results = sysAuthActionService.list(nCurPage, 5 );
+
+        modelAndView.addObject("list","list");
+        modelAndView.addObject("method", "AuthAction.loadData");
+        modelAndView.addObject("results", results);
+        modelAndView.addObject("curPage", nCurPage);
+
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "/list.html", method = RequestMethod.POST)
+    public ModelAndView listData(String curpage){
         int nCurPage = 1;
         if (curpage != null) {
             nCurPage = Integer.valueOf(curpage);
         }
 
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("/SysAuthAction/list");
+        modelAndView.setViewName("/SysAuthAction/listContent");
 
         BaseDataResult<SysAuthAction> results = sysAuthActionService.list(nCurPage, 5);
 
+        modelAndView.addObject("list","list");
+        modelAndView.addObject("method", "AuthAction.loadData");
         modelAndView.addObject("results", results);
         modelAndView.addObject("curPage", nCurPage);
 

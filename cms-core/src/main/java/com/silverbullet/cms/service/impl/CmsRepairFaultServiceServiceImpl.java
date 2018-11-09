@@ -10,14 +10,15 @@ import com.silverbullet.core.pojo.UserInfo;
 import com.silverbullet.utils.BaseDataResult;
 import com.silverbullet.utils.ToolUtil;
 import org.apache.shiro.SecurityUtils;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.Map;
+import javax.tools.Tool;
+import java.util.*;
 
 @Service
 public class CmsRepairFaultServiceServiceImpl implements ICmsRepairFaultServiceService {
@@ -38,6 +39,17 @@ public class CmsRepairFaultServiceServiceImpl implements ICmsRepairFaultServiceS
 
         return listResults;
 
+    }
+
+    @Override
+    public BaseDataResult<CmsRepairServiceInfo> list0(int pageNum, int pageSize) {
+        PageHelper.startPage(pageNum, pageSize);
+
+        BaseDataResult<CmsRepairServiceInfo> listResults = new BaseDataResult<CmsRepairServiceInfo>();
+        listResults.setResultList(cmsRepairFaultServiceMapper.findServiceList0());
+        listResults.setTotalNum(cmsRepairFaultServiceMapper.serviceCountNum0());
+
+        return listResults;
     }
 
     @Override
@@ -115,6 +127,13 @@ public class CmsRepairFaultServiceServiceImpl implements ICmsRepairFaultServiceS
         return bret;
     }
 
+    /**
+     * 根据条件搜索用户数据
+     * @param search
+     * @param pageNum
+     * @param pageSize
+     * @return
+     */
     @Override
     public BaseDataResult<CmsRepairServiceInfo> search(String search, int pageNum, int pageSize) {
         PageHelper.startPage(pageNum, pageSize);
@@ -147,5 +166,56 @@ public class CmsRepairFaultServiceServiceImpl implements ICmsRepairFaultServiceS
             logger.error("Insert Error: " + ex.getMessage());
             return false;
         }
+    }
+
+    /**
+     * 根据时间查询相关业务
+     *
+     * @param data
+     * @return
+     */
+    @Override
+    public Map<String, Object> getCharB(String data) {
+        Map<String, Integer> map = new HashMap();
+        Map<String, Object> dataMap = new HashMap();
+        List<String> dataList = new ArrayList<>();
+        for(Integer i=0;i<3;i++) {
+            map.put(data, i);
+            dataMap.put("search", map);
+            dataList.add(cmsRepairFaultServiceMapper.findCountStatus(dataMap).toString());
+        }
+
+        return ToolUtil.ChartsBData(dataList, data);
+    }
+
+    /**
+     * 根据时间获取当前一周的业务情况
+     *
+     * @param data
+     * @return
+     */
+    @Override
+    public Map<String, Object> getCharSZ(Date data){
+
+        Map map = new HashMap();
+        Map dataMap = new HashMap();
+        List<List<String>> dateList = new ArrayList<>();
+        List<String> date = new ArrayList<>();
+
+        List<String> week = ToolUtil.getDateByWeek(data);
+        for(int i=0; i<7; i++){
+            for(Integer n=0;n<3;n++){
+                map.clear();
+                map.put(week.get(i), n);
+                dataMap.put("search", map);
+                if(n == 0){
+                    date = new ArrayList<>();
+                }
+                date.add(cmsRepairFaultServiceMapper.findWeekCountStatus(dataMap).toString());
+            }
+            dateList.add(date);
+        }
+
+        return ToolUtil.ChartsSZData(dateList, week);
     }
 }

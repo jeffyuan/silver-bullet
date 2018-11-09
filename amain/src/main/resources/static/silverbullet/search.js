@@ -36,6 +36,7 @@ function select(dom){
      * 字符串重新组合
      * @param text
      * @returns {Array|*}
+     * Eg: a_bcd -> aBcd
      */
     function textFactory (text){
         var e = text.split('_');
@@ -53,6 +54,7 @@ function select(dom){
      *英文首字母大写
      * @param e
      * @returns {string}
+     * Eg: abc -> Abc
      */
     function letterCapital (e){
         var str = e.toLowerCase();

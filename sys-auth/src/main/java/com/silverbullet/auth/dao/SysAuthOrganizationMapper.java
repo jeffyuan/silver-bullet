@@ -13,6 +13,8 @@ public interface SysAuthOrganizationMapper extends CrudRepository<SysAuthOrganiz
 
     List<SysAuthOrganization>findListById(String id);
 
+    SysAuthOrganization findListByParentId(String parentId);
+
     List<Map<String, String>> findTreeNode();
 
     int countNumByKeyId(String id);

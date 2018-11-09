@@ -65,13 +65,11 @@ AuthOrganization.loadData = function(obj, action, curpage) {
  * 表头添加方法
  * */
 AuthOrganization.add = function() {
+
     var List = [];
-    $(".lg").find("ul").find("li").each(function(){
-        var y = $(this).attr("style").indexOf("background-color:#3e3e3e;");
-        if(y >= 0){
-            List.push($(this).attr("id"));
-        }
-    });
+
+    List.push($('#authOrganizationTree').treeview('getSelected')[0].id);
+
     if(List.length === 0){
         BootstrapDialog.alert({
             type: BootstrapDialog.TYPE_WARNING,
@@ -394,12 +392,9 @@ AuthOrganization.checkboxInit = function() {
 
 AuthOrganization.getActionSelectParent = function () {
     var id = [];
-    $(".lg").find("ul").find("li").each(function(){
-        var y = $(this).attr("style").indexOf("background-color:#3e3e3e;");
-        if(y >= 0){
-            id.push($(this).attr("id"));
-        }
-    });
+
+    id.push($('#authOrganizationTree').treeview('getSelected')[0].id);
+
     $.ajax({
         type: "POST",
         url: AuthOrganization.ctxPath + AuthOrganization.url + "list/"+id[0]+".do",
@@ -675,28 +670,25 @@ AuthOrganization.TreeNode = function () {
 /**
  * table定位到当前选择list部门下
  */
+function treeClick(e){
+    AuthOrganization.local(e);
+}
 
-AuthOrganization.local = function(){
-/*    $(document).on("click", function(event){*/
-        if($(event.target).attr("class").indexOf("list-group-item") >= 0){
-            var parentid = $(event.target).attr("id");
+AuthOrganization.local = function(e){
+    parentId = $(e).attr("id");
 
-            $.ajax({
-                type: 'get',
-                url: AuthOrganization.ctxPath + AuthOrganization.url + "local/"+parentid+".html",
-                data: { },
-                dataType: "json",
-                success: function(data){
-                },
-                error:function(XMLResponse){
-                    var dialogInfo = XMLResponse.responseText;
-                    dialogInfo += "<script>AuthOrganization.checkboxInit();</script>";
-                    $(".box-footer").remove();
-                    $(".col-xs-10").css("display","none").html(dialogInfo).fadeIn(400);
-                }
-            });
+    console.log(parentId);
+    $.ajax({
+        type: 'get',
+        url: AuthOrganization.ctxPath + AuthOrganization.url + "local/"+1+".html",
+        data: {parentId: parentId},
+        dataType: "HTML",
+        success: function(data){
+            data += "<script>AuthOrganization.checkboxInit();</script>";
+            $(".box-footer").remove();
+            $(".col-xs-10").css("display","none").html(data).fadeIn(200);
         }
- /*   });*/
+    });
 }
 
 
@@ -721,7 +713,6 @@ AuthOrganization.checkCommon = function(){
 
 
 $(function () {
-    $(document).on("click", function(event){AuthOrganization.local(event)});
     AuthOrganization.checkboxInit();
     AuthOrganization.TreeNode();
     AuthOrganization.checkPermissionTree();

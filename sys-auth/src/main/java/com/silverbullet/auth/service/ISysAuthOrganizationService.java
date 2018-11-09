@@ -16,6 +16,7 @@ public interface ISysAuthOrganizationService {
     public int countNum();
     public BaseDataResult<SysAuthOrganization> list(String parentId, int pageNum, int pageSize);
     public SysAuthOrganization getOneById(String id);
+    public SysAuthOrganization getOneByParentId(String parentId);
     public boolean Update(SysAuthOrganization sysAuthOrganization);
     public boolean delete(String id);
     public boolean Insert(SysAuthOrganization sysAuthOrganization);

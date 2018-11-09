@@ -15,12 +15,12 @@ public class CmsRepairFaultService {
     private String id;
 
     //repairFaultId
-    @NotBlank(message = "不能为空", groups = {FullValidate.class})
+    @NotBlank(message = "不能为空", groups = {FullValidate.class, AddValidate.class})
     @Size(max=32, message = "长度不能超过32", groups = {FullValidate.class, AddValidate.class})
     private String repairFaultId;
 
     //repairUserId
-    @NotBlank(message = "不能为空", groups = {FullValidate.class})
+    @NotBlank(message = "不能为空", groups = {FullValidate.class, AddValidate.class})
     @Size(max=32, message = "长度不能超过32", groups = {FullValidate.class, AddValidate.class})
     private String repairUserId;
 
@@ -66,6 +66,9 @@ public class CmsRepairFaultService {
 
     //finishTime
     private Date finishTime;
+
+    //serviceTypeId
+    private String serviceTypeId;
 
 
 
@@ -182,5 +185,13 @@ public class CmsRepairFaultService {
 
     public void setFinishTime(Date finishTime) {
         this.finishTime = finishTime;
+    }
+
+    public String getServiceTypeId() {
+        return serviceTypeId;
+    }
+
+    public void setServiceTypeId(String serviceTypeId) {
+        this.serviceTypeId = serviceTypeId;
     }
 }

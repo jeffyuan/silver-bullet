@@ -6,6 +6,7 @@ import com.silverbullet.auth.service.ISysAuthOrganizationService;
 import com.silverbullet.core.validate.AddValidate;
 import com.silverbullet.utils.BaseDataResult;
 import com.silverbullet.utils.TreeNode1;
+import com.sun.org.apache.bcel.internal.generic.IF_ACMPEQ;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -28,26 +29,25 @@ import java.util.Map;
 @RequestMapping(value = "/auth/sysauthorganization")
 public class SysAuthOrganizationController {
 
-
-
     @Autowired
     private ISysAuthOrganizationService sysAuthOrganizationService;
 
-
-
-
     @RequestMapping(value = "/list/{curpage}.html", method = RequestMethod.GET)
-    public ModelAndView index(@PathVariable("curpage") String parentId, String curpage){
+    public ModelAndView index(@PathVariable("curpage") String curpage, String parentId){
+
         int nCurPage = 1;
-        parentId = "402888ac547fe1050154800171f30000";
+        String parentid = sysAuthOrganizationService.getOneByParentId("NONE").getId();
+
         if (curpage != null) {
             nCurPage = Integer.valueOf(curpage);
+        }if (parentId != null){
+            parentid = parentId;
         }
 
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("/SysAuthOrganization/list");
 
-        BaseDataResult<SysAuthOrganization> results = sysAuthOrganizationService.list(parentId, nCurPage, 5);
+        BaseDataResult<SysAuthOrganization> results = sysAuthOrganizationService.list(parentid, nCurPage, 5);
 
         modelAndView.addObject("results", results);
         modelAndView.addObject("curPage", nCurPage);
@@ -80,6 +80,7 @@ public class SysAuthOrganizationController {
 
     @RequestMapping(value = "checkPermission/{curpage}.html", method = RequestMethod.POST)
     public ModelAndView check(@PathVariable("curpage") String curpage, String parentId ){
+
         int nCurPage = 1;
         parentId = "402888ac547fe1050154800171f30000";
         if (curpage != null) {
@@ -158,8 +159,8 @@ public class SysAuthOrganizationController {
 
 
 
-    @RequestMapping(value = "/local/{id}.html", method = RequestMethod.GET)
-    public ModelAndView local(@PathVariable("id") String parentId, String curpage){
+    @RequestMapping(value = "/local/{curpage}.html", method = RequestMethod.GET)
+    public ModelAndView local(@PathVariable("curpage") String curpage, String parentId){
         int nCurPage = 1;
         if (curpage != null) {
             nCurPage = Integer.valueOf(curpage);

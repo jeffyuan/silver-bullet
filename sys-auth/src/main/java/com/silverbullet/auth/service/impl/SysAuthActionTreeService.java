@@ -146,10 +146,41 @@ public class SysAuthActionTreeService implements ISysAuthActionTreeService {
     }
 
     @Override
-    public List<TreeNode1> findTreeNode() {
-        List<Map<String, String>> list = sysAuthActionTreeMapper.findTreeNode();
-        List<TreeNode1> treeNodes = TreeNode1.formatNodes2TreeNode(list,"name","parent_id",
-                "id","path","permission","action_id","icon");
-        return treeNodes;
+    public BaseDataResult<SysAuthActionTree> findTreeNode(String parentId) {
+
+        BaseDataResult<SysAuthActionTree> listResults = new BaseDataResult<SysAuthActionTree>();
+
+        listResults.setResultList(sysAuthActionTreeMapper.findTreeNode(parentId));
+
+        return listResults;
+    }
+
+    /**
+     * 根据id设置sort
+     *
+     * @param id
+     * @return
+     */
+    @Override
+    public Boolean setTreeNodeSort(String id, String parentId, Integer sort, Integer status) {
+
+        try{
+            Integer sort1 = sort-1;
+            Integer sort2 = sort+1;
+
+            if (status == 1) {
+                sysAuthActionTreeMapper.setTreeNodeSortUp(parentId, sort1.toString(), sort.toString());
+                sysAuthActionTreeMapper.setTreeNodeSortDown(id, parentId, sort1.toString());
+            } else {
+                sysAuthActionTreeMapper.setTreeNodeSortUp(parentId, sort2.toString(), sort.toString());
+                sysAuthActionTreeMapper.setTreeNodeSortDown(id, parentId, sort2.toString());
+            }
+
+            return true;
+        } catch (Exception ex){
+            logger.error("Update Error: " + ex.getMessage());
+            return false;
+        }
+
     }
 }

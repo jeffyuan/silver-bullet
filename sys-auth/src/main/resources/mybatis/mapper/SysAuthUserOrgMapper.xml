@@ -118,4 +118,6 @@
     DELETE from sys_auth_userorg
     where user_id = #{id}
   </delete>
+
+
 </mapper>

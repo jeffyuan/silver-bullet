@@ -45,6 +45,13 @@
     <link rel="stylesheet" href="${ctxPath}/static/bootstrap-treeview-master/css/bootstrap-treeview.css">
     <!--input file-->
     <link rel="stylesheet" href="${ctxPath}/static/silverbullet/css/inputFile.css">
+    <!--mediaSetting-->
+    <link rel="stylesheet" href="${ctxPath}/static/silverbullet/css/mediaSetting.css">
+    <!--animate-->
+    <link rel="stylesheet" href="${ctxPath}/static/silverbullet/css/animate.min.css">
+    <!--swiper-4.4.1-->
+    <link rel="stylesheet" href="${ctxPath}/static/swiper-4.4.1/dist/css/swiper.min.css">
+
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -57,6 +64,8 @@
     <title>silverbullet</title>
     <!-- jQuery 3 -->
     <script src="${ctxPath}/static/adminlte/bower_components/jquery/dist/jquery.min.js"></script>
+    <!--html2canvas-->
+    <script src="${ctxPath}/static/html2canvas/html2canvas.min.js"></script>
     <style>
         .modal-content{
             border-radius: 5px 5px 0 0;
@@ -64,34 +73,58 @@
     </style>
 </head>
 <body class="hold-transition skin-black sidebar-mini wysihtml5-supported">
-<div class="wrapper">
+<div class="wrapper" style="overflow-y:hidden;">
     @include("/fragments/bk-header.html"){}
     @include("/fragments/bk-leftmenu.html"){}
     <div class="content-wrapper" style="background:#f5f5f5!important;overflow-y: hidden;">
-        <div class="fadeInCon" style="display: none;">
+        <div class="fadeInCon" id="content_async" style="display: none;">
             ${layoutContent}
         </div>
         @include("/fragments/bk-footer.html"){}
     </div>
 </div>
+<!-- jQuery UI 1.11.4 -->
+<script src="${ctxPath}/static/adminlte/bower_components/jquery-ui/jquery-ui.min.js"></script>
 <!-- Bootstrap 3.3.7 -->
 <script src="${ctxPath}/static/adminlte/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<!--bootstrap treeview-->
+<script src="${ctxPath}/static/bootstrap-treeview-master/js/bootstrap-treeview.js" ></script>
 <!-- AdminLTE App -->
 <script src="${ctxPath}/static/adminlte/dist/js/adminlte.min.js"></script>
-
+<!--swiper.min-->
+<script src="${ctxPath}/static/swiper-4.4.1/dist/js/swiper.min.js"></script>
+<!-- easyui -->
+<!--<script src="${ctxPath}/static/jquery/easyui/jquery.easyui.min.js"></script>-->
+<!-- treegrid -->
+<script src="${ctxPath}/static/jquery/treegrid/js/jquery.treegrid.js"></script>
+<script type="text/javascript" src="${ctxPath}/static/jquery/treegrid/js/jquery.treegrid.bootstrap3.js"></script>
+<!--自定义js-->
 <script src="${ctxPath}/static/silverbullet/amain.js"></script>
 <script src="${ctxPath}/static/silverbullet/search.js"></script>
-
+<script src="${ctxPath}/static/silverbullet/menu.js"></script>
+<script src="${ctxPath}/static/silverbullet/ofgMain.js"></script>
 <!-- Boostrap dialog -->
-<script src="${ctxPath}/static/bootstrap3-dialog/js/bootstrap-dialog.min.js"></script>
+<script src="${ctxPath}/static/bootstrap3-dialog/js/bootstrap-dialog.js"></script>
 <!-- iCheck -->
 <script src="${ctxPath}/static/adminlte/plugins/iCheck/icheck.min.js"></script>
 <!-- Slimscroll -->
 <script src="${ctxPath}/static/adminlte/bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+<!--echarts.min-->
+<script src="${ctxPath}/static/echarts/echarts.min.js"></script>
+<!--bootstrap-treeview-build-->
+<script src="${ctxPath}/static/silverbullet/bootstrap-treeview-build.js"></script>
+
+
+<!--&lt;!&ndash;IconInput&ndash;&gt;-->
+<!--<script src="${ctxPath}/static/silverbullet/IconInput.js"></script>-->
+
 
 <script>
-    $(".fadeInCon").fadeIn(400);
-    /*$.widget.bridge('uibutton', $.ui.button);*/
+    // bounce动画
+    // $(".fadeInCon").delay(200).show().addClass("animated bounceInUp");
+    $(".fadeInCon").fadeIn(200);
+
+    // $.widget.bridge('uibutton', $.ui.button);
 </script>
 </body>
 </html>

@@ -23,17 +23,17 @@ public class CmsRepairUser {
     private String cName;
 
     //familyName
-    @NotBlank(message = "familyName 不能为空", groups = {FullValidate.class})
+    @NotBlank(message = "不能为空", groups = {FullValidate.class, AddValidate.class})
     @Size(max=32, message = "familyName 长度不能超过32", groups = {FullValidate.class, AddValidate.class})
     private String familyName;
 
     //mobPhone
-    @NotBlank(message = "mobPhone 不能为空", groups = {FullValidate.class})
+    @NotBlank(message = "不能为空", groups = {FullValidate.class, AddValidate.class})
     @Size(max=14, message = "mobPhone 长度不能超过14", groups = {FullValidate.class, AddValidate.class})
     private String mobPhone;
 
     //address
-    @NotBlank(message = "address 不能为空", groups = {FullValidate.class})
+    @NotBlank(message = "不能为空", groups = {FullValidate.class, AddValidate.class})
     @Size(max=50, message = "address 长度不能超过50", groups = {FullValidate.class, AddValidate.class})
     private String address;
 
@@ -74,9 +74,12 @@ public class CmsRepairUser {
     private Integer pageNum;
 
     // sex
-    @NotBlank(message = "sex 不能为空" , groups = {FullValidate.class, AddValidate.class})
+    @NotBlank(message = "不能为空" , groups = {FullValidate.class, AddValidate.class})
     @Size(max=64, message = "sex 长度不能超过2", groups = {FullValidate.class, AddValidate.class})
     private String sex;
+
+    //blackList
+    private Integer blackList;
 
     // comments
     private String comments;
@@ -185,7 +188,7 @@ public class CmsRepairUser {
     }
 
     public void setDelSign(Integer delSign) {
-        this.delSign = delSign == null ? null : 0;
+        this.delSign = delSign == null ? null : delSign;
     }
 
     public String getcName() {
@@ -211,5 +214,13 @@ public class CmsRepairUser {
 
     public void setAddress(String address) {
         this.address = address == null ? null : address.trim();
+    }
+
+    public Integer getBlackList() {
+        return blackList;
+    }
+
+    public void setBlackList(Integer blackList) {
+        this.blackList = blackList == null ? null : blackList;
     }
 }

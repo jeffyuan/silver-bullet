@@ -60,6 +60,13 @@ CmsRepairService.loadData = function(obj, action, curpage) {
     return true;
 };
 
+CmsRepairService.loadData0 = function(){
+    var dialogInfo = CmsRepairService.getHtmlInfo(action, {"curpage" : curpage});
+    dialogInfo += "<script>CmsRepairService.checkboxInit();</script>";
+    $("#List0").html(dialogInfo);
+    return true;
+}
+
 
 CmsRepairService.loadSearchData = function(obj, action, curpage){
     var dialogInfo = CmsRepairService.getSearchHtmlInfo(obj, action, curpage);
@@ -189,7 +196,7 @@ CmsRepairService.editCommon = function(uid) {
         closable: true,
         closeByBackdrop: false,
         closeByKeyboard: false,
-        size: BootstrapDialog.SIZE_NORMAL,
+        size: BootstrapDialog.SIZE_SMALL,
         message: dialogInfo,
         buttons: [{
             icon: 'fa fa-save',
@@ -719,7 +726,112 @@ CmsRepairService.saveStatus = function(url, dialogItself){
 
 
 
+/**
+ *业务类型选择窗口
+ */
+CmsRepairService.selectType = function(dom){
+    $.ajax({
+        type: "post",
+        url: CmsRepairService.ctxPath + CmsRepairService.url + 'tree.html',
+        data: {},
+        dataType: "html",
+        success: function(data){
+            dialogInfo = data.replace(/\r|\n/g,"");
+
+            BootstrapDialog.show({
+                title: '业务类型树',
+                type: BootstrapDialog.TYPE_DEFAULT,
+                closable: true,
+                closeByBackdrop: false,
+                closeByKeyboard: false,
+                size: BootstrapDialog.SIZE_NORMAL,
+                message: dialogInfo,
+                buttons: [{
+                    icon: 'fa fa-check',
+                    label: '确定',
+                    cssClass: 'btn-success',
+                    action: function (dialogItself) {
+                        // 清除提示语
+                        $("label[id^=msg-]").each(function(){
+                            $(this).text("");
+                        });
+                        $("#msg").text("");
+
+                        // 保存
+                        var e = CmsRepairService.getCheckedNode("#serviceTypeTree", 1);
+                        CmsRepairService.setTypeCommon(e, dom, dialogItself);
+
+                    }
+                }, {
+                    icon: 'fa fa-close',
+                    label: '关闭',
+                    cssClass: 'btn-danger',
+                    action: function (dialogItself) {
+                        dialogItself.close();
+                    }
+                }]
+            });
+            setTimeout(function(){
+                CmsRepairType.treeEditCommon("NONE");
+                $('#serviceTypeTree').data('treeview').options.showBorder = true;
+                // console.log($('#serviceTypeTree').data('treeview').options);
+            },300);
+
+        }
+    });
+
+}
+
+
+/**
+ * 获取选中节点
+ */
+CmsRepairService.getCheckedNode = function(e, c){
+    var list = [];
+    var n = $(e).treeview('getChecked');
+    if(1 === c){
+        if(n.length != 1){
+            BootstrapDialog.alert({
+                type: BootstrapDialog.TYPE_WARNING,
+                title: '提示',
+                message: '请选择<span style="color:red;">'+c+'</span>条需要修改的数据。',
+                buttonLabel: "确定"
+            });
+            return false;
+        }
+        list.push(n[0].id);
+        list.push(n[0].text);
+        return list;
+    }else{
+        $.each(n,function(k,v){
+            list.push(v.id);
+        });
+        return list;
+    }
+
+}
+
+
+
+CmsRepairService.setTypeCommon = function(e, dom, dia){
+    if(e != false){
+        $("input[name='serviceTypeId']").val(e[0]);
+        $(dom).html('<span style="color:#333;">'+e[1]+'</span>')
+        if($("input[name='serviceTypeId']").attr("value") != ''){
+            dia.close();
+            BootstrapDialog.alert({
+                type: BootstrapDialog.TYPE_WARNING,
+                title: '提示',
+                message: '添加成功',
+                buttonLabel: "确定"
+            });
+            return false;
+        }
+        return true;
+    }
+}
 
 $(function () {
     CmsRepairService.checkboxInit();
 });
+

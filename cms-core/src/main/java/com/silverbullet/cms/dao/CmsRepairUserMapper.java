@@ -15,4 +15,6 @@ public interface CmsRepairUserMapper extends CrudRepository<CmsRepairUser, Strin
 
     public int searchCountNum(Map<String, Object> data);
 
+    public int setBlackListById(CmsRepairUser cmsRepairUser);
+
 }

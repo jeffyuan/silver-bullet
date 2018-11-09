@@ -1,0 +1,42 @@
+<!--
+<div class="box box-success">
+    <div class="box-header with-border">
+        <h3 class="box-title">已完成的维修业务</h3>
+        <div class="box-tools pull-right">
+            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+            </button>
+            <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+        </div>
+    </div>
+    <div class="box-body">
+        <div class="table-responsive data-table-list table-height">
+            <table id="data-list" class="table table-bordered table-hover " style="">
+                <thead>
+                <tr clas="fs-n">
+                    <th class="text-center">#</th>
+                    <th class="text-center">故障名称</th>
+                    <th class="text-center">客户姓名</th>
+                    <th class="text-center">任务状态</th>
+                    <th class="text-center">维修地址</th>
+                    <th class="text-center">客户电话</th>
+                </tr>
+                </thead>
+                <tbody>
+                @for(var i = 0; i< results.resultList.~size; i++){
+                <tr id="data-r${i}" data-u="${results.resultList[i].id}">
+                    <td class="tb-cb-w">${i+1}</td>
+                    <td class="text-center"><span class="table-link" onclick="CmsRepairService.tableInfoFault('${results.resultList[i].repairFaultId}')">${results.resultList[i].faultName}</span></td>
+                    <td class="tb-w-60 text-center"><span class="table-link" onclick="CmsRepairService.tableInfoUser('${results.resultList[i].repairUserId}')">${results.resultList[i].customName}</span></td>
+                    <td class="height-middle text-center"><span class="border bor border${results.resultList[i].status}"><span class="round round${results.resultList[i].status}"></span>${(results.resultList[i].status == 0)?"未开始":(results.resultList[i].status == 1)?"进行中":"已完成"}</span></td>
+                    <td class="text-center">${results.resultList[i].address}</td>
+                    <td class="text-center">${results.resultList[i].mobPhone}</td>
+                </tr>
+                @}
+                <tbody/>
+            </table>
+            <h3 style="width:100%; text-align: center; ">
+                <i class="${noData.icon!}"></i>${noData.text!}
+            </h3>
+        </div>
+    </div>
+</div>-->

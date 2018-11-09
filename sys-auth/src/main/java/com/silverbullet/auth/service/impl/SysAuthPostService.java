@@ -109,6 +109,7 @@ public class SysAuthPostService implements ISysAuthPostService {
             sysAuthPost.setCreateUsername(userInfo.getUsername());
             sysAuthPost.setCreateTime(Calendar.getInstance().getTime());
             sysAuthPost.setModifyTime(Calendar.getInstance().getTime());
+
             sysAuthPost.setModifyUser(userInfo.getName());
             sysAuthPost.setModifyUsername(userInfo.getUsername());
             sysAuthPost.setState("1");

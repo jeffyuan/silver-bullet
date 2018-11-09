@@ -11,10 +11,17 @@
                 </div>
             </div>
             <div class="form-group">
-                <label>客户名称：</label>
+                <label>客户名称：<span class="font-red">*</span><label class="font-red" id="msg-repairUserId"></label></label>
                 <div class="input-box">
                     <input type="hidden" name="repairUserId" class="form-control input-point" value="${obj.repairUserId!}" placeholder="点击选择客户" ${disabled} readonly="readonly">
                     <div class="inputVal point customNameValue" onclick="CmsRepairService.selectCustom()">${(obj.customName == null)?"点击选择客户名称":obj.customName!}</div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>业务类型：<span class="font-red">*</span><label class="font-red" id="msg-repairServiceTypeId"></label></label>
+                <div class="input-box">
+                    <input type="hidden" name="serviceTypeId" class="form-control input-point" value="${obj.serviceTypeId!}" placeholder="点击选择业务类型" ${disabled} readonly="readonly">
+                    <div class="inputVal point customNameValue" onclick="CmsRepairService.selectType(this)">${(obj.typeName == null)?"点击选择业务类型":obj.typeName!}</div>
                 </div>
             </div>
             <div class="form-group">

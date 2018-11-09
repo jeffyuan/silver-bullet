@@ -6,6 +6,7 @@ import com.silverbullet.auth.domain.SysAuthUser;
 import com.silverbullet.auth.service.ISysAuthActionTreeService;
 import com.silverbullet.core.validate.AddValidate;
 import com.silverbullet.utils.BaseDataResult;
+import com.silverbullet.utils.ToolUtil;
 import com.silverbullet.utils.TreeNode;
 import com.silverbullet.utils.TreeNode1;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -116,8 +118,22 @@ public class SysAuthActionTreeController {
 
     @RequestMapping(value = "/tree.do", method = RequestMethod.POST)
     @ResponseBody
-    public List<TreeNode1> treeNode(){
-        return sysAuthActionTreeService.findTreeNode();
+    public Map<String, Object> treeNode(String parentId){
+        if(parentId == null){
+            parentId = "NONE";
+        }
+
+        Map<String, Object> map = new HashMap<>();
+
+        BaseDataResult<SysAuthActionTree> result = sysAuthActionTreeService.findTreeNode(parentId);
+
+        if(result.getResultList().isEmpty()){
+            map.put("noData", ToolUtil.noData());
+        }else{
+            map.put("result", result);
+        }
+
+        return map;
     }
 
 
@@ -128,4 +144,30 @@ public class SysAuthActionTreeController {
 
         return mapRet;
     }
+
+    @RequestMapping(value = "/treeNodeMove.do", method = RequestMethod.POST)
+    @ResponseBody
+    public Map<String, Object> treeNodeMove(String id, String parentId, Integer sort, Integer statu) {
+
+        Map<String, Object> mapt = new HashMap<>();
+        BaseDataResult<SysAuthActionTree> nodeList = new BaseDataResult<>();
+
+        if(id == null){
+            mapt.put("status", false);
+            mapt.put("message", "修改失败");
+            return mapt;
+        }
+
+        Boolean status = sysAuthActionTreeService.setTreeNodeSort(id, parentId, sort, statu);
+
+        if(status == true) {
+            mapt.put("status", true);
+        } else {
+            mapt.put("status", false);
+            mapt.put("message", "修改失败");
+        }
+
+        return mapt;
+    }
+
 }
