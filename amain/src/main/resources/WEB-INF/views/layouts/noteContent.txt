@@ -25,11 +25,3 @@
 <!--<script src="${ctxPath}/static/js/amq_jquery_adapter.js"></script>
 <script src="${ctxPath}/static/js/amq.js"></script>
 <script src="${ctxPath}/static/silverbullet/js/silverbullet-msg.js"></script>-->
-<!-- treegrid -->
-<!--<script src="${ctxPath}/static/jquery/treegrid/js/jquery.treegrid.js"></script>-->
-
-<!--<script src="${ctxPath}/static/jquery/treegrid/js/jquery.treegrid.bootstrap3.js"></script>-->
-<!-- easyui -->
-<!--<script src="${ctxPath}/static/jquery/easyui/jquery.easyui.min.js"></script>-->
-<!-- jQuery UI 1.11.4 -->
-<script src="${ctxPath}/static/adminlte/bower_components/jquery-ui/jquery-ui.min.js"></script>

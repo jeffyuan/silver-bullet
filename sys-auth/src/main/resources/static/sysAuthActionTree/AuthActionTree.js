@@ -45,13 +45,39 @@ AuthActionTree.loadData = function(obj, action, curpage) {
     return true;
 };
 
+
+/**
+ * 设置
+ * @param params
+ * @param url
+ */
+AuthActionTree.setNodePosition = function (params, url) {
+    var treeNode = [];
+
+    $.ajax({
+        type: "post",
+        url: url,
+        async: false,
+        data: params,
+        dataType: 'json',
+        success: function (data) {
+            treeNode.push(data);
+        }
+    });
+
+    return treeNode;
+}
+
+
+
 /**
  * 表格头部添加方法
  */
 AuthActionTree.add = function() {
     var dialogInfo = AuthActionTree.getHtmlInfo(AuthActionTree.ctxPath + AuthActionTree.url + 'add.html', {});
+    data.blur(".wrapper", 1);
     BootstrapDialog.show({
-        title: '添加分支',
+        title: '添加权限',
         closable: true,
         closeByBackdrop: false,
         closeByKeyboard: false,
@@ -73,6 +99,7 @@ AuthActionTree.add = function() {
             label: '关闭',
             action: function (dialogItself) {
                 dialogItself.close();
+
             }
         }
         ]
@@ -100,6 +127,7 @@ AuthActionTree.save = function(url, dialogItself) {
                 });
                 dialogItself.close();
                 // 刷新页面
+                CmsRepairType.treeNode(TreeView.node);
                 window.location.reload();
                 /*AuthActionTree.loadData(null, AuthActionTree.ctxPath + AuthActionTree.url + "list.html" ,1);*/
             } else {
@@ -435,95 +463,105 @@ AuthActionTree.checkboxStyle = function() {
  */
 
 AuthActionTree.TreeNode = function () {
-
-    $.ajax({
-        type: "POST",
-        url: AuthActionTree.ctxPath + AuthActionTree.url + "tree.do",
-        data: { },
-        dataType: "json",
-        success: function (data) {
-            var treeList = [];
-            $.each(data,function (k,v) {
-                var treeNode={};
-               /* console.log(v.children);*/
-
-                treeNode["text"] = v.name;
-                treeNode["id"] = v.id;
-                treeNode["nodes"] = [];
-                $.each(v.children,function (k,v) {
-                    var childrenNode = {};
-                    childrenNode["text"] = v.name;
-                    childrenNode["id"] = v.id;
-                    treeNode["nodes"].push(childrenNode);
-                    if(v.children.length !== 0){
-                        $.each(v.children,function (k,v) {
-                            var childrensNode = {};
-                            childrensNode["text"] = v.name;
-                            childrensNode["id"] = v.id;
-                            childrenNode["nodes"].push(childrensNode);
-                        });
-                    }
-                })
-                treeList.push(treeNode);
-
-            })
-            $('#authActionTree').treeview({
-                data: treeList,
-                multiSelect: true,
-                showBorder: false,
-                selectedBackColor: '#fff',
-                onhoverColor: '#fff',
-                selectedColor: '#333',
-                showCheckbox: false,
-                onNodeChecked: function(event, node){
-                    var selectNodes = AuthActionTree.getChildrenTree(node);
-                    if(selectNodes){
-                        $('#treeview-checkable').treeview('checkNode', [ selectNodes,{ silent: true }]);
-                    }
-                },
-                onNodeUnchecked: function (event, node) {
-                    var selectNodes = AuthActionTree.getChildrenTree(node);
-                    if(selectNodes){
-                        $('#treeview-checkable').treeview('uncheckNode', [ selectNodes,{ silent: true }]);
-                    }
-                }
-            });
-        }
-    });
+    console.log("2")
+    node = TreeView.tree("NONE", "#authActionTree", AuthActionTree.ctxPath+AuthActionTree.url+"tree.do");
+    AuthActionTree.node = node;
 }
 
 
 /**
- * 定位当前点击树
+ * 节点鼠标经过事件
+ * @type {string}
  */
-AuthActionTree.TreeChildren = function(){
-    $(document).on("mouseover", function(e){
-        var val = $(e.target).parent().attr("id")/*.replace(/[^\u4e00-\u9fa5]/gi,"")*/;
-        console.log(val);
-        $.ajax({
-            type: "POST",
-            url: AuthActionTree.ctxPath + AuthActionTree.url + "check.do",
-            data : val,
-            dataType: "json",
-            success: function(){
-                console.log("TreeChildren+success");
+treeEnter = function(e){
+    AuthActionTree.treeEditButton(e);
+}
 
+treeClick = function(e){
+
+}
+
+
+/**
+ * 节点编辑浮动菜单
+ * @param e
+ */
+AuthActionTree.treeEditButton = function(e){
+    var buttonGroup =
+        '<div class=\'NodeEditList icon node-icon animated bounceIn\' data-editId=\'edit\'>' +
+            '<span class=\'NodeEditIcon fa fa-arrow-up icon-left\' onclick=\'AuthActionTree.treeNodeMove(this,1)\' data-icon="up"></span>'+
+            '<span class=\'NodeEditIcon fa fa-arrow-down icon-right\' onclick=\'AuthActionTree.treeNodeMove(this,0)\' data-icon="down"></span>'+
+        '</div>'
+    var siblings = $(e).siblings().find("div[data-editId='edit']")
+    if(0 ===  siblings.length){
+        if($(e).find("div[data-editId='edit']").length === 0){
+            $(e).append(buttonGroup);
+            AuthActionTree.unClick(e);
+        }
+    }else{
+        siblings.remove();
+        if($(e).find("div[data-editId='edit']").length === 0){
+            $(e).append(buttonGroup);
+            AuthActionTree.unClick(e);
+        }
+    }
+}
+
+
+/**
+ *树节点移动
+ * @param e
+ */
+AuthActionTree.treeNodeMove = function(e, status){
+
+    var $dom = $(e).parent().parent()
+    $dom.css({
+        'background-color': '#f2f2f2',
+        'color': '#333'
+    });
+
+    var data = {
+        id: $dom.attr("id"),
+        parentId: $dom.attr("parentuid"),
+        sort: $dom.attr("sort"),
+        statu: status
+    }
+
+    if(status == 1 && $dom.attr("position") == 1){
+        return ;
+    }else if(status == 0 && $dom.attr("position") == 0){
+        return ;
+    }
+        else{
+        var node = AuthActionTree.setNodePosition(data, AuthActionTree.ctxPath+AuthActionTree.url+"treeNodeMove.do");
+
+        if(true === node[0].status){
+            if("NONE" === data.parentId){
+                AuthActionTree.TreeNode();
+            }else{
+                TreeView.treeNode(TreeView.node, "#authActionTree", AuthActionTree.ctxPath+AuthActionTree.url+"tree.do");
             }
+        }else{
 
-        })
-    })
+        }
+    }
+}
 
-
-
+/**
+ * 树移动禁止点击
+ * @param e
+ */
+AuthActionTree.unClick = function(e){
+    if($(e).attr("position") == 1){
+        $(e).find("span[data-icon='up']").addClass("unClick");
+    }else if($(e).attr("position") == 0){
+        $(e).find("span[data-icon='down']").addClass("unClick");
+    }
 }
 
 
 
 $(function () {
-    AuthActionTree.TreeChildren();
-    AuthActionTree.TreeNode();
     AuthActionTree.checkboxInit();
-    AuthActionTree.getActionSelect();
-    AuthActionTree.getActionSelectParent();
-
+    AuthActionTree.TreeNode();
 });

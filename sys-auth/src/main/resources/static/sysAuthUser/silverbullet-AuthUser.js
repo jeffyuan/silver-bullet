@@ -102,7 +102,7 @@ AuthUser.save = function(url, dialogItself) {
                 });
                 dialogItself.close();
                 // 刷新页面
-                window.location.reload();
+                AuthUser.loadData(null, AuthUser.ctxPath + AuthUser.url + "list.html", 1);
             } else {
                 if (data.errors != null) {
                     // 错误信息反馈到页面上
@@ -246,7 +246,7 @@ AuthUser.deleteCommon = function(ids) {
                                 buttonLabel: "确定"
                             });
                             // 刷新页面
-                            window.location.reload();
+                            AuthUser.loadData(null, AuthUser.ctxPath + AuthUser.url + "list.html", 1);
                         } else {
                             BootstrapDialog.alert({
                                 type: BootstrapDialog.TYPE_WARNING,

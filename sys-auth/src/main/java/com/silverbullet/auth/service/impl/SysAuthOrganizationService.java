@@ -41,8 +41,6 @@ public class SysAuthOrganizationService implements ISysAuthOrganizationService {
 
         BaseDataResult<SysAuthOrganization> listResults = new BaseDataResult<SysAuthOrganization>();
         listResults.setResultList(sysAuthOrganizationMapper.findListById(parentId));
-      /*  listResults.setResultList(sysAuthOrganizationMapper.findList());*/
-        //listResults.setTotalNum(sysAuthOrganizationMapper.countNum());
         listResults.setTotalNum(sysAuthOrganizationMapper.countNumById(parentId));
 
         return listResults;
@@ -51,6 +49,11 @@ public class SysAuthOrganizationService implements ISysAuthOrganizationService {
     @Override
     public SysAuthOrganization getOneById(String id) {
         return sysAuthOrganizationMapper.selectByPrimaryKey(id);
+    }
+
+    @Override
+    public SysAuthOrganization getOneByParentId(String parentId) {
+        return sysAuthOrganizationMapper.findListByParentId(parentId);
     }
 
     @Override

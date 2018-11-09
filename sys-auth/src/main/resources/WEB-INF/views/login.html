@@ -6,43 +6,52 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>SilverBullet - 登录</title>
+    <script src="${ctxPath}/static/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" href="${ctxPath}/static/bootstrap-3.3.7-dist/css/bootstrap.min.css" />
     <!-- Custom styles for this template -->
     <link rel="stylesheet" type="text/css" href="${ctxPath}/static/silverbullet/css/signin.css">
+    <!--animate-->
+    <link rel="stylesheet" href="${ctxPath}/static/silverbullet/css/animate.min.css">
 
 
 </head>
 
-<body class="text-center" style="height: 80%;">
-<form class="form-signin" action="${ctxPath}/login" method="post" id="form" style="display: none;">
-
-    <img class="mb-4" src="https://getbootstrap.com/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">
-
-    <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
-
-    <input type="text" id="inputEmail" name="username" class="form-control" placeholder="用户名" required autofocus>
-
-    <input type="password" id="inputPassword" name="password" class="form-control" placeholder="密码" required>
-
-    <div>
-        <div class="custom-control custom-checkbox">
-            <input type="checkbox" name="remember" class="custom-control-input" value="remember-me" id="remember">
-            <label class="custom-control-label" for="remember">记住我</label>
-        </div>
-        <h1 class="h5 mb-3 font-weight-normal text-danger">${message!}</h1>
+<body class="text-center" style="overflow: hidden;">
+<form class="form-signin" action="${ctxPath}/login" method="post" id="form">
+    <div class="loginTitle">
+        <span class="title">欢迎使用Silver Bullet</span>
     </div>
-    <button class="btn btn-lg btn-info btn-block" type="submit">Sign in</button>
-
+    <div class="loginCon">
+        <img class="loginImage" src="${ctxPath}/static/adminlte/dist/img/user2-160x160.jpg"></img>
+        <input type="text" id="inputEmail" name="username" class="form-control" placeholder="用户名" required autofocus>
+        <input type="password" id="inputPassword" name="password" class="form-control" placeholder="密码" required>
+        <div style="width:100%">
+            <div class="custom-control custom-checkbox" style="display: inline-block; width:auto;">
+                <input type="checkbox" name="remember" class="custom-control-input" value="remember-me" id="remember">
+                <label class="custom-control-label" for="remember">记住我</label>
+            </div>
+            <h1 class="h5 mb-3 font-weight-normal text-danger">${message!}</h1>
+        </div>
+        <button class="btn btn-lg btn-info btn-block" type="submit">登录</button>
+    </div>
     @include("/fragments/footer.html"){}
 </form>
 
 
 
 <script src="${ctxPath}/static/jquery/jquery-1.9.1.min.js"></script>
-<script src="${ctxPath}/static/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+
 <script>
-    $("#form").fadeIn(1000);
+    $("#form").children().hide();
+    $("#form").addClass("animated bounceInUp");
+        $("#form").children().each(function(k,v){
+                $(v).delay("slow").fadeIn(500);
+        });
 </script>
 </body>
 </html>
+
+
+
+

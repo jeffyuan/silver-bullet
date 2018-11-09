@@ -1,13 +1,23 @@
 package com.silverbullet.utils;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import com.sun.javafx.PlatformUtil;
 import com.sun.prism.PixelFormat;
 import org.apache.shiro.crypto.hash.SimpleHash;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.json.JSONStringer;
+import org.springframework.boot.jackson.JsonObjectSerializer;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.tools.JavaCompiler;
 import javax.tools.ToolProvider;
 import java.io.File;
+import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.net.InetAddress;
 import java.net.URL;
@@ -15,6 +25,8 @@ import java.net.URLClassLoader;
 import java.net.UnknownHostException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+
+import static com.alibaba.druid.sql.dialect.mysql.ast.clause.MySqlFormatName.JSON;
 
 /**
  * 工具类
@@ -242,11 +254,12 @@ public class ToolUtil {
             }else{
                 list.add(y[i]);
             }
-
         }
 
         return list;
     }
+
+
 
     /**
      * 无数据信息返回内容
@@ -260,4 +273,207 @@ public class ToolUtil {
 
         return noData;
     }
+
+
+
+    /**
+     * yyyy-mm-nn中文化
+     * @return
+     */
+    public static String Datazw (String data){
+        String e[] = data.split("-");
+        return e[0]+"年"+e[1]+"月"+e[2]+"日";
+    }
+
+
+    /**
+     * mm-nn中文化
+     * @return
+     */
+    public static String Datamn (String data){
+        String e[] = data.split("-");
+        return e[2]+"日";
+    }
+
+
+
+
+    /**
+     * 饼状图数据结构构建方法
+     * @param dataList
+     * @return
+     */
+    public static Map<String, Object> ChartsBData (List<String> dataList, String data) {
+
+        Map<String, Object> option = new HashMap<>();
+        Map<String, Object> title = new HashMap<>();
+        Map<String, Object> tooltip = new HashMap<>();
+        List<Object> series = new ArrayList<>();
+        Map seriesMap = new HashMap<>();
+        List<Object> datalist  = new ArrayList<>();
+        Map data0 = new HashMap<>();
+        Map data1 = new HashMap<>();
+        Map data2 = new HashMap<>();
+        Map itemStyleMap = new HashMap<>();
+        List<String> center = new ArrayList<>();
+        Map<String, String> itemStyleDatasuccess = new HashMap<>();
+        Map<String, String> itemStyleDatawarning = new HashMap<>();
+        Map<String, String> itemStyleDatadanger = new HashMap<>();
+
+
+        itemStyleDatasuccess.put("color", "#008d4c");
+        itemStyleDatawarning.put("color", "#f39c12");
+        itemStyleDatadanger.put("color", "#dd4b39");
+        title.put("text", Datazw(data)+"  业务状态占比");
+        title.put("x", "center");
+        title.put("top", 20);
+        tooltip.put("trigger", "item");
+        tooltip.put("formatter", "{a} <br/>{b} : {c} ({d}%)");
+        seriesMap.put("name", "状态占比");
+        seriesMap.put("type", "pie");
+        seriesMap.put("radius", "55%");
+        seriesMap.put("animationType", "scale");
+        seriesMap.put("animationEasing", "elasticOut");
+        center.add("50%");
+        center.add("50%");
+        seriesMap.put("center", center);
+        data0.put("value", dataList.get(0));
+        data0.put("name", "未开始");
+        data0.put("itemStyle", itemStyleDatadanger);
+        data1.put("value", dataList.get(1));
+        data1.put("name", "进行中");
+        data1.put("itemStyle", itemStyleDatawarning);
+        data2.put("value", dataList.get(2));
+        data2.put("name", "已结束");
+        data2.put("itemStyle", itemStyleDatasuccess);
+        datalist.add(data0);
+        datalist.add(data1);
+        datalist.add(data2);
+        seriesMap.put("data", datalist);
+        itemStyleMap.put("shadowBlur", 100);
+        itemStyleMap.put("shadowOffsetX", 0);
+        itemStyleMap.put("shadowOffsetY", 0);
+        itemStyleMap.put("shadowColor", "rgba(0, 0, 0, .5)");
+        seriesMap.put("itemStyle", itemStyleMap);
+        series.add(seriesMap);
+        option.put("title", title);
+        option.put("tooltip", tooltip);
+        option.put("series", series);
+
+        return option;
+    }
+
+
+    /**
+     * 根据周获取当前周所有日
+     * @param date
+     * @return
+     */
+    public static List<String> getDateByWeek(Date date){
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        Integer weekNow = calendar.get(Calendar.DAY_OF_WEEK)-1;
+        List<String> dateList = new ArrayList<>();
+        calendar.add(Calendar.DATE, +1);
+
+        for(int i=1;i<=7; i++){
+            calendar.add(Calendar.DATE, -1);
+            dateList.add(String.valueOf(calendar.get(Calendar.YEAR))+'-'+String.valueOf(calendar.get(Calendar.MONTH)+1)+'-'+String.valueOf(calendar.get(Calendar.DAY_OF_MONTH)));
+        }
+
+        return dateList;
+    }
+
+
+    /**
+     * 饼状图数据结构构建方法
+     * @param dateList
+     * @param week
+     * @return
+     */
+    public static Map<String, Object> ChartsSZData(List<List<String>> dateList, List<String> week){
+        Map<String, Object> option = new HashMap<>();
+        Map<String, Object> title = new HashMap<>();
+        Map<String, Object> xAxis = new HashMap<>();
+        Map<String, Object> yAxis = new HashMap<>();
+        Map<String, Object> tooltip = new HashMap<>();
+        Map<String, Object> grid = new HashMap<>();
+        List<Map> series = new ArrayList<>();
+        List<String> weekName = new ArrayList<>();
+        Map<String, Object> axisPointer = new HashMap<>();
+        Map<String, Object> serieData1 = new HashMap<>();
+        Map<String, Object> serieData2 = new HashMap<>();
+        Map<String, Object> serieData3 = new HashMap<>();
+        Map<String, Object> itemStyle1 = new HashMap<>();
+        Map<String, Object> itemStyle2 = new HashMap<>();
+        Map<String, Object> itemStyle3 = new HashMap<>();
+        List<String> data1 = new ArrayList<>();
+        List<String> data2 = new ArrayList<>();
+        List<String> data3 = new ArrayList<>();
+
+        for(int i=0;i<dateList.size();i++){
+            data1.add(dateList.get(i).get(0));
+            data2.add(dateList.get(i).get(1));
+            data3.add(dateList.get(i).get(2));
+        }
+
+
+        itemStyle1.put("color", "#d33724");
+        itemStyle1.put("shadowBlur",100);
+        itemStyle1.put("shadowColor", "rgba(0, 0, 0, .3)");
+        itemStyle2.put("color", "#db8b0b");
+        itemStyle2.put("shadowBlur", 100);
+        itemStyle2.put("shadowColor", "rgba(0, 0, 0, .3)");
+        itemStyle3.put("color", "#008d4c");
+        itemStyle3.put("shadowBlur", 100);
+        itemStyle3.put("shadowColor", "rgba(0, 0, 0, .3)");
+
+        serieData1.put("name", "未完成");
+        serieData1.put("type", "bar");
+        serieData1.put("data", data1);
+        serieData1.put("itemStyle", itemStyle1);
+        serieData2.put("name", "进行中");
+        serieData2.put("type", "bar");
+        serieData2.put("data", data2);
+        serieData2.put("itemStyle", itemStyle2);
+        serieData3.put("name", "已完成");
+        serieData3.put("type", "bar");
+        serieData3.put("data", data3);
+        serieData3.put("itemStyle", itemStyle3);
+        series.add(serieData1);
+        series.add(serieData2);
+        series.add(serieData3);
+
+
+        title.put("top", 20);
+        title.put("text", "近七天业务状态");
+        title.put("x", "center");
+        for(int i=0;i<week.size();i++){
+            weekName.add(Datamn(week.get(i)));
+        }
+        axisPointer.put("type", "shadow");
+        xAxis.put("type", "category");
+        xAxis.put("data", weekName);
+        yAxis.put("type", "value");
+        tooltip.put("trigger", "axis");
+        tooltip.put("axisPointer", axisPointer);
+        grid.put("left", "3%");
+        grid.put("right", "4%");
+        grid.put("containLabel", true);
+
+
+
+        option.put("title", title);
+        option.put("xAxis",xAxis);
+        option.put("yAxis",yAxis);
+        option.put("tooltip",tooltip);
+        option.put("grid", grid);
+        option.put("series", series);
+
+
+        return option;
+    }
+
+
 }

@@ -1175,6 +1175,7 @@
         close: function () {
             !this.isRealized() && this.realize();
             this.getModal().modal('hide');
+            data.blur(".wrapper", 0)
 
             return this;
         }

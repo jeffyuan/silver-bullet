@@ -6,6 +6,7 @@ import com.silverbullet.utils.BaseDataResult;
 import com.silverbullet.utils.TreeNode;
 import com.silverbullet.utils.TreeNode1;
 
+import java.net.InetAddress;
 import java.util.List;
 import java.util.Map;
 
@@ -24,5 +25,12 @@ public interface ISysAuthActionTreeService {
     public boolean Update(SysAuthActionTree sysAuthActionTree);
     public boolean delete(String id);
     public boolean Insert(SysAuthActionTree sysAuthActionTree);
-    public List<TreeNode1> findTreeNode();
+    public BaseDataResult<SysAuthActionTree> findTreeNode(String parentId);
+
+    /**
+     * 根据id设置sort
+     * @param id
+     * @return
+     */
+    public Boolean setTreeNodeSort(String id, String parentId, Integer sort, Integer status);
 }

@@ -28,6 +28,7 @@ AuthAction.getHtmlInfo = function(url, params){
     return dialogInfo;
 };
 
+
 /**
  * 加载页面
  * @param obj
@@ -38,7 +39,6 @@ AuthAction.getHtmlInfo = function(url, params){
 AuthAction.loadData = function(obj, action, curpage) {
     var dialogInfo = AuthAction.getHtmlInfo(action, {"curpage" : curpage});
     dialogInfo += "<script>AuthAction.checkboxInit();</script>";
-
     $("#data-list-content").html(dialogInfo);
     return true;
 };
@@ -331,6 +331,10 @@ AuthAction.getActionSelect = function () {
         }
     });
 }
+
+$(function () {
+    AuthAction.checkboxInit();
+});
 
 
 $(function () {

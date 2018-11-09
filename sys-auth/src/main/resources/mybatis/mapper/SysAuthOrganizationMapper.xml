@@ -247,4 +247,11 @@
     from sys_auth_organization
     where parent_id = #{id,jdbcType=VARCHAR}
   </select>
+
+  <select id="findListByParentId" resultMap="BaseResultMap">
+    SELECT <include refid="Base_Column_List" />
+    FROM sys_auth_organization
+    WHERE parent_id = #{parentId, jdbcType=VARCHAR}
+
+  </select>
 </mapper>
