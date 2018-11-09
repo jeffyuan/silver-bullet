@@ -58,6 +58,7 @@ public class CmsRepairUserImpl implements ICmsRepairUserService {
             cmsRepairUser.setModifyUser(userInfo.getId());
             cmsRepairUser.setModifyTime(Calendar.getInstance().getTime());
             cmsRepairUser.setDelSign(0);
+            cmsRepairUser.setBlackList(0);
 
             return cmsRepairUserMapper.insert(cmsRepairUser) == 1 ? true : false;
         } catch (Exception ex) {
@@ -92,6 +93,7 @@ public class CmsRepairUserImpl implements ICmsRepairUserService {
             cmsRepairUser.setModifyUsername(userInfo.getName());
             cmsRepairUser.setModifyUser(userInfo.getId());
             cmsRepairUser.setModifyTime(Calendar.getInstance().getTime());
+            cmsRepairUser.setBlackList(cmsRepairUserNew.getBlackList());
 
             return cmsRepairUserMapper.updateByPrimaryKey(cmsRepairUser) == 1 ? true : false;
         } catch (Exception ex) {
@@ -135,6 +137,17 @@ public class CmsRepairUserImpl implements ICmsRepairUserService {
         listResults.setTotalNum(cmsRepairUserMapper.searchCountNum(dataMap));
 
         return listResults;
+    }
+
+    @Override
+    public boolean setBlackListById(CmsRepairUser cmsRepairUser) {
+
+        try{
+            return cmsRepairUserMapper.setBlackListById(cmsRepairUser) == 1 ? true : false;
+        } catch (Exception ex) {
+            logger.error("Insert Error: " + ex.getMessage());
+            return false;
+        }
     }
 
 }

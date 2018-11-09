@@ -462,9 +462,104 @@ CmsRepairUser.modelSearch = function(dom){
 }
 
 
+/**
+ * 设置客户状态通用方法
+ */
+CmsRepairUser.blackList = function(){
+    var arrays = [];
+    $("div[aria-checked='true']").each(function(){
+        arrays.push($(this).parent().parent().attr('data-u'));
+    });
+
+    if (arrays.length != 1) {
+        BootstrapDialog.alert({
+            type: BootstrapDialog.TYPE_WARNING,
+            title: '提示',
+            message: '请选择一条需要修改的数据。',
+            buttonLabel: "确定"
+        });
+        return ;
+    }
+
+    CmsRepairUser.blackListCommon(arrays[0]);
+}
 
 
-CmsRepairUser.loadSearchData
+/**
+ * 设置客户状态通用方法
+ * @param uid
+ */
+CmsRepairUser.blackListCommon = function(uid){
+    var dialogInfo = CmsRepairUser.getHtmlInfo(CmsRepairUser.ctxPath + CmsRepairUser.url + 'blackList.html', {id: uid});
+    BootstrapDialog.show({
+        title: '设置客户状态',
+        type: BootstrapDialog.TYPE_DEFAULT,
+        closable: true,
+        closeByBackdrop: false,
+        closeByKeyboard: false,
+        size: BootstrapDialog.SIZE_SMALL,
+        message: dialogInfo,
+        buttons: [{
+            icon: 'fa fa-save',
+            label: '保存',
+            cssClass: 'btn-success',
+            action: function (dialogItself) {
+                // 清除提示语
+                $("label[id^=msg-]").each(function(){
+                    $(this).text("");
+                });
+                $("#msg").text("");
+
+                // 保存
+                CmsRepairUser.saveBlackList(CmsRepairUser.ctxPath + CmsRepairUser.url + 'setBlackList.do', dialogItself);
+            }
+        }, {
+            icon: 'fa fa-close',
+            label: '关闭',
+            cssClass: 'btn-danger',
+            action: function (dialogItself) {
+                dialogItself.close();
+            }
+        }
+        ]
+    });
+}
+
+CmsRepairUser.saveBlackList = function (url, dialogItself) {
+    $.ajax({
+        type: "post",
+        url: url,
+        data: $("#formBlackList").serialize(),
+        dataType: "json",
+        success: function(data) {
+            if (data.result == true) {
+                BootstrapDialog.alert({
+                    type: BootstrapDialog.TYPE_WARNING,
+                    title: '提示',
+                    message: data.message,
+                    buttonLabel: "确定"
+                });
+                dialogItself.close();
+                // 刷新页面
+
+                CmsRepairUser.loadData(null, CmsRepairUser.ctxPath + CmsRepairUser.url + 'list.html', 1);
+            } else {
+                if (data.errors != null) {
+                    // 错误信息反馈到页面上
+                    for (var i = 0 ; i < data.errors.length; i++) {
+                        $("#msg-" + data.errors[i].field).text('  (' + data.errors[i].defaultMessage + ')');
+                    }
+                } else {
+                    $("#msg").text(data.message);
+                }
+            }
+        }
+    })
+}
+
+
+
+
 $(function () {
     CmsRepairUser.checkboxInit();
 });

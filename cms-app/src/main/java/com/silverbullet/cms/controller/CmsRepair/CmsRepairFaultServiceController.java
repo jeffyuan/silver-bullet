@@ -46,6 +46,10 @@ public class CmsRepairFaultServiceController {
 
         BaseDataResult<CmsRepairServiceInfo> results = cmsRepairFaultServiceService.list(nCurPage, 10);
 
+        if(results.getResultList().isEmpty()){
+            modelAndView.addObject("noData", ToolUtil.noData());
+        }
+
         modelAndView.addObject("list","list");
         modelAndView.addObject("method", "CmsRepairService.loadData");
         modelAndView.addObject("results", results);
@@ -95,6 +99,10 @@ public class CmsRepairFaultServiceController {
 
         BaseDataResult<CmsRepairServiceInfo> results = cmsRepairFaultServiceService.list(nCurPage, 10);
 
+        if(results.getResultList().isEmpty()){
+            modelAndView.addObject("noData", ToolUtil.noData());
+        }
+
         modelAndView.addObject("list","list");
         modelAndView.addObject("method", "CmsRepairService.loadData");
         modelAndView.addObject("results", results);
@@ -102,6 +110,7 @@ public class CmsRepairFaultServiceController {
 
         return modelAndView;
     }
+
 
     @RequestMapping(value = "/check.html", method = RequestMethod.POST)
     public String check(Model model, String pageName, String id){
@@ -147,6 +156,10 @@ public class CmsRepairFaultServiceController {
 
         BaseDataResult<CmsRepairUser> results = cmsRepairUserService.list(nCurPage, 5);
 
+        if(results.getResultList().isEmpty()){
+            modelAndView.addObject("noData", ToolUtil.noData());
+        }
+
         modelAndView.addObject("list","listModel");
         modelAndView.addObject("method", "CmsRepairUser.loadDataModel");
         modelAndView.addObject("disabled", "disabled");
@@ -168,6 +181,10 @@ public class CmsRepairFaultServiceController {
         modelAndView.setViewName("/CmsRepairFaultService/model/faultModel");
 
         BaseDataResult<CmsRepairFault> results = cmsRepairFaultService.list(nCurPage, 5);
+
+        if(results.getResultList().isEmpty()){
+            modelAndView.addObject("noData", ToolUtil.noData());
+        }
 
         modelAndView.addObject("list","listModel");
         modelAndView.addObject("method", "CmsRepairFault.loadDataModel");
@@ -241,7 +258,7 @@ public class CmsRepairFaultServiceController {
 
         modelAndView.addObject("list","searchList");
         modelAndView.addObject("searchValue", "'"+search+"'");
-        modelAndView.addObject("method", "CmsRepairService.loadSearchData");
+        modelAndView.addObject("method","CmsRepairService.loadSearchData");
         modelAndView.addObject("results", results);
         modelAndView.addObject("curPage", nCurPage);
 
@@ -262,6 +279,10 @@ public class CmsRepairFaultServiceController {
 
         BaseDataResult<CmsRepairServiceInfo> results = cmsRepairFaultServiceService.search(search, nCurPage ,10);
 
+        if(results.getResultList().isEmpty()){
+            modelAndView.addObject("noData", ToolUtil.noData());
+        }
+
         modelAndView.addObject("list","searchList");
         modelAndView.addObject("searchValue", "'"+search+"'");
         modelAndView.addObject("method", "CmsRepairService.loadSearchData");
@@ -272,6 +293,15 @@ public class CmsRepairFaultServiceController {
         return modelAndView;
 
     }
+
+
+
+    @RequestMapping(value = "/tree.html", method = RequestMethod.POST)
+    public String tree(){
+        return "CmsRepairFaultService/model/typeModel";
+    }
+
+
 
 
 

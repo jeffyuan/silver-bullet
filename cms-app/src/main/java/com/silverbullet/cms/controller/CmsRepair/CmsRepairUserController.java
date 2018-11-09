@@ -2,6 +2,7 @@ package com.silverbullet.cms.controller.CmsRepair;
 
 
 import com.silverbullet.cms.domain.CmsArticleComment;
+import com.silverbullet.cms.domain.CmsRepairFault;
 import com.silverbullet.cms.domain.CmsRepairUser;
 import com.silverbullet.cms.pojo.CmsArticleEx;
 import com.silverbullet.cms.service.ICmsArticleCommentService;
@@ -281,6 +282,35 @@ public class CmsRepairUserController {
 
 
         return modelAndView;
+    }
+
+
+    @RequestMapping(value = "/blackList.html", method = RequestMethod.POST)
+    public String blackList(Model model, String id) {
+        CmsRepairUser cmsRepairUser = cmsRepairUserService.getOneById(id);
+        model.addAttribute("obj", cmsRepairUser);
+        model.addAttribute("disabled", " ");
+
+        return "/CmsRepairUser/modelBlackList";
+    }
+
+
+    @RequestMapping(value = "/setBlackList.do", method = RequestMethod.POST)
+    @ResponseBody
+    public Map<String, Object> setBlackList(CmsRepairUser cmsRepairUser) {
+        Map<String,Object> mapRet = new HashMap<String, Object>();
+
+        boolean bTrue = false;
+        String message = "";
+
+        bTrue = cmsRepairUserService.setBlackListById(cmsRepairUser);
+        message = bTrue ? "设置成功！" : "设置失败！";
+
+
+        mapRet.put("result", bTrue);
+        mapRet.put("message", message);
+
+        return mapRet;
     }
 
 }

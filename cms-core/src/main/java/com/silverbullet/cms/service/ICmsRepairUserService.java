@@ -64,4 +64,12 @@ public interface ICmsRepairUserService {
      */
     public BaseDataResult<CmsRepairUser> search(String search, int pageNum, int pageSize);
 
+
+    /**
+     * 根据id设置blackList
+     * @param cmsRepairUser
+     * @return
+     */
+    public boolean setBlackListById(CmsRepairUser cmsRepairUser);
+
 }

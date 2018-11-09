@@ -21,4 +21,11 @@ public interface CmsRepairFaultServiceMapper extends CrudRepository<CmsRepairFau
     public CmsRepairFaultService findStatusById(String id);
 
     Integer updateStatusById(CmsRepairFaultService cmsRepairFaultService);
+
+    public List<CmsRepairServiceInfo> findServiceList0();
+    public int serviceCountNum0();
+
+    public Integer findCountStatus(Map<String, Object> data);
+
+    public Integer findWeekCountStatus(Map<String, Object> data);
 }

@@ -3,6 +3,10 @@ package com.silverbullet.cms.service;
 import com.silverbullet.cms.domain.CmsRepairFaultService;
 import com.silverbullet.cms.domain.CmsRepairServiceInfo;
 import com.silverbullet.utils.BaseDataResult;
+import org.json.JSONException;
+
+import java.util.Date;
+import java.util.Map;
 
 public interface ICmsRepairFaultServiceService {
 
@@ -13,6 +17,15 @@ public interface ICmsRepairFaultServiceService {
      * @return
      */
     public BaseDataResult<CmsRepairServiceInfo> list(int pageNum, int pageSize);
+
+    /**
+     * 根据状态查询
+     * @param pageNum
+     * @param pageSize
+     * @return
+     */
+    public BaseDataResult<CmsRepairServiceInfo> list0(int pageNum, int pageSize);
+
 
 
 
@@ -81,4 +94,22 @@ public interface ICmsRepairFaultServiceService {
      * @return
      */
     public boolean updateStatusById(CmsRepairFaultService cmsRepairFaultService);
+
+
+    /**
+     * 根据时间查询相关业务
+     * @param data
+     * @return
+     */
+    public Map<String, Object> getCharB(String data);
+
+
+    /**
+     * 根据时间获取当前一周的业务情况
+     * @param data
+     * @return
+     */
+    public Map<String, Object> getCharSZ(Date data);
+
+
 }

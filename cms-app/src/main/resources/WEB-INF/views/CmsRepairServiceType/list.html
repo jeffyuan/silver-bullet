@@ -10,7 +10,7 @@
 <!-- Content Header (Page header) -->
 <section class="content-header">
     <h1>
-        维修业务管理
+        业务类型管理
         <small>浏览</small>
     </h1>
     <ol class="breadcrumb">
@@ -21,9 +21,22 @@
 </section>
 
 <div id="data-list-content">
-    @include("/CmsRepairFaultService/listContent.html"){}
+    <div id="listContent" class="fadeInCon">
+        <section class="content">
+            <div class="row">
+                <div id="data-list-content-tree">
+                    @include("/CmsRepairServiceType/tree.html"){}
+                </div>
+                <div id="data-list-content-list">
+                    @include("/CmsRepairServiceType/listContent.html"){}
+                </div>
+                <!-- /.col -->
+            </div>
+            <!-- /.row -->
+        </section>
+    </div>
+
 </div>
-<script src="${ctxPath}/static/silverbullet/js/cms/CmsRepair/CmsRepairFaultService.js"></script>
 <script src="${ctxPath}/static/silverbullet/js/cms/CmsRepair/CmsRepairServiceType.js"></script>
 @}
 
