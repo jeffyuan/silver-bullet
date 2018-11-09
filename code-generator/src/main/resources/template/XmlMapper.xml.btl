@@ -27,7 +27,7 @@
     where ${domain.primaryKeyColumn.name} = #{${domain.primaryKeyColumn.javaName},jdbcType=${domain.primaryKeyColumn.type}}
   </delete>
 
-  <insert id="insert" parameterType="com.${context.prjPackage}.${context.modulePackage}.domain.${context.bizEnName}">
+  <insert id="insert" <% if(domain.primaryKeyColumn.autoIncrement) {%> keyProperty="${domain.primaryKeyColumn.name}" useGeneratedKeys="true"<%}%> parameterType="com.${context.prjPackage}.${context.modulePackage}.domain.${context.bizEnName}">
     insert into ${domain.tableConfig.tableName} (${domain.columnNameWithSplit})
     values (${domain.columnNameMybatisSetValue})
   </insert>

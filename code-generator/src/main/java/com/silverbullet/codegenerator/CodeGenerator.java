@@ -99,7 +99,7 @@ public class CodeGenerator
 
         // 填写业务表的信息
         List<TableConfig> listTables = new ArrayList<TableConfig>();
-        listTables.add(new TableConfig("test", "SysTest", "文章类别", false));//表名，domain类名，用途
+        listTables.add(new TableConfig("test2", "SysTest2", "文章类别", false));//表名，domain类名，用途
 //        listTables.add(new TableConfig("cms_article_typetree", "CmsArticleTypetree", "文章类别", false));//表名，domain类名，用途
 //        listTables.add(new TableConfig("cms_article", "CmsArticle", "文章表", false));//表名，domain类名，用途
 //        listTables.add(new TableConfig("cms_article_comment", "CmsArticleComment", "文章评论", false));

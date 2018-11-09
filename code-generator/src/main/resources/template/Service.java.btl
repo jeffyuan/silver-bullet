@@ -33,7 +33,7 @@ public class ${context.bizEnName}Service implements I${context.bizEnName}Service
     }
 
     @Override
-    public ${context.bizEnName} getOneById(String id) {
+    public ${context.bizEnName} getOneById(${domain.primaryKeyColumn.javaType} id) {
         return ${context.bizEnNameCapSmall}Mapper.selectByPrimaryKey(id);
     }
 
@@ -60,7 +60,24 @@ public class ${context.bizEnName}Service implements I${context.bizEnName}Service
     public boolean delete(String ids) {
         String [] arrIds = ids.split(",");
         boolean bret = true;
-        for (String id : arrIds) {
+        for (String idTmp : arrIds) {
+
+            ${domain.primaryKeyColumn.javaType} id = null;
+
+            <% if (domain.primaryKeyColumn.javaType != "String") {%>
+            try {
+                <% if (domain.primaryKeyColumn.javaType == "Integer") {%>
+                id = Integer.parseInt(idTmp);
+                <% } else if (domain.primaryKeyColumn.javaType == "Integer") {%>
+                id = Long.parseLong(idTmp);
+                <% } %>
+            } catch (Exception ex) {
+                throw new RuntimeException("delete faild");
+            }
+            <% } else  {%>
+            id = idTmp;
+            <% } %>
+
             bret = ${context.bizEnNameCapSmall}Mapper.deleteByPrimaryKey(id) == 1;
             if (!bret) {
                 throw new RuntimeException("delete faild");
@@ -74,7 +91,9 @@ public class ${context.bizEnName}Service implements I${context.bizEnName}Service
     public boolean Insert(${context.bizEnName} ${context.bizEnNameCapSmall}) {
       try {
             UserInfo userInfo = (UserInfo) SecurityUtils.getSubject().getPrincipal();
+            <%if(domain.primaryKeyColumn.javaType=="String") {%>
             ${context.bizEnNameCapSmall}.setId(ToolUtil.getUUID());
+            <%}%>
 
             return ${context.bizEnNameCapSmall}Mapper.insert(${context.bizEnNameCapSmall}) == 1;
         } catch (Exception ex) {

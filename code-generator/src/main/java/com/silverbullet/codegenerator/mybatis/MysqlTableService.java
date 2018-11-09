@@ -65,7 +65,7 @@ public class MysqlTableService {
         sql = "select COLUMN_NAME as 'CNAME', DATA_TYPE as 'DTYPE' ,COLUMN_TYPE as 'CTYPE',COLUMN_COMMENT as 'COMMENT'" +
                 ",COLUMN_DEFAULT as 'CDEFAULT', IS_NULLABLE as 'ISNULL', CHARACTER_MAXIMUM_LENGTH as 'CLENGTH'" +
                 ",NUMERIC_PRECISION as 'NUMPRECISION',NUMERIC_SCALE as 'NUMSCALE',COLUMN_KEY AS 'CKEY'" +
-                ",PRIVILEGES FROM information_schema.`COLUMNS` where TABLE_SCHEMA='" +
+                ",PRIVILEGES,EXTRA FROM information_schema.`COLUMNS` where TABLE_SCHEMA='" +
                 mysqlConnection.getDatabaseName() + "' AND table_name = '" + table.getTableName() + "';";
         rs = statement.executeQuery(sql);
         while (rs.next()) {
@@ -81,13 +81,17 @@ public class MysqlTableService {
             Long numSCALE = rs.getLong("NUMSCALE");  //小数点后的位数
             String columnKey = rs.getString("CKEY");  //PRI
             String privileges = rs.getString("PRIVILEGES"); //select,insert,update,references
+            String extra = rs.getString("EXTRA");
+            if (extra == null) {
+                extra = "";
+            }
 
             // 将数据库type 转为 batis的type
             type = Table2JavaUtil.tableType2BatisType(type);
 
             TableColumnsInfo tableColumnsInfo = new TableColumnsInfo(name, type.toUpperCase(),
                     typeAndLen.toUpperCase(), comments,defaultVal, columnKey, valueLen, numPrecision, numSCALE,
-                    privileges,  isNull.equals("YES") ? true : false);
+                    privileges,  isNull.equals("YES") ? true : false, extra.equals("auto_increment") ? true:false);
 
             if(name.equals(primaryKey)) {
                 tableColumnsInfo.setPrimaryKey(true);

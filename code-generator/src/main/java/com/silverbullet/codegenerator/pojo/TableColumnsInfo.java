@@ -22,6 +22,7 @@ public class TableColumnsInfo {
 
     private boolean primaryKey = false; //是否是主键
     private boolean keyIsNull = true;  //是否允许为空
+    private boolean autoIncrement = false; //是否是自增长
 
     private String javaType;   //对应java的类型
     private String javaName;  // 对应java的字段名称
@@ -38,7 +39,7 @@ public class TableColumnsInfo {
 
     public TableColumnsInfo(String name, String type, String typeAndLen, String comments,
                             String defaultVlue, String columnKey, Long valueLength, Long numPrecision,Long numSCALE,
-                            String privileges,boolean bIsNull) {
+                            String privileges,boolean bIsNull, boolean isAutoIncrement) {
         this.name = name;
         this.type = type;
         this.typeAndLen = typeAndLen;
@@ -53,6 +54,7 @@ public class TableColumnsInfo {
         this.validate = "";
         this.javaGetName = "";
         this.javaSetName = "";
+        this.autoIncrement = isAutoIncrement;
     }
 
     public String getName() {
@@ -181,6 +183,14 @@ public class TableColumnsInfo {
 
     public void setKeyIsNull(boolean keyIsNull) {
         this.keyIsNull = keyIsNull;
+    }
+
+    public boolean isAutoIncrement() {
+        return autoIncrement;
+    }
+
+    public void setAutoIncrement(boolean autoIncrement) {
+        this.autoIncrement = autoIncrement;
     }
 
     public String getValidate() {

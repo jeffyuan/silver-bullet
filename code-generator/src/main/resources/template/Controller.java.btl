@@ -64,7 +64,7 @@ public class ${context.bizEnName}Controller {
     }
 
     @RequestMapping(value = "/edit.html", method = RequestMethod.POST)
-    public String edit(Model model, String id) {
+    public String edit(Model model, ${domain.primaryKeyColumn.javaType} id) {
         ${context.bizEnName} ${context.bizEnNameCapSmall} = ${context.bizEnNameCapSmall}Service.getOneById(id);
         model.addAttribute("obj", ${context.bizEnNameCapSmall});
 
@@ -99,7 +99,7 @@ public class ${context.bizEnName}Controller {
 
         boolean bTrue = false;
         String message = "";
-        if (${context.bizEnNameCapSmall}.getId().isEmpty()) {
+        if (${context.bizEnNameCapSmall}.getId() == null) {
             bTrue = ${context.bizEnNameCapSmall}Service.Insert(${context.bizEnNameCapSmall});
             message = bTrue ? "添加成功！" : "添加失败！";
         } else {

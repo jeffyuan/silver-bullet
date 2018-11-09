@@ -4,6 +4,6 @@ package com.${context.prjPackage}.${context.modulePackage}.dao;
 import ${import};
 <% } %>
 
-public interface ${context.bizEnName}Mapper extends CrudRepository<${context.bizEnName}, String>{
+public interface ${context.bizEnName}Mapper extends CrudRepository<${context.bizEnName}, ${domain.primaryKeyColumn.javaType}>{
 
 }

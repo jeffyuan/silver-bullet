@@ -12,7 +12,7 @@ import ${import};
 public interface I${context.bizEnName}Service {
     public int countNum();
     public BaseDataResult<${context.bizEnName}> list(int pageNum, int pageSize);
-    public ${context.bizEnName} getOneById(String id);
+    public ${context.bizEnName} getOneById(${domain.primaryKeyColumn.javaType} id);
     public boolean Update(${context.bizEnName} ${context.bizEnNameCapSmall});
     public boolean delete(String ids);
     public boolean Insert(${context.bizEnName} ${context.bizEnNameCapSmall});

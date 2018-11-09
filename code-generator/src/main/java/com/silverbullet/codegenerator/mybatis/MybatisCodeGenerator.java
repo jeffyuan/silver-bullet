@@ -33,20 +33,20 @@ public class MybatisCodeGenerator {
 
     /**
      * 生成Mybatic 基础文件。包括mapper、domain以及dao
-     * @param fileExpPath 工程绝对路径，例如:C:\Users\GESOFT\Documents\GitHub\silver-bullet\code-generator 不用带最后路径
+     *
+     * @param fileExpPath  工程绝对路径，例如:C:\Users\GESOFT\Documents\GitHub\silver-bullet\code-generator 不用带最后路径
      * @param modelPackage 模型文件的包名; 例如com.silverbullet.domain
      * @param mappPackage  mapper文件的包名; 例如mapper.silverbullet
      * @param daoPackage   Dao文件的包名; 例如com.silverbullet.dao
-     * @param bOverWrite 存在是否覆盖
-     *
+     * @param bOverWrite   存在是否覆盖
      */
     public void mybatisGeneratorJ(String fileExpPath, String modelPackage, String mappPackage, String daoPackage,
-                                         List<TableConfig> listTables, boolean bOverWrite) {
+                                  List<TableConfig> listTables, boolean bOverWrite) {
 
         if (((modelPackage == null || modelPackage.trim().length() == 0)
                 && (mappPackage == null || mappPackage.trim().length() == 0)
-                &&  (daoPackage == null || daoPackage.trim().length() == 0))
-                || listTables == null || listTables.isEmpty())  {
+                && (daoPackage == null || daoPackage.trim().length() == 0))
+                || listTables == null || listTables.isEmpty()) {
             System.out.println("参数错误！");
             return;
         }
@@ -56,7 +56,8 @@ public class MybatisCodeGenerator {
         Configuration configuration = new Configuration();
 
         // 设置mysql驱动
-        configuration.addClasspathEntry(ClasspathEntry);;
+        configuration.addClasspathEntry(ClasspathEntry);
+        ;
 
         // 设置context
         Context context = new Context(ModelType.CONDITIONAL);
@@ -88,66 +89,67 @@ public class MybatisCodeGenerator {
             context.setJavaModelGeneratorConfiguration(javaModelGeneratorConfiguration);
 
 
-        if (mappPackage != null && mappPackage.length() > 0) {
-            SqlMapGeneratorConfiguration sqlMapGeneratorConfiguration = new SqlMapGeneratorConfiguration();
-            sqlMapGeneratorConfiguration.setTargetPackage(mappPackage);
-            sqlMapGeneratorConfiguration.setTargetProject(fileExpPath + "/src/main/resources");
-            sqlMapGeneratorConfiguration.addProperty("enableSubPackages", "false");
-            context.setSqlMapGeneratorConfiguration(sqlMapGeneratorConfiguration);
-        }
-
-        if (daoPackage != null && daoPackage.length() > 0) {
-            JavaClientGeneratorConfiguration javaClientGeneratorConfiguration = new JavaClientGeneratorConfiguration();
-            javaClientGeneratorConfiguration.setTargetPackage(daoPackage);
-            javaClientGeneratorConfiguration.setTargetProject(fileExpPath + "/src/main/java");
-            javaClientGeneratorConfiguration.setConfigurationType("XMLMAPPER");
-            javaClientGeneratorConfiguration.addProperty("enableSubPackages", "false");
-            context.setJavaClientGeneratorConfiguration(javaClientGeneratorConfiguration);
-        }
-
-        for (TableConfig tableConfig : listTables) {
-
-            TableConfiguration tableConfiguration = new TableConfiguration(context);
-            tableConfiguration.setTableName(tableConfig.getTableName());
-            tableConfiguration.setDomainObjectName(tableConfig.getDomainObjectName());
-
-            tableConfiguration.setCountByExampleStatementEnabled(tableConfig.isCountByExampleStatementEnabled());
-            tableConfiguration.setDeleteByExampleStatementEnabled(tableConfig.isDeleteByExampleStatementEnabled());
-            tableConfiguration.setDeleteByPrimaryKeyStatementEnabled(tableConfig.isDeleteByPrimaryKeyStatementEnabled());
-            tableConfiguration.setInsertStatementEnabled(tableConfig.isInsertStatementEnabled());
-            tableConfiguration.setSelectByPrimaryKeyStatementEnabled(tableConfig.isSelectByPrimaryKeyStatementEnabled());
-            tableConfiguration.setSelectByExampleStatementEnabled(tableConfig.isSelectByExampleStatementEnabled());
-            tableConfiguration.setUpdateByExampleStatementEnabled(tableConfig.isUpdateByExampleStatementEnabled());
-            tableConfiguration.setUpdateByPrimaryKeyStatementEnabled(tableConfig.isUpdateByPrimaryKeyStatementEnabled());
-            context.addTableConfiguration(tableConfiguration);
-        }
-
-        configuration.addContext(context);
-
-        DefaultShellCallback callback = new DefaultShellCallback(bOverWrite);
-        MyBatisGenerator generator = null;
-
-        try {
-            generator = new MyBatisGenerator(configuration, callback, warnings);
-        } catch (InvalidConfigurationException e) {
-            e.printStackTrace();
-        }
-
-        try {
-            generator.generate(null);
-
-            System.out.println("mybatis 代码生成成功。。。");
-            for (String warning : warnings) {
-                System.out.println(warning);
+            if (mappPackage != null && mappPackage.length() > 0) {
+                SqlMapGeneratorConfiguration sqlMapGeneratorConfiguration = new SqlMapGeneratorConfiguration();
+                sqlMapGeneratorConfiguration.setTargetPackage(mappPackage);
+                sqlMapGeneratorConfiguration.setTargetProject(fileExpPath + "/src/main/resources");
+                sqlMapGeneratorConfiguration.addProperty("enableSubPackages", "false");
+                context.setSqlMapGeneratorConfiguration(sqlMapGeneratorConfiguration);
             }
 
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+            if (daoPackage != null && daoPackage.length() > 0) {
+                JavaClientGeneratorConfiguration javaClientGeneratorConfiguration = new JavaClientGeneratorConfiguration();
+                javaClientGeneratorConfiguration.setTargetPackage(daoPackage);
+                javaClientGeneratorConfiguration.setTargetProject(fileExpPath + "/src/main/java");
+                javaClientGeneratorConfiguration.setConfigurationType("XMLMAPPER");
+                javaClientGeneratorConfiguration.addProperty("enableSubPackages", "false");
+                context.setJavaClientGeneratorConfiguration(javaClientGeneratorConfiguration);
+            }
 
+            for (TableConfig tableConfig : listTables) {
+
+                TableConfiguration tableConfiguration = new TableConfiguration(context);
+                tableConfiguration.setTableName(tableConfig.getTableName());
+                tableConfiguration.setDomainObjectName(tableConfig.getDomainObjectName());
+
+                tableConfiguration.setCountByExampleStatementEnabled(tableConfig.isCountByExampleStatementEnabled());
+                tableConfiguration.setDeleteByExampleStatementEnabled(tableConfig.isDeleteByExampleStatementEnabled());
+                tableConfiguration.setDeleteByPrimaryKeyStatementEnabled(tableConfig.isDeleteByPrimaryKeyStatementEnabled());
+                tableConfiguration.setInsertStatementEnabled(tableConfig.isInsertStatementEnabled());
+                tableConfiguration.setSelectByPrimaryKeyStatementEnabled(tableConfig.isSelectByPrimaryKeyStatementEnabled());
+                tableConfiguration.setSelectByExampleStatementEnabled(tableConfig.isSelectByExampleStatementEnabled());
+                tableConfiguration.setUpdateByExampleStatementEnabled(tableConfig.isUpdateByExampleStatementEnabled());
+                tableConfiguration.setUpdateByPrimaryKeyStatementEnabled(tableConfig.isUpdateByPrimaryKeyStatementEnabled());
+                context.addTableConfiguration(tableConfiguration);
+            }
+
+            configuration.addContext(context);
+
+            DefaultShellCallback callback = new DefaultShellCallback(bOverWrite);
+            MyBatisGenerator generator = null;
+
+            try {
+                generator = new MyBatisGenerator(configuration, callback, warnings);
+            } catch (InvalidConfigurationException e) {
+                e.printStackTrace();
+            }
+
+            try {
+                generator.generate(null);
+
+                System.out.println("mybatis 代码生成成功。。。");
+                for (String warning : warnings) {
+                    System.out.println(warning);
+                }
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+        }
     }
 }
