@@ -1,0 +1,65 @@
+<div class="box">
+    <div class="box-header">
+        <h3 class="box-title" style="padding-left:10px;">部门列表</h3>
+    </div>
+    <!-- /.box-header -->
+    <div class="box-body no-padding">
+        <div class="box-controls col-xs-12" style="margin-bottom:20px;">
+            <div>
+                <button type="button" class="btn btn-default btn-header checkbox-toggle"> <i class="fa fa-square-o"></i> </button>
+                <div class="btn-group">
+                    <button name="添加" class="btn btn-default" onclick="AuthOrganization.add()"> <i class="fa fa-fw fa-plus"></i>添加 </button>
+                    <button name="修改" class="btn btn-default" onclick="AuthOrganization.edit()" space="true"> <i class="fa fa-fw fa-edit"></i>修改 </button>
+                    <button name="删除" class="btn btn-default" onclick="AuthOrganization.delete()" space="true"> <i class="fa fa-fw fa-trash-o"></i>删除 </button>
+                </div>
+                <button name="岗位分配" class="btn btn-warning" onclick="AuthOrganization.setDictItem()" space="true"><i class="fa fa-fw fa-navicon"></i>岗位分配</button>
+            </div>
+        </div>
+        <div class="table-responsive data-table-list col-xs-12">
+            <table id="data-list" class="table table-bordered table-hover">
+                <thead>
+                <tr>
+                    <th></th>
+                    <th>名称1</th>
+                    <th>备注</th>
+                    <th>种类</th>
+                    <th>创建人</th>
+                    <th>创建时间</th>
+                    <th>修改人</th>
+                    <th>修改时间</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                @for(var i = 0; i < results.resultList.~size; i++){
+                <tr id="data-r${i}" data-u="${results.resultList[i].id!}">
+                    <td><input type="checkbox" /></td>
+                    <th>${results.resultList[i].name!}</th>
+                    <th>${results.resultList[i].comments!}</th>
+                    <th>${results.resultList[i].organizationType!}</th>
+                    <th>${results.resultList[i].createUser!}</th>
+                    <th>${results.resultList[i].createTime!}</th>
+                    <th>${results.resultList[i].modifyUser!}</th>
+                    <th>${results.resultList[i].modifyTime!}</th>
+
+                    <th>
+                        <button name="修改" class="btn btn-default btn-sm" onclick="AuthOrganization.editOne(this)" space="true">
+                            <i class="fa fa-fw fa-edit"></i>
+                        </button>
+                        <button name="删除" class="btn btn-default btn-sm" onclick="AuthOrganization.deleteOne(this)" space="true">
+                            <i class="fa fa-fw fa-trash-o"></i>
+                        </button>
+                    </th>
+                </tr> @}
+                </tbody>
+            </table>
+            <h3 style="width:100%; text-align: center; ">
+                <i class="${noData.icon!}"></i>${noData.text!}
+            </h3>
+        </div>
+    </div>
+    <#PageTag action="${ctxPath}/auth/sysauthorganization/local/" totalNum="${results.totalNum}" perSize="5" curPage="${curPage}"></#PageTag>                <!--#PageTag-->
+    <!-- /.box-body -->
+</div>
+<!-- /.box -->
+</div>
