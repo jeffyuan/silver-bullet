@@ -210,8 +210,7 @@ public class SysAuthUserService implements ISysAuthUserService {
             sysAuthUserPost.setUserId(UserId);
             sysAuthUserPost.setPostId(postId);
             int postUpdate = sysAuthUserPostMapper.updateByPrimaryKey(sysAuthUserPost);
-//            return orgUpdate + postUpdate == 2 ? true : false;
-            return false;
+            return orgUpdate + postUpdate == 2 ? true : false;
         } catch (Exception ex) {
             logger.error("Insert Error: " + ex.getMessage());
             return false;
