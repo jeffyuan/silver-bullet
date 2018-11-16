@@ -4,12 +4,14 @@ import com.github.pagehelper.PageHelper;
 import com.silverbullet.auth.dao.SysAuthUserMapper;
 import com.silverbullet.auth.dao.SysAuthUserOrgMapper;
 import com.silverbullet.auth.dao.SysAuthUserPostMapper;
-import com.silverbullet.auth.domain.*;
+import com.silverbullet.auth.domain.SysAuthActionTree;
+import com.silverbullet.auth.domain.SysAuthUser;
+import com.silverbullet.auth.domain.SysAuthUserOrg;
+import com.silverbullet.auth.domain.SysAuthUserPost;
 import com.silverbullet.auth.service.ISysAuthUserService;
 import com.silverbullet.core.pojo.UserInfo;
 import com.silverbullet.utils.BaseDataResult;
 import com.silverbullet.utils.ToolUtil;
-import com.sun.source.tree.SynchronizedTree;
 import org.apache.shiro.SecurityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -72,7 +74,7 @@ public class SysAuthUserService implements ISysAuthUserService {
     }
 
     @Override
-    public boolean Update(SysAuthUser sysAuthUser,String postId, String OrganizationId, String UorgId, String UpostId) {
+    public boolean Update(SysAuthUser sysAuthUser, String postId, String OrganizationId, String UorgId, String UpostId) {
         try {
             SysAuthUser sysAuthUserNew = getOneById(sysAuthUser.getId());
             if (sysAuthUser == null) {
@@ -111,7 +113,7 @@ public class SysAuthUserService implements ISysAuthUserService {
 
     @Override
     public boolean delete(String ids) {
-        String [] arrIds = ids.split(",");
+        String[] arrIds = ids.split(",");
         boolean bret = true;
         for (String id : arrIds) {
             sysAuthUserOrgMapper.deleteByUserId(id);
@@ -125,7 +127,7 @@ public class SysAuthUserService implements ISysAuthUserService {
     }
 
     @Override
-    public boolean Insert(SysAuthUser sysAuthUser,String postId, String OrganizationId) {
+    public boolean Insert(SysAuthUser sysAuthUser, String postId, String OrganizationId) {
         try {
             UserInfo userInfo = (UserInfo) SecurityUtils.getSubject().getPrincipal();
             SysAuthUserOrg sysAuthUserOrg = new SysAuthUserOrg();
@@ -139,7 +141,7 @@ public class SysAuthUserService implements ISysAuthUserService {
             sysAuthUser.setModifyUser(userInfo.getId());
             sysAuthUser.setCreateUser(userInfo.getId());
             sysAuthUser.setState("0");
-            sysAuthUser.setPassword(ToolUtil.getPassword(10,"11","SYSADMIN","MD5"));
+            sysAuthUser.setPassword(ToolUtil.getPassword(10, "11", "SYSADMIN", "MD5"));
             sysAuthUser.setSalt("11");
             sysAuthUser.setLoginTime(Calendar.getInstance().getTime());
             sysAuthUserOrg.setId(ToolUtil.getUUID());
@@ -159,7 +161,7 @@ public class SysAuthUserService implements ISysAuthUserService {
     }
 
     @Override
-    public List<SysAuthActionTree>findList(SysAuthActionTree sysAuthActionTree) {
+    public List<SysAuthActionTree> findList(SysAuthActionTree sysAuthActionTree) {
         return sysAuthUserMapper.findLists(sysAuthActionTree);
     }
 
@@ -171,5 +173,48 @@ public class SysAuthUserService implements ISysAuthUserService {
     @Override
     public SysAuthUser getOneByUserName(String userName) {
         return sysAuthUserMapper.selectByUserName(userName);
+    }
+
+
+    @Override
+    public boolean insertUserOrgPost(String UserId, String OrganizationId, String PostId) {
+        try {
+            SysAuthUserOrg sysAuthUserOrg = new SysAuthUserOrg();
+            SysAuthUserPost sysAuthUserPost = new SysAuthUserPost();
+            sysAuthUserOrg.setId(ToolUtil.getUUID());
+            sysAuthUserOrg.setUserId(UserId);
+            sysAuthUserOrg.setOrganizationId(OrganizationId);
+            int orgInsert = sysAuthUserOrgMapper.insert(sysAuthUserOrg);
+            sysAuthUserPost.setId(ToolUtil.getUUID());
+            sysAuthUserPost.setUserId(UserId);
+            sysAuthUserPost.setPostId(PostId);
+            int postInsert = sysAuthUserPostMapper.insert(sysAuthUserPost);
+            return orgInsert + postInsert == 2 ? true : false;
+        } catch (Exception ex) {
+            logger.error("Insert Error: " + ex.getMessage());
+            return false;
+        }
+    }
+
+    @Override
+    public boolean updatetUserOrgPost(String org_id, String post_id, String UserId, String OrganizationId, String postId) {
+        try {
+            SysAuthUserOrg sysAuthUserOrg = new SysAuthUserOrg();
+            SysAuthUserPost sysAuthUserPost = new SysAuthUserPost();
+
+            sysAuthUserOrg.setId(org_id);
+            sysAuthUserOrg.setUserId(UserId);
+            sysAuthUserOrg.setOrganizationId(OrganizationId);
+            int orgUpdate = sysAuthUserOrgMapper.updateByPrimaryKey(sysAuthUserOrg);
+            sysAuthUserPost.setId(post_id);
+            sysAuthUserPost.setUserId(UserId);
+            sysAuthUserPost.setPostId(postId);
+            int postUpdate = sysAuthUserPostMapper.updateByPrimaryKey(sysAuthUserPost);
+//            return orgUpdate + postUpdate == 2 ? true : false;
+            return false;
+        } catch (Exception ex) {
+            logger.error("Insert Error: " + ex.getMessage());
+            return false;
+        }
     }
 }

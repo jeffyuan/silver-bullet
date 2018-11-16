@@ -3,7 +3,7 @@
  */
 var AuthUser = {
     'url': 'auth/sysauthuser/',
-    'datas' : {},
+    'datas': {},
 };
 AuthUser.ctxPath = $(".logo").attr('href');
 
@@ -13,7 +13,7 @@ AuthUser.ctxPath = $(".logo").attr('href');
  * @param params 参数
  * @returns {string}
  */
-AuthUser.getHtmlInfo = function(url, params){
+AuthUser.getHtmlInfo = function (url, params) {
     var dialogInfo = '';
     $.ajax({
         type: "post",
@@ -22,7 +22,7 @@ AuthUser.getHtmlInfo = function(url, params){
         data: params,
         dataType: 'html',
         success: function (data) {
-            dialogInfo = data.replace(/\r|\n/g,"");
+            dialogInfo = data.replace(/\r|\n/g, "");
         }
     });
 
@@ -36,8 +36,8 @@ AuthUser.getHtmlInfo = function(url, params){
  * @param curpage 当前页
  * @returns {boolean}
  */
-AuthUser.loadData = function(obj, action, curpage) {
-    var dialogInfo = AuthUser.getHtmlInfo(action, {"curpage" : curpage});
+AuthUser.loadData = function (obj, action, curpage) {
+    var dialogInfo = AuthUser.getHtmlInfo(action, {"curpage": curpage});
     dialogInfo += "<script>AuthUser.checkboxInit();</script>";
     $("#data-list-content").html(dialogInfo);
     return true;
@@ -46,7 +46,7 @@ AuthUser.loadData = function(obj, action, curpage) {
 /**
  * 表格头部添加方法
  */
-AuthUser.add = function() {
+AuthUser.add = function () {
     var dialogInfo = AuthUser.getHtmlInfo(AuthUser.ctxPath + AuthUser.url + 'add.html', {});
     BootstrapDialog.show({
         title: '添加用户',
@@ -59,7 +59,7 @@ AuthUser.add = function() {
             label: '确定',
             action: function (dialogItself) {
                 // 清除提示语
-                $("label[id^=msg-]").each(function(){
+                $("label[id^=msg-]").each(function () {
                     $(this).text("");
                 });
                 $("#msg").text("");
@@ -75,9 +75,9 @@ AuthUser.add = function() {
         }
         ]
     });
-    setTimeout(function(){
+    setTimeout(function () {
         AuthUser.findActionTreeName();
-    },300)
+    }, 300)
 
 };
 
@@ -86,13 +86,14 @@ AuthUser.add = function() {
  * @param url
  * @param dialogItself
  */
-AuthUser.save = function(url, dialogItself) {
+AuthUser.save = function (url, dialogItself) {
     $.ajax({
         type: "post",
         url: url,
         data: $("#formParams").serialize(),
         dataType: "json",
-        success: function(data) {
+        success: function (data) {
+            console.log(data);
             if (data.result == true) {
                 BootstrapDialog.alert({
                     type: BootstrapDialog.TYPE_WARNING,
@@ -106,7 +107,7 @@ AuthUser.save = function(url, dialogItself) {
             } else {
                 if (data.errors != null) {
                     // 错误信息反馈到页面上
-                    for (var i = 0 ; i < data.errors.length; i++) {
+                    for (var i = 0; i < data.errors.length; i++) {
                         $("#msg-" + data.errors[i].field).text('  (' + data.errors[i].defaultMessage + ')');
                     }
                 } else {
@@ -120,7 +121,7 @@ AuthUser.save = function(url, dialogItself) {
 /**
  * 表格中编辑按钮
  */
-AuthUser.editOne = function(obj) {
+AuthUser.editOne = function (obj) {
 
     var uid = $(obj).parent().parent().attr("data-u");
     AuthUser.editCommon(uid);
@@ -129,9 +130,9 @@ AuthUser.editOne = function(obj) {
 /**
  * 表格头部编辑按钮，只能编辑一条记录
  */
-AuthUser.edit = function() {
+AuthUser.edit = function () {
     var arrays = [];
-    $("#data-list div[aria-checked='true']").each(function(){
+    $("#data-list div[aria-checked='true']").each(function () {
         arrays.push($(this).parent().parent().attr('data-u'));
     });
 
@@ -142,21 +143,21 @@ AuthUser.edit = function() {
             message: '请选择一条需要修改的数据。',
             buttonLabel: "确定"
         });
-        return ;
+        return;
     }
 
     AuthUser.editCommon(arrays[0]);
-    setTimeout(function(){
+    setTimeout(function () {
         AuthUser.findActionTreeName();
-    },300);
+    }, 300);
 };
 
 /**
  * 编辑通用方法
  * @param uid 编辑的一个id
  */
-AuthUser.editCommon = function(uid) {
-    var dialogInfo = AuthUser.getHtmlInfo(AuthUser.ctxPath + AuthUser.url + 'edit.html', {"id":uid});
+AuthUser.editCommon = function (uid) {
+    var dialogInfo = AuthUser.getHtmlInfo(AuthUser.ctxPath + AuthUser.url + 'edit.html', {"id": uid});
     BootstrapDialog.show({
         title: '修改用户',
         closable: true,
@@ -168,13 +169,14 @@ AuthUser.editCommon = function(uid) {
             label: '确定',
             action: function (dialogItself) {
                 // 清除提示语
-                $("label[id^=msg-]").each(function(){
+                $("label[id^=msg-]").each(function () {
                     $(this).text("");
                 });
                 $("#msg").text("");
 
                 // 保存
                 AuthUser.save(AuthUser.ctxPath + AuthUser.url + 'save.do', dialogItself);
+
             }
         }, {
             label: '关闭',
@@ -189,9 +191,9 @@ AuthUser.editCommon = function(uid) {
 /**
  * 表格头部，统一删除按钮
  */
-AuthUser.delete = function() {
+AuthUser.delete = function () {
     var arrays = [];
-    $("#data-list div[aria-checked='true']").each(function(){
+    $("#data-list div[aria-checked='true']").each(function () {
         arrays.push($(this).parent().parent().attr('data-u'));
     });
 
@@ -202,7 +204,7 @@ AuthUser.delete = function() {
             message: '请选择至少一条需要删除的数据。',
             buttonLabel: "确定"
         });
-        return ;
+        return;
     }
     var ids = arrays.join(",");
     AuthUser.deleteCommon(ids);
@@ -211,7 +213,7 @@ AuthUser.delete = function() {
 /**
  * 表格中删除一条数据
  */
-AuthUser.deleteOne = function(obj) {
+AuthUser.deleteOne = function (obj) {
     var uid = $(obj).parent().parent().attr("data-u");
     AuthUser.deleteCommon(uid);
 };
@@ -220,7 +222,7 @@ AuthUser.deleteOne = function(obj) {
  * 删除通用该方法
  * @param ids 以,号分割的字符串
  */
-AuthUser.deleteCommon = function(ids) {
+AuthUser.deleteCommon = function (ids) {
     BootstrapDialog.confirm({
         title: '删除提示',
         message: '是否确定删除?',
@@ -235,7 +237,7 @@ AuthUser.deleteCommon = function(ids) {
                 $.ajax({
                     type: "POST",
                     url: AuthUser.ctxPath + AuthUser.url + "delete.do",
-                    data: { ids: ids },
+                    data: {ids: ids},
                     dataType: "json",
                     success: function (data) {
                         if (data.result == true) {
@@ -263,11 +265,11 @@ AuthUser.deleteCommon = function(ids) {
 };
 
 /**
- * 设置字典项
+ *配置岗位
  */
-AuthUser.setDictItem = function() {
+AuthUser.setAction = function () {
     var arrays = [];
-    $("#data-list div[aria-checked='true']").each(function(){
+    $("#data-list div[aria-checked='true']").each(function () {
         arrays.push($(this).parent().parent().attr('data-u'));
     });
 
@@ -278,10 +280,98 @@ AuthUser.setDictItem = function() {
             message: '请选择一条数据。',
             buttonLabel: "确定"
         });
-        return ;
+        return;
+    }
+    var dialogInfo = AuthUser.getHtmlInfo(AuthUser.ctxPath + AuthUser.url + 'dictitem/list/' + arrays[0] + '.html',{"curPage": 5});
+
+    BootstrapDialog.show({
+        title: '设置字典项',
+        closable: true,
+        closeByBackdrop: false,
+        closeByKeyboard: false,
+        size: BootstrapDialog.SIZE_DEFAULT,
+        message: dialogInfo,
+        buttons: [{
+            label: '确定',
+            action: function (dialogItself) {
+
+                // 清除提示语
+                $("label[id^=msg-]").each(function () {
+                    $(this).text("");
+                });
+                $("#msg").text("");
+                $("#UserId").val(arrays[0]);
+
+                // 保存
+                AuthUser.save(AuthUser.ctxPath + AuthUser.url + 'setPost.do', dialogItself);
+
+            }
+        }, {
+            label: '关闭',
+            action: function (dialogItself) {
+                dialogItself.close();
+            }
+        }
+        ]
+    });
+
+};
+
+
+/**
+ * 设置岗位下拉菜单
+ *
+ * @param e
+ */
+AuthUser.setOptionAction = function (e) {
+    $.ajax({
+        type: 'post',
+        url: AuthUser.ctxPath + AuthUser.url + 'findPostName',
+        data: {"id": $(e).val()},
+        dataType: "json",
+        success: function (data) {
+            if (data === null) {
+                $("#postName").empty();
+            } else {
+                var list = data;
+                var s = "<option value='disabled selected' style='display: none;'></option>";
+                if (list.length >= 0) {
+                    $("#postName").empty();
+                    for (var i = 0; i < list.length; i++) {
+                        s += "<option value='" + list[i]['id'] + "'>" + list[i]['name'] + "</option>";
+                    }
+
+                    $("#postName").append(s);
+                } else {
+                    $("#postName").append(s);
+                }
+            }
+        }
+    });
+
+
+};
+
+/**
+ * 设置字典项
+ */
+AuthUser.setDictItem = function () {
+    var arrays = [];
+    $("#data-list div[aria-checked='true']").each(function () {
+        arrays.push($(this).parent().parent().attr('data-u'));
+    });
+
+    if (arrays.length != 1) {
+        BootstrapDialog.alert({
+            type: BootstrapDialog.TYPE_WARNING,
+            title: '提示',
+            message: '请选择一条数据。',
+            buttonLabel: "确定"
+        });
+        return;
     }
 
-    var dialogInfo = AuthUser.getHtmlInfo(AuthUser.ctxPath + AuthUser.url + 'dictitem/list/'+ arrays[0] + '.html', {"curpage" : 1});
+    var dialogInfo = AuthUser.getHtmlInfo(AuthUser.ctxPath + AuthUser.url + 'dictitem/list/' + arrays[0] + '.html', {"curpage": 1});
     BootstrapDialog.show({
         title: '设置字典项',
         closable: true,
@@ -292,7 +382,7 @@ AuthUser.setDictItem = function() {
     });
 };
 
-AuthUser.checkboxInit = function() {
+AuthUser.checkboxInit = function () {
     $('#data-list-content input[type="checkbox"]').iCheck({
         checkboxClass: 'icheckbox_flat-blue',
         radioClass: 'iradio_flat-blue'
@@ -318,40 +408,40 @@ AuthUser.checkboxInit = function() {
 /**
  * 隶属部门下拉菜单填充
  */
-AuthUser.findActionTreeName = function(){
-        $.ajax({
-            type: 'post',
-            url: AuthUser.ctxPath + AuthUser.url+'findActionTreeName',
-            data: {},
-            dataType: "json",
-            success:function(data){
-                var list = data;
-                var s;
-                if (list.length >= 0) {
-                    for(var i = 0;i < list.length;i++){
-                        s += "<option value='"+list[i]['id']+"'>"+list[i]['name']+"</option>";
-                    }
-                    $("#actionTreeName").append(s);
-                } else {
-                    $("#actionTreeName").append(s);
+AuthUser.findActionTreeName = function () {
+    $.ajax({
+        type: 'post',
+        url: AuthUser.ctxPath + AuthUser.url + 'findActionTreeName',
+        data: {},
+        dataType: "json",
+        success: function (data) {
+            var list = data;
+            var s;
+            if (list.length >= 0) {
+                for (var i = 0; i < list.length; i++) {
+                    s += "<option value='" + list[i]['id'] + "'>" + list[i]['name'] + "</option>";
                 }
+                $("#actionTreeName").append(s);
+            } else {
+                $("#actionTreeName").append(s);
             }
-        });
+        }
+    });
 }
 
 
-AuthUser.findPostByActionTreeName = function(){
-    $("#actionTreeName").on("change", function(){
+AuthUser.findPostByActionTreeName = function () {
+    $("#actionTreeName").on("change", function () {
         var ActionTreeName = $(this).val();
         $.ajax({
             type: 'post',
-            url: AuthUser.ctxPath + AuthUser.url+'findPostName',
+            url: AuthUser.ctxPath + AuthUser.url + 'findPostName',
             data: {"id": ActionTreeName},
             dataType: "json",
-            success:function(data) {
-                if(data === null){
+            success: function (data) {
+                if (data === null) {
                     $("#postName").empty();
-                }else{
+                } else {
                     var list = data;
                     var s = "<option value='disabled selected' style='display: none;'></option>";
                     if (list.length >= 0) {
@@ -368,20 +458,26 @@ AuthUser.findPostByActionTreeName = function(){
             }
         });
     });
-}
+};
 
 
-
-AuthUser.disable = function($this){
+AuthUser.disable = function ($this) {
     var checkOrgId = $($this).val();
-    var option = "option[value='"+checkOrgId+"']";
+    var option = "option[value='" + checkOrgId + "']";
     $($this).find(option)[1].remove();
 }
 
 $(function () {
-    $("#actionTreeName").on("click", function(){
+    $("#actionTreeName").on("click", function () {
         AuthUser.disable(this);
     });
     AuthUser.checkboxInit();
     AuthUser.findPostByActionTreeName();
 });
+
+
+// $(function () {
+//     AuthUser.checkboxInit();
+// })
+
+
