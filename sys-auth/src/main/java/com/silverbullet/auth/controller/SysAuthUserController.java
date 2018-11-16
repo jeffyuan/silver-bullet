@@ -79,8 +79,6 @@ public class SysAuthUserController {
     public ModelAndView loadOrganizationItem(@PathVariable("userId") String userId) {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("/SysAuthUser/actionModel");
-
-
         BaseDataResult<SysAuthOrganization> org = sysAuthOrganizationService.getOrgSelect();
         modelAndView.addObject("org", org.getResultList());
         modelAndView.addObject("userId", userId);
@@ -121,11 +119,39 @@ public class SysAuthUserController {
     @RequestMapping(value = "/edit.html", method = RequestMethod.POST)
     public String edit(Model model, String id) {
         SysAuthUser sysAuthUser = sysAuthUserService.getOneById(id);
+        BaseDataResult<SysAuthOrganization> org = sysAuthOrganizationService.getOrgSelect();
         List<Map<String, String>> sysAuthUserOrg = sysAuthUserService.getOneByUserId(id);
         List<Map<String, String>> sysAuthUserPost = sysAuthUserService.getPostByUserId(id);
         model.addAttribute("obj", sysAuthUser);
-        model.addAttribute("org", sysAuthUserOrg);
-        model.addAttribute("post", sysAuthUserPost);
+        model.addAttribute("userId", id);
+        model.addAttribute("org", org.getResultList());
+
+        String orgName;
+        String orgId;
+        String postName;
+        String postId;
+        if (sysAuthUserService.getOneByUserId(id).size() == 0) {
+            orgName = "";
+            orgId = "";
+        } else {
+            orgName = sysAuthUserService.getOneByUserId(id).get(0).get("organizationName");
+            orgId = sysAuthUserService.getOneByUserId(id).get(0).get("organizationId");
+        }
+
+        if (sysAuthUserService.getPostByUserId(id).size() == 0) {
+            postName = "";
+            postId = "";
+        } else {
+            postName = sysAuthUserService.getPostByUserId(id).get(0).get("postName");
+            postId = sysAuthUserService.getPostByUserId(id).get(0).get("postId");
+        }
+
+        model.addAttribute("OrganizationId", orgId);
+        model.addAttribute("OrganizationName", orgName);
+        model.addAttribute("UorgId",sysAuthUserOrg.get(0).get("id"));
+        model.addAttribute("UpostId",sysAuthUserPost.get(0).get("id"));
+        model.addAttribute("postId", postId);
+        model.addAttribute("postName", postName);
         return "/SysAuthUser/add";
     }
 
