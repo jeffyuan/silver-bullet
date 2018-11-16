@@ -120,4 +120,5 @@
     DELETE from sys_auth_userpost
     where user_id = #{id}
   </delete>
+
 </mapper>

@@ -1,7 +1,9 @@
 package com.silverbullet.auth.controller;
 
 import com.silverbullet.auth.domain.SysAuthActionTree;
+import com.silverbullet.auth.domain.SysAuthOrganization;
 import com.silverbullet.auth.domain.SysAuthUser;
+import com.silverbullet.auth.service.ISysAuthOrganizationService;
 import com.silverbullet.auth.service.ISysAuthUserService;
 import com.silverbullet.core.validate.AddValidate;
 import com.silverbullet.utils.BaseDataResult;
@@ -10,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -30,8 +33,12 @@ public class SysAuthUserController {
     @Autowired
     private ISysAuthUserService sysAuthUserService;
 
+    @Autowired
+    private ISysAuthOrganizationService sysAuthOrganizationService;
+
+
     @RequestMapping(value = "list/pub.html", method = RequestMethod.GET)
-    public ModelAndView index(){
+    public ModelAndView index() {
         int nCurPage = 1;
 
         ModelAndView modelAndView = new ModelAndView();
@@ -39,7 +46,7 @@ public class SysAuthUserController {
 
         BaseDataResult<SysAuthUser> results = sysAuthUserService.list(nCurPage, 5);
 
-        modelAndView.addObject("list","list");
+        modelAndView.addObject("list", "list");
         modelAndView.addObject("method", "AuthUser.loadData");
         modelAndView.addObject("results", results);
         modelAndView.addObject("curPage", nCurPage);
@@ -48,7 +55,7 @@ public class SysAuthUserController {
     }
 
     @RequestMapping(value = "/list.html", method = RequestMethod.POST)
-    public ModelAndView listData(String curpage){
+    public ModelAndView listData(String curpage) {
         int nCurPage = 1;
         if (curpage != null) {
             nCurPage = Integer.valueOf(curpage);
@@ -60,10 +67,47 @@ public class SysAuthUserController {
         BaseDataResult<SysAuthUser> results = sysAuthUserService.list(nCurPage, 5);
 
 
-        modelAndView.addObject("list","list");
+        modelAndView.addObject("list", "list");
         modelAndView.addObject("method", "AuthUser.loadData");
         modelAndView.addObject("results", results);
         modelAndView.addObject("curPage", nCurPage);
+
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "/dictitem/list/{userId}.html", method = RequestMethod.POST)
+    public ModelAndView loadOrganizationItem(@PathVariable("userId") String userId) {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("/SysAuthUser/actionModel");
+
+
+        BaseDataResult<SysAuthOrganization> org = sysAuthOrganizationService.getOrgSelect();
+        modelAndView.addObject("org", org.getResultList());
+        modelAndView.addObject("userId", userId);
+        String orgName;
+        String orgId;
+        String postName;
+        String postId;
+        if (sysAuthUserService.getOneByUserId(userId).size() == 0) {
+            orgName = "";
+            orgId = "";
+        } else {
+            orgName = sysAuthUserService.getOneByUserId(userId).get(0).get("organizationName");
+            orgId = sysAuthUserService.getOneByUserId(userId).get(0).get("organizationId");
+        }
+
+        if (sysAuthUserService.getPostByUserId(userId).size() == 0) {
+            postName = "";
+            postId = "";
+        } else {
+            postName = sysAuthUserService.getPostByUserId(userId).get(0).get("postName");
+            postId = sysAuthUserService.getPostByUserId(userId).get(0).get("postId");
+        }
+
+        modelAndView.addObject("OrganizationId", orgId);
+        modelAndView.addObject("OrganizationName", orgName);
+        modelAndView.addObject("postId", postId);
+        modelAndView.addObject("postName", postName);
 
         return modelAndView;
     }
@@ -88,7 +132,7 @@ public class SysAuthUserController {
     @RequestMapping(value = "/delete.do", method = RequestMethod.POST)
     @ResponseBody
     public Map<String, Object> delete(String ids) {
-        Map<String,Object> mapRet = new HashMap<String, Object>();
+        Map<String, Object> mapRet = new HashMap<String, Object>();
         if (ids == null || ids.isEmpty()) {
             mapRet.put("result", false);
             return mapRet;
@@ -102,18 +146,18 @@ public class SysAuthUserController {
     @ResponseBody
     public Map<String, Object> save(@Validated({AddValidate.class}) SysAuthUser sysAuthUser, String postId, String OrganizationId,
                                     String UorgId, String UpostId, BindingResult result) {
-        Map<String,Object> mapRet = new HashMap<String, Object>();
+        Map<String, Object> mapRet = new HashMap<String, Object>();
         if (result.hasErrors()) {
             mapRet.put("result", false);
             mapRet.put("errors", result.getFieldErrors());
             return mapRet;
         }
-        if("".equals(sysAuthUser.getName()) || sysAuthUser.getName()==null){
+        if ("".equals(sysAuthUser.getName()) || sysAuthUser.getName() == null) {
             mapRet.put("result", false);
             mapRet.put("message", "名称不能为空！");
             return mapRet;
         }
-        if("".equals(sysAuthUser.getUsername()) || sysAuthUser.getUsername()==null){
+        if ("".equals(sysAuthUser.getUsername()) || sysAuthUser.getUsername() == null) {
             mapRet.put("result", false);
             mapRet.put("message", "用户名不能为空！");
             return mapRet;
@@ -134,17 +178,44 @@ public class SysAuthUserController {
         return mapRet;
     }
 
+    @RequestMapping(value = "/setPost.do", method = RequestMethod.POST)
+    @ResponseBody
+    public Map<String, Object> change(String UserId, String OrganizationId, String postId) {
+        System.out.println(UserId);
+        Map<String, Object> mapRet = new HashMap<String, Object>();
+
+        String org_id = sysAuthUserService.getOneByUserId(UserId).get(0).get("id");
+        String post_id = sysAuthUserService.getPostByUserId(UserId).get(0).get("id");
+
+        boolean bTrue;
+        String message;
+        if (sysAuthUserService.getOneByUserId(UserId) == null) {
+            bTrue = sysAuthUserService.insertUserOrgPost(UserId, OrganizationId, postId);
+            message = bTrue ? "添加成功！" : "添加失败！";
+        } else {
+            bTrue = sysAuthUserService.updatetUserOrgPost(org_id, post_id, UserId, OrganizationId, postId);
+            message = bTrue ? "修改成功！" : "修改失败！";
+        }
+
+        mapRet.put("result", bTrue);
+        mapRet.put("message", message);
+        if (bTrue != true) {
+            mapRet.put("error", "修改失败");
+        }
+        return mapRet;
+    }
 
 
     @RequestMapping(value = "/findActionTreeName", method = RequestMethod.POST)
     @ResponseBody
-    public List<SysAuthActionTree> findActionTreeName(SysAuthActionTree sysAuthActionTree){
+    public List<SysAuthActionTree> findActionTreeName(SysAuthActionTree sysAuthActionTree) {
         return sysAuthUserService.findList(sysAuthActionTree);
 
     }
-    @RequestMapping(value= "/findPostName", method = RequestMethod.POST)
+
+    @RequestMapping(value = "/findPostName", method = RequestMethod.POST)
     @ResponseBody
-    public List<Map<String, Object>> findPostName(String id){
+    public List<Map<String, Object>> findPostName(String id) {
         return sysAuthUserService.findPostNameByActionTreeId(id);
     }
 
