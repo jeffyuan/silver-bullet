@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <description>索引包</description>
-    <artifactId>silverbullet-index</artifactId>
+    <artifactId>silverbullet-index-es</artifactId>
 
     <properties>
         <es.version>6.4.2</es.version>

@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>sys-message</artifactId>
+    <artifactId>silverbullet-msg-activemq</artifactId>
 
     <dependencies>
         <dependency>
