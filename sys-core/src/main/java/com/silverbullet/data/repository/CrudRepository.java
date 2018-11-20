@@ -19,7 +19,7 @@ public interface CrudRepository<T, ID extends Serializable> extends Repository<T
 
     int insertSelective(T record);
 
-    T selectByPrimaryKey(String id);
+    T selectByPrimaryKey(ID id);
 
     int updateByPrimaryKeySelective(T record);
 

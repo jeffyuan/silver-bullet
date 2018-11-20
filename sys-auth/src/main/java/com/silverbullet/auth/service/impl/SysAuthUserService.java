@@ -9,7 +9,6 @@ import com.silverbullet.auth.service.ISysAuthUserService;
 import com.silverbullet.core.pojo.UserInfo;
 import com.silverbullet.utils.BaseDataResult;
 import com.silverbullet.utils.ToolUtil;
-import com.sun.source.tree.SynchronizedTree;
 import org.apache.shiro.SecurityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
