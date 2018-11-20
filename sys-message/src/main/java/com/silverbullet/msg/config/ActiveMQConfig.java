@@ -3,7 +3,6 @@ package com.silverbullet.msg.config;
 import org.apache.activemq.ActiveMQConnectionFactory;
 import org.apache.activemq.command.ActiveMQQueue;
 import org.apache.activemq.command.ActiveMQTopic;
-import org.apache.activemq.web.AjaxServlet;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.servlet.ServletContextInitializer;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
@@ -13,6 +12,7 @@ import org.springframework.jms.annotation.EnableJms;
 import org.springframework.jms.config.DefaultJmsListenerContainerFactory;
 import org.springframework.jms.config.JmsListenerContainerFactory;
 import org.springframework.jms.core.JmsMessagingTemplate;
+import org.springframework.web.servlet.DispatcherServlet;
 
 import javax.jms.Queue;
 import javax.jms.Topic;
@@ -99,7 +99,8 @@ public class ActiveMQConfig {
      */
      @Bean
      public ServletRegistrationBean ajaxServletRegistration() {
-         ServletRegistrationBean registration = new ServletRegistrationBean(new AjaxServlet());
+         DispatcherServlet dispatcherServlet = new DispatcherServlet();
+         ServletRegistrationBean registration = new ServletRegistrationBean(dispatcherServlet);
          registration.setEnabled(true);
          registration.addUrlMappings("/amq/*");
          return registration;

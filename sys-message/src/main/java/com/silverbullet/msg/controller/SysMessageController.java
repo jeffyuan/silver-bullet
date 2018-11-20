@@ -1,6 +1,6 @@
 package com.silverbullet.msg.controller;
 
-import com.google.common.eventbus.Subscribe;
+//import com.google.common.eventbus.Subscribe;
 import com.silverbullet.msg.service.IProducerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

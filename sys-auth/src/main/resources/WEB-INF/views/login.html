@@ -1,11 +1,12 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html >
 <head>
-    <meta charset="utf-8">
+    <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
     <title>SilverBullet - 登录</title>
+
     <script src="${ctxPath}/static/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" href="${ctxPath}/static/bootstrap-3.3.7-dist/css/bootstrap.min.css" />
@@ -35,13 +36,11 @@
         </div>
         <button class="btn btn-lg btn-info btn-block" type="submit">登录</button>
     </div>
-    @include("/fragments/footer.html"){}
 </form>
 
-
+@include("/fragments/footer.html"){}
 
 <script src="${ctxPath}/static/jquery/jquery-1.9.1.min.js"></script>
-
 <script>
     $("#form").children().hide();
     $("#form").addClass("animated bounceInUp");
@@ -51,7 +50,3 @@
 </script>
 </body>
 </html>
-
-
-
-
