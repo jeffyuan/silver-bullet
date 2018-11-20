@@ -51,15 +51,6 @@ hs_err_pid*
 .idea/workspace.xml
 .idea/workspace.xml
 .idea/modules.xml
-code-generator/target/classes/template/Controller.java.btl
-code-generator/target/classes/template/Dao.java.btl
-code-generator/target/classes/template/Service.java.btl
-code-generator/target/classes/template/IService.java.btl
-code-generator/target/classes/template/view/list.html.btl
-sys-auth/target/classes/mybatis/mapper/SysAuthPostMapper.xml
-sys-auth/target/classes/mybatis/mapper/SysAuthUserMapper.xml
-sys-auth/target/classes/WEB-INF/views/SysAuthPost/list.html
-sys-auth/target/classes/WEB-INF/views/SysAuthUser/list.html
 *.iml
 *.iml
 .idea/checkstyle-idea.xml
@@ -92,5 +83,5 @@ sys-auth/target/classes/WEB-INF/views/SysAuthUser/list.html
 .idea/libraries/Maven__org_mybatis_spring_boot_mybatis_spring_boot_autoconfigure_1_3_1.xml
 .idea/libraries/Maven__org_springframework_spring_test_4_3_13_RELEASE.xml
 .idea/libraries/Maven__org_springframework_spring_core_4_3_13_RELEASE.xml
-*.xml
 code-generator/code-generator.iml
+.idea/dataSources.ids
