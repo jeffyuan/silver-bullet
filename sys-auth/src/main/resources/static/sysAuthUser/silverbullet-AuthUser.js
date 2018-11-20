@@ -43,43 +43,7 @@ AuthUser.loadData = function (obj, action, curpage) {
     return true;
 };
 
-/**
- * 表格头部添加方法
- */
-AuthUser.add = function () {
-    var dialogInfo = AuthUser.getHtmlInfo(AuthUser.ctxPath + AuthUser.url + 'add.html', {});
-    BootstrapDialog.show({
-        title: '添加用户',
-        closable: true,
-        closeByBackdrop: false,
-        closeByKeyboard: false,
-        size: BootstrapDialog.SIZE_NORMAL,
-        message: dialogInfo,
-        buttons: [{
-            label: '确定',
-            action: function (dialogItself) {
-                // 清除提示语
-                $("label[id^=msg-]").each(function () {
-                    $(this).text("");
-                });
-                $("#msg").text("");
 
-                // 保存
-                AuthUser.save(AuthUser.ctxPath + AuthUser.url + 'save.do', dialogItself);
-            }
-        }, {
-            label: '关闭',
-            action: function (dialogItself) {
-                dialogItself.close();
-            }
-        }
-        ]
-    });
-    setTimeout(function () {
-        AuthUser.findActionTreeName();
-    }, 300)
-
-};
 
 /**
  * 编辑和创建保存方法
@@ -117,6 +81,45 @@ AuthUser.save = function (url, dialogItself) {
             }
         }
     })
+};
+
+
+/**
+ * 表格头部添加方法
+ */
+AuthUser.add = function () {
+    var dialogInfo = AuthUser.getHtmlInfo(AuthUser.ctxPath + AuthUser.url + 'add.html', {});
+    BootstrapDialog.show({
+        title: '添加用户',
+        closable: true,
+        closeByBackdrop: false,
+        closeByKeyboard: false,
+        size: BootstrapDialog.SIZE_NORMAL,
+        message: dialogInfo,
+        buttons: [{
+            label: '确定',
+            action: function (dialogItself) {
+                // 清除提示语
+                $("label[id^=msg-]").each(function () {
+                    $(this).text("");
+                });
+                $("#msg").text("");
+
+                // 保存
+                AuthUser.save(AuthUser.ctxPath + AuthUser.url + 'save.do', dialogItself);
+            }
+        }, {
+            label: '关闭',
+            action: function (dialogItself) {
+                dialogItself.close();
+            }
+        }
+        ]
+    });
+    // setTimeout(function () {
+    //     AuthUser.findActionTreeName();
+    // }, 300)
+
 };
 
 /**

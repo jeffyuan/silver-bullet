@@ -112,7 +112,10 @@ public class SysAuthUserController {
 
     @RequestMapping(value = "/add.html", method = RequestMethod.POST)
     public String add(Model model) {
+        BaseDataResult<SysAuthOrganization> org = sysAuthOrganizationService.getOrgSelect();
+
         model.addAttribute("obj", new SysAuthUser());
+        model.addAttribute("org", org.getResultList());
         return "/SysAuthUser/add";
     }
 
@@ -131,7 +134,7 @@ public class SysAuthUserController {
         String postName;
         String postId;
         if (sysAuthUserService.getOneByUserId(id).size() == 0) {
-            orgName = "";
+            orgName = "请选择部门";
             orgId = "";
         } else {
             orgName = sysAuthUserService.getOneByUserId(id).get(0).get("organizationName");
@@ -139,17 +142,24 @@ public class SysAuthUserController {
         }
 
         if (sysAuthUserService.getPostByUserId(id).size() == 0) {
-            postName = "";
+            postName = "请选择岗位";
             postId = "";
         } else {
             postName = sysAuthUserService.getPostByUserId(id).get(0).get("postName");
             postId = sysAuthUserService.getPostByUserId(id).get(0).get("postId");
         }
-
+        String UorgId = "";
+        String UpostId = "";
+        if (sysAuthUserOrg.size() != 0) {
+            UorgId = sysAuthUserOrg.get(0).get("id");
+        }
+        if (sysAuthUserPost.size() != 0) {
+            UpostId = sysAuthUserPost.get(0).get("id");
+        }
         model.addAttribute("OrganizationId", orgId);
         model.addAttribute("OrganizationName", orgName);
-        model.addAttribute("UorgId",sysAuthUserOrg.get(0).get("id"));
-        model.addAttribute("UpostId",sysAuthUserPost.get(0).get("id"));
+        model.addAttribute("UorgId", UorgId);
+        model.addAttribute("UpostId", UpostId);
         model.addAttribute("postId", postId);
         model.addAttribute("postName", postName);
         return "/SysAuthUser/add";
@@ -173,6 +183,16 @@ public class SysAuthUserController {
     public Map<String, Object> save(@Validated({AddValidate.class}) SysAuthUser sysAuthUser, String postId, String OrganizationId,
                                     String UorgId, String UpostId, BindingResult result) {
         Map<String, Object> mapRet = new HashMap<String, Object>();
+        if (OrganizationId.equals("")) {
+            mapRet.put("result", false);
+            mapRet.put("message", "请选择正确的部门！");
+            return mapRet;
+        }
+        if (postId .equals("disabled selected")) {
+            mapRet.put("result", false);
+            mapRet.put("message", "请选择正确的岗位！");
+            return mapRet;
+        }
         if (result.hasErrors()) {
             mapRet.put("result", false);
             mapRet.put("errors", result.getFieldErrors());
@@ -194,12 +214,15 @@ public class SysAuthUserController {
             bTrue = sysAuthUserService.Insert(sysAuthUser, postId, OrganizationId);
             message = bTrue ? "添加成功！" : "添加失败！";
         } else {
+
             bTrue = sysAuthUserService.Update(sysAuthUser, postId, OrganizationId, UorgId, UpostId);
             message = bTrue ? "修改成功！" : "修改失败！";
+
         }
 
         mapRet.put("result", bTrue);
         mapRet.put("message", message);
+
 
         return mapRet;
     }
@@ -207,7 +230,6 @@ public class SysAuthUserController {
     @RequestMapping(value = "/setPost.do", method = RequestMethod.POST)
     @ResponseBody
     public Map<String, Object> change(String UserId, String OrganizationId, String postId) {
-        System.out.println(UserId);
         Map<String, Object> mapRet = new HashMap<String, Object>();
 
         String org_id = sysAuthUserService.getOneByUserId(UserId).get(0).get("id");
