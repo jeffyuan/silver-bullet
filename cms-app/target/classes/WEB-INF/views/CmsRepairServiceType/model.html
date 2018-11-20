@@ -1,0 +1,45 @@
+<div class="row">
+    <h4 id="msg" style="color: red;"></h4>
+    <form id="formCmsRepairType" class="m-t" role="form" method="post">
+        <input type="hidden" name="id" class="form-control" value="${obj.id!}">
+        <input type="hidden" name="path" value="${obj.path!}">
+        <input type="hidden" name="type" value="${obj.type}">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label>类型名称：</label><label style="color: red;" id="msg-typeName"></label>
+                <input type="text" name="typeName" class="form-control" value="${obj.typeName!}" placeholder="输入类型名称" ${disabled}>
+            </div>
+            <div class="form-group">
+                <label>排序：<span class="font-red">*</span><sapn>(只可为数字)</sapn></label><label style="color: red;" id="msg-sort"></label>
+                <input type="text" name=sort class="form-control" value="${obj.sort!}" ${disabled} onkeyup="CmsRepairType.InputNumber(this)" onafterpaste="CmsRepairType.InputNumber(this)">
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <div class="input-box">
+                    <label>上级节点：<span class="font-red">*</span></label><label style="color: red;" id="msg-parentId"></label>
+                    <input type="hidden" name="parentId" class="form-control" value="${obj.parentId!}">
+                    <div class="inputVal point customNameValue ${disabled}"><i class="${parentNode.icon}"></i>&nbsp;${parentNode.typeName}</div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="input-box">
+                    <label>图标：<span class="font-red">*</span></label><label style="color: red;" id="msg-icon"></label>
+                    <input type="hidden" name="icon" class="form-control input-point" value="${obj.icon}" id="icon-text" readonly="readonly">
+                    <div class="inputVal point customNameValue ${disabled}" id="model-icon" onclick="CmsRepairType.iconPage()">${obj.icon == null?"点击以选择图标":obj.icon}&nbsp;<i class="${obj.icon}"></i></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="form-group">
+                <label>详情描述：</label><label style="color: red;" id="msg-typeDetails"></label>
+                <textarea name="typeDetails" class="form-control" placeholder="输入业务类型详情 ..." style="height:50px;" ${disabled}>${obj.typeDetails}</textarea>
+            </div>
+            <div class="form-group">
+                <label>备注：</label><label style="color: red;" id="msg-comments"></label>
+                <textarea name="comments" class="form-control" placeholder="输入备注 ..." style="height:100px;" ${disabled}>${obj.comments}</textarea>
+            </div>
+        </div>
+    </form>
+    <script src="${ctxPath}/static/silverbullet/js/cms/CmsRepair/IconInput.js"></script>
+</div>

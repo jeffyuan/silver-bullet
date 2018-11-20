@@ -3,6 +3,7 @@ package com.silverbullet.auth.service.impl;
 import com.github.pagehelper.PageHelper;
 import com.silverbullet.auth.dao.SysAuthOrganizationMapper;
 import com.silverbullet.auth.domain.SysAuthAction;
+import com.silverbullet.auth.domain.SysAuthActionTree;
 import com.silverbullet.auth.domain.SysAuthOrganization;
 import com.silverbullet.auth.domain.SysAuthUser;
 import com.silverbullet.auth.service.ISysAuthOrganizationService;
@@ -151,10 +152,12 @@ public class SysAuthOrganizationService implements ISysAuthOrganizationService {
     }
 
     @Override
-    public List<TreeNode1> findTreeNode() {
-        List<Map<String, String>> list = sysAuthOrganizationMapper.findTreeNode();
-        List<TreeNode1> treeNodes = TreeNode1.formatNodes2TreeNode(list,"name","parent_id",
-                "id","path","createUser","createUser","icon");
-        return treeNodes;
+    public BaseDataResult<SysAuthOrganization> findTreeNode(String parentId) {
+
+        BaseDataResult<SysAuthOrganization> listResults = new BaseDataResult<SysAuthOrganization>();
+
+        listResults.setResultList(sysAuthOrganizationMapper.findTreeNode(parentId));
+
+        return listResults;
     }
 }

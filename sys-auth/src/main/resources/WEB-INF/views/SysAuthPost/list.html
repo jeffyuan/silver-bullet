@@ -46,5 +46,10 @@
             </table>
         </div>
     </div>
+    <#PageTag action="${ctxPath}/auth/sysauthpost/list.html" totalNum="${results.totalNum}" perSize="5"
+    curPage="${curPage}" loadDataFunName="Auth.loadData"></#PageTag>
 </div>
 <script src="${ctxPath}/static/sysAuthPost/AuthPost.js"></script>
+<script>
+    AuthPost.checkboxInit();
+</script>

@@ -1,0 +1,63 @@
+<input type="hidden" value="webDoc" class="page">
+<input type="hidden" value="1" class="artType">
+<div class="box-header with-border">
+    <h3 class="box-title">文章表列表</h3>
+</div>
+<div class="box-body no-padding">
+    <div class="box-controls">
+        <button type="button" class="btn btn-default btn-header checkbox-toggle">
+            <i class="fa fa-square-o"></i>
+        </button>
+        <div class="btn-group">
+            <button name="添加" class="btn btn-default" onclick="Cms.add()">
+                <i class="fa fa-fw fa-plus"></i>添加
+            </button>
+            <button name="修改" class="btn btn-default" onclick="Cms.edit()" space="true">
+                <i class="fa fa-fw fa-edit"></i>修改
+            </button>
+            <button name="删除" class="btn btn-default" onclick="Cms.delete()" space="true">
+                <i class="fa fa-fw fa-trash-o"></i>删除
+            </button>
+        </div>
+    </div>
+    <div class="table-responsive data-table-list">
+        <table id="data-list" class="table table-bordered table-hover">
+            <thead>
+            <tr>
+                <th></th>
+                <th>标题</th>
+                <th>来源</th>
+                <th>作者</th>
+                <th>发布时间</th>
+                <th>修改时间</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <td></td>
+            @for(var i = 0; i< results.resultList.~size; i++){
+            <tr id="data-r${i}" data-u="${results.resultList[i].id}">
+                <td><input type="checkbox"></td>
+                <td>${results.resultList[i].title}</td>
+                <td>${results.resultList[i].source}</td>
+                <td>${results.resultList[i].author}</td>
+                <td>${results.resultList[i].publicTime}</td>
+                <td>${results.resultList[i].modifyTime}</td>
+                <td>
+                    <button name="修改" class="btn btn-default btn-sm" onclick="Cms.editOne(this)" space="true">
+                        <i class="fa fa-fw fa-edit"></i>
+                    </button>
+                    <button name="删除" class="btn btn-default btn-sm" onclick="Cms.deleteOne(this)" space="true">
+                        <i class="fa fa-fw fa-trash-o"></i>
+                    </button>
+                </td>
+            </tr>
+            @}
+            </tbody>
+        </table>
+    </div>
+</div>
+<!--<div>
+    <#PageTag action="${ctxPath}/cms/cmsarticle/list.html" totalNum="${results.totalNum}" perSize="5"
+            curPage="${curPage}" loadDataFunName="Cms.loadData"></#PageTag>
+</div>-->

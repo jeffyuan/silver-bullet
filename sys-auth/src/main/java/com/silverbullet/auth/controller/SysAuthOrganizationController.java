@@ -5,6 +5,7 @@ import com.silverbullet.auth.domain.SysAuthOrganization;
 import com.silverbullet.auth.service.ISysAuthOrganizationService;
 import com.silverbullet.core.validate.AddValidate;
 import com.silverbullet.utils.BaseDataResult;
+import com.silverbullet.utils.ToolUtil;
 import com.silverbullet.utils.TreeNode1;
 import com.sun.org.apache.bcel.internal.generic.IF_ACMPEQ;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,8 +60,20 @@ public class SysAuthOrganizationController {
 
 
     @RequestMapping(value = "/add.html", method = RequestMethod.POST)
-    public String add(Model model) {
-        model.addAttribute("obj", new SysAuthOrganization());
+    public String add(Model model, String parentId) {
+
+        SysAuthOrganization sysAuthOrganization = new SysAuthOrganization();
+
+        if(parentId == null){
+            model.addAttribute("obj", new SysAuthOrganization());
+            return "/SysAuthOrganization/model";
+        }
+
+        String parentName = sysAuthOrganizationService.getOneById(parentId).getName();
+        sysAuthOrganization.setParentId(parentId);
+
+        model.addAttribute("obj", sysAuthOrganization);
+        model.addAttribute("parentName", parentName);
         return "/SysAuthOrganization/model";
     }
 
@@ -171,16 +184,38 @@ public class SysAuthOrganizationController {
 
         BaseDataResult<SysAuthOrganization> results = sysAuthOrganizationService.localList(parentId, nCurPage, 5);
 
+        if(results.getResultList().isEmpty()){
+            modelAndView.addObject("noData", ToolUtil.noData());
+            modelAndView.addObject("results", results);
+        }else{
+            modelAndView.addObject("results", results);
+        }
+
         modelAndView.addObject("parentId", parentId);
-        modelAndView.addObject("results", results);
         modelAndView.addObject("curPage", nCurPage);
             return modelAndView;
     }
 
-    @RequestMapping(value = "/organizationTree.do", method = RequestMethod.POST)
+    @RequestMapping(value = "/tree.do", method = RequestMethod.POST)
     @ResponseBody
-    public List<TreeNode1> treeNode(){
-        return sysAuthOrganizationService.findTreeNode();
+    public Map<String, Object> treeNode(String parentId){
+        if(parentId == null){
+            parentId = "NONE";
+        }
+
+        Map<String, Object> map = new HashMap<>();
+
+        BaseDataResult<SysAuthOrganization> result = sysAuthOrganizationService.findTreeNode(parentId);
+
+        if(result.getResultList().isEmpty()){
+            map.put("noData", ToolUtil.noData());
+        }else{
+            map.put("result", result);
+        }
+
+        return map;
+
+//        return sysAuthOrganizationService.findTreeNode();
     }
 
 }

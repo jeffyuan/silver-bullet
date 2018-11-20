@@ -1,0 +1,31 @@
+<style>
+    #icon_choose{
+        transition: border 0.3s;
+    }
+    #icon_choose:active{
+    ;
+    }
+</style>
+<div>
+    <h4 id="msg" style="color: red;"></h4>
+    <form id="formParams" class="m-t" role="form" method="post">
+        <input type="hidden" name="id" class="form-control" value="${obj.id!}">
+        <div class="form-group">
+            <label>岗位名称</label><label style="color: red;" id="msg-name"></label>
+            <input type="text" name="name" class="form-control" value="${obj.name}" placeholder="名称" required="">
+        </div>
+        <div class="form-group">
+            <label>隶属部门</label><label style="color: red;" id="msg-parendId"></label>
+            <input type="text" value="${obj.organizationId}" name="OrganizationId" id="AuthOrganizationIdModel" class="form-control" readonly=”readonly”>
+        </div>
+        <div class="form-group">
+            <label>扩展性</label><label style="color: red;" id=""></label>
+            <select name="isExtends" id="isExtends" class="form-control">
+                <option value="disabled selected" style="display: none;">${obj.isExtends}</option>
+                <option value="1">是</option>
+                <option value="0">否</option>
+            </select>
+        </div>
+    </form>
+</div>
+<script src="${ctxPath}/static/sysAuthPost/AuthPost.js"></script>

@@ -27,5 +27,5 @@ public interface ISysAuthOrganizationService {
 
     public BaseDataResult<SysAuthOrganization> localList(String parentId, int pageNum, int pageSize);
 
-    public List<TreeNode1> findTreeNode();
+    public BaseDataResult<SysAuthOrganization> findTreeNode(String parentId);
 }
