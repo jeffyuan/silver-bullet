@@ -183,12 +183,7 @@ public class SysAuthUserController {
     public Map<String, Object> save(@Validated({AddValidate.class}) SysAuthUser sysAuthUser, String postId, String OrganizationId,
                                     String UorgId, String UpostId, BindingResult result) {
         Map<String, Object> mapRet = new HashMap<String, Object>();
-        if (OrganizationId.equals("")) {
-            mapRet.put("result", false);
-            mapRet.put("message", "请选择正确的部门！");
-            return mapRet;
-        }
-        if (postId .equals("disabled selected")) {
+        if (postId.equals("disabled selected") && OrganizationId != null) {
             mapRet.put("result", false);
             mapRet.put("message", "请选择正确的岗位！");
             return mapRet;
@@ -213,8 +208,13 @@ public class SysAuthUserController {
         if (sysAuthUser.getId().isEmpty()) {
             bTrue = sysAuthUserService.Insert(sysAuthUser, postId, OrganizationId);
             message = bTrue ? "添加成功！" : "添加失败！";
-        } else {
+        } else if (sysAuthUserService.getOneByUserId(sysAuthUser.getId()).isEmpty()) {
+            String org_id = sysAuthUserService.getUserOrgId(sysAuthUser.getId());
+            String post_id = sysAuthUserService.getUserPostId(sysAuthUser.getId());
+            bTrue = sysAuthUserService.updatetUserOrgPost(org_id, post_id, sysAuthUser.getId(), OrganizationId, postId);
+            message = bTrue ? "添加成功！" : "添加失败！";
 
+        } else {
             bTrue = sysAuthUserService.Update(sysAuthUser, postId, OrganizationId, UorgId, UpostId);
             message = bTrue ? "修改成功！" : "修改失败！";
 
@@ -231,16 +231,19 @@ public class SysAuthUserController {
     @ResponseBody
     public Map<String, Object> change(String UserId, String OrganizationId, String postId) {
         Map<String, Object> mapRet = new HashMap<String, Object>();
-
-        String org_id = sysAuthUserService.getOneByUserId(UserId).get(0).get("id");
-        String post_id = sysAuthUserService.getPostByUserId(UserId).get(0).get("id");
-
         boolean bTrue;
         String message;
-        if (sysAuthUserService.getOneByUserId(UserId) == null) {
+        if (postId.equals("disabled selected") || postId.isEmpty()) {
+            mapRet.put("result", false);
+            mapRet.put("message", "请选择正确的岗位！");
+            return mapRet;
+        }
+        if (sysAuthUserService.getOneByUserId(UserId).isEmpty()) {
             bTrue = sysAuthUserService.insertUserOrgPost(UserId, OrganizationId, postId);
             message = bTrue ? "添加成功！" : "添加失败！";
         } else {
+            String org_id = sysAuthUserService.getOneByUserId(UserId).get(0).get("id");
+            String post_id = sysAuthUserService.getPostByUserId(UserId).get(0).get("id");
             bTrue = sysAuthUserService.updatetUserOrgPost(org_id, post_id, UserId, OrganizationId, postId);
             message = bTrue ? "修改成功！" : "修改失败！";
         }

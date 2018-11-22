@@ -72,6 +72,15 @@ public class SysAuthUserService implements ISysAuthUserService {
 
         return sysAuthUserPostMapper.findListByUserId(id);
     }
+    @Override
+    public String getUserOrgId(String UserId){
+        return sysAuthUserOrgMapper.getUserOrgId(UserId);
+    }
+
+    @Override
+    public String getUserPostId(String UserId){
+        return sysAuthUserPostMapper.getUserPostId(UserId);
+    }
 
     @Override
     public boolean Update(SysAuthUser sysAuthUser, String postId, String OrganizationId, String UorgId, String UpostId) {
