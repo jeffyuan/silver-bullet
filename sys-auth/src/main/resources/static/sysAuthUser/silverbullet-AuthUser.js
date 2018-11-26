@@ -43,6 +43,47 @@ AuthUser.loadData = function (obj, action, curpage) {
     return true;
 };
 
+
+
+/**
+ * 编辑和创建保存方法
+ * @param url
+ * @param dialogItself
+ */
+AuthUser.save = function (url, dialogItself) {
+    console.log($("#formParams").serialize().valueOf("OrganizationId"));
+    $.ajax({
+        type: "post",
+        url: url,
+        data: $("#formParams").serialize(),
+        dataType: "json",
+        success: function (data) {
+            console.log(data);
+            if (data.result == true) {
+                BootstrapDialog.alert({
+                    type: BootstrapDialog.TYPE_WARNING,
+                    title: '提示',
+                    message: data.message,
+                    buttonLabel: "确定"
+                });
+                dialogItself.close();
+                // 刷新页面
+                AuthUser.loadData(null, AuthUser.ctxPath + AuthUser.url + "list.html", 1);
+            } else {
+                if (data.errors != null) {
+                    // 错误信息反馈到页面上
+                    for (var i = 0; i < data.errors.length; i++) {
+                        $("#msg-" + data.errors[i].field).text('  (' + data.errors[i].defaultMessage + ')');
+                    }
+                } else {
+                    $("#msg").text(data.message);
+                }
+            }
+        }
+    })
+};
+
+
 /**
  * 表格头部添加方法
  */
@@ -75,47 +116,10 @@ AuthUser.add = function () {
         }
         ]
     });
-    setTimeout(function () {
-        AuthUser.findActionTreeName();
-    }, 300)
+    // setTimeout(function () {
+    //     AuthUser.findActionTreeName();
+    // }, 300)
 
-};
-
-/**
- * 编辑和创建保存方法
- * @param url
- * @param dialogItself
- */
-AuthUser.save = function (url, dialogItself) {
-    $.ajax({
-        type: "post",
-        url: url,
-        data: $("#formParams").serialize(),
-        dataType: "json",
-        success: function (data) {
-            console.log(data);
-            if (data.result == true) {
-                BootstrapDialog.alert({
-                    type: BootstrapDialog.TYPE_WARNING,
-                    title: '提示',
-                    message: data.message,
-                    buttonLabel: "确定"
-                });
-                dialogItself.close();
-                // 刷新页面
-                AuthUser.loadData(null, AuthUser.ctxPath + AuthUser.url + "list.html", 1);
-            } else {
-                if (data.errors != null) {
-                    // 错误信息反馈到页面上
-                    for (var i = 0; i < data.errors.length; i++) {
-                        $("#msg-" + data.errors[i].field).text('  (' + data.errors[i].defaultMessage + ')');
-                    }
-                } else {
-                    $("#msg").text(data.message);
-                }
-            }
-        }
-    })
 };
 
 /**
@@ -136,6 +140,8 @@ AuthUser.edit = function () {
         arrays.push($(this).parent().parent().attr('data-u'));
     });
 
+
+
     if (arrays.length != 1) {
         BootstrapDialog.alert({
             type: BootstrapDialog.TYPE_WARNING,
@@ -147,9 +153,9 @@ AuthUser.edit = function () {
     }
 
     AuthUser.editCommon(arrays[0]);
-    setTimeout(function () {
-        AuthUser.findActionTreeName();
-    }, 300);
+    // setTimeout(function () {
+    //     AuthUser.findActionTreeName();
+    // }, 300);
 };
 
 /**
@@ -158,6 +164,7 @@ AuthUser.edit = function () {
  */
 AuthUser.editCommon = function (uid) {
     var dialogInfo = AuthUser.getHtmlInfo(AuthUser.ctxPath + AuthUser.url + 'edit.html', {"id": uid});
+    // AuthUser.getHtmlInfo(AuthUser.ctxPath + AuthUser.url + 'dictitem/list/' + uid + '.html',{"curPage": 5});
     BootstrapDialog.show({
         title: '修改用户',
         closable: true,
@@ -173,6 +180,7 @@ AuthUser.editCommon = function (uid) {
                     $(this).text("");
                 });
                 $("#msg").text("");
+                $("#UserId").val(uid);
 
                 // 保存
                 AuthUser.save(AuthUser.ctxPath + AuthUser.url + 'save.do', dialogItself);
@@ -408,57 +416,60 @@ AuthUser.checkboxInit = function () {
 /**
  * 隶属部门下拉菜单填充
  */
-AuthUser.findActionTreeName = function () {
-    $.ajax({
-        type: 'post',
-        url: AuthUser.ctxPath + AuthUser.url + 'findActionTreeName',
-        data: {},
-        dataType: "json",
-        success: function (data) {
-            var list = data;
-            var s;
-            if (list.length >= 0) {
-                for (var i = 0; i < list.length; i++) {
-                    s += "<option value='" + list[i]['id'] + "'>" + list[i]['name'] + "</option>";
-                }
-                $("#actionTreeName").append(s);
-            } else {
-                $("#actionTreeName").append(s);
-            }
-        }
-    });
-}
+// AuthUser.findActionTreeName = function () {
+//     $.ajax({
+//         type: 'post',
+//         url: AuthUser.ctxPath + AuthUser.url + 'findActionTreeName',
+//         data: {},
+//         dataType: "json",
+//         success: function (data) {
+//             console.log(data)
+//             var list = data;
+//             var s;
+//             if (list.length >= 0) {
+//                 for (var i = 0; i < list.length; i++) {
+//                     s += "<option value='" + list[i]['id'] + "'>" + list[i]['name'] + "</option>";
+//                 }
+//                 $("#actionTreeName").append(s);
+//             } else {
+//                 $("#actionTreeName").append(s);
+//             }
+//         }
+//     });
+// }
 
 
-AuthUser.findPostByActionTreeName = function () {
-    $("#actionTreeName").on("change", function () {
-        var ActionTreeName = $(this).val();
-        $.ajax({
-            type: 'post',
-            url: AuthUser.ctxPath + AuthUser.url + 'findPostName',
-            data: {"id": ActionTreeName},
-            dataType: "json",
-            success: function (data) {
-                if (data === null) {
-                    $("#postName").empty();
-                } else {
-                    var list = data;
-                    var s = "<option value='disabled selected' style='display: none;'></option>";
-                    if (list.length >= 0) {
-                        $("#postName").empty();
-                        for (var i = 0; i < list.length; i++) {
-                            s += "<option value='" + list[i]['id'] + "'>" + list[i]['name'] + "</option>";
-                        }
-
-                        $("#postName").append(s);
-                    } else {
-                        $("#postName").append(s);
-                    }
-                }
-            }
-        });
-    });
-};
+// AuthUser.findPostByActionTreeName = function () {
+//     var ActionTreeName = $(this).select("selected").val();
+//     console.log(ActionTreeName);
+//     $("#actionTreeName").on("change", function () {
+//         var ActionTreeName = $(this).val();
+//         $.ajax({
+//             type: 'post',
+//             url: AuthUser.ctxPath + AuthUser.url + 'findPostName',
+//             data: {"id": ActionTreeName},
+//             dataType: "json",
+//             success: function (data) {
+//                 if (data === null) {
+//                     $("#postName").empty();
+//                 } else {
+//                     var list = data;
+//                     var s = "<option value='disabled selected' style='display: none;'></option>";
+//                     if (list.length >= 0) {
+//                         $("#postName").empty();
+//                         for (var i = 0; i < list.length; i++) {
+//                             s += "<option value='" + list[i]['id'] + "'>" + list[i]['name'] + "</option>";
+//                         }
+//
+//                         $("#postName").append(s);
+//                     } else {
+//                         $("#postName").append(s);
+//                     }
+//                 }
+//             }
+//         });
+//     });
+// };
 
 
 AuthUser.disable = function ($this) {
@@ -472,7 +483,7 @@ $(function () {
         AuthUser.disable(this);
     });
     AuthUser.checkboxInit();
-    AuthUser.findPostByActionTreeName();
+    // AuthUser.findPostByActionTreeName();
 });
 
 

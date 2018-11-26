@@ -38,4 +38,9 @@ public interface ISysAuthUserService {
     public boolean insertUserOrgPost(String UserId, String OrganizationId, String postId);
 
     public boolean updatetUserOrgPost(String org_id,String post_id, String UserId, String organizationId, String postId);
+
+    public String getUserOrgId(String UserId);
+
+    public String getUserPostId(String UserId);
+
 }
