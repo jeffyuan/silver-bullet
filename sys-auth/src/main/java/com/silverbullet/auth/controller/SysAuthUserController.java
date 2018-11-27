@@ -7,6 +7,7 @@ import com.silverbullet.auth.service.ISysAuthOrganizationService;
 import com.silverbullet.auth.service.ISysAuthUserService;
 import com.silverbullet.core.validate.AddValidate;
 import com.silverbullet.utils.BaseDataResult;
+import com.silverbullet.utils.ToolUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -116,6 +117,9 @@ public class SysAuthUserController {
 
         model.addAttribute("obj", new SysAuthUser());
         model.addAttribute("org", org.getResultList());
+        model.addAttribute("OrganizationName", "请选择部门");
+        model.addAttribute("postName", "请选择岗位");
+
         return "/SysAuthUser/add";
     }
 
@@ -268,6 +272,41 @@ public class SysAuthUserController {
     @ResponseBody
     public List<Map<String, Object>> findPostName(String id) {
         return sysAuthUserService.findPostNameByActionTreeId(id);
+    }
+
+    @RequestMapping(value = "/changePassword.do", method = RequestMethod.POST)
+    @ResponseBody
+    public Map<String, String> changePassword(String id,String newPassword, String checkPassword) {
+        Map<String, String> mapRet = new HashMap<String, String>();
+        if (newPassword.isEmpty()){
+            mapRet.put("result","false");
+            mapRet.put("message","请输入修改密码");
+            return mapRet;
+        }
+        if (newPassword.equals(checkPassword)) {
+            String passwordMD5 = ToolUtil.getPassword(10, "11", newPassword, "MD5");
+            sysAuthUserService.changePassword(id,passwordMD5);
+            mapRet.put("result","true");
+            mapRet.put("message","修改成功");
+        }else {
+            mapRet.put("result","false");
+            mapRet.put("message","两次密码不一致");
+        }
+        return mapRet;
+    }
+
+
+    @RequestMapping(value = "/resetPassword.do", method = RequestMethod.POST)
+    @ResponseBody
+    public Map<String, Object> resetPassword(String ids) {
+        Map<String, Object> mapRet = new HashMap<String, Object>();
+        if (ids == null || ids.isEmpty()) {
+            mapRet.put("result", false);
+            return mapRet;
+        }
+        boolean bRet = sysAuthUserService.resetPassword(ids);
+        mapRet.put("result", bRet);
+        return mapRet;
     }
 
 }

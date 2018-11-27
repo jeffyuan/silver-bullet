@@ -47,4 +47,8 @@ public class UserActionService {
 
         return new ArrayList<TreeNode>();
     }
+
+    public String getUserPassword(String id) {
+        return iSysAuthUserService.getUserPassword(id);
+    }
 }

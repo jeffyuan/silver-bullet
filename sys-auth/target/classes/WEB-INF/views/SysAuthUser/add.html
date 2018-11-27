@@ -19,11 +19,8 @@
             <select name="OrganizationId" id="actionTreeName" class="form-control"
                     onchange="AuthUser.setOptionAction(this)">
 
-                <!--<% if(${OrganizationName!}==null){ %>-->
                 <option value="${OrganizationId!}">${OrganizationName!}</option>
-                <!--<% }else{ %>-->
-                <!--console.log("asda");-->
-                <!--<% } %>-->
+
 
                 @for(var i = 0; i< org.~size; i++){
                 <option value="${org[i].id!}">${org[i].name!}</option>

@@ -72,13 +72,14 @@ public class SysAuthUserService implements ISysAuthUserService {
 
         return sysAuthUserPostMapper.findListByUserId(id);
     }
+
     @Override
-    public String getUserOrgId(String UserId){
+    public String getUserOrgId(String UserId) {
         return sysAuthUserOrgMapper.getUserOrgId(UserId);
     }
 
     @Override
-    public String getUserPostId(String UserId){
+    public String getUserPostId(String UserId) {
         return sysAuthUserPostMapper.getUserPostId(UserId);
     }
 
@@ -210,7 +211,7 @@ public class SysAuthUserService implements ISysAuthUserService {
         try {
             SysAuthUserOrg sysAuthUserOrg = new SysAuthUserOrg();
             SysAuthUserPost sysAuthUserPost = new SysAuthUserPost();
-            sysAuthUserMapper.updateEditTimeById(UserId,Calendar.getInstance().getTime());
+            sysAuthUserMapper.updateEditTimeById(UserId, Calendar.getInstance().getTime());
 
             sysAuthUserOrg.setId(org_id);
             sysAuthUserOrg.setUserId(UserId);
@@ -225,5 +226,32 @@ public class SysAuthUserService implements ISysAuthUserService {
             logger.error("Insert Error: " + ex.getMessage());
             return false;
         }
+    }
+
+    @Override
+    public boolean resetPassword(String ids) {
+        String[] arrIds = ids.split(",");
+        String password = ToolUtil.getPassword(10, "11", "SYSADMIN", "MD5");
+
+        boolean bret = true;
+        for (String id : arrIds) {
+            sysAuthUserMapper.updateEditTimeById(id, Calendar.getInstance().getTime());
+            bret = sysAuthUserMapper.resetPassword(id, password) == 1 ? true : false;
+            if (!bret) {
+                throw new RuntimeException("reset faild");
+            }
+        }
+        return bret;
+    }
+
+    @Override
+    public String getUserPassword(String id) {
+        return sysAuthUserMapper.getUserPassword(id);
+    }
+
+    @Override
+    public boolean changePassword(String id, String newPassword) {
+        sysAuthUserMapper.updateEditTimeById(id, Calendar.getInstance().getTime());
+        return sysAuthUserMapper.changePassword(id, newPassword);
     }
 }

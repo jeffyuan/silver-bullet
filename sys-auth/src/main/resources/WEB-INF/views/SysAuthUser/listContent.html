@@ -23,7 +23,18 @@
                                     <i class="fa fa-fw fa-trash-o"></i>删除
                                 </button>
                             </div>
-                            <button name="岗位分配" class="btn btn-warning" onclick="AuthUser.setAction()" space="true"><i class="fa fa-fw fa-navicon"></i>岗位分配</button>
+                            <div class="btn-group">
+                                <button name="岗位分配" class="btn btn-warning" onclick="AuthUser.setAction()" space="true"><i
+                                        class="fa fa-fw fa-navicon"></i>岗位分配
+                                </button>
+                                <button name="更改密码" class="btn btn-warning" onclick="AuthUser.changePassword()" space="true"><i
+                                        class="fa fa-fw fa-key"></i>更改密码
+                                </button>
+                                <button name="重置密码" class="btn btn-warning" onclick="AuthUser.resetPassword()" space="true"><i
+                                        class="fa fa-fw fa-lock"></i>重置密码
+                                </button>
+                            </div>
+
                         </div>
                     </div>
                     <div class="table-responsive data-table-list col-xs-12">
@@ -57,10 +68,12 @@
                                     <td>${results.resultList[i].classify}</td>
                                     <td>${results.resultList[i].comments}</td>
                                     <td>
-                                        <button name="修改" class="btn btn-default btn-sm" onclick="AuthUser.editOne(this)" space="true">
+                                        <button name="修改" class="btn btn-default btn-sm"
+                                                onclick="AuthUser.editOne(this)" space="true">
                                             <i class="fa fa-fw fa-edit"></i>
                                         </button>
-                                        <button name="删除" class="btn btn-default btn-sm" onclick="AuthUser.deleteOne(this)" space="true">
+                                        <button name="删除" class="btn btn-default btn-sm"
+                                                onclick="AuthUser.deleteOne(this)" space="true">
                                             <i class="fa fa-fw fa-trash-o"></i>
                                         </button>
                                     </td>
@@ -75,10 +88,9 @@
                 <#PageTag action="${ctxPath}/auth/sysauthuser/${list!}.html" totalNum="${results.totalNum!}" perSize="5"
                 curPage="${curPage!}" loadDataFunName="${method!}" searchValue="${searchValue!}"></#PageTag>
 
-            <!--<#PageTag action="${ctxPath}/auth/sysauthuser/list/" totalNum="${results.totalNum}" perSize="5" curPage="${curPage}"></#PageTag>-->
-            <!-- /.box-body -->
-        </div>
-        <!-- /.box -->
+        <!-- /.box-body -->
+    </div>
+    <!-- /.box -->
     </div>
     <!-- /.col -->
     </div>

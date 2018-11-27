@@ -14,4 +14,7 @@ public interface SysAuthUserMapper extends CrudRepository<SysAuthUser, String>{
     List<SysAuthActionTree> findLists(SysAuthActionTree sysAuthActionTree);
     List<Map<String, Object>>findPostNameByActionTreeId(String id);
     int updateEditTimeById(@Param("UserId") String UserId, @Param("modifyTime") Date modifyTime );
+    int resetPassword(@Param("id") String id,@Param("password") String password);
+    String getUserPassword(String id);
+    boolean changePassword(@Param("id")String id,@Param("newPassword") String newPassword);
 }

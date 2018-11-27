@@ -43,4 +43,9 @@ public interface ISysAuthUserService {
 
     public String getUserPostId(String UserId);
 
+    public boolean resetPassword(String id);
+
+    public String getUserPassword(String id);
+
+    public boolean changePassword(String id,String newPassword);
 }
