@@ -7,10 +7,6 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.sun.javafx.PlatformUtil;
 import com.sun.prism.PixelFormat;
 import org.apache.shiro.crypto.hash.SimpleHash;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.json.JSONStringer;
 import org.springframework.boot.jackson.JsonObjectSerializer;
 
 import javax.servlet.http.HttpServletRequest;
@@ -26,7 +22,6 @@ import java.net.UnknownHostException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-import static com.alibaba.druid.sql.dialect.mysql.ast.clause.MySqlFormatName.JSON;
 
 /**
  * 工具类
@@ -229,7 +224,7 @@ public class ToolUtil {
      * @return
      */
     public static Map<String, String> searchJsonData(String data){
-        Map<String, String> map = new HashMap<>();
+        Map<String, String> map = new HashMap<String, String>();
         String x[] = data.split(":");
         for(int i = 0; x.length > i; i++){
             if(x.length == 1){
@@ -245,7 +240,7 @@ public class ToolUtil {
 
 
     public static List<String> searchJsonList(String data){
-        List<String> list = new ArrayList<>();
+        List<String> list = new ArrayList<String>();
         String x[] = data.split("&");
         for(int i = 0; x.length > i; i++){
             String y[] = x[i].split(":");
@@ -267,7 +262,7 @@ public class ToolUtil {
      */
     public static Map<String, String> noData() {
 
-        Map<String, String> noData = new HashMap<>();
+        Map<String, String> noData = new HashMap<String, String>();
         noData.put("icon", "fa fa fa-warning");
         noData.put("text", "无相关数据");
 
@@ -305,20 +300,20 @@ public class ToolUtil {
      */
     public static Map<String, Object> ChartsBData (List<String> dataList, String data) {
 
-        Map<String, Object> option = new HashMap<>();
-        Map<String, Object> title = new HashMap<>();
-        Map<String, Object> tooltip = new HashMap<>();
-        List<Object> series = new ArrayList<>();
-        Map seriesMap = new HashMap<>();
-        List<Object> datalist  = new ArrayList<>();
-        Map data0 = new HashMap<>();
-        Map data1 = new HashMap<>();
-        Map data2 = new HashMap<>();
-        Map itemStyleMap = new HashMap<>();
-        List<String> center = new ArrayList<>();
-        Map<String, String> itemStyleDatasuccess = new HashMap<>();
-        Map<String, String> itemStyleDatawarning = new HashMap<>();
-        Map<String, String> itemStyleDatadanger = new HashMap<>();
+        Map<String, Object> option = new HashMap<String, Object>();
+        Map<String, Object> title = new HashMap<String, Object>();
+        Map<String, Object> tooltip = new HashMap<String, Object>();
+        List<Object> series = new ArrayList<Object>();
+        Map seriesMap = new HashMap<String, Object>();
+        List<Object> datalist  = new ArrayList<Object>();
+        Map data0 = new HashMap();
+        Map data1 = new HashMap();
+        Map data2 = new HashMap();
+        Map itemStyleMap = new HashMap();
+        List<String> center = new ArrayList<String>();
+        Map<String, String> itemStyleDatasuccess = new HashMap<String, String>();
+        Map<String, String> itemStyleDatawarning = new HashMap<String, String>();
+        Map<String, String> itemStyleDatadanger = new HashMap<String, String>();
 
 
         itemStyleDatasuccess.put("color", "#008d4c");
@@ -374,7 +369,7 @@ public class ToolUtil {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
         Integer weekNow = calendar.get(Calendar.DAY_OF_WEEK)-1;
-        List<String> dateList = new ArrayList<>();
+        List<String> dateList = new ArrayList<String>();
         calendar.add(Calendar.DATE, +1);
 
         for(int i=1;i<=7; i++){
@@ -393,24 +388,24 @@ public class ToolUtil {
      * @return
      */
     public static Map<String, Object> ChartsSZData(List<List<String>> dateList, List<String> week){
-        Map<String, Object> option = new HashMap<>();
-        Map<String, Object> title = new HashMap<>();
-        Map<String, Object> xAxis = new HashMap<>();
-        Map<String, Object> yAxis = new HashMap<>();
-        Map<String, Object> tooltip = new HashMap<>();
-        Map<String, Object> grid = new HashMap<>();
-        List<Map> series = new ArrayList<>();
-        List<String> weekName = new ArrayList<>();
-        Map<String, Object> axisPointer = new HashMap<>();
-        Map<String, Object> serieData1 = new HashMap<>();
-        Map<String, Object> serieData2 = new HashMap<>();
-        Map<String, Object> serieData3 = new HashMap<>();
-        Map<String, Object> itemStyle1 = new HashMap<>();
-        Map<String, Object> itemStyle2 = new HashMap<>();
-        Map<String, Object> itemStyle3 = new HashMap<>();
-        List<String> data1 = new ArrayList<>();
-        List<String> data2 = new ArrayList<>();
-        List<String> data3 = new ArrayList<>();
+        Map<String, Object> option = new HashMap<String, Object>();
+        Map<String, Object> title = new HashMap<String, Object>();
+        Map<String, Object> xAxis = new HashMap<String, Object>();
+        Map<String, Object> yAxis = new HashMap<String, Object>();
+        Map<String, Object> tooltip = new HashMap<String, Object>();
+        Map<String, Object> grid = new HashMap<String, Object>();
+        List<Map> series = new ArrayList<Map>();
+        List<String> weekName = new ArrayList<String>();
+        Map<String, Object> axisPointer = new HashMap<String, Object>();
+        Map<String, Object> serieData1 = new HashMap<String, Object>();
+        Map<String, Object> serieData2 = new HashMap<String, Object>();
+        Map<String, Object> serieData3 = new HashMap<String, Object>();
+        Map<String, Object> itemStyle1 = new HashMap<String, Object>();
+        Map<String, Object> itemStyle2 = new HashMap<String, Object>();
+        Map<String, Object> itemStyle3 = new HashMap<String, Object>();
+        List<String> data1 = new ArrayList<String>();
+        List<String> data2 = new ArrayList<String>();
+        List<String> data3 = new ArrayList<String>();
 
         for(int i=0;i<dateList.size();i++){
             data1.add(dateList.get(i).get(0));

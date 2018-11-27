@@ -1,7 +1,0 @@
-D:\COD\silver-bullet-master\sys-log\src\main\java\com\silverbullet\log\dao\SysAppLogMapper.java
-D:\COD\silver-bullet-master\sys-log\src\main\java\com\silverbullet\log\domain\SysAppLog.java
-D:\COD\silver-bullet-master\sys-log\src\main\java\com\silverbullet\log\service\impl\SysAppLogService.java
-D:\COD\silver-bullet-master\sys-log\src\main\java\com\silverbullet\log\DataBaseAppender.java
-D:\COD\silver-bullet-master\sys-log\src\main\java\com\silverbullet\log\service\ISysAppLogService.java
-D:\COD\silver-bullet-master\sys-log\src\main\java\com\silverbullet\log\MysqlConnectionPool.java
-D:\COD\silver-bullet-master\sys-log\src\main\java\com\silverbullet\log\controller\SysAppLogController.java

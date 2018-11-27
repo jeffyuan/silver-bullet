@@ -1,6 +1,8 @@
 package com.silverbullet.utils;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,7 +16,7 @@ import java.util.Map;
 public class TreeNode implements Serializable{
 
     private static final long serialVersionUID = 1L;
-    static final Logger log = Logger.getLogger(TreeNode.class);
+    static final Logger log = LoggerFactory.getLogger(TreeNode.class);
 
     private String id;
     private String text;
