@@ -114,6 +114,9 @@
     from sys_auth_userorg uorg, sys_auth_organization org
     where user_id = #{id} and uorg.organization_id = org.id
   </select>
+  <select id="getUserOrgId" resultType="java.lang.String">
+    select id from sys_auth_userorg where user_id = #{id}
+  </select>
   <delete id="deleteByUserId" parameterType="java.lang.String">
     DELETE from sys_auth_userorg
     where user_id = #{id}

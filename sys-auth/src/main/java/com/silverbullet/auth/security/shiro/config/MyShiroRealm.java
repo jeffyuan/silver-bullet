@@ -8,7 +8,6 @@ import com.silverbullet.auth.service.ISysAuthPostService;
 import com.silverbullet.auth.service.ISysAuthUserService;
 import com.silverbullet.auth.sysconfig.SysDictionary;
 import com.silverbullet.core.pojo.UserInfo;
-import org.apache.catalina.User;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
@@ -28,6 +27,8 @@ import java.util.List;
  * Created by GESOFT on 2017/11/14.
  */
 public class MyShiroRealm extends AuthorizingRealm {
+
+    final static String AUTHCACHENAME = "AUTHCACHENAME";
 
     @Autowired
     private ISysAuthUserService iSysAuthUserService;

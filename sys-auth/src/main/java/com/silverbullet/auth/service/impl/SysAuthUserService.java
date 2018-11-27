@@ -72,6 +72,15 @@ public class SysAuthUserService implements ISysAuthUserService {
 
         return sysAuthUserPostMapper.findListByUserId(id);
     }
+    @Override
+    public String getUserOrgId(String UserId){
+        return sysAuthUserOrgMapper.getUserOrgId(UserId);
+    }
+
+    @Override
+    public String getUserPostId(String UserId){
+        return sysAuthUserPostMapper.getUserPostId(UserId);
+    }
 
     @Override
     public boolean Update(SysAuthUser sysAuthUser, String postId, String OrganizationId, String UorgId, String UpostId) {
@@ -93,12 +102,12 @@ public class SysAuthUserService implements ISysAuthUserService {
             sysAuthUserNew.setModifyTime(Calendar.getInstance().getTime());
             //userOrg
             sysAuthUserOrg.setId(UorgId);
-            sysAuthUserOrg.setUserId(sysAuthUserNew.getId());
+            sysAuthUserOrg.setUserId(sysAuthUser.getId());
             sysAuthUserOrg.setOrganizationId(OrganizationId);
             sysAuthUserOrgMapper.updateByPrimaryKey(sysAuthUserOrg);
             //userPost
             sysAuthUserPost.setId(UpostId);
-            sysAuthUserPost.setUserId(sysAuthUserNew.getId());
+            sysAuthUserPost.setUserId(sysAuthUser.getId());
             sysAuthUserPost.setPostId(postId);
             sysAuthUserPostMapper.updateByPrimaryKey(sysAuthUserPost);
 
@@ -201,6 +210,7 @@ public class SysAuthUserService implements ISysAuthUserService {
         try {
             SysAuthUserOrg sysAuthUserOrg = new SysAuthUserOrg();
             SysAuthUserPost sysAuthUserPost = new SysAuthUserPost();
+            sysAuthUserMapper.updateEditTimeById(UserId,Calendar.getInstance().getTime());
 
             sysAuthUserOrg.setId(org_id);
             sysAuthUserOrg.setUserId(UserId);

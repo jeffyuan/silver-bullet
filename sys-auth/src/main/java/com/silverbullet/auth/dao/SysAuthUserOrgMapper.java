@@ -8,4 +8,5 @@ import java.util.Map;
 public interface SysAuthUserOrgMapper extends CrudRepository<SysAuthUserOrg, String>{
     public List<Map<String, String>> findListByUserId(String id);
     public int deleteByUserId(String id);
+    public String getUserOrgId(String id);
 }

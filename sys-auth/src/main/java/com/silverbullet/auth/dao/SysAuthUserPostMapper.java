@@ -9,4 +9,5 @@ import java.util.Map;
 public interface SysAuthUserPostMapper extends CrudRepository<SysAuthUserPost, String>{
   public List<Map<String, String>> findListByUserId(String id);
   public int deleteByUserId(String id);
+  public String getUserPostId(String id);
 }

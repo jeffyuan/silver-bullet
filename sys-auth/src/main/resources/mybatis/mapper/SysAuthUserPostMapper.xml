@@ -116,6 +116,9 @@
     from sys_auth_userpost upo, sys_auth_post po
     where user_id = #{id} and upo.post_id = po.id
   </select>
+  <select id="getUserPostId" resultType="java.lang.String">
+    select id from sys_auth_userpost where user_id = #{id}
+  </select>
   <delete id="deleteByUserId" parameterType="java.lang.String">
     DELETE from sys_auth_userpost
     where user_id = #{id}
