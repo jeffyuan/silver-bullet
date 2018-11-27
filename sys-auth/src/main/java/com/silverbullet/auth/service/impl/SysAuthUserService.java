@@ -19,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -153,6 +154,7 @@ public class SysAuthUserService implements ISysAuthUserService {
             sysAuthUser.setState("0");
             sysAuthUser.setPassword(ToolUtil.getPassword(10, "11", "SYSADMIN", "MD5"));
             sysAuthUser.setSalt("11");
+            sysAuthUser.setUserType("1");
             sysAuthUser.setLoginTime(Calendar.getInstance().getTime());
             sysAuthUserOrg.setId(ToolUtil.getUUID());
             sysAuthUserOrg.setUserId(userId);
@@ -253,5 +255,45 @@ public class SysAuthUserService implements ISysAuthUserService {
     public boolean changePassword(String id, String newPassword) {
         sysAuthUserMapper.updateEditTimeById(id, Calendar.getInstance().getTime());
         return sysAuthUserMapper.changePassword(id, newPassword);
+    }
+
+    @Override
+    public Map<String, Object> changeOrgPost(String userId){
+        Map<String, Object> user = new HashMap<String, Object>();
+        String orgName;
+        String orgId;
+        String postName;
+        String postId;
+        if (sysAuthUserOrgMapper.findListByUserId(userId).size() == 0) {
+            orgName = "";
+            orgId = "";
+        } else {
+            orgName = sysAuthUserOrgMapper.findListByUserId(userId).get(0).get("organizationName");
+            orgId = sysAuthUserOrgMapper.findListByUserId(userId).get(0).get("organizationId");
+        }
+
+        if (sysAuthUserPostMapper.findListByUserId(userId).size() == 0) {
+            postName = "";
+            postId = "";
+        } else {
+            postName = sysAuthUserPostMapper.findListByUserId(userId).get(0).get("postName");
+            postId = sysAuthUserPostMapper.findListByUserId(userId).get(0).get("postId");
+        }
+        user.put("orgName",orgName);
+        user.put("orgId",orgId);
+        user.put("postName",postName);
+        user.put("postId",postId);
+        return user;
+
+    }
+
+    @Override
+    public Map<String, String> getUserOrgPost(String id){
+        Map<String, String> userOrgPost = new HashMap<String, String>();
+        String org_id = sysAuthUserOrgMapper.getUserOrgId(id);
+        String post_id = sysAuthUserPostMapper.getUserPostId(id);
+        userOrgPost.put("org_id",org_id);
+        userOrgPost.put("post_id",post_id);
+        return userOrgPost;
     }
 }

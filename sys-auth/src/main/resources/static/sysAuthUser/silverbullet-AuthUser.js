@@ -10,14 +10,14 @@ AuthUser.ctxPath = $(".logo").attr('href');
  * 密码验证
  * @type {string}
  */
-AuthUser.passwordVerify = "<form id=\"formParam\" class=\"m-t\" role=\"form\" method=\"post\"><h4 id=\"msg\" style=\"color: red;\"></h4><div class=\"form-group\">\n" +
-    "            <label>当前登录用户密码</label><label style=\"color: red;\" id=\"password-always-checkbox\"></label>\n" +
+AuthUser.passwordVerify = "<form id=\"formParam\" class=\"m-t\" role=\"form\" method=\"post\"><div class=\"form-group\">\n" +
+    "            <label>当前登录用户密码：</label>&nbsp;<label id=\"msg\" style=\"color: red;\"></label><label style=\"color: red;\" id=\"password-always-checkbox\"></label>\n" +
     "            <input type=\"password\" name=\"password\" class=\"form-control\" value=\"\">\n" +
     "        </div></form>"
 AuthUser.passwordChange = "<form id=\"formParams\" class=\"m-t\" role=\"form\" method=\"post\"><div class=\"form-group\">\n" +
-    "            <label>新密码</label><label style=\"color: red;\" id=\"password\"></label>\n" +
+    "            <label>新密码：</label><label style=\"color: red;\" id=\"password\"></label>\n" +
     "            <input type=\"password\" name=\"newPassword\" class=\"form-control\" value=\"\">\n" +
-    "            <label>确认密码</label><label style=\"color: red;\" id=\"passwordCheck\"></label>\n" +
+    "            <label>确认密码：</label>&nbsp;<label id=\"msg\" style=\"color: red;\"></label><label style=\"color: red;\" id=\"passwordCheck\"></label>\n" +
     "            <input type=\"password\" name=\"checkPassword\" class=\"form-control\" value=\"\">\n" +
     "        </div></form>"
 
@@ -64,7 +64,6 @@ AuthUser.loadData = function (obj, action, curpage) {
  * @param dialogItself
  */
 AuthUser.save = function (url, dialogItself) {
-    console.log($("#formParams").serialize().valueOf("OrganizationId"));
     $.ajax({
         type: "post",
         url: url,
@@ -89,7 +88,7 @@ AuthUser.save = function (url, dialogItself) {
                         $("#msg-" + data.errors[i].field).text('  (' + data.errors[i].defaultMessage + ')');
                     }
                 } else {
-                    $("#msg").text(data.message);
+                    $("#msg-"+data.address).text(data.message);
                 }
             }
         }
@@ -302,7 +301,7 @@ AuthUser.setAction = function () {
         });
         return;
     }
-    var dialogInfo = AuthUser.getHtmlInfo(AuthUser.ctxPath + AuthUser.url + 'dictitem/list/' + arrays[0] + '.html', {"curPage": 5});
+    var dialogInfo = AuthUser.getHtmlInfo(AuthUser.ctxPath + AuthUser.url + 'loadOrganizationItem.html', {userId: arrays[0]});
 
     BootstrapDialog.show({
         title: '设置字典项',
@@ -541,12 +540,7 @@ AuthUser.verifyPassword = function (id) {
                                 dialogItself.close();
                                 AuthUser.setPassword(id);
                             } else {
-                                BootstrapDialog.alert({
-                                    type: BootstrapDialog.TYPE_WARNING,
-                                    title: '提示',
-                                    message: data.message,
-                                    buttonLabel: "确定"
-                                });
+                                $("#msg").text(data.message);
                             }
 
 
@@ -596,12 +590,7 @@ AuthUser.setPassword = function (id) {
                                 // 刷新页面
                                 AuthUser.loadData(null, AuthUser.ctxPath + AuthUser.url + "list.html", 1);
                             } else {
-                                BootstrapDialog.alert({
-                                    type: BootstrapDialog.TYPE_WARNING,
-                                    title: '提示',
-                                    message: data.message,
-                                    buttonLabel: "确定"
-                                });
+                                $("#msg").text(data.message);
                             }
 
 

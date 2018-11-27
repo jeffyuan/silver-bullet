@@ -1,5 +1,10 @@
 package com.silverbullet.auth.domain;
 
+import com.silverbullet.core.validate.AddValidate;
+import com.silverbullet.core.validate.FullValidate;
+import org.hibernate.validator.constraints.NotBlank;
+
+import javax.validation.constraints.Size;
 import java.util.Date;
 
 public class SysAuthUser {
@@ -17,6 +22,8 @@ public class SysAuthUser {
      *
      * @mbggenerated
      */
+    @NotBlank(message = "名称 不能为空" , groups = {FullValidate.class, AddValidate.class})
+    @Size(max=64, message = "名称 长度不能超过64", groups = {FullValidate.class, AddValidate.class})
     private String name;
 
     /**
@@ -97,6 +104,9 @@ public class SysAuthUser {
      *
      * @mbggenerated
      */
+
+    @NotBlank(message = "用户名 不能为空" , groups = {FullValidate.class, AddValidate.class})
+    @Size(max=64, message = "用户名 长度不能超过64", groups = {FullValidate.class, AddValidate.class})
     private String username;
 
     /**
