@@ -719,9 +719,131 @@ i,span,button{
     }
 }
 
+.search_gp_input{
+    width: 80%;
+    display: inline-block;
+}
 
+.search_gp_select{
+    width: 80%;
+    display: inline-block;
+}
 
+.search_gp_btn_reset{
+    margin-left: 20px;
+    background-color: #337ab7;
+    color: #fff;
+}
+.search_gp_search{
+    width: 10%;
+    min-width: 40px;
+    float: right;
+    border: 1px solid #d2d6de;
+    border-left: 0;
+    text-align: right;
+    border-top-right-radius:5px;
+    border-bottom-right-radius:5px;
+}
 
+.search_gp_i_position{
+    padding:8px 15px 8px 8px;
+    font-size: 1.2em;
+    color: #777;
+}
 
+.search_gp_input_position{
+    width: 95%;
+    border-right: 0;
+    border-top-left-radius:5px;
+    border-bottom-left-radius:5px;
 
+}
 
+.search_gp_title{
+    text-align: right;
+    padding-right: 0px;
+    width: 4%;
+    min-width: 65px;
+    float: left;
+}
+
+.search_gp_three{
+    padding: 8px;
+    padding-right: 0px;
+}
+
+.search_gp_narrow{
+    float: right;
+    display: none
+}
+
+.search_gp_div_input{
+    padding-left: 0px;
+    display: flex;
+    width: 20%;
+    float: right;
+}
+
+.search_gp_div_hide{
+    display:none;
+}
+
+.search_gp_span_narrow{
+    display: inline-block;
+    width: 15%;
+    text-align: right;
+    min-width: 45px;
+}
+
+.search_gp_span_small{
+    display: inline-block;
+    width: 35%;
+    text-align: right;
+    min-width: 45px;
+}
+
+.search_gp_span_big{
+    display: inline-block;
+    width: 25%;
+    text-align: right;
+    min-width: 45px;
+}
+
+.search_gp_div_input_narrow{
+    width: 200px;
+    float: left;
+    display: flex;
+    align-items: center;
+}
+
+.search_gp_div_input_small{
+    width: 150px;
+    float: left;
+    display: flex;
+    align-items: center;
+    margin-left: 10px;
+}
+
+.search_gp_div_input_big{
+    width: 300px;
+    float: left;
+    display: flex;
+    align-items: center;
+}
+
+.search_gp_div_button{
+    float: left;
+}
+
+.search_gp_head{
+    padding: 5px;
+    border-bottom: 1px solid #f4f4f4;
+}
+
+.search_gp_div_input .form-control{
+    border-color:#d2d6de!important;
+}
+
+.form-horizontal div{
+    margin:8px 0;
+}

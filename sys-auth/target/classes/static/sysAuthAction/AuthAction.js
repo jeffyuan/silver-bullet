@@ -332,6 +332,28 @@ AuthAction.getActionSelect = function () {
     });
 }
 
+
+/**
+ * 搜索框下拉
+ * @param e
+ */
+AuthAction.inputSlideToggle = function(e){
+    $("#input").hide(300);
+    $("#search").slideToggle();
+    $("#return").show(300);
+}
+
+/**
+ * 搜索框上拉
+ * @param e
+ */
+AuthAction.inputSlideUp = function(e){
+    $("#search").slideUp();
+    $("#input").show(300);
+    $("#return").hide(300);
+}
+
+
 $(function () {
     AuthAction.checkboxInit();
 });

@@ -1,6 +1,70 @@
 <section class="content">
     <div class="row">
+        <div class="col-xs-12">
+            <div class="box box-info">
+                <div class="box-header search_gp_head">
+                    <div class="search_gp_title">
+                    <h3 class="box-title search_gp_three">搜索：</h3>
+                    </div>
+                    <!-- /.search_gp_title-->
+                    <button class="btn btn-box-tool search_gp_narrow" id="return" onclick="AuthAction.inputSlideUp(this)"><i class="fa fa-chevron-up"></i></button>
+                    <div id="input" class="search_gp_div_input">
+                        <input type="text" class="form-control search_gp_input_position fa fa-search" placeholder="搜索条件" onclick="AuthAction.inputSlideToggle(this)">
+                        <div class="search_gp_search">
+                        <i class="fa fa-search search_gp_i_position"></i>
+                        </div>
+                        <!-- /.search_gp_search-->
+                    </div>
+                    <!-- /.search_gp_div_input-->
+                </div>
+                <!-- /.box-header-->
+                <div class="box-body search_gp_div_hide" id="search">
+                    <div class="table-responsive">
+                        <form class="form-horizontal">
+                            <div class="search_gp_div_input_narrow">
+                                <span class="search_gp_span_narrow">名称：</span>
+                                <input type="text" class="form-control search_gp_input">
+                            </div>
+                            <div class="search_gp_div_input_narrow">
+                                <span class="search_gp_span_narrow">url：</span>
+                                <input type="text" class="form-control search_gp_input">
+                            </div>
+                            <div class="search_gp_div_input_small">
+                                <span class="search_gp_span_small">种类：</span>
+                                <select class="form-control search_gp_select">
+                                    <option value="NONE">NONE</option>
+                                    <option value="NONE">NONE</option>
+                                    <option value="NONE">NONE</option>
+                                    <option value="NONE">NONE</option>
+                                </select>
+                            </div>
+                            <div class="search_gp_div_input_big">
+                                <span class="search_gp_span_big">上级ID：</span>
+                                <select class="form-control search_gp_select">
+                                    <option value="NONE">内容管理_回复管理</option>
+                                    <option value="NONE">维修业务流程管理_维修业务管理</option>
+                                    <option value="NONE">维修业务流程管理_客户管理</option>
+                                    <option value="NONE">维修业务流程管理_业务类型管理</option>
+                                </select>
+                            </div>
+                            <div class="search_gp_div_button">
+                            <button type="reset" id="resetBtn1" class="btn search_gp_btn_reset"><i class="fa  fa-fw fa-refresh"></i>重置</button>
+                            <button type="submit" class="btn btn-warning btn-submit"><i class="fa fa-fw fa-search"></i>提交</button>
+                            </div>
+                            <!-- /.search_gp_div_button-->
+                        </form>
+                    </div>
+                    <!-- /.table-responsive-->
+                </div>
+                <!-- /.box-body-->
+            </div>
+            <!-- /.box box-info-->
+        </div>
+        <!-- /.col-xs-12-->
+    </div>
+    <!-- /.row -->
 
+    <div class="row">
         <div class="col-xs-12">
             <div class="box">
                 <div class="box-header">
