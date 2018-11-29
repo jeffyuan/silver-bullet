@@ -97,6 +97,52 @@ AuthUser.save = function (url, dialogItself) {
 
 
 /**
+ * 查看一条数据
+ *
+ */
+AuthUser.check = function() {
+    var arrays = [];
+    $("div[aria-checked='true']").each(function(){
+        arrays.push($(this).parent().parent().attr('data-u'));
+    });
+    if (arrays.length != 1) {
+        BootstrapDialog.alert({
+            type: BootstrapDialog.TYPE_WARNING,
+            title: '提示',
+            message: '请选择一条需要查看的数据。',
+            buttonLabel: "确定"
+        });
+        return ;
+    }
+    AuthUser.checkCommon(arrays[0]);
+};
+
+/**
+ * 查看通用方法
+ * @param uid
+ */
+AuthUser.checkCommon = function(uid){
+    var dialogInfo = AuthUser.getHtmlInfo(AuthUser.ctxPath + AuthUser.url + 'check.html', {id: uid});
+    BootstrapDialog.show({
+        title: '查看用户信息',
+        type: BootstrapDialog.TYPE_DEFAULT,
+        closable: true,
+        closeByBackdrop: false,
+        closeByKeyboard: false,
+        size: BootstrapDialog.SIZE_NORMAL,
+        message: dialogInfo,
+        buttons: [{
+            icon: 'fa fa-close',
+            label: '关闭',
+            cssClass: 'btn-danger',
+            action: function (dialogItself) {
+                dialogItself.close();
+            }
+        }]
+    });
+};
+
+/**
  * 表格头部添加方法
  */
 AuthUser.add = function () {
@@ -610,5 +656,10 @@ AuthUser.setPassword = function (id) {
         }
     );
 }
+
+
+
+
+
 
 

@@ -1,27 +1,27 @@
 {
-  "hints": [],
   "groups": [
     {
-      "sourceType": "com.silverbullet.cms.config.RepositoryProperties",
       "name": "file",
-      "type": "com.silverbullet.cms.config.RepositoryProperties"
+      "type": "com.silverbullet.cms.config.RepositoryProperties",
+      "sourceType": "com.silverbullet.cms.config.RepositoryProperties"
     }
   ],
   "properties": [
     {
-      "sourceType": "com.silverbullet.cms.config.RepositoryProperties",
       "name": "file.engine",
-      "type": "java.lang.String"
+      "type": "java.lang.String",
+      "sourceType": "com.silverbullet.cms.config.RepositoryProperties"
     },
     {
-      "sourceType": "com.silverbullet.cms.config.RepositoryProperties",
       "name": "file.path",
-      "type": "java.lang.String"
+      "type": "java.lang.String",
+      "sourceType": "com.silverbullet.cms.config.RepositoryProperties"
     },
     {
-      "sourceType": "com.silverbullet.cms.config.RepositoryProperties",
       "name": "file.url",
-      "type": "java.lang.String"
+      "type": "java.lang.String",
+      "sourceType": "com.silverbullet.cms.config.RepositoryProperties"
     }
-  ]
+  ],
+  "hints": []
 }

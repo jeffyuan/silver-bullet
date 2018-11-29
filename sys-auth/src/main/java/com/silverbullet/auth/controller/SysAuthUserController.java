@@ -92,6 +92,23 @@ public class SysAuthUserController {
         return modelAndView;
     }
 
+
+    @RequestMapping(value = "/check.html", method = RequestMethod.POST)
+    public String check(Model model, String pageName, String id) {
+        Map<String, Object> user = sysAuthUserService.changeOrgPost(id);
+        BaseDataResult<SysAuthOrganization> org = sysAuthOrganizationService.getOrgSelect();
+        SysAuthUser sysAuthUser = sysAuthUserService.getOneById(id);
+        model.addAttribute("obj", sysAuthUser);
+        model.addAttribute("org", org.getResultList());
+        model.addAttribute("OrganizationId", user.get("orgId"));
+        model.addAttribute("OrganizationName", user.get("orgName"));
+        model.addAttribute("postId", user.get("postId"));
+        model.addAttribute("postName", user.get("postName"));
+        model.addAttribute("disabled", "disabled");
+        model.addAttribute("style", "check-text");
+        return "/SysAuthUser/add";
+    }
+
     @RequestMapping(value = "/add.html", method = RequestMethod.POST)
     public String add(Model model) {
         BaseDataResult<SysAuthOrganization> org = sysAuthOrganizationService.getOrgSelect();
@@ -99,6 +116,8 @@ public class SysAuthUserController {
         model.addAttribute("org", org.getResultList());
         model.addAttribute("OrganizationName", "请选择部门");
         model.addAttribute("postName", "请选择岗位");
+        model.addAttribute("disabled", "");
+        model.addAttribute("style", "");
         return "/SysAuthUser/add";
     }
 
@@ -109,6 +128,7 @@ public class SysAuthUserController {
         List<Map<String, String>> sysAuthUserOrg = sysAuthUserService.getOneByUserId(id);
         List<Map<String, String>> sysAuthUserPost = sysAuthUserService.getPostByUserId(id);
         Map<String, Object> user = sysAuthUserService.changeOrgPost(id);
+
         if (sysAuthUserOrg.size() != 0) {
             model.addAttribute("UorgId", sysAuthUserOrg.get(0).get("id"));
         }
@@ -123,6 +143,9 @@ public class SysAuthUserController {
         model.addAttribute("OrganizationName", user.get("orgName"));
         model.addAttribute("postId", user.get("postId"));
         model.addAttribute("postName", user.get("postName"));
+        model.addAttribute("disabled", "");
+        model.addAttribute("style", "");
+
         return "/SysAuthUser/add";
     }
 
@@ -152,7 +175,7 @@ public class SysAuthUserController {
         if (postId.equals("disabled selected") && OrganizationId != null) {
             mapRet.put("result", false);
             mapRet.put("message", "请选择正确的岗位！");
-            mapRet.put("address","postId");
+            mapRet.put("address", "postId");
             return mapRet;
         }
 
@@ -194,8 +217,15 @@ public class SysAuthUserController {
             return mapRet;
         }
         if (sysAuthUserService.getOneByUserId(UserId).isEmpty()) {
-            bTrue = sysAuthUserService.insertUserOrgPost(UserId, OrganizationId, postId);
-            message = bTrue ? "添加成功！" : "添加失败！";
+            Map<String, String> userOrgPost = sysAuthUserService.getUserOrgPost(UserId);
+            if (userOrgPost.isEmpty()) {
+                bTrue = sysAuthUserService.insertUserOrgPost(UserId, OrganizationId, postId);
+                message = bTrue ? "添加成功！" : "添加失败！";
+
+            } else {
+                bTrue = sysAuthUserService.updatetUserOrgPost(userOrgPost.get("org_id"), userOrgPost.get("post_id"), UserId, OrganizationId, postId);
+                message = bTrue ? "修改成功！" : "修改失败！";
+            }
         } else {
             String org_id = sysAuthUserService.getOneByUserId(UserId).get(0).get("id");
             String post_id = sysAuthUserService.getPostByUserId(UserId).get(0).get("id");
@@ -227,21 +257,21 @@ public class SysAuthUserController {
 
     @RequestMapping(value = "/changePassword.do", method = RequestMethod.POST)
     @ResponseBody
-    public Map<String, String> changePassword(String id,String newPassword, String checkPassword) {
+    public Map<String, String> changePassword(String id, String newPassword, String checkPassword) {
         Map<String, String> mapRet = new HashMap<String, String>();
-        if (newPassword.isEmpty()){
-            mapRet.put("result","false");
-            mapRet.put("message","请输入修改密码");
+        if (newPassword.isEmpty()) {
+            mapRet.put("result", "false");
+            mapRet.put("message", "请输入修改密码");
             return mapRet;
         }
         if (newPassword.equals(checkPassword)) {
             String passwordMD5 = ToolUtil.getPassword(10, "11", newPassword, "MD5");
-            sysAuthUserService.changePassword(id,passwordMD5);
-            mapRet.put("result","true");
-            mapRet.put("message","修改成功");
-        }else {
-            mapRet.put("result","false");
-            mapRet.put("message","两次密码不一致");
+            sysAuthUserService.changePassword(id, passwordMD5);
+            mapRet.put("result", "true");
+            mapRet.put("message", "修改成功");
+        } else {
+            mapRet.put("result", "false");
+            mapRet.put("message", "两次密码不一致");
         }
         return mapRet;
     }
