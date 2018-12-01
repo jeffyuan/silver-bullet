@@ -1,5 +1,9 @@
 package com.silverbullet.auth.domain;
 
+import com.silverbullet.core.validate.AddValidate;
+import com.silverbullet.core.validate.FullValidate;
+import org.hibernate.validator.constraints.NotBlank;
+
 import java.util.Date;
 
 public class SysAuthActionTree {
@@ -17,6 +21,7 @@ public class SysAuthActionTree {
      *
      * @mbggenerated
      */
+    @NotBlank(message = "不能为空", groups = {FullValidate.class, AddValidate.class})
     private String name;
 
     /**

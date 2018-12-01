@@ -3,7 +3,7 @@
  */
 var Params = {
     'url': 'params/sysparamsdictionary/',
-    'datas' : {},
+    'datas': {},
 };
 Params.ctxPath = $(".logo").attr('href');
 
@@ -13,7 +13,7 @@ Params.ctxPath = $(".logo").attr('href');
  * @param params 参数
  * @returns {string}
  */
-Params.getHtmlInfo = function(url, params){
+Params.getHtmlInfo = function (url, params) {
     var dialogInfo = '';
     $.ajax({
         type: "post",
@@ -22,7 +22,7 @@ Params.getHtmlInfo = function(url, params){
         data: params,
         dataType: 'html',
         success: function (data) {
-            dialogInfo = data.replace(/\r|\n/g,"");
+            dialogInfo = data.replace(/\r|\n/g, "");
         }
     });
 
@@ -36,17 +36,63 @@ Params.getHtmlInfo = function(url, params){
  * @param curpage 当前页
  * @returns {boolean}
  */
-Params.loadData = function(obj, action, curpage) {
-    var dialogInfo = Params.getHtmlInfo(action, {"curpage" : curpage});
+Params.loadData = function (obj, action, curpage) {
+    var dialogInfo = Params.getHtmlInfo(action, {"curpage": curpage});
     dialogInfo += "<script>Params.checkboxInit();</script>";
     $("#data-list-content").html(dialogInfo);
     return true;
 };
 
 /**
+ * 查看字典
+ */
+Params.check = function () {
+    var arrays = [];
+    $("div[aria-checked='true']").each(function(){
+        arrays.push($(this).parent().parent().attr('data-u'));
+    });
+    if (arrays.length != 1) {
+        BootstrapDialog.alert({
+            type: BootstrapDialog.TYPE_WARNING,
+            title: '提示',
+            message: '请选择一条需要查看的数据。',
+            buttonLabel: "确定"
+        });
+        return ;
+    }
+    Params.checkCommon(arrays[0]);
+    console.log(arrays)
+};
+
+/**
+ * 查看通用方法
+ * @param uid
+ */
+Params.checkCommon = function(uid){
+    var dialogInfo = Params.getHtmlInfo(Params.ctxPath + Params.url + 'check.html', {id: uid});
+    BootstrapDialog.show({
+        title: '查看字典信息',
+        type: BootstrapDialog.TYPE_DEFAULT,
+        closable: true,
+        closeByBackdrop: false,
+        closeByKeyboard: false,
+        size: BootstrapDialog.SIZE_NORMAL,
+        message: dialogInfo,
+        buttons: [{
+            icon: 'fa fa-close',
+            label: '关闭',
+            cssClass: 'btn-danger',
+            action: function (dialogItself) {
+                dialogItself.close();
+            }
+        }]
+    });
+};
+
+/**
  * 表格头部添加方法
  */
-Params.add = function() {
+Params.add = function () {
     var dialogInfo = Params.getHtmlInfo(Params.ctxPath + Params.url + 'add.html', {});
     BootstrapDialog.show({
         title: '添加字典',
@@ -59,7 +105,7 @@ Params.add = function() {
             label: '确定',
             action: function (dialogItself) {
                 // 清除提示语
-                $("label[id^=msg-]").each(function(){
+                $("label[id^=msg-]").each(function () {
                     $(this).text("");
                 });
                 $("#msg").text("");
@@ -82,13 +128,13 @@ Params.add = function() {
  * @param url
  * @param dialogItself
  */
-Params.save = function(url, dialogItself) {
+Params.save = function (url, dialogItself) {
     $.ajax({
         type: "post",
         url: url,
         data: $("#formParams").serialize(),
         dataType: "json",
-        success: function(data) {
+        success: function (data) {
             if (data.result == true) {
                 BootstrapDialog.alert({
                     type: BootstrapDialog.TYPE_WARNING,
@@ -102,7 +148,7 @@ Params.save = function(url, dialogItself) {
             } else {
                 if (data.errors != null) {
                     // 错误信息反馈到页面上
-                    for (var i = 0 ; i < data.errors.length; i++) {
+                    for (var i = 0; i < data.errors.length; i++) {
                         $("#msg-" + data.errors[i].field).text('  (' + data.errors[i].defaultMessage + ')');
                     }
                 } else {
@@ -116,7 +162,7 @@ Params.save = function(url, dialogItself) {
 /**
  * 表格中编辑按钮
  */
-Params.editOne = function(obj) {
+Params.editOne = function (obj) {
 
     var uid = $(obj).parent().parent().attr("data-u");
     Params.editCommon(uid);
@@ -125,9 +171,9 @@ Params.editOne = function(obj) {
 /**
  * 表格头部编辑按钮，只能编辑一条记录
  */
-Params.edit = function() {
+Params.edit = function () {
     var arrays = [];
-    $("#data-list div[aria-checked='true']").each(function(){
+    $("#data-list div[aria-checked='true']").each(function () {
         arrays.push($(this).parent().parent().attr('data-u'));
     });
 
@@ -138,7 +184,7 @@ Params.edit = function() {
             message: '请选择一条需要修改的数据。',
             buttonLabel: "确定"
         });
-        return ;
+        return;
     }
 
     Params.editCommon(arrays[0]);
@@ -148,8 +194,8 @@ Params.edit = function() {
  * 编辑通用方法
  * @param uid 编辑的一个id
  */
-Params.editCommon = function(uid) {
-    var dialogInfo = Params.getHtmlInfo(Params.ctxPath + Params.url + 'edit.html', {"id":uid});
+Params.editCommon = function (uid) {
+    var dialogInfo = Params.getHtmlInfo(Params.ctxPath + Params.url + 'edit.html', {"id": uid});
     BootstrapDialog.show({
         title: '编辑字典',
         closable: true,
@@ -161,7 +207,7 @@ Params.editCommon = function(uid) {
             label: '确定',
             action: function (dialogItself) {
                 // 清除提示语
-                $("label[id^=msg-]").each(function(){
+                $("label[id^=msg-]").each(function () {
                     $(this).text("");
                 });
                 $("#msg").text("");
@@ -182,9 +228,9 @@ Params.editCommon = function(uid) {
 /**
  * 表格头部，统一删除按钮
  */
-Params.delete = function() {
+Params.delete = function () {
     var arrays = [];
-    $("#data-list div[aria-checked='true']").each(function(){
+    $("#data-list div[aria-checked='true']").each(function () {
         arrays.push($(this).parent().parent().attr('data-u'));
     });
 
@@ -195,7 +241,7 @@ Params.delete = function() {
             message: '请选择至少一条需要删除的数据。',
             buttonLabel: "确定"
         });
-        return ;
+        return;
     }
     var ids = arrays.join(",");
     Params.deleteCommon(ids);
@@ -204,7 +250,7 @@ Params.delete = function() {
 /**
  * 表格中删除一条数据
  */
-Params.deleteOne = function(obj) {
+Params.deleteOne = function (obj) {
     var uid = $(obj).parent().parent().attr("data-u");
     Params.deleteCommon(uid);
 };
@@ -213,7 +259,7 @@ Params.deleteOne = function(obj) {
  * 删除通用该方法
  * @param ids 以,号分割的字符串
  */
-Params.deleteCommon = function(ids) {
+Params.deleteCommon = function (ids) {
     BootstrapDialog.confirm({
         title: '删除提示',
         message: '是否确定删除?',
@@ -228,7 +274,7 @@ Params.deleteCommon = function(ids) {
                 $.ajax({
                     type: "POST",
                     url: Params.ctxPath + Params.url + "delete.do",
-                    data: { ids: ids },
+                    data: {ids: ids},
                     dataType: "json",
                     success: function (data) {
                         if (data.result == true) {
@@ -258,9 +304,9 @@ Params.deleteCommon = function(ids) {
 /**
  * 设置字典项
  */
-Params.setDictItem = function() {
+Params.setDictItem = function () {
     var arrays = [];
-    $("#data-list div[aria-checked='true']").each(function(){
+    $("#data-list div[aria-checked='true']").each(function () {
         arrays.push($(this).parent().parent().attr('data-u'));
     });
 
@@ -271,10 +317,10 @@ Params.setDictItem = function() {
             message: '请选择一条数据。',
             buttonLabel: "确定"
         });
-        return ;
+        return;
     }
 
-    var dialogInfo = Params.getHtmlInfo(Params.ctxPath + Params.url + 'dictitem/list/'+ arrays[0] + '.html', {"curpage" : 1});
+    var dialogInfo = Params.getHtmlInfo(Params.ctxPath + Params.url + 'dictitem/list/' + arrays[0] + '.html', {"curpage": 1});
     BootstrapDialog.show({
         title: '设置字典项',
         closable: true,
@@ -285,7 +331,7 @@ Params.setDictItem = function() {
     });
 };
 
-Params.checkboxInit = function() {
+Params.checkboxInit = function () {
     $('#data-list-content input[type="checkbox"]').iCheck({
         checkboxClass: 'icheckbox_flat-blue',
         radioClass: 'iradio_flat-blue'
@@ -315,9 +361,9 @@ $(function () {
 /**
  * 表格头部编辑按钮，只能编辑一条记录
  */
-Params.editItem = function() {
+Params.editItem = function () {
     var arrays = [];
-    $("#data-list-item div[aria-checked='true']").each(function(){
+    $("#data-list-item div[aria-checked='true']").each(function () {
         arrays.push($(this).parent().parent().attr('data-u'));
     });
 
@@ -328,7 +374,7 @@ Params.editItem = function() {
             message: '请选择一条需要修改的数据。',
             buttonLabel: "确定"
         });
-        return ;
+        return;
     }
 
     Params.editCommonItem(arrays[0]);
@@ -337,8 +383,8 @@ Params.editItem = function() {
 /**
  * 表格头部添加方法
  */
-Params.addItem = function(dicKeyId) {
-    var dialogInfo = Params.getHtmlInfo(Params.ctxPath + Params.url + '/dictitem/add.html', {"dicKeyId":dicKeyId});
+Params.addItem = function (dicKeyId) {
+    var dialogInfo = Params.getHtmlInfo(Params.ctxPath + Params.url + '/dictitem/add.html', {"dicKeyId": dicKeyId});
     BootstrapDialog.show({
         title: '添加字典项',
         closable: true,
@@ -350,7 +396,7 @@ Params.addItem = function(dicKeyId) {
             label: '确定',
             action: function (dialogItself) {
                 // 清除提示语
-                $("label[id^=msg-]").each(function(){
+                $("label[id^=msg-]").each(function () {
                     $(this).text("");
                 });
                 $("#msg").text("");
@@ -373,13 +419,13 @@ Params.addItem = function(dicKeyId) {
  * @param url
  * @param dialogItself
  */
-Params.saveItem = function(url, dialogItself) {
+Params.saveItem = function (url, dialogItself) {
     $.ajax({
         type: "post",
         url: url,
         data: $("#formParamsItem").serialize(),
         dataType: "json",
-        success: function(data) {
+        success: function (data) {
             if (data.result == true) {
                 BootstrapDialog.alert({
                     type: BootstrapDialog.TYPE_WARNING,
@@ -389,11 +435,11 @@ Params.saveItem = function(url, dialogItself) {
                 });
                 dialogItself.close();
                 // 刷新页面
-                Params.loadItemData(null, Params.ctxPath + Params.url + 'dictitem/list/'+ data.dicKeyId + '.html', 1);
+                Params.loadItemData(null, Params.ctxPath + Params.url + 'dictitem/list/' + data.dicKeyId + '.html', 1);
             } else {
                 if (data.errors != null) {
                     // 错误信息反馈到页面上
-                    for (var i = 0 ; i < data.errors.length; i++) {
+                    for (var i = 0; i < data.errors.length; i++) {
                         $("#msg-" + data.errors[i].field).text('  (' + data.errors[i].defaultMessage + ')');
                     }
                 } else {
@@ -407,7 +453,7 @@ Params.saveItem = function(url, dialogItself) {
 /**
  * 表格中编辑按钮
  */
-Params.editOneItem = function(obj) {
+Params.editOneItem = function (obj) {
 
     var uid = $(obj).parent().parent().attr("data-u");
     Params.editCommonItem(uid);
@@ -416,9 +462,9 @@ Params.editOneItem = function(obj) {
 /**
  * 表格头部编辑按钮，只能编辑一条记录
  */
-Params.editItem = function() {
+Params.editItem = function () {
     var arrays = [];
-    $("#data-list-item div[aria-checked='true']").each(function(){
+    $("#data-list-item div[aria-checked='true']").each(function () {
         arrays.push($(this).parent().parent().attr('data-u'));
     });
 
@@ -429,7 +475,7 @@ Params.editItem = function() {
             message: '请选择一条需要修改的数据。',
             buttonLabel: "确定"
         });
-        return ;
+        return;
     }
 
     Params.editCommonItem(arrays[0]);
@@ -439,8 +485,8 @@ Params.editItem = function() {
  * 编辑通用方法
  * @param uid 编辑的一个id
  */
-Params.editCommonItem = function(uid) {
-    var dialogInfo = Params.getHtmlInfo(Params.ctxPath + Params.url + '/dictitem/edit.html', {"id":uid});
+Params.editCommonItem = function (uid) {
+    var dialogInfo = Params.getHtmlInfo(Params.ctxPath + Params.url + '/dictitem/edit.html', {"id": uid});
     BootstrapDialog.show({
         title: '编辑字典项',
         closable: true,
@@ -452,7 +498,7 @@ Params.editCommonItem = function(uid) {
             label: '确定',
             action: function (dialogItself) {
                 // 清除提示语
-                $("label[id^=msg-]").each(function(){
+                $("label[id^=msg-]").each(function () {
                     $(this).text("");
                 });
                 $("#msg").text("");
@@ -473,9 +519,9 @@ Params.editCommonItem = function(uid) {
 /**
  * 表格头部，统一删除按钮
  */
-Params.deleteItem = function() {
+Params.deleteItem = function () {
     var arrays = [];
-    $("#data-list-item div[aria-checked='true']").each(function(){
+    $("#data-list-item div[aria-checked='true']").each(function () {
         arrays.push($(this).parent().parent().attr('data-u'));
     });
 
@@ -486,7 +532,7 @@ Params.deleteItem = function() {
             message: '请选择至少一条需要删除的数据。',
             buttonLabel: "确定"
         });
-        return ;
+        return;
     }
     var ids = arrays.join(",");
     Params.deleteCommonItem(ids);
@@ -495,7 +541,7 @@ Params.deleteItem = function() {
 /**
  * 表格中删除一条数据
  */
-Params.deleteOneItem = function(obj) {
+Params.deleteOneItem = function (obj) {
     var uid = $(obj).parent().parent().attr("data-u");
     Params.deleteCommonItem(uid);
 };
@@ -504,7 +550,7 @@ Params.deleteOneItem = function(obj) {
  * 删除通用该方法
  * @param ids 以,号分割的字符串
  */
-Params.deleteCommonItem = function(ids) {
+Params.deleteCommonItem = function (ids) {
     BootstrapDialog.confirm({
         title: '删除提示',
         message: '是否确定删除?',
@@ -519,7 +565,7 @@ Params.deleteCommonItem = function(ids) {
                 $.ajax({
                     type: "POST",
                     url: Params.ctxPath + Params.url + "/dictitem/delete.do",
-                    data: { ids: ids },
+                    data: {ids: ids},
                     dataType: "json",
                     success: function (data) {
                         if (data.result == true) {
@@ -530,7 +576,7 @@ Params.deleteCommonItem = function(ids) {
                                 buttonLabel: "确定"
                             });
                             // 刷新页面
-                            Params.loadItemData(null, Params.ctxPath + Params.url + 'dictitem/list/'+ data.dicKeyId + '.html', 1);
+                            Params.loadItemData(null, Params.ctxPath + Params.url + 'dictitem/list/' + data.dicKeyId + '.html', 1);
                         } else {
                             BootstrapDialog.alert({
                                 type: BootstrapDialog.TYPE_WARNING,
@@ -550,7 +596,7 @@ Params.deleteCommonItem = function(ids) {
  * 初始化chckbox，注意限定某个对象下的checkbox 例如 item-list
  * @constructor
  */
-Params.ItemCheckboxInit = function() {
+Params.ItemCheckboxInit = function () {
     $('#item-list input[type="checkbox"]').iCheck({
         checkboxClass: 'icheckbox_flat-blue',
         radioClass: 'iradio_flat-blue'
@@ -579,8 +625,8 @@ Params.ItemCheckboxInit = function() {
  * @param curpage 当前页
  * @returns {boolean}
  */
-Params.loadItemData = function(obj, action, curpage) {
-    var dialogInfo = Params.getHtmlInfo(action, {"curpage" : curpage});
+Params.loadItemData = function (obj, action, curpage) {
+    var dialogInfo = Params.getHtmlInfo(action, {"curpage": curpage});
     dialogInfo += "<script>Params.ItemCheckboxInit();</script>";
     $("#item-list").html(dialogInfo);
     return true;

@@ -6,18 +6,21 @@
             <div class="organizationview">
 
                 <div class="form-group">
-                    <label>隶属部门</label><label style="color: red;" id=""></label>
+                    <label>隶属部门</label><label style="color: red;" id="msg-OrganizationId"></label>
                     <select name="OrganizationId" id="actionTreeName" class="form-control"
                             onchange="AuthUser.setOptionAction(this)">
-                        <option value="${OrganizationId!}">${OrganizationName!}</option>
+                        <option value="${OrganizationId!}" style="display: none;">${OrganizationName ==
+                            ""?"请选择部门":OrganizationName}
+                        </option>
                         @for(var i = 0; i< org.~size; i++){
                         <option value="${org[i].id!}">${org[i].name!}</option>
                         @}
                     </select>
                 </div>
                 <div class="form-group">
-                    <label>所在岗位</label><label style="color: red;" id=""></label>
+                    <label>所在岗位</label><label style="color: red;" id="msg-postId"></label>
                     <select name="postId" id="postName" class="form-control">
+                        <option value="${postId!}" style="display:none;">${postName == ""?"请选择岗位":postName}</option>
                         <option value="${postId!}">${postName!}</option>
                         <!--<option value="${post[0].postId!}" selected="selected">${post[0].postName!}</option>-->
                     </select>

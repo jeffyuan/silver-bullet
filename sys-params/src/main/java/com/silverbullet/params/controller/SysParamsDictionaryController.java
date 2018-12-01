@@ -63,9 +63,20 @@ public class SysParamsDictionaryController {
         return modelAndView;
     }
 
+    @RequestMapping(value = "/check.html", method = RequestMethod.POST)
+    public String check(Model model, String id){
+//        System.out.println(id);
+        SysParamsDictionary sysParamsDictionary = sysParamsDictionaryService.getOneById(id);
+        model.addAttribute("obj",sysParamsDictionary);
+        model.addAttribute("disabled", "disabled");
+        model.addAttribute("style", "check-text");
+        return "/SysParamsDictionary/model";
+    }
+
     @RequestMapping(value = "/add.html", method = RequestMethod.POST)
     public String add(Model model) {
         model.addAttribute("obj", new SysParamsDictionary());
+        model.addAttribute("disabled", "");
         return "/SysParamsDictionary/model";
     }
 
@@ -73,7 +84,7 @@ public class SysParamsDictionaryController {
     public String edit(Model model, String id) {
         SysParamsDictionary sysParamsDictionary = sysParamsDictionaryService.getOneById(id);
         model.addAttribute("obj", sysParamsDictionary);
-
+        model.addAttribute("disabled", "");
         return "/SysParamsDictionary/model";
     }
 

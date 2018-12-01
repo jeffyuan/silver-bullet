@@ -7,12 +7,12 @@ import com.silverbullet.auth.service.ISysAuthOrganizationService;
 import com.silverbullet.auth.service.ISysAuthUserService;
 import com.silverbullet.core.validate.AddValidate;
 import com.silverbullet.utils.BaseDataResult;
+import com.silverbullet.utils.ToolUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -75,47 +75,49 @@ public class SysAuthUserController {
         return modelAndView;
     }
 
-    @RequestMapping(value = "/dictitem/list/{userId}.html", method = RequestMethod.POST)
-    public ModelAndView loadOrganizationItem(@PathVariable("userId") String userId) {
+    @RequestMapping(value = "/loadOrganizationItem.html", method = RequestMethod.POST)
+    public ModelAndView loadOrganizationItem(String userId) {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("/SysAuthUser/actionModel");
+
         BaseDataResult<SysAuthOrganization> org = sysAuthOrganizationService.getOrgSelect();
+        Map<String, Object> user = sysAuthUserService.changeOrgPost(userId);
+
         modelAndView.addObject("org", org.getResultList());
         modelAndView.addObject("userId", userId);
-        String orgName;
-        String orgId;
-        String postName;
-        String postId;
-        if (sysAuthUserService.getOneByUserId(userId).size() == 0) {
-            orgName = "";
-            orgId = "";
-        } else {
-            orgName = sysAuthUserService.getOneByUserId(userId).get(0).get("organizationName");
-            orgId = sysAuthUserService.getOneByUserId(userId).get(0).get("organizationId");
-        }
-
-        if (sysAuthUserService.getPostByUserId(userId).size() == 0) {
-            postName = "";
-            postId = "";
-        } else {
-            postName = sysAuthUserService.getPostByUserId(userId).get(0).get("postName");
-            postId = sysAuthUserService.getPostByUserId(userId).get(0).get("postId");
-        }
-
-        modelAndView.addObject("OrganizationId", orgId);
-        modelAndView.addObject("OrganizationName", orgName);
-        modelAndView.addObject("postId", postId);
-        modelAndView.addObject("postName", postName);
-
+        modelAndView.addObject("OrganizationId", user.get("orgId"));
+        modelAndView.addObject("OrganizationName", user.get("orgName"));
+        modelAndView.addObject("postId", user.get("postId"));
+        modelAndView.addObject("postName", user.get("postName"));
         return modelAndView;
+    }
+
+
+    @RequestMapping(value = "/check.html", method = RequestMethod.POST)
+    public String check(Model model, String pageName, String id) {
+        Map<String, Object> user = sysAuthUserService.changeOrgPost(id);
+        BaseDataResult<SysAuthOrganization> org = sysAuthOrganizationService.getOrgSelect();
+        SysAuthUser sysAuthUser = sysAuthUserService.getOneById(id);
+        model.addAttribute("obj", sysAuthUser);
+        model.addAttribute("org", org.getResultList());
+        model.addAttribute("OrganizationId", user.get("orgId"));
+        model.addAttribute("OrganizationName", user.get("orgName"));
+        model.addAttribute("postId", user.get("postId"));
+        model.addAttribute("postName", user.get("postName"));
+        model.addAttribute("disabled", "disabled");
+        model.addAttribute("style", "check-text");
+        return "/SysAuthUser/add";
     }
 
     @RequestMapping(value = "/add.html", method = RequestMethod.POST)
     public String add(Model model) {
         BaseDataResult<SysAuthOrganization> org = sysAuthOrganizationService.getOrgSelect();
-
         model.addAttribute("obj", new SysAuthUser());
         model.addAttribute("org", org.getResultList());
+        model.addAttribute("OrganizationName", "请选择部门");
+        model.addAttribute("postName", "请选择岗位");
+        model.addAttribute("disabled", "");
+        model.addAttribute("style", "");
         return "/SysAuthUser/add";
     }
 
@@ -125,43 +127,25 @@ public class SysAuthUserController {
         BaseDataResult<SysAuthOrganization> org = sysAuthOrganizationService.getOrgSelect();
         List<Map<String, String>> sysAuthUserOrg = sysAuthUserService.getOneByUserId(id);
         List<Map<String, String>> sysAuthUserPost = sysAuthUserService.getPostByUserId(id);
+        Map<String, Object> user = sysAuthUserService.changeOrgPost(id);
+
+        if (sysAuthUserOrg.size() != 0) {
+            model.addAttribute("UorgId", sysAuthUserOrg.get(0).get("id"));
+        }
+        if (sysAuthUserPost.size() != 0) {
+            model.addAttribute("UpostId", sysAuthUserPost.get(0).get("id"));
+        }
+
         model.addAttribute("obj", sysAuthUser);
         model.addAttribute("userId", id);
         model.addAttribute("org", org.getResultList());
+        model.addAttribute("OrganizationId", user.get("orgId"));
+        model.addAttribute("OrganizationName", user.get("orgName"));
+        model.addAttribute("postId", user.get("postId"));
+        model.addAttribute("postName", user.get("postName"));
+        model.addAttribute("disabled", "");
+        model.addAttribute("style", "");
 
-        String orgName;
-        String orgId;
-        String postName;
-        String postId;
-        if (sysAuthUserService.getOneByUserId(id).size() == 0) {
-            orgName = "请选择部门";
-            orgId = "";
-        } else {
-            orgName = sysAuthUserService.getOneByUserId(id).get(0).get("organizationName");
-            orgId = sysAuthUserService.getOneByUserId(id).get(0).get("organizationId");
-        }
-
-        if (sysAuthUserService.getPostByUserId(id).size() == 0) {
-            postName = "请选择岗位";
-            postId = "";
-        } else {
-            postName = sysAuthUserService.getPostByUserId(id).get(0).get("postName");
-            postId = sysAuthUserService.getPostByUserId(id).get(0).get("postId");
-        }
-        String UorgId = "";
-        String UpostId = "";
-        if (sysAuthUserOrg.size() != 0) {
-            UorgId = sysAuthUserOrg.get(0).get("id");
-        }
-        if (sysAuthUserPost.size() != 0) {
-            UpostId = sysAuthUserPost.get(0).get("id");
-        }
-        model.addAttribute("OrganizationId", orgId);
-        model.addAttribute("OrganizationName", orgName);
-        model.addAttribute("UorgId", UorgId);
-        model.addAttribute("UpostId", UpostId);
-        model.addAttribute("postId", postId);
-        model.addAttribute("postName", postName);
         return "/SysAuthUser/add";
     }
 
@@ -180,39 +164,33 @@ public class SysAuthUserController {
 
     @RequestMapping(value = "/save.do", method = RequestMethod.POST)
     @ResponseBody
-    public Map<String, Object> save(@Validated({AddValidate.class}) SysAuthUser sysAuthUser, String postId, String OrganizationId,
-                                    String UorgId, String UpostId, BindingResult result) {
+    public Map<String, Object> save(@Validated({AddValidate.class}) SysAuthUser sysAuthUser, BindingResult result, String postId, String OrganizationId,
+                                    String UorgId, String UpostId) {
         Map<String, Object> mapRet = new HashMap<String, Object>();
-        if (postId.equals("disabled selected") && OrganizationId != null) {
-            mapRet.put("result", false);
-            mapRet.put("message", "请选择正确的岗位！");
-            return mapRet;
-        }
         if (result.hasErrors()) {
             mapRet.put("result", false);
             mapRet.put("errors", result.getFieldErrors());
             return mapRet;
         }
-        if ("".equals(sysAuthUser.getName()) || sysAuthUser.getName() == null) {
+        if (postId.equals("disabled selected") && OrganizationId != null) {
             mapRet.put("result", false);
-            mapRet.put("message", "名称不能为空！");
+            mapRet.put("message", "请选择正确的岗位！");
+            mapRet.put("address", "postId");
             return mapRet;
         }
-        if ("".equals(sysAuthUser.getUsername()) || sysAuthUser.getUsername() == null) {
-            mapRet.put("result", false);
-            mapRet.put("message", "用户名不能为空！");
-            return mapRet;
-        }
+
         boolean bTrue = false;
+        boolean aTrue = false;
         String message = "";
+
         if (sysAuthUser.getId().isEmpty()) {
             bTrue = sysAuthUserService.Insert(sysAuthUser, postId, OrganizationId);
             message = bTrue ? "添加成功！" : "添加失败！";
         } else if (sysAuthUserService.getOneByUserId(sysAuthUser.getId()).isEmpty()) {
-            String org_id = sysAuthUserService.getUserOrgId(sysAuthUser.getId());
-            String post_id = sysAuthUserService.getUserPostId(sysAuthUser.getId());
-            bTrue = sysAuthUserService.updatetUserOrgPost(org_id, post_id, sysAuthUser.getId(), OrganizationId, postId);
-            message = bTrue ? "添加成功！" : "添加失败！";
+            Map<String, String> userOrgPost = sysAuthUserService.getUserOrgPost(sysAuthUser.getId());
+            aTrue = sysAuthUserService.updatetUserOrgPost(userOrgPost.get("org_id"), userOrgPost.get("post_id"), sysAuthUser.getId(), OrganizationId, postId);
+            bTrue = sysAuthUserService.Update(sysAuthUser, postId, OrganizationId, UorgId, UpostId);
+            message = (bTrue && aTrue) ? "修改成功！" : "修改失败！";
 
         } else {
             bTrue = sysAuthUserService.Update(sysAuthUser, postId, OrganizationId, UorgId, UpostId);
@@ -239,8 +217,15 @@ public class SysAuthUserController {
             return mapRet;
         }
         if (sysAuthUserService.getOneByUserId(UserId).isEmpty()) {
-            bTrue = sysAuthUserService.insertUserOrgPost(UserId, OrganizationId, postId);
-            message = bTrue ? "添加成功！" : "添加失败！";
+            Map<String, String> userOrgPost = sysAuthUserService.getUserOrgPost(UserId);
+            if (userOrgPost.isEmpty()) {
+                bTrue = sysAuthUserService.insertUserOrgPost(UserId, OrganizationId, postId);
+                message = bTrue ? "添加成功！" : "添加失败！";
+
+            } else {
+                bTrue = sysAuthUserService.updatetUserOrgPost(userOrgPost.get("org_id"), userOrgPost.get("post_id"), UserId, OrganizationId, postId);
+                message = bTrue ? "修改成功！" : "修改失败！";
+            }
         } else {
             String org_id = sysAuthUserService.getOneByUserId(UserId).get(0).get("id");
             String post_id = sysAuthUserService.getPostByUserId(UserId).get(0).get("id");
@@ -268,6 +253,41 @@ public class SysAuthUserController {
     @ResponseBody
     public List<Map<String, Object>> findPostName(String id) {
         return sysAuthUserService.findPostNameByActionTreeId(id);
+    }
+
+    @RequestMapping(value = "/changePassword.do", method = RequestMethod.POST)
+    @ResponseBody
+    public Map<String, String> changePassword(String id, String newPassword, String checkPassword) {
+        Map<String, String> mapRet = new HashMap<String, String>();
+        if (newPassword.isEmpty()) {
+            mapRet.put("result", "false");
+            mapRet.put("message", "请输入修改密码");
+            return mapRet;
+        }
+        if (newPassword.equals(checkPassword)) {
+            String passwordMD5 = ToolUtil.getPassword(10, "11", newPassword, "MD5");
+            sysAuthUserService.changePassword(id, passwordMD5);
+            mapRet.put("result", "true");
+            mapRet.put("message", "修改成功");
+        } else {
+            mapRet.put("result", "false");
+            mapRet.put("message", "两次密码不一致");
+        }
+        return mapRet;
+    }
+
+
+    @RequestMapping(value = "/resetPassword.do", method = RequestMethod.POST)
+    @ResponseBody
+    public Map<String, Object> resetPassword(String ids) {
+        Map<String, Object> mapRet = new HashMap<String, Object>();
+        if (ids == null || ids.isEmpty()) {
+            mapRet.put("result", false);
+            return mapRet;
+        }
+        boolean bRet = sysAuthUserService.resetPassword(ids);
+        mapRet.put("result", bRet);
+        return mapRet;
     }
 
 }

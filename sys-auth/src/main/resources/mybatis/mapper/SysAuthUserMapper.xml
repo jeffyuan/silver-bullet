@@ -269,9 +269,23 @@
     from sys_auth_post
     where organization_id = #{id}
   </select>
+    <select id="getUserPassword" resultType="java.lang.String">
+        select password from sys_auth_user where id = #{id,jdbcType=VARCHAR}
+    </select>
     <update id="updateEditTimeById">
         update sys_auth_user
         set modify_time = #{modifyTime,jdbcType=TIMESTAMP}
         where id = #{UserId,jdbcType=VARCHAR}
+    </update>
+    <update id="resetPassword">
+        update sys_auth_user
+        set password = #{password,jdbcType=VARCHAR}
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+    <update id="changePassword">
+        update
+        sys_auth_user
+        set password = #{newPassword,jdbcType=VARCHAR}
+        where id = #{id,jdbcType=VARCHAR}
     </update>
 </mapper>

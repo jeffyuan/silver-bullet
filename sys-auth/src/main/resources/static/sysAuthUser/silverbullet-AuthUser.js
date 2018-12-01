@@ -6,6 +6,20 @@ var AuthUser = {
     'datas': {},
 };
 AuthUser.ctxPath = $(".logo").attr('href');
+/**
+ * 密码验证
+ * @type {string}
+ */
+AuthUser.passwordVerify = "<form id=\"formParam\" class=\"m-t\" role=\"form\" method=\"post\"><div class=\"form-group\">\n" +
+    "            <label>当前登录用户密码：</label>&nbsp;<label id=\"msg\" style=\"color: red;\"></label><label style=\"color: red;\" id=\"password-always-checkbox\"></label>\n" +
+    "            <input type=\"password\" name=\"password\" class=\"form-control\" value=\"\">\n" +
+    "        </div></form>"
+AuthUser.passwordChange = "<form id=\"formParams\" class=\"m-t\" role=\"form\" method=\"post\"><div class=\"form-group\">\n" +
+    "            <label>新密码：</label><label style=\"color: red;\" id=\"password\"></label>\n" +
+    "            <input type=\"password\" name=\"newPassword\" class=\"form-control\" value=\"\">\n" +
+    "            <label>确认密码：</label>&nbsp;<label id=\"msg\" style=\"color: red;\"></label><label style=\"color: red;\" id=\"passwordCheck\"></label>\n" +
+    "            <input type=\"password\" name=\"checkPassword\" class=\"form-control\" value=\"\">\n" +
+    "        </div></form>"
 
 /**
  * 获取编辑和保存的子html内容
@@ -44,14 +58,12 @@ AuthUser.loadData = function (obj, action, curpage) {
 };
 
 
-
 /**
  * 编辑和创建保存方法
  * @param url
  * @param dialogItself
  */
 AuthUser.save = function (url, dialogItself) {
-    console.log($("#formParams").serialize().valueOf("OrganizationId"));
     $.ajax({
         type: "post",
         url: url,
@@ -76,13 +88,59 @@ AuthUser.save = function (url, dialogItself) {
                         $("#msg-" + data.errors[i].field).text('  (' + data.errors[i].defaultMessage + ')');
                     }
                 } else {
-                    $("#msg").text(data.message);
+                    $("#msg-"+data.address).text(data.message);
                 }
             }
         }
     })
 };
 
+
+/**
+ * 查看一条数据
+ *
+ */
+AuthUser.check = function() {
+    var arrays = [];
+    $("div[aria-checked='true']").each(function(){
+        arrays.push($(this).parent().parent().attr('data-u'));
+    });
+    if (arrays.length != 1) {
+        BootstrapDialog.alert({
+            type: BootstrapDialog.TYPE_WARNING,
+            title: '提示',
+            message: '请选择一条需要查看的数据。',
+            buttonLabel: "确定"
+        });
+        return ;
+    }
+    AuthUser.checkCommon(arrays[0]);
+};
+
+/**
+ * 查看通用方法
+ * @param uid
+ */
+AuthUser.checkCommon = function(uid){
+    var dialogInfo = AuthUser.getHtmlInfo(AuthUser.ctxPath + AuthUser.url + 'check.html', {id: uid});
+    BootstrapDialog.show({
+        title: '查看用户信息',
+        type: BootstrapDialog.TYPE_DEFAULT,
+        closable: true,
+        closeByBackdrop: false,
+        closeByKeyboard: false,
+        size: BootstrapDialog.SIZE_NORMAL,
+        message: dialogInfo,
+        buttons: [{
+            icon: 'fa fa-close',
+            label: '关闭',
+            cssClass: 'btn-danger',
+            action: function (dialogItself) {
+                dialogItself.close();
+            }
+        }]
+    });
+};
 
 /**
  * 表格头部添加方法
@@ -139,7 +197,6 @@ AuthUser.edit = function () {
     $("#data-list div[aria-checked='true']").each(function () {
         arrays.push($(this).parent().parent().attr('data-u'));
     });
-
 
 
     if (arrays.length != 1) {
@@ -290,7 +347,7 @@ AuthUser.setAction = function () {
         });
         return;
     }
-    var dialogInfo = AuthUser.getHtmlInfo(AuthUser.ctxPath + AuthUser.url + 'dictitem/list/' + arrays[0] + '.html',{"curPage": 5});
+    var dialogInfo = AuthUser.getHtmlInfo(AuthUser.ctxPath + AuthUser.url + 'loadOrganizationItem.html', {userId: arrays[0]});
 
     BootstrapDialog.show({
         title: '设置字典项',
@@ -413,65 +470,6 @@ AuthUser.checkboxInit = function () {
 };
 
 
-/**
- * 隶属部门下拉菜单填充
- */
-// AuthUser.findActionTreeName = function () {
-//     $.ajax({
-//         type: 'post',
-//         url: AuthUser.ctxPath + AuthUser.url + 'findActionTreeName',
-//         data: {},
-//         dataType: "json",
-//         success: function (data) {
-//             console.log(data)
-//             var list = data;
-//             var s;
-//             if (list.length >= 0) {
-//                 for (var i = 0; i < list.length; i++) {
-//                     s += "<option value='" + list[i]['id'] + "'>" + list[i]['name'] + "</option>";
-//                 }
-//                 $("#actionTreeName").append(s);
-//             } else {
-//                 $("#actionTreeName").append(s);
-//             }
-//         }
-//     });
-// }
-
-
-// AuthUser.findPostByActionTreeName = function () {
-//     var ActionTreeName = $(this).select("selected").val();
-//     console.log(ActionTreeName);
-//     $("#actionTreeName").on("change", function () {
-//         var ActionTreeName = $(this).val();
-//         $.ajax({
-//             type: 'post',
-//             url: AuthUser.ctxPath + AuthUser.url + 'findPostName',
-//             data: {"id": ActionTreeName},
-//             dataType: "json",
-//             success: function (data) {
-//                 if (data === null) {
-//                     $("#postName").empty();
-//                 } else {
-//                     var list = data;
-//                     var s = "<option value='disabled selected' style='display: none;'></option>";
-//                     if (list.length >= 0) {
-//                         $("#postName").empty();
-//                         for (var i = 0; i < list.length; i++) {
-//                             s += "<option value='" + list[i]['id'] + "'>" + list[i]['name'] + "</option>";
-//                         }
-//
-//                         $("#postName").append(s);
-//                     } else {
-//                         $("#postName").append(s);
-//                     }
-//                 }
-//             }
-//         });
-//     });
-// };
-
-
 AuthUser.disable = function ($this) {
     var checkOrgId = $($this).val();
     var option = "option[value='" + checkOrgId + "']";
@@ -483,12 +481,185 @@ $(function () {
         AuthUser.disable(this);
     });
     AuthUser.checkboxInit();
-    // AuthUser.findPostByActionTreeName();
 });
 
+AuthUser.resetPassword = function () {
+    var arrays = [];
+    $("#data-list div[aria-checked='true']").each(function () {
+        arrays.push($(this).parent().parent().attr('data-u'));
+    });
+    if (arrays.length == 0) {
+        BootstrapDialog.alert({
+            type: BootstrapDialog.TYPE_WARNING,
+            title: '提示',
+            message: '请选择至少一条需要重置密码的数据。',
+            buttonLabel: "确定"
+        });
+        return;
+    }
+    var ids = arrays.join(",");
+    BootstrapDialog.confirm({
+        title: '重置密码提示',
+        message: '是否确定重置密码?',
+        type: BootstrapDialog.TYPE_WARNING,
+        closable: true,
+        draggable: true,
+        btnCancelLabel: '取消',
+        btnOKLabel: '重置',
+        btnOKClass: 'btn-warning',
+        callback: function (result) {
+            if (result) {
+                $.ajax({
+                    type: "POST",
+                    url: AuthUser.ctxPath + AuthUser.url + "resetPassword.do",
+                    data: {ids: ids},
+                    dataType: "json",
+                    success: function (data) {
+                        if (data.result == true) {
+                            BootstrapDialog.alert({
+                                type: BootstrapDialog.TYPE_WARNING,
+                                title: '提示',
+                                message: "重置成功！",
+                                buttonLabel: "确定"
+                            });
+                            // 刷新页面
+                            AuthUser.loadData(null, AuthUser.ctxPath + AuthUser.url + "list.html", 1);
+                        } else {
+                            BootstrapDialog.alert({
+                                type: BootstrapDialog.TYPE_WARNING,
+                                title: '提示',
+                                message: data.message,
+                                buttonLabel: "确定"
+                            });
+                        }
 
-// $(function () {
-//     AuthUser.checkboxInit();
-// })
+                    },
+                    error: function () {
+                        alert("asd")
+                    }
+                });
+            }
+        }
+    });
+
+};
+
+
+AuthUser.changePassword = function () {
+    var arrays = [];
+    $("#data-list div[aria-checked='true']").each(function () {
+        arrays.push($(this).parent().parent().attr('data-u'));
+    });
+    if (arrays.length != 1) {
+        BootstrapDialog.alert({
+            type: BootstrapDialog.TYPE_WARNING,
+            title: '提示',
+            message: '请选择一条数据。',
+            buttonLabel: "确定"
+        });
+        return;
+    } else {
+        AuthUser.verifyPassword(arrays[0]);
+    }
+
+};
+
+AuthUser.verifyPassword = function (id) {
+    BootstrapDialog.show({
+            title: '验证当前用户密码',
+            type: BootstrapDialog.TYPE_DEFAULT,
+            closable: true,
+            closeByBackdrop: false,
+            closeByKeyboard: false,
+            size: BootstrapDialog.SIZE_SMALL,
+            message: AuthUser.passwordVerify,
+            buttons: [{
+                label: '确定',
+                action: function (dialogItself) {
+                    $.ajax({
+                        type: "POST",
+                        url: AuthUser.ctxPath + "verifyPassword.do",
+                        data: $("#formParam").serialize(),
+                        dataType: "json",
+                        success: function (data) {
+                            if (data.result == "true") {
+                                dialogItself.close();
+                                AuthUser.setPassword(id);
+                            } else {
+                                $("#msg").text(data.message);
+                            }
+
+
+                        }
+                    })
+                }
+            },
+                {
+                    label: '关闭',
+                    action:
+
+                        function (dialogItself) {
+                            dialogItself.close();
+                        }
+                }
+            ]
+        }
+    );
+};
+AuthUser.setPassword = function (id) {
+    BootstrapDialog.show({
+            title: '更改用户密码',
+            type: BootstrapDialog.TYPE_DEFAULT,
+            closable: true,
+            closeByBackdrop: false,
+            closeByKeyboard: false,
+            size: BootstrapDialog.SIZE_SMALL,
+            message: AuthUser.passwordChange,
+            buttons: [{
+                label: '确定',
+                action: function (dialogItself) {
+                    $.ajax({
+                        type: "POST",
+                        url: AuthUser.ctxPath + AuthUser.url + "changePassword.do",
+                        data: "id="+id+"&"+$("#formParams").serialize(),
+                        dataType: "json",
+                        success: function (data) {
+                            console.log($("#formParams").serialize())
+                            if (data.result == "true") {
+                                BootstrapDialog.alert({
+                                    type: BootstrapDialog.TYPE_WARNING,
+                                    title: '提示',
+                                    message: "重置成功！",
+                                    buttonLabel: "确定"
+                                });
+                                dialogItself.close();
+                                // 刷新页面
+                                AuthUser.loadData(null, AuthUser.ctxPath + AuthUser.url + "list.html", 1);
+                            } else {
+                                $("#msg").text(data.message);
+                            }
+
+
+                        }
+                    })
+                }
+            },
+                {
+                    label: '关闭',
+                    action:
+
+                        function (dialogItself) {
+                            dialogItself.close();
+                        }
+                }
+            ]
+        }
+    );
+}
+
+
+
+
+
 
 

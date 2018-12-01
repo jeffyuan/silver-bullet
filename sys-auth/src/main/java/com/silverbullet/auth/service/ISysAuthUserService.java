@@ -43,4 +43,13 @@ public interface ISysAuthUserService {
 
     public String getUserPostId(String UserId);
 
+    public boolean resetPassword(String id);
+
+    public String getUserPassword(String id);
+
+    public boolean changePassword(String id,String newPassword);
+
+    public Map<String, Object> changeOrgPost(String userId);
+
+    public Map<String, String> getUserOrgPost(String id);
 }

@@ -795,12 +795,22 @@ i,span,button{
     min-width: 45px;
 }
 
-.search_gp_span_small{
-    display: inline-block;
-    width: 35%;
-    text-align: right;
-    min-width: 45px;
-}
+/*<<<<<<< Updated upstream*/
+/*.search_gp_span_small{*/
+    /*display: inline-block;*/
+    /*width: 35%;*/
+    /*text-align: right;*/
+    /*min-width: 45px;*/
+/*=======*/
+/*.check-text{*/
+    /*cursor: default!important;*/
+    /*border-color: #fff;*/
+    /*resize:none;*/
+
+
+
+/*>>>>>>> Stashed changes*/
+/*}*/
 
 .search_gp_span_big{
     display: inline-block;
