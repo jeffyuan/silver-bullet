@@ -1,6 +1,7 @@
 /**
  * Created by GESOFT on 2018/3/9.
  */
+var g_rsa_pubkey = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCe/IKom0+YYH/8gW4cDlkwsusFZWF8Z4HR2fG6t+YGyMh3YjKAS/nrCPU3YXG1kGl8uxnA7mEopSf9YiWZNOXmk0VtFx0eO3i6N/hzAMpEmjXdZYd1evEglbAvRH0nTVPhndSYEzECaq1O0HLodHadCkv1bODv4KLVxgOhXV8tEwIDAQAB";
 
 // loadMenu();
 jQuery(document).ready(function(){

@@ -19,7 +19,7 @@
 </head>
 
 <body class="text-center" style="overflow: hidden;">
-<form class="form-signin" action="${ctxPath}/login" method="post" id="form">
+<form class="form-signin" action="${ctxPath}/login" method="post" id="form" onsubmit="return encryptData();">
     <div class="loginTitle">
         <span class="title">欢迎使用Silver Bullet</span>
     </div>
@@ -29,24 +29,71 @@
         <input type="password" id="inputPassword" name="password" class="form-control" placeholder="密码" required>
         <div style="width:100%">
             <div class="custom-control custom-checkbox" style="display: inline-block; width:auto;">
-                <input type="checkbox" name="remember" class="custom-control-input" value="remember-me" id="remember">
+                <input type="checkbox" name="remember" class="custom-control-input " value="remember-me" id="remember">
                 <label class="custom-control-label" for="remember">记住我</label>
             </div>
             <h1 class="h5 mb-3 font-weight-normal text-danger">${message!}</h1>
         </div>
-        <button class="btn btn-lg btn-info btn-block" type="submit">登录</button>
+        <button class="btn btn-lg btn-info btn-block" type="submit" >登录</button>
     </div>
 </form>
 
 @include("/fragments/footer.html"){}
 
 <script src="${ctxPath}/static/jquery/jquery-1.9.1.min.js"></script>
+<script src="${ctxPath}/static/silverbullet/amain.js"></script>
+<script src="${ctxPath}/static/silverbullet/jsencrypt.min.js"></script>
 <script>
     $("#form").children().hide();
     $("#form").addClass("animated bounceInUp");
         $("#form").children().each(function(k,v){
                 $(v).delay("slow").fadeIn(500);
         });
+
+    function encryptData() {
+
+        //实例化加密对象
+        var encrypt = new JSEncrypt();
+        //设置加密公钥
+        encrypt.setPublicKey(g_rsa_pubkey);
+
+        var loginForm = document.forms[0];
+
+        loginForm.username.value = encrypt.encrypt(loginForm.username.value);
+        loginForm.password.value = encrypt.encrypt(loginForm.password.value);
+        loginForm.remember.value = encrypt.encrypt(loginForm.remember.value);
+
+        return true;
+    }
+    
+   /* function login() {
+        //实例化加密对象
+        var encrypt = new JSEncrypt();
+        //设置加密公钥
+        encrypt.setPublicKey(g_rsa_pubkey);
+
+        var username = encrypt.encrypt($("#inputEmail").val());
+        var password = encrypt.encrypt($("#inputPassword").val());
+        var remember = encrypt.encrypt($("#remember").val());
+
+        console.log(username);
+        console.log(password);
+        console.log(remember);
+
+        $.ajax({
+                url:"${ctxPath}/login",
+                type:"post",
+                headers: {"encode-method-name":"rsa"},
+                data:{username:username, password: password, remember: remember},
+                success:function(data){
+                    console.log(data);
+                },
+                error:function(e){
+                    alert("错误！！");
+                }
+          });
+    }*/
+
 </script>
 </body>
 </html>

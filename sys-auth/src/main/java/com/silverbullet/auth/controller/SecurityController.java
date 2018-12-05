@@ -1,6 +1,8 @@
 package com.silverbullet.auth.controller;
 
 import com.silverbullet.core.pojo.UserInfo;
+import com.silverbullet.security.RequestDecrypt;
+import com.silverbullet.security.SecurityMethod;
 import com.silverbullet.utils.ToolUtil;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
@@ -11,6 +13,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -30,6 +33,7 @@ public class SecurityController {
         model.addAttribute("user", new UserInfo());
         return "/login";
     }
+
     @RequestMapping(value="/login",method= RequestMethod.POST)
     public String login(@Valid UserInfo user, BindingResult bindingResult, RedirectAttributes redirectAttributes,
                         HttpServletRequest httpServletRequest){
@@ -37,6 +41,7 @@ public class SecurityController {
             return "login";
         }
 
+        // 如果MyRealm.doGetAuthenticationInfo()验证失败了，从下面重新获取一下原因，返回界面
         String username = user.getUsername();
         UsernamePasswordToken token = new UsernamePasswordToken(user.getUsername(), user.getPassword());
         token.setRememberMe(user.getRemember());
@@ -68,6 +73,7 @@ public class SecurityController {
             ae.printStackTrace();
             redirectAttributes.addFlashAttribute("message", "用户名或密码不正确");
         }
+
         //验证是否登录成功
         if(currentUser.isAuthenticated()){
             logger.info("用户[" + username + "]登录认证通过(这里可以进行一些认证通过后的一些系统参数初始化操作)");
