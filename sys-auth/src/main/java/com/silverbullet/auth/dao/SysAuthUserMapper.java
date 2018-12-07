@@ -9,7 +9,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-public interface SysAuthUserMapper extends CrudRepository<SysAuthUser, String>{
+public interface SysAuthUserMapper extends CrudRepository<SysAuthUser, Integer>{
     SysAuthUser selectByUserName(String userName);
     List<SysAuthActionTree> findLists(SysAuthActionTree sysAuthActionTree);
     List<Map<String, Object>>findPostNameByActionTreeId(String id);
@@ -17,4 +17,5 @@ public interface SysAuthUserMapper extends CrudRepository<SysAuthUser, String>{
     int resetPassword(@Param("id") String id,@Param("password") String password);
     String getUserPassword(String id);
     boolean changePassword(@Param("id")String id,@Param("newPassword") String newPassword);
+    Integer getUserId(Date time);
 }

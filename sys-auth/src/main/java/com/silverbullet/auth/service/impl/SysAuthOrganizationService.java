@@ -2,15 +2,11 @@ package com.silverbullet.auth.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.silverbullet.auth.dao.SysAuthOrganizationMapper;
-import com.silverbullet.auth.domain.SysAuthAction;
-import com.silverbullet.auth.domain.SysAuthActionTree;
 import com.silverbullet.auth.domain.SysAuthOrganization;
-import com.silverbullet.auth.domain.SysAuthUser;
 import com.silverbullet.auth.service.ISysAuthOrganizationService;
 import com.silverbullet.core.pojo.UserInfo;
 import com.silverbullet.utils.BaseDataResult;
 import com.silverbullet.utils.ToolUtil;
-import com.silverbullet.utils.TreeNode1;
 import org.apache.shiro.SecurityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,8 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Calendar;
-import java.util.List;
-import java.util.Map;
 
 /**
  * 组织机构管理 service接口
@@ -67,7 +61,7 @@ public class SysAuthOrganizationService implements ISysAuthOrganizationService {
             }
             UserInfo userInfo = (UserInfo) SecurityUtils.getSubject().getPrincipal();
             sysAuthUser.setModifyTime(Calendar.getInstance().getTime());
-            sysAuthUser.setModifyUser(userInfo.getName());
+            sysAuthUser.setModifyUser(userInfo.getId());
             sysAuthUser.setCreateUser(sysAuthAction1.getCreateUser());
             sysAuthUser.setCreateTime(sysAuthAction1.getCreateTime());
             sysAuthUser.setState(sysAuthAction1.getState());
@@ -103,10 +97,11 @@ public class SysAuthOrganizationService implements ISysAuthOrganizationService {
             UserInfo userInfo = (UserInfo) SecurityUtils.getSubject().getPrincipal();
             sysAuthOrganization.setId(ToolUtil.getUUID());
             sysAuthOrganization.setCreateTime(Calendar.getInstance().getTime());
-            sysAuthOrganization.setCreateUser(userInfo.getName());
+            sysAuthOrganization.setCreateUser(userInfo.getId());
             sysAuthOrganization.setModifyTime(Calendar.getInstance().getTime());
-            sysAuthOrganization.setModifyUser(userInfo.getName());
+            sysAuthOrganization.setModifyUser(userInfo.getId());
             sysAuthOrganization.setState("1");
+            sysAuthOrganization.setOrganizationType("1");
             if(sysAuthOrganization.getParentId() == "NONE"){
                 sysAuthOrganization.setPath(sysAuthOrganization.getId());
             }else{

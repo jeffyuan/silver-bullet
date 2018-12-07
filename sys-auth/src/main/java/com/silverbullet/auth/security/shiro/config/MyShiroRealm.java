@@ -8,6 +8,7 @@ import com.silverbullet.auth.service.ISysAuthPostService;
 import com.silverbullet.auth.service.ISysAuthUserService;
 import com.silverbullet.auth.sysconfig.SysDictionary;
 import com.silverbullet.core.pojo.UserInfo;
+import com.silverbullet.utils.ToolUtil;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
@@ -49,7 +50,7 @@ public class MyShiroRealm extends AuthorizingRealm {
         authorizationInfo.addRole(SysDictionary.getRoleNo(userInfo.getUserType()));
 
         // 获取岗位
-        List<SysAuthPost> userPosts = iSysAuthPostService.getPostList(userInfo.getId());
+        List<SysAuthPost> userPosts = iSysAuthPostService.getPostList(ToolUtil.toString(userInfo.getId()));
         for(SysAuthPost role:userPosts){
             List<SysAuthAction> listActions = iSysAuthActionService.getPostActionList(role.getId());
             // 获取功能权限

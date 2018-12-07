@@ -91,6 +91,7 @@ public class SysParamsDictionaryController {
     @RequestMapping(value = "/delete.do", method = RequestMethod.POST)
     @ResponseBody
     public Map<String, Object> delete(String ids) {
+        System.out.println(ids);
         Map<String,Object> mapRet = new HashMap<String, Object>();
         if (ids == null || ids.isEmpty()) {
             mapRet.put("result", false);

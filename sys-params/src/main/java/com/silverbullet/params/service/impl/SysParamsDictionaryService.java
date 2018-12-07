@@ -69,7 +69,7 @@ public class SysParamsDictionaryService implements ISysParamsDictionaryService {
             sysParamsDictionaryNew.setComments(sysParamsDictionary.getComments());
             sysParamsDictionaryNew.setType(sysParamsDictionary.getType());
             sysParamsDictionaryNew.setModifyUsername(userInfo.getUsername());
-            sysParamsDictionaryNew.setModifyUser(userInfo.getName());
+            sysParamsDictionaryNew.setModifyUser(userInfo.getId());
             sysParamsDictionaryNew.setModifyTime(Calendar.getInstance().getTime());
 
 
@@ -104,9 +104,9 @@ public class SysParamsDictionaryService implements ISysParamsDictionaryService {
             sysParamsDictionary.setId(ToolUtil.getUUID());
             sysParamsDictionary.setCreateTime(Calendar.getInstance().getTime());
             sysParamsDictionary.setModifyTime(sysParamsDictionary.getCreateTime());
-            sysParamsDictionary.setCreateUser(userInfo.getName());
+            sysParamsDictionary.setCreateUser(userInfo.getId());
             sysParamsDictionary.setCreateUsername(userInfo.getUsername());
-            sysParamsDictionary.setModifyUser(userInfo.getName());
+            sysParamsDictionary.setModifyUser(userInfo.getId());
             sysParamsDictionary.setModifyUsername(userInfo.getUsername());
 
             return sysParamsDictionaryMapper.insert(sysParamsDictionary) == 1 ? true : false;
@@ -150,9 +150,9 @@ public class SysParamsDictionaryService implements ISysParamsDictionaryService {
             sysParamsDictionaryItem.setId(ToolUtil.getUUID());
             sysParamsDictionaryItem.setCreateTime(Calendar.getInstance().getTime());
             sysParamsDictionaryItem.setModifyTime(sysParamsDictionaryItem.getCreateTime());
-            sysParamsDictionaryItem.setCreateUser(userInfo.getName());
+            sysParamsDictionaryItem.setCreateUser(userInfo.getId());
             sysParamsDictionaryItem.setCreateUsername(userInfo.getUsername());
-            sysParamsDictionaryItem.setModifyUser(userInfo.getName());
+            sysParamsDictionaryItem.setModifyUser(userInfo.getId());
             sysParamsDictionaryItem.setModifyUsername(userInfo.getUsername());
             sysParamsDictionaryItem.setPath(sysParamsDictionaryItem.getId());
 
@@ -187,7 +187,7 @@ public class SysParamsDictionaryService implements ISysParamsDictionaryService {
             sysParamsDictionaryItemNew.setSort(sysParamsDictionaryItem.getSort());
 
             sysParamsDictionaryItemNew.setModifyUsername(userInfo.getUsername());
-            sysParamsDictionaryItemNew.setModifyUser(userInfo.getName());
+            sysParamsDictionaryItemNew.setModifyUser(userInfo.getId());
             sysParamsDictionaryItemNew.setModifyTime(Calendar.getInstance().getTime());
 
 

@@ -81,7 +81,7 @@ public class AmainController {
     public Map<String, String> verifyPassword(String password) {
         Map<String, String> mapRet = new HashMap<String, String>();
         UserInfo userInfo = (UserInfo) SecurityUtils.getSubject().getPrincipal();
-        String userPassword = userActionService.getUserPassword(userInfo.getId());
+        String userPassword = userActionService.getUserPassword(ToolUtil.toString(userInfo.getId()));
         String passwordMD5 = ToolUtil.getPassword(10, "11", password, "MD5");
         if (userPassword.equals(passwordMD5)){
             mapRet.put("result","true");

@@ -3,7 +3,6 @@ package com.silverbullet.auth.service.impl;
 import com.github.pagehelper.PageHelper;
 import com.silverbullet.auth.dao.SysAuthActionMapper;
 import com.silverbullet.auth.domain.SysAuthAction;
-import com.silverbullet.auth.domain.SysAuthUser;
 import com.silverbullet.auth.service.ISysAuthActionService;
 import com.silverbullet.core.pojo.UserInfo;
 import com.silverbullet.utils.BaseDataResult;
@@ -66,7 +65,7 @@ public class SysAuthActionService implements ISysAuthActionService {
             }
             UserInfo userInfo = (UserInfo) SecurityUtils.getSubject().getPrincipal();
             sysAuthAction.setModifyTime(Calendar.getInstance().getTime());
-            sysAuthAction.setModifyUser(userInfo.getName());
+            sysAuthAction.setModifyUser(userInfo.getId());
             sysAuthAction.setCreateUser(sysAuthAction1.getCreateUser());
             sysAuthAction.setCreateTime(sysAuthAction1.getCreateTime());
             sysAuthAction.setState(sysAuthAction1.getState());
@@ -101,10 +100,10 @@ public class SysAuthActionService implements ISysAuthActionService {
             UserInfo userInfo = (UserInfo) SecurityUtils.getSubject().getPrincipal();
 
             sysAuthAction.setId(ToolUtil.getUUID());
-            sysAuthAction.setCreateUser(userInfo.getName());
+            sysAuthAction.setCreateUser(userInfo.getId());
             sysAuthAction.setCreateTime(Calendar.getInstance().getTime());
             sysAuthAction.setModifyTime(Calendar.getInstance().getTime());
-            sysAuthAction.setModifyUser(userInfo.getName());
+            sysAuthAction.setModifyUser(userInfo.getId());
             sysAuthAction.setState("1");
             sysAuthAction.setPermission(ToolUtil.getPermission(sysAuthAction.getUrl()));
 

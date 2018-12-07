@@ -3,11 +3,9 @@ package com.silverbullet.params.domain;
 import com.silverbullet.core.validate.AddValidate;
 import com.silverbullet.core.validate.FullValidate;
 import org.hibernate.validator.constraints.NotBlank;
-import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.lang.String;
 import java.util.Date;
 
 public class SysParamsDictionary {
@@ -46,17 +44,13 @@ public class SysParamsDictionary {
     @Size(max = 64, message = "createUsername 长度不能超64")
     private String createUsername;
     //
-    @NotBlank(message = "createUser 不能为空", groups = {FullValidate.class})
-    @Size(max = 32, message = "createUser 长度不能超32")
-    private String createUser;
+    private Integer createUser;
     //
     @NotBlank(message = "modifyUsername 不能为空", groups = {FullValidate.class})
     @Size(max = 64, message = "modifyUsername 不能超64")
     private String modifyUsername;
     //
-    @NotBlank(message = "modifyUser 不能为空", groups = {FullValidate.class})
-    @Size(max = 32, message = "modifyUser 不能超64")
-    private String modifyUser;
+    private Integer modifyUser;
     //
     @NotBlank(message = "state 不能为空", groups = {FullValidate.class})
     @Size(max = 1, message = "state 不能超1")
@@ -144,13 +138,13 @@ public class SysParamsDictionary {
         this.createUsername = createUsername == null ? null : createUsername.trim();
     }
 
-    public String getCreateUser() {
+    public Integer getCreateUser() {
         return createUser;
     }
 
-    public void setCreateUser(String createUser) {
+    public void setCreateUser(Integer createUser) {
 
-        this.createUser = createUser == null ? null : createUser.trim();
+        this.createUser = createUser;
     }
 
     public String getModifyUsername() {
@@ -162,13 +156,13 @@ public class SysParamsDictionary {
         this.modifyUsername = modifyUsername == null ? null : modifyUsername.trim();
     }
 
-    public String getModifyUser() {
+    public Integer getModifyUser() {
         return modifyUser;
     }
 
-    public void setModifyUser(String modifyUser) {
+    public void setModifyUser(Integer modifyUser) {
 
-        this.modifyUser = modifyUser == null ? null : modifyUser.trim();
+        this.modifyUser = modifyUser;
     }
 
     public String getState() {
