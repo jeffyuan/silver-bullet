@@ -1,5 +1,8 @@
 package com.silverbullet.gebit.controller;
 
+import com.silverbullet.gebit.service.impl.GebitCloudReportTypeService;
+import org.springframework.beans.factory.annotation.Autowired;
+
 /**
  * @Auther: OFG
  * @Despriction:
@@ -8,5 +11,6 @@ package com.silverbullet.gebit.controller;
  **/
 public class GebitCloudReportTypeController {
 
-
+    @Autowired
+    private GebitCloudReportTypeService gebitCloudReportTypeService;
 }
