@@ -2,15 +2,11 @@ package com.silverbullet.auth.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.silverbullet.auth.dao.SysAuthOrganizationMapper;
-import com.silverbullet.auth.domain.SysAuthAction;
-import com.silverbullet.auth.domain.SysAuthActionTree;
 import com.silverbullet.auth.domain.SysAuthOrganization;
-import com.silverbullet.auth.domain.SysAuthUser;
 import com.silverbullet.auth.service.ISysAuthOrganizationService;
 import com.silverbullet.core.pojo.UserInfo;
 import com.silverbullet.utils.BaseDataResult;
 import com.silverbullet.utils.ToolUtil;
-import com.silverbullet.utils.TreeNode1;
 import org.apache.shiro.SecurityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,8 +15,6 @@ import org.springframework.stereotype.Service;
 
 import javax.tools.Tool;
 import java.util.Calendar;
-import java.util.List;
-import java.util.Map;
 
 /**
  * 组织机构管理 service接口

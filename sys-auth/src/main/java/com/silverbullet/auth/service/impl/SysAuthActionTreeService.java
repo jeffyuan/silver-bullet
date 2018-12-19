@@ -2,13 +2,14 @@ package com.silverbullet.auth.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.silverbullet.auth.dao.SysAuthActionTreeMapper;
-import com.silverbullet.auth.domain.*;
+import com.silverbullet.auth.domain.SysAuthActionTree;
+import com.silverbullet.auth.domain.SysAuthPost;
+import com.silverbullet.auth.domain.SysAuthUser;
 import com.silverbullet.auth.service.ISysAuthActionTreeService;
 import com.silverbullet.auth.service.ISysAuthPostService;
 import com.silverbullet.core.pojo.UserInfo;
 import com.silverbullet.utils.BaseDataResult;
 import com.silverbullet.utils.ToolUtil;
-import com.silverbullet.utils.TreeNode1;
 import org.apache.shiro.SecurityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -99,7 +100,7 @@ public class SysAuthActionTreeService implements ISysAuthActionTreeService {
             }
             UserInfo userInfo = (UserInfo) SecurityUtils.getSubject().getPrincipal();
             sysAuthActionTree.setModifyTime(Calendar.getInstance().getTime());
-            sysAuthActionTree.setModifyUser(userInfo.getName());
+            sysAuthActionTree.setModifyUser(userInfo.getId());
             sysAuthActionTree.setCreateUser(sysAuthActionTree1.getCreateUser());
             sysAuthActionTree.setCreateTime(sysAuthActionTree1.getCreateTime());
             sysAuthActionTree.setState(sysAuthActionTree1.getState());
@@ -127,10 +128,10 @@ public class SysAuthActionTreeService implements ISysAuthActionTreeService {
             UserInfo userInfo = (UserInfo) SecurityUtils.getSubject().getPrincipal();
 
             sysAuthActionTree.setId(ToolUtil.getUUID());
-            sysAuthActionTree.setCreateUser(userInfo.getName());
+            sysAuthActionTree.setCreateUser(userInfo.getId());
             sysAuthActionTree.setCreateTime(Calendar.getInstance().getTime());
             sysAuthActionTree.setModifyTime(Calendar.getInstance().getTime());
-            sysAuthActionTree.setModifyUser(userInfo.getName());
+            sysAuthActionTree.setModifyUser(userInfo.getId());
             sysAuthActionTree.setState("1");
             if(sysAuthActionTree.getParentId() == "NONE"){
                 sysAuthActionTree.setPath(sysAuthActionTree.getId());

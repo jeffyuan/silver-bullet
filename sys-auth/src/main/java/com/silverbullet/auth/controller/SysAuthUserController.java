@@ -97,7 +97,7 @@ public class SysAuthUserController {
     public String check(Model model, String pageName, String id) {
         Map<String, Object> user = sysAuthUserService.changeOrgPost(id);
         BaseDataResult<SysAuthOrganization> org = sysAuthOrganizationService.getOrgSelect();
-        SysAuthUser sysAuthUser = sysAuthUserService.getOneById(id);
+        SysAuthUser sysAuthUser = sysAuthUserService.getOneById(ToolUtil.toInteger(id));
         model.addAttribute("obj", sysAuthUser);
         model.addAttribute("org", org.getResultList());
         model.addAttribute("OrganizationId", user.get("orgId"));
@@ -123,7 +123,7 @@ public class SysAuthUserController {
 
     @RequestMapping(value = "/edit.html", method = RequestMethod.POST)
     public String edit(Model model, String id) {
-        SysAuthUser sysAuthUser = sysAuthUserService.getOneById(id);
+        SysAuthUser sysAuthUser = sysAuthUserService.getOneById(ToolUtil.toInteger(id));
         BaseDataResult<SysAuthOrganization> org = sysAuthOrganizationService.getOrgSelect();
         List<Map<String, String>> sysAuthUserOrg = sysAuthUserService.getOneByUserId(id);
         List<Map<String, String>> sysAuthUserPost = sysAuthUserService.getPostByUserId(id);
@@ -182,16 +182,14 @@ public class SysAuthUserController {
         boolean bTrue = false;
         boolean aTrue = false;
         String message = "";
-
-        if (sysAuthUser.getId().isEmpty()) {
+        if (ToolUtil.toString(sysAuthUser.getId()) == null) {
             bTrue = sysAuthUserService.Insert(sysAuthUser, postId, OrganizationId);
             message = bTrue ? "添加成功！" : "添加失败！";
-        } else if (sysAuthUserService.getOneByUserId(sysAuthUser.getId()).isEmpty()) {
-            Map<String, String> userOrgPost = sysAuthUserService.getUserOrgPost(sysAuthUser.getId());
-            aTrue = sysAuthUserService.updatetUserOrgPost(userOrgPost.get("org_id"), userOrgPost.get("post_id"), sysAuthUser.getId(), OrganizationId, postId);
+        } else if (sysAuthUserService.getOneByUserId(ToolUtil.toString(sysAuthUser.getId())).isEmpty()) {
+            Map<String, String> userOrgPost = sysAuthUserService.getUserOrgPost(ToolUtil.toString(sysAuthUser.getId()));
+            aTrue = sysAuthUserService.updatetUserOrgPost(userOrgPost.get("org_id"), userOrgPost.get("post_id"), ToolUtil.toString(sysAuthUser.getId()), OrganizationId, postId);
             bTrue = sysAuthUserService.Update(sysAuthUser, postId, OrganizationId, UorgId, UpostId);
             message = (bTrue && aTrue) ? "修改成功！" : "修改失败！";
-
         } else {
             bTrue = sysAuthUserService.Update(sysAuthUser, postId, OrganizationId, UorgId, UpostId);
             message = bTrue ? "修改成功！" : "修改失败！";
@@ -214,13 +212,14 @@ public class SysAuthUserController {
         if (postId.equals("disabled selected") || postId.isEmpty()) {
             mapRet.put("result", false);
             mapRet.put("message", "请选择正确的岗位！");
+            mapRet.put("address", "postId");
             return mapRet;
         }
         if (sysAuthUserService.getOneByUserId(UserId).isEmpty()) {
             Map<String, String> userOrgPost = sysAuthUserService.getUserOrgPost(UserId);
             if (userOrgPost.isEmpty()) {
                 bTrue = sysAuthUserService.insertUserOrgPost(UserId, OrganizationId, postId);
-                message = bTrue ? "添加成功！" : "添加失败！";
+                message = bTrue ? "修改成功！" : "修改失败！";
 
             } else {
                 bTrue = sysAuthUserService.updatetUserOrgPost(userOrgPost.get("org_id"), userOrgPost.get("post_id"), UserId, OrganizationId, postId);
@@ -235,8 +234,11 @@ public class SysAuthUserController {
 
         mapRet.put("result", bTrue);
         mapRet.put("message", message);
+
+
         if (bTrue != true) {
             mapRet.put("error", "修改失败");
+            mapRet.put("address", "postId");
         }
         return mapRet;
     }

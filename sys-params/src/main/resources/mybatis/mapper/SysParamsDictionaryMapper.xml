@@ -11,9 +11,9 @@
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="modify_time" jdbcType="TIMESTAMP" property="modifyTime" />
     <result column="create_username" jdbcType="VARCHAR" property="createUsername" />
-    <result column="create_user" jdbcType="VARCHAR" property="createUser" />
+    <result column="create_user" jdbcType="INTEGER" property="createUser" />
     <result column="modify_username" jdbcType="VARCHAR" property="modifyUsername" />
-    <result column="modify_user" jdbcType="VARCHAR" property="modifyUser" />
+    <result column="modify_user" jdbcType="INTEGER" property="modifyUser" />
     <result column="state" jdbcType="CHAR" property="state" />
   </resultMap>
 
@@ -35,7 +35,7 @@
 
   <insert id="insert" parameterType="com.silverbullet.params.domain.SysParamsDictionary">
     insert into sys_params_dictionary (id,name,dic_key,dic_value,comments,type,create_time,modify_time,create_username,create_user,modify_username,modify_user,state)
-    values (#{id,jdbcType=VARCHAR},#{name,jdbcType=VARCHAR},#{dicKey,jdbcType=VARCHAR},#{dicValue,jdbcType=VARCHAR},#{comments,jdbcType=VARCHAR},#{type,jdbcType=CHAR},#{createTime,jdbcType=TIMESTAMP},#{modifyTime,jdbcType=TIMESTAMP},#{createUsername,jdbcType=VARCHAR},#{createUser,jdbcType=VARCHAR},#{modifyUsername,jdbcType=VARCHAR},#{modifyUser,jdbcType=VARCHAR},#{state,jdbcType=CHAR})
+    values (#{id,jdbcType=VARCHAR},#{name,jdbcType=VARCHAR},#{dicKey,jdbcType=VARCHAR},#{dicValue,jdbcType=VARCHAR},#{comments,jdbcType=VARCHAR},#{type,jdbcType=CHAR},#{createTime,jdbcType=TIMESTAMP},#{modifyTime,jdbcType=TIMESTAMP},#{createUsername,jdbcType=VARCHAR},#{createUser,jdbcType=INTEGER},#{modifyUsername,jdbcType=VARCHAR},#{modifyUser,jdbcType=INTEGER},#{state,jdbcType=CHAR})
   </insert>
 
   <insert id="insertSelective" parameterType="com.silverbullet.params.domain.SysParamsDictionary">
@@ -111,13 +111,13 @@
             #{createUsername,jdbcType=VARCHAR},
          </if>
         <if test="createUser != null">
-            #{createUser,jdbcType=VARCHAR},
+            #{createUser,jdbcType=INTEGER},
          </if>
         <if test="modifyUsername != null">
             #{modifyUsername,jdbcType=VARCHAR},
          </if>
         <if test="modifyUser != null">
-            #{modifyUser,jdbcType=VARCHAR},
+            #{modifyUser,jdbcType=INTEGER},
          </if>
         <if test="state != null">
             #{state,jdbcType=CHAR},
@@ -156,13 +156,13 @@
          id = #{createUsername,jdbcType=VARCHAR},
         </if>
         <if test="createUser != null">
-         id = #{createUser,jdbcType=VARCHAR},
+         id = #{createUser,jdbcType=INTEGER},
         </if>
         <if test="modifyUsername != null">
          id = #{modifyUsername,jdbcType=VARCHAR},
         </if>
         <if test="modifyUser != null">
-         id = #{modifyUser,jdbcType=VARCHAR},
+         id = #{modifyUser,jdbcType=INTEGER},
         </if>
         <if test="state != null">
          id = #{state,jdbcType=CHAR},
@@ -174,7 +174,7 @@
   <update id="updateByPrimaryKey" parameterType="com.silverbullet.params.domain.SysParamsDictionary">
 
     update sys_params_dictionary
-    set id = #{id,jdbcType=VARCHAR},name = #{name,jdbcType=VARCHAR},dic_key = #{dicKey,jdbcType=VARCHAR},dic_value = #{dicValue,jdbcType=VARCHAR},comments = #{comments,jdbcType=VARCHAR},type = #{type,jdbcType=CHAR},create_time = #{createTime,jdbcType=TIMESTAMP},modify_time = #{modifyTime,jdbcType=TIMESTAMP},create_username = #{createUsername,jdbcType=VARCHAR},create_user = #{createUser,jdbcType=VARCHAR},modify_username = #{modifyUsername,jdbcType=VARCHAR},modify_user = #{modifyUser,jdbcType=VARCHAR},state = #{state,jdbcType=CHAR}
+    set id = #{id,jdbcType=VARCHAR},name = #{name,jdbcType=VARCHAR},dic_key = #{dicKey,jdbcType=VARCHAR},dic_value = #{dicValue,jdbcType=VARCHAR},comments = #{comments,jdbcType=VARCHAR},type = #{type,jdbcType=CHAR},create_time = #{createTime,jdbcType=TIMESTAMP},modify_time = #{modifyTime,jdbcType=TIMESTAMP},create_username = #{createUsername,jdbcType=VARCHAR},create_user = #{createUser,jdbcType=INTEGER},modify_username = #{modifyUsername,jdbcType=VARCHAR},modify_user = #{modifyUser,jdbcType=INTEGER},state = #{state,jdbcType=CHAR}
      where id = #{id,jdbcType=VARCHAR}
   </update>
 

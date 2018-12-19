@@ -17,7 +17,7 @@ public interface ISysAuthUserService {
 
     public BaseDataResult<SysAuthUser> list(int pageNum, int pageSize);
 
-    public SysAuthUser getOneById(String id);
+    public SysAuthUser getOneById(Integer id);
 
     public List<Map<String, String>> getOneByUserId(String id);
 

@@ -3,6 +3,7 @@ package com.silverbullet.service;
 import com.silverbullet.auth.domain.SysAuthUser;
 import com.silverbullet.auth.service.ISysAuthActionTreeService;
 import com.silverbullet.auth.service.ISysAuthUserService;
+import com.silverbullet.utils.ToolUtil;
 import com.silverbullet.utils.TreeNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -35,7 +36,7 @@ public class UserActionService {
             return new ArrayList<TreeNode>();
         }
 
-        List<Map<String, Object>> listMenus = iSysAuthActionTreeService.getActionsByUserId(sysAuthUser.getId());
+        List<Map<String, Object>> listMenus = iSysAuthActionTreeService.getActionsByUserId(ToolUtil.toString(sysAuthUser.getId()));
         if (listMenus == null) {
             return new ArrayList<TreeNode>();
         }
