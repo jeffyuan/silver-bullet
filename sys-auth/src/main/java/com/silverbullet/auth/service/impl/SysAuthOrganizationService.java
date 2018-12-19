@@ -17,6 +17,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.tools.Tool;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
@@ -37,12 +38,12 @@ public class SysAuthOrganizationService implements ISysAuthOrganizationService {
     }
 
     @Override
-    public BaseDataResult<SysAuthOrganization> list(String parentId, int pageNum, int pageSize) {
+    public BaseDataResult<SysAuthOrganization> list(int pageNum, int pageSize) {
         PageHelper.startPage(pageNum, pageSize);
 
         BaseDataResult<SysAuthOrganization> listResults = new BaseDataResult<SysAuthOrganization>();
-        listResults.setResultList(sysAuthOrganizationMapper.findListById(parentId));
-        listResults.setTotalNum(sysAuthOrganizationMapper.countNumById(parentId));
+        listResults.setResultList(sysAuthOrganizationMapper.findList());
+        listResults.setTotalNum(sysAuthOrganizationMapper.countNum());
 
         return listResults;
     }
@@ -53,30 +54,46 @@ public class SysAuthOrganizationService implements ISysAuthOrganizationService {
     }
 
     @Override
-    public SysAuthOrganization getOneByParentId(String parentId) {
-        return sysAuthOrganizationMapper.findListByParentId(parentId);
+    public BaseDataResult<SysAuthOrganization> getParamByParentId(String parentId, int pageNum, int pageSize, Boolean sign) {
+
+        BaseDataResult<SysAuthOrganization> listResults = new BaseDataResult<SysAuthOrganization>();
+
+        if(sign == true){
+            PageHelper.startPage(pageNum, pageSize);
+
+            listResults.setResultList(sysAuthOrganizationMapper.findListByParentId(parentId));
+            listResults.setTotalNum(sysAuthOrganizationMapper.countNumByParentId(parentId));
+
+            return listResults;
+        }else {
+            listResults.setResultList(sysAuthOrganizationMapper.findListByParentId(parentId));
+            return listResults;
+        }
     }
 
     @Override
-    public boolean Update(SysAuthOrganization sysAuthUser) {
+    public boolean Update(SysAuthOrganization sysAuthOrganization) {
 
         try{
-            SysAuthOrganization sysAuthAction1 = getOneById(sysAuthUser.getId());
-            if(sysAuthAction1 == null){
+            SysAuthOrganization sysAuthOrganizationOld = getOneById(sysAuthOrganization.getId());
+            if(sysAuthOrganizationOld == null){
                 return false;
             }
             UserInfo userInfo = (UserInfo) SecurityUtils.getSubject().getPrincipal();
-            sysAuthUser.setModifyTime(Calendar.getInstance().getTime());
-            sysAuthUser.setModifyUser(userInfo.getName());
-            sysAuthUser.setCreateUser(sysAuthAction1.getCreateUser());
-            sysAuthUser.setCreateTime(sysAuthAction1.getCreateTime());
-            sysAuthUser.setState(sysAuthAction1.getState());
-            if(sysAuthUser.getParentId() == "NONE"){
-                sysAuthUser.setPath(sysAuthUser.getId());
+            sysAuthOrganization.setModifyTime(Calendar.getInstance().getTime());
+            sysAuthOrganization.setModifyUser(userInfo.getId());
+            sysAuthOrganization.setCreateUser(sysAuthOrganizationOld.getCreateUser());
+            sysAuthOrganization.setCreateTime(sysAuthOrganizationOld.getCreateTime());
+            sysAuthOrganization.setCreateUsername(sysAuthOrganizationOld.getCreateUsername());
+            sysAuthOrganization.setModifyUsername(userInfo.getUsername());
+            sysAuthOrganization.setType(sysAuthOrganizationOld.getType());
+            sysAuthOrganization.setState(sysAuthOrganizationOld.getState());
+            if(sysAuthOrganization.getParentId() == "NONE"){
+                sysAuthOrganization.setPath(sysAuthOrganization.getId());
             }else{
-                sysAuthUser.setPath(sysAuthUser.getParentId()+sysAuthUser.getId());
+                sysAuthOrganization.setPath(sysAuthOrganization.getParentId()+sysAuthOrganization.getId());
             }
-            return sysAuthOrganizationMapper.updateByPrimaryKey(sysAuthUser) == 1 ? true : false;
+            return sysAuthOrganizationMapper.updateByPrimaryKey(sysAuthOrganization) == 1 ? true : false;
         }catch (Exception ex) {
             logger.error("Update Error: " + ex.getMessage());
             return false;
@@ -103,10 +120,13 @@ public class SysAuthOrganizationService implements ISysAuthOrganizationService {
             UserInfo userInfo = (UserInfo) SecurityUtils.getSubject().getPrincipal();
             sysAuthOrganization.setId(ToolUtil.getUUID());
             sysAuthOrganization.setCreateTime(Calendar.getInstance().getTime());
-            sysAuthOrganization.setCreateUser(userInfo.getName());
+            sysAuthOrganization.setCreateUser(userInfo.getId());
             sysAuthOrganization.setModifyTime(Calendar.getInstance().getTime());
-            sysAuthOrganization.setModifyUser(userInfo.getName());
+            sysAuthOrganization.setModifyUser(userInfo.getId());
+            sysAuthOrganization.setCreateUsername(userInfo.getUsername());
+            sysAuthOrganization.setModifyUsername(userInfo.getUsername());
             sysAuthOrganization.setState("1");
+            sysAuthOrganization.setType("0");
             if(sysAuthOrganization.getParentId() == "NONE"){
                 sysAuthOrganization.setPath(sysAuthOrganization.getId());
             }else{
@@ -145,8 +165,8 @@ public class SysAuthOrganizationService implements ISysAuthOrganizationService {
         PageHelper.startPage(pageNum, pageSize);
 
         BaseDataResult<SysAuthOrganization> listResults = new BaseDataResult<SysAuthOrganization>();
-        listResults.setResultList(sysAuthOrganizationMapper.findListById(parentId));
-        listResults.setTotalNum(sysAuthOrganizationMapper.countNumById(parentId));
+        listResults.setResultList(sysAuthOrganizationMapper.findListByParentId(parentId));
+        listResults.setTotalNum(sysAuthOrganizationMapper.countNumByParentId(parentId));
 
         return listResults;
     }

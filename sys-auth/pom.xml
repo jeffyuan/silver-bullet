@@ -10,6 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>sys-auth</artifactId>
+
     <dependencies>
         <dependency>
             <groupId>com.silverbullet</groupId>
@@ -25,6 +26,11 @@
             <groupId>commons-net</groupId>
             <artifactId>commons-net</artifactId>
             <version>RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.shiro</groupId>
+            <artifactId>shiro-ehcache</artifactId>
+            <version>1.4.0</version>
         </dependency>
     </dependencies>
 </project>

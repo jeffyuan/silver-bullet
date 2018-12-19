@@ -14,12 +14,12 @@ import java.util.List;
  */
 public interface ISysAuthOrganizationService {
     public int countNum();
-    public BaseDataResult<SysAuthOrganization> list(String parentId, int pageNum, int pageSize);
+    public BaseDataResult<SysAuthOrganization> list(int pageNum, int pageSize);
     public SysAuthOrganization getOneById(String id);
-    public SysAuthOrganization getOneByParentId(String parentId);
+    public BaseDataResult<SysAuthOrganization> getParamByParentId(String parentId, int pageNum, int pageSize, Boolean sign);
     public boolean Update(SysAuthOrganization sysAuthOrganization);
     public boolean delete(String id);
-    public boolean Insert(SysAuthOrganization sysAuthOrganization);
+    public boolean  Insert(SysAuthOrganization sysAuthOrganization);
 
     public BaseDataResult<SysAuthOrganization> itemList(String dictKeyId, int pageNum, int pageSize);
 
@@ -28,4 +28,7 @@ public interface ISysAuthOrganizationService {
     public BaseDataResult<SysAuthOrganization> localList(String parentId, int pageNum, int pageSize);
 
     public BaseDataResult<SysAuthOrganization> findTreeNode(String parentId);
+
+
+
 }

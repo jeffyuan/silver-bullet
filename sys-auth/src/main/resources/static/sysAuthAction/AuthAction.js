@@ -64,6 +64,7 @@ AuthAction.add = function() {
                 });
                 $("#msg").text("");
 
+
                 // 保存
                 AuthAction.save(AuthAction.ctxPath + AuthAction.url + 'save.do', dialogItself);
             }
@@ -104,7 +105,7 @@ AuthAction.save = function(url, dialogItself) {
                 if (data.errors != null) {
                     // 错误信息反馈到页面上
                     for (var i = 0 ; i < data.errors.length; i++) {
-                        $("#msg-" + data.errors[i].field).text('  (' + data.errors[i].defaultMessage + ')');
+                        $("#msg-" + data.errors[i].field).text('  (' + data.errors[i].defaultMessage + ')').fadeIn(200);
                     }
                 } else {
                     $("#msg").text(data.message);

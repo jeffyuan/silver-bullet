@@ -12,7 +12,7 @@
                     <button name="修改" class="btn btn-default" onclick="AuthOrganization.edit()" space="true"> <i class="fa fa-fw fa-edit"></i>修改 </button>
                     <button name="删除" class="btn btn-default" onclick="AuthOrganization.delete()" space="true"> <i class="fa fa-fw fa-trash-o"></i>删除 </button>
                 </div>
-                <button name="岗位分配" class="btn btn-warning" onclick="AuthOrganization.setDictItem()" space="true"><i class="fa fa-fw fa-navicon"></i>岗位分配</button>
+                <button name="设置岗位" class="btn btn-warning" onclick="AuthOrganization.setPost()" space="true"><i class="fa fa-fw fa-navicon"></i>岗位分配</button>
             </div>
         </div>
         <div class="table-responsive data-table-list col-xs-12">
@@ -20,8 +20,7 @@
                 <thead>
                 <tr>
                     <th></th>
-                    <th>名称1</th>
-                    <th>备注</th>
+                    <th>名称</th>
                     <th>种类</th>
                     <th>创建人</th>
                     <th>创建时间</th>
@@ -35,12 +34,11 @@
                 <tr id="data-r${i}" data-u="${results.resultList[i].id!}">
                     <td><input type="checkbox" /></td>
                     <th>${results.resultList[i].name!}</th>
-                    <th>${results.resultList[i].comments!}</th>
                     <th>${results.resultList[i].organizationType!}</th>
-                    <th>${results.resultList[i].createUser!}</th>
-                    <th>${results.resultList[i].createTime!}</th>
-                    <th>${results.resultList[i].modifyUser!}</th>
-                    <th>${results.resultList[i].modifyTime!}</th>
+                    <th>${results.resultList[i].createUsername!}</th>
+                    <th>${results.resultList[i].createTime!, "yyyy-MM-dd hh:mm:ss"}</th>
+                    <th>${results.resultList[i].modifyUsername!}</th>
+                    <th>${results.resultList[i].modifyTime!, "yyyy-MM-dd hh:mm:ss"}</th>
 
                     <th>
                         <button name="修改" class="btn btn-default btn-sm" onclick="AuthOrganization.editOne(this)" space="true">
@@ -54,12 +52,16 @@
                 </tbody>
             </table>
             <h3 style="width:100%; text-align: center; ">
-                <i class="${noData.icon!}"></i>${noData.text!}
+                <i class="${noData.icon!}"></i>&nbsp;${noData.text!}
             </h3>
         </div>
     </div>
-    <#PageTag action="${ctxPath}/auth/sysauthorganization/local/" totalNum="${results.totalNum}" perSize="5" curPage="${curPage}"></#PageTag>                <!--#PageTag-->
-    <!-- /.box-body -->
+    <!-- /.box -->
+    <#PageTag action="${ctxPath}/auth/sysauthorganization/${list!}.html" totalNum="${results.totalNum!}" perSize="5"
+    curPage="${curPage!}" loadDataFunName="${method!}" searchValue="${searchValue!}" dom="#data-list-content-list"></#PageTag>
+    <!--#PageTag-->
+
+<!-- /.box-body -->
 </div>
 <!-- /.box -->
 </div>

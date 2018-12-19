@@ -36,6 +36,7 @@
     <include refid="Base_Column_List" />
     from sys_auth_post
     where id = #{id,jdbcType=VARCHAR}
+    ORDER BY modify_time DESC
   </select>
 
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
@@ -200,6 +201,7 @@
     select
     <include refid="Base_Column_List" />
     from sys_auth_post
+    ORDER BY modify_time DESC
   </select>
 
   <select id="countNum" resultType="Integer">
@@ -207,7 +209,9 @@
   </select>
 
     <select id="findListByUserId" parameterType="String" resultMap="BaseResultMap">
-        select sap.* from sys_auth_userpost sau, sys_auth_post sap where sau.user_id=#{id} and sau.post_id = sap.id and sap.state = '1'
+        select sap.*
+        from sys_auth_userpost sau, sys_auth_post sap
+        where sau.user_id=#{id} and sau.post_id = sap.id and sap.state = '1'
     </select>
 
     <select id="countNumByOrganizationId" resultType="Integer">
@@ -221,5 +225,6 @@
       <include refid="Base_Column_List" />
       from sys_auth_post
       where organization_id = #{organizationId,jdbcType=VARCHAR}
+      order by modify_time desc
     </select>
 </mapper>

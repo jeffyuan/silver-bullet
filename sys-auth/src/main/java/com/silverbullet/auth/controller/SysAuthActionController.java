@@ -77,14 +77,14 @@ public class    SysAuthActionController {
     @RequestMapping(value = "/add.html", method = RequestMethod.POST)
     public String add(Model model) {
         model.addAttribute("obj", new SysAuthAction());
-        return "/SysAuthAction/add";
+        return "/SysAuthAction/model";
     }
 
     @RequestMapping(value = "/edit.html", method = RequestMethod.POST)
     public String edit(Model model, String id) {
         SysAuthAction sysAuthUser = sysAuthActionService.getOneById(id);
         model.addAttribute("obj", sysAuthUser);
-        return "/SysAuthAction/add";
+        return "/SysAuthAction/model";
     }
 
     @RequestMapping(value = "/delete.do", method = RequestMethod.POST)
@@ -102,7 +102,7 @@ public class    SysAuthActionController {
 
     @RequestMapping(value = "/save.do", method = RequestMethod.POST)
     @ResponseBody
-    public Map<String, Object> save(@Validated({AddValidate.class}) SysAuthAction sysAuthUser,
+    public Map<String, Object> save(@Validated({AddValidate.class}) SysAuthAction sysAuthAction,
                                     BindingResult result) {
         Map<String,Object> mapRet = new HashMap<String, Object>();
         if (result.hasErrors()) {
@@ -113,11 +113,11 @@ public class    SysAuthActionController {
 
         boolean bTrue = false;
         String message = "";
-        if (sysAuthUser.getId().isEmpty()) {
-            bTrue = sysAuthActionService.Insert(sysAuthUser);
+        if (sysAuthAction.getId().isEmpty()) {
+            bTrue = sysAuthActionService.Insert(sysAuthAction);
             message = bTrue ? "添加成功！" : "添加失败！";
         } else {
-            bTrue = sysAuthActionService.Update(sysAuthUser);
+            bTrue = sysAuthActionService.Update(sysAuthAction);
             message = bTrue ? "修改成功！" : "修改失败！";
         }
 

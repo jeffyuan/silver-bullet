@@ -21,7 +21,7 @@
     <result column="action_id" jdbcType="VARCHAR" property="actionId" />
     <result column="domain" jdbcType="VARCHAR" property="domain" />
     <result column="icon" jdbcType="VARCHAR" property="icon" />
-    <result column="params" jdbcType="VARCHAR" property="params" />
+    <result column="params" jdbcType="VARCHAR" property="params" /> 
   </resultMap>
   <sql id="Base_Column_List">
     <!--

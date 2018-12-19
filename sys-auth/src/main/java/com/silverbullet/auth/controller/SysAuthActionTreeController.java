@@ -2,8 +2,11 @@ package com.silverbullet.auth.controller;
 
 import com.silverbullet.auth.domain.SysAuthAction;
 import com.silverbullet.auth.domain.SysAuthActionTree;
+import com.silverbullet.auth.domain.SysAuthPostAction;
 import com.silverbullet.auth.domain.SysAuthUser;
 import com.silverbullet.auth.service.ISysAuthActionTreeService;
+import com.silverbullet.auth.service.ISysAuthPostActionService;
+import com.silverbullet.auth.service.ISysAuthPostService;
 import com.silverbullet.core.validate.AddValidate;
 import com.silverbullet.utils.BaseDataResult;
 import com.silverbullet.utils.ToolUtil;
@@ -35,6 +38,9 @@ public class SysAuthActionTreeController {
 
     @Autowired
     private ISysAuthActionTreeService sysAuthActionTreeService;
+
+    @Autowired
+    private ISysAuthPostActionService sysAuthPostActionService;
 
     @RequestMapping(value = "/list/{curpage}.html", method = RequestMethod.GET)
     public ModelAndView index(@PathVariable("curpage") String curpage){
@@ -118,19 +124,26 @@ public class SysAuthActionTreeController {
 
     @RequestMapping(value = "/tree.do", method = RequestMethod.POST)
     @ResponseBody
-    public Map<String, Object> treeNode(String parentId){
-        if(parentId == null){
-            parentId = "NONE";
-        }
+    public Map<String, Object> treeNode(String parentId, String postId){
+//        if(parentId == null){
+//            parentId = ;
+//        }
+
+        parentId = parentId == null ? "NONE": parentId;
 
         Map<String, Object> map = new HashMap<>();
 
         BaseDataResult<SysAuthActionTree> result = sysAuthActionTreeService.findTreeNode(parentId);
 
+        List<SysAuthPostAction> list = postId == null ?
+                new ArrayList<>():
+                sysAuthPostActionService.getParamsByPostId(postId);
+
         if(result.getResultList().isEmpty()){
             map.put("noData", ToolUtil.noData());
         }else{
             map.put("result", result);
+            map.put("list", list);
         }
 
         return map;

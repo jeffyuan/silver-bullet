@@ -20,7 +20,7 @@
              </div>
              <div class="form-group">
                  <label>createTime</label><label style="color: red;" id="msg-createTime"></label>
-                 <input type="text" name="createTime" class="form-control" value="${obj.createTime!}" placeholder="createTime" required="">
+                 <input type="text" name="createTime" class="form-control" value='${obj.createTime!, "yyyy-MM-dd hh:mm:ss"}' placeholder="createTime" required="">
              </div>
              <div class="form-group">
                  <label>createUsername</label><label style="color: red;" id="msg-createUsername"></label>

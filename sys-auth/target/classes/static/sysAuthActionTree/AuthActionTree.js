@@ -317,21 +317,21 @@ AuthActionTree.distribution = function() {
 };
 
 AuthActionTree.checkboxInit = function() {
-    $('#data-list-content input[type="checkbox"]').iCheck({
+    $('#data-list-content-list input[type="checkbox"]').iCheck({
         checkboxClass: 'icheckbox_flat-blue',
         radioClass: 'iradio_flat-blue'
     });
 
     //Enable check and uncheck all functionality
-    $("#data-list-content .checkbox-toggle").click(function () {
+    $("#data-list-content-list .checkbox-toggle").click(function () {
         var clicks = $(this).data('clicks');
         if (clicks) {
             //Uncheck all checkboxes
-            $("#data-list-content input[type='checkbox']").iCheck("uncheck");
+            $("#data-list-content-list input[type='checkbox']").iCheck("uncheck");
             $(".fa", this).removeClass("fa-check-square-o").addClass('fa-square-o');
         } else {
             //Check all checkboxes
-            $("#data-list-content input[type='checkbox']").iCheck("check");
+            $("#data-list-content-list input[type='checkbox']").iCheck("check");
             $(".fa", this).removeClass("fa-square-o").addClass('fa-check-square-o');
         }
         $(this).data("clicks", !clicks);
@@ -462,13 +462,14 @@ AuthActionTree.checkboxStyle = function() {
  * 树状图通用初始化
  */
 
-AuthActionTree.TreeNode = function () {
-    var node = $("#authActionTree").bsTableBuild({
+AuthActionTree.TreeNode = function (e) {
+    var node = $(e).bsTableBuild({
         uid: 'NONE',
         url: AuthActionTree.ctxPath+AuthActionTree.url+"tree.do",
         selectedBackColor: "none",
         selectedColor: '#333'
     });
+
     AuthActionTree.node = node;
 }
 
@@ -518,7 +519,7 @@ AuthActionTree.treeEditButton = function(e){
  */
 AuthActionTree.treeNodeMove = function(e, status){
 
-    var $dom = $(e).parent().parent()
+    var $dom = $(e).parent().parent();
     $dom.css({
         'background-color': '#f2f2f2',
         'color': '#333'
@@ -541,7 +542,7 @@ AuthActionTree.treeNodeMove = function(e, status){
 
         if(true === node[0].status){
             if("NONE" === data.parentId){
-                AuthActionTree.TreeNode();
+                AuthActionTree.TreeNode("#authActionTree");
             }else{
                 $.treeNode({
                     dom: $("#authActionTree"),
@@ -572,6 +573,6 @@ var treeLeave = function(e){
 }
 
 
-$(function () {
+$(function(){
     AuthActionTree.checkboxInit();
-});
+})

@@ -788,6 +788,7 @@ i,span,button{
     display:none;
 }
 
+<<<<<<< Updated upstream
 .search_gp_span_narrow{
     display: inline-block;
     width: 15%;
@@ -806,6 +807,12 @@ i,span,button{
     /*cursor: default!important;*/
     /*border-color: #fff;*/
     /*resize:none;*/
+=======
+.msg{
+    color: red;
+    display: none;
+}
+>>>>>>> Stashed changes
 
 
 

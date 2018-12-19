@@ -6,6 +6,7 @@ var AuthOrganization = {
     'datas' : {},
 };
 AuthOrganization.ctxPath = $(".logo").attr('href');
+AuthOrganization.status = 0;
 
 /**
  * 获取编辑和保存的子html内容
@@ -62,6 +63,28 @@ AuthOrganization.loadData = function(obj, action, curpage) {
 
 
 /**
+ * 加载页面通用方法
+ * @param obj
+ * @param action
+ * @param value
+ * @param dom
+ * @returns {boolean}
+ */
+AuthOrganization.loadDataCommon = function(obj, action, value, dom){
+
+    var val = {
+        curpage: value,
+        parentId: ""
+    };
+    typeof(value[1]) == "undefined" ? val.parentId = AuthOrganization.parentId : val.parentId="" ;
+
+    var dialogInfo = AuthOrganization.getHtmlInfo(action, val);
+    dialogInfo += "<script>AuthOrganization.checkboxInit();</script>";
+    $(dom).html(dialogInfo);
+    return true;
+}
+
+/**
  * 表头添加方法
  * */
 AuthOrganization.add = function() {
@@ -76,7 +99,6 @@ AuthOrganization.add = function() {
             buttonLabel: "确定"
         });
     } else{
-        console.log(clickNode)
         AuthOrganization.addCommon(clickNode[0].id);
     }
 
@@ -87,8 +109,9 @@ AuthOrganization.add = function() {
  * 表格头部添加通用方法
  */
 AuthOrganization.addCommon = function(uid) {
-
+    var parentId = AuthOrganization.getParentId();
     var dialogInfo = AuthOrganization.getHtmlInfo(AuthOrganization.ctxPath + AuthOrganization.url + 'add.html', {parentId:  uid});
+
     BootstrapDialog.show({
         title: '添加部门',
         closable: true,
@@ -99,6 +122,8 @@ AuthOrganization.addCommon = function(uid) {
         message: dialogInfo ,
         buttons: [{
             label: '确定',
+            icon: 'fa fa-save',
+            cssClass: 'btn-success',
             action: function (dialogItself) {
                 // 清除提示语
                 $("label[id^=msg-]").each(function(){
@@ -107,10 +132,12 @@ AuthOrganization.addCommon = function(uid) {
                 $("#msg").text("");
 
                 // 保存
-                AuthOrganization.save(AuthOrganization.ctxPath + AuthOrganization.url + 'save.do', dialogItself);
+                AuthOrganization.save(AuthOrganization.ctxPath + AuthOrganization.url + 'save.do', dialogItself, parentId);
             }
         }, {
             label: '关闭',
+            icon:'fa fa-close',
+            cssClass: 'btn-danger',
             action: function (dialogItself) {
                 dialogItself.close();
             }
@@ -160,7 +187,7 @@ AuthOrganization.addModel = function() {
  * @param url
  * @param dialogItself
  */
-AuthOrganization.save = function(url, dialogItself) {
+AuthOrganization.save = function(url, dialogItself, parentId) {
     $.ajax({
         type: "post",
         url: url,
@@ -176,7 +203,9 @@ AuthOrganization.save = function(url, dialogItself) {
                 });
                 dialogItself.close();
                 // 刷新页面
-                window.location.reload();
+                var con = AuthOrganization.getHtmlInfo(AuthOrganization.ctxPath + AuthOrganization.url + 'list.html', {parentId: parentId})
+                con += "<script>AuthOrganization.checkboxInit();</script>"
+                $("#data-list-content-list").empty().append(con);
             } else {
                 if (data.errors != null) {
                     // 错误信息反馈到页面上
@@ -228,6 +257,7 @@ AuthOrganization.edit = function() {
  * @param uid 编辑的一个id
  */
 AuthOrganization.editCommon = function(uid) {
+    var parentId = AuthOrganization.getParentId();
     var dialogInfo = AuthOrganization.getHtmlInfo(AuthOrganization.ctxPath + AuthOrganization.url + 'edit.html', {"id":uid});
     BootstrapDialog.show({
         title: '修改部门',
@@ -239,6 +269,8 @@ AuthOrganization.editCommon = function(uid) {
         message: dialogInfo,
         buttons: [{
             label: '确定',
+            icon: 'fa fa-save',
+            cssClass: 'btn-success',
             action: function (dialogItself) {
                 // 清除提示语
                 $("label[id^=msg-]").each(function(){
@@ -247,10 +279,11 @@ AuthOrganization.editCommon = function(uid) {
                 $("#msg").text("");
 
                 // 保存
-                AuthOrganization.save(AuthOrganization.ctxPath + AuthOrganization.url + 'save.do', dialogItself);
+                AuthOrganization.save(AuthOrganization.ctxPath + AuthOrganization.url + 'save.do', dialogItself, parentId);
             }
         }, {
             label: '关闭',
+            icon: 'fa fa',
             action: function (dialogItself) {
                 dialogItself.close();
             }
@@ -294,6 +327,8 @@ AuthOrganization.deleteOne = function(obj) {
  * @param ids 以,号分割的字符串
  */
 AuthOrganization.deleteCommon = function(ids) {
+    var parentId = AuthOrganization.getParentId();
+
     BootstrapDialog.confirm({
         title: '删除提示',
         message: '是否确定删除?',
@@ -319,7 +354,9 @@ AuthOrganization.deleteCommon = function(ids) {
                                 buttonLabel: "确定"
                             });
                             // 刷新页面
-                            window.location.reload();
+                            var con = AuthOrganization.getHtmlInfo(AuthOrganization.ctxPath + AuthOrganization.url + 'list.html', {parentId: parentId})
+                            con += "<script>AuthOrganization.checkboxInit();</script>"
+                            $("#data-list-content-list").empty().append(con);
                         } else {
                             BootstrapDialog.alert({
                                 type: BootstrapDialog.TYPE_WARNING,
@@ -338,7 +375,7 @@ AuthOrganization.deleteCommon = function(ids) {
 /**
  * 设置权限项
  */
-AuthOrganization.setDictItem = function() {
+AuthOrganization.setPost = function() {
     var arrays = [];
     var treeUrl = '/a/static/sysAuthActionTree/AuthActionTree.js';
     var style = '.modal-body{background: #FFF!important;  }.nav-tabs-custom>.nav-tabs>li.active{border-top-color:#222d32;}';
@@ -358,15 +395,16 @@ AuthOrganization.setDictItem = function() {
     }
 
     var dialogInfo = AuthOrganization.getHtmlInfo(AuthOrganization.ctxPath + 'auth/sysauthpost/' + 'dictitem/list/'+ arrays[0] + '.html', {"curpage" : 1});
+    dialogInfo = "<div id='item-list'>" + dialogInfo + "</div>"
 
     BootstrapDialog.show({
         type: BootstrapDialog.TYPE_DEFAULT,
-        title: '分配岗位',
+        title: '设置岗位',
         closable: true,
         closeByBackdrop: false,
         closeByKeyboard: false,
         size: BootstrapDialog.SIZE_WIDE,
-        message: "<div id='item-list'>" + dialogInfo + "</div>"
+        message: dialogInfo
     });
 };
 
@@ -416,49 +454,6 @@ AuthOrganization.check = function() {
 
 
 
-
-
-/**
- *  配置权限通用方法
-*/
-
-/*AuthOrganization.checkPermission = function (uid) {
-    var dialogInfo = AuthOrganization.getHtmlInfo(AuthOrganization.ctxPath + AuthOrganization.url + 'checkPermission/1.html', {"id":uid});
-    console.log(dialogInfo);
-    BootstrapDialog.show({
-        title: '添加',
-        type: BootstrapDialog.TYPE_DEFAULT,
-        closeable: true,
-        closeByBackdrop: false,
-        closeByKeyboard: false,
-        size: BootstrapDialog.SIZE_WIDE,
-        message: dialogInfo,
-        buttons: [{
-            icon: 'fa fa-save',
-            label: '确定',
-            cssClass: 'btn-success',
-            action: function (dialogItself) {
-                // 清除提示语
-                $("label[id^=msg-]").each(function(){
-                    $(this).text("");
-                });
-                $("#msg").text("");
-                // 保存
-                AuthOrganization.save(AuthOrganization.ctxPath + AuthOrganization.url + 'save.do', dialogItself);
-            }
-        }, {
-            icon: 'fa fa-close',
-            label: '关闭',
-            cssClass: 'btn-danger',
-            action: function (dialogItself) {
-                dialogItself.close();
-            }
-        }
-        ]
-    });
-};*/
-
-
 AuthOrganization.getChildrenTree = function(node){
     var ts = [];
     if(node.nodes){
@@ -478,100 +473,14 @@ AuthOrganization.getChildrenTree = function(node){
 }
 
 
-/**
- *定位到当前分支
- */
-
-/*AuthOrganization.TreeChildren = function(){
-    $(document).on("click", function(e){
-        var val = $(e.target).parent().attr("id")/!*.replace(/[^\u4e00-\u9fa5]/gi,"")*!/;
-
-        $.ajax({
-            type: "POST",
-            url: AuthOrganization.ctxPath + "auth/sysauthactiontree/" + "check.do",
-            data : val,
-            dataType: "json",
-            success: function(){
-            }
-
-        })
-    })
-
-}*/
-
-
-
-/**
- * 弹出框树状图初始化
- */
-AuthOrganization.checkPermissionTree = function(){
-
-    $.ajax({
-        type: "POST",
-        url: AuthOrganization.ctxPath + "auth/sysauthactiontree/" + "tree.do",
-        data: { },
-        dataType: "json",
-        success: function (data) {
-            var treeList = [];
-            $.each(data,function (k,v) {
-                var treeNode={};
-
-                treeNode["text"] = v.name;
-                treeNode["id"] = v.id;
-                treeNode["nodes"] = [];
-                $.each(v.children,function (k,v) {
-                    var childrenNode = {};
-                    childrenNode["text"] = v.name;
-                    childrenNode["id"] = v.id;
-
-                    treeNode["nodes"].push(childrenNode);
-                    if(v.children.length !== 0){
-                        $.each(v.children,function (k,v) {
-                            var childrensNode = {};
-                            childrensNode["text"] = v.name;
-                            childrensNode["id"] = v.id;
-
-                            childrenNode["nodes"].push(childrensNode);
-                        });
-                    }
-                })
-                treeList.push(treeNode);
-
-            })
-            $('#organizationTree').treeview({
-                data: treeList,
-                multiSelect: true,
-                showBorder: false,
-                selectedBackColor: '#fff',
-                onhoverColor: '#fff',
-                selectedColor: '#333',
-                showCheckbox: true,
-                /*onNodeChecked: function(event, node){
-                    var selectNodes = AuthOrganization.getChildrenTree(node);
-                    if(selectNodes){
-                        $('#treeview-checkable').treeview('checkNode', [ selectNodes,{ silent: true }]);
-                    }
-                },
-                onNodeUnchecked: function (event, node) {
-                    var selectNodes = AuthOrganization.getChildrenTree(node);
-                    if(selectNodes){
-                        $('#treeview-checkable').treeview('uncheckNode', [ selectNodes,{ silent: true }]);
-                    }
-                }*/
-            });
-        }
-    });
-}
-
-
 
 /**
  * 树状图通用初始化
  */
 
-AuthOrganization.TreeNode = function () {
+AuthOrganization.TreeNode = function (e) {
 
-    var node = $("#authOrganizationTree").bsTableBuild({
+    var node = $(e).bsTableBuild({
         uid: 'NONE',
         url: AuthOrganization.ctxPath + AuthOrganization.url + "tree.do"
     });
@@ -581,36 +490,11 @@ AuthOrganization.TreeNode = function () {
 
 
 
-
-/**
- * 左侧树状图选中数据获取
- */
-/*AuthOrganization.click = function(){
-    var id = [];
-    $(".lg").find("ul").find("li").each(function(){
-        var x = $(this).find("span");
-        x.each(function(){
-            var y = $(this).attr("class");
-            if(y.indexOf('glyphicon-check') >= 0){
-                id.push($(this).parent().attr("id"));
-            }
-        });
-    });
-
-    return id;
-/!*    $("#ActionSelectParent").val(id);
-    alert(id);*!/
-
-}*/
-
-
-
-
 /**
  * table定位到当前选择list部门下
  */
 function treeClick(e){
-    AuthOrganization.local(e);
+    AuthOrganization.status == 0?AuthOrganization.local(e): e;
 }
 
 function treeEnter(e){
@@ -621,8 +505,10 @@ function treeLeave(e){
 
 }
 
+
 AuthOrganization.local = function(e){
     parentId = $(e).attr("id");
+    AuthOrganization.parentId = parentId;
 
     $.ajax({
         type: 'get',
@@ -658,7 +544,18 @@ AuthOrganization.checkCommon = function(){
 }
 
 
+/**
+ * 获取parentId
+ */
+AuthOrganization.getParentId = function(){
+    var parentIds = $("#authOrganizationTree").treeview("getSelected");
+    parentId = parentIds.length === 0 ? "" : parentIds[0].id
+    return parentId;
+}
+
+
+
+
 $(function () {
     AuthOrganization.checkboxInit();
-    AuthOrganization.checkPermissionTree();
 });

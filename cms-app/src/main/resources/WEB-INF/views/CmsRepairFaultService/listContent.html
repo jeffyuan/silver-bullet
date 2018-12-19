@@ -82,7 +82,7 @@
                                     <td class="height-middle text-center"><span class="border bor border${results.resultList[i].status}"><span class="round round${results.resultList[i].status}"></span>${(results.resultList[i].status == 0)?"未开始":(results.resultList[i].status == 1)?"进行中":"已完成"}</span></td>
                                     <td class="text-center">${results.resultList[i].address}</td>
                                     <td class="text-center">${results.resultList[i].mobPhone}</td>
-                                    <td class="text-center">${results.resultList[i].createTime}</td>
+                                    <td class="text-center">${results.resultList[i].createTime, "yyyy-MM-dd hh:mm:ss"}</td>
                                     <td class="height-middle text-center tb-w-120 ofg-font-size-normal"><span class="label label-warning font-size-default">${results.resultList[i].createUsername}</span></td>
                                     <td class="tb-w-120 text-center">
                                         <button name="修改" class="btn btn-default btn-sm" onclick="CmsRepairService.checkOne(this)" space="true">
