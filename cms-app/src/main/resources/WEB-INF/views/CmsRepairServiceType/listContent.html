@@ -72,7 +72,7 @@
                         <td class="text-center">${results.resultList[i].sort}</td>
                         <td class="text-center"><i class="${results.resultList[i].icon}"></i></td>
                         <td class="text-center">${results.resultList[i].type==0?'节点':'菜单'}</td>
-                        <td>${results.resultList[i].modifyTime}</td>
+                        <td>${results.resultList[i].modifyTime, "yyyy-MM-dd hh:mm:ss"}</td>
                         <td class="height-middle text-center tb-w-120 ofg-font-size-normal"><span class="label label-warning font-size-default">${results.resultList[i].createUsername}</span></td>
                         <td class="tb-w-120">
                             <button name="修改" class="btn btn-default btn-sm" onclick="CmsRepairType.checkOne(this)" space="true">

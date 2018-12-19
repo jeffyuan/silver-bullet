@@ -1,5 +1,10 @@
 package com.silverbullet.auth.domain;
 
+import com.silverbullet.core.validate.AddValidate;
+import com.silverbullet.core.validate.FullValidate;
+import org.hibernate.validator.constraints.NotBlank;
+
+import javax.validation.constraints.Size;
 import java.util.Date;
 
 public class SysAuthAction {
@@ -9,6 +14,8 @@ public class SysAuthAction {
      *
      * @mbggenerated
      */
+    @NotBlank(message = "id 不能为空", groups = {FullValidate.class})
+    @Size(max=32, message = "id 长度不能超过32", groups = {FullValidate.class})
     private String id;
 
     /**
@@ -17,6 +24,8 @@ public class SysAuthAction {
      *
      * @mbggenerated
      */
+    @NotBlank(message = "名称不能为空", groups = {FullValidate.class, AddValidate.class})
+    @Size(max=32, message = "长度不能超过32", groups = {FullValidate.class})
     private String name;
 
     /**
@@ -25,6 +34,8 @@ public class SysAuthAction {
      *
      * @mbggenerated
      */
+    @NotBlank(message = "url不能为空", groups = {FullValidate.class, AddValidate.class})
+    @Size(max=128, message = "长度不能超过128", groups = {FullValidate.class})
     private String url;
 
     /**
@@ -33,6 +44,8 @@ public class SysAuthAction {
      *
      * @mbggenerated
      */
+    @NotBlank(message = "类型不能为空", groups = {FullValidate.class, AddValidate.class})
+    @Size(max=20, message = "长度不能超过20", groups = {FullValidate.class})
     private String resourceType;
 
     /**
@@ -41,6 +54,7 @@ public class SysAuthAction {
      *
      * @mbggenerated
      */
+    @Size(max=32, message = "长度不能超过20", groups = {FullValidate.class})
     private String parentId;
 
     /**
@@ -60,6 +74,7 @@ public class SysAuthAction {
      *
      * @mbggenerated
      */
+    @Size(max=128, message = "长度不能超过20", groups = {FullValidate.class})
     private String comments;
 
     /**

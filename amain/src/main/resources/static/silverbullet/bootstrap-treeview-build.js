@@ -9,8 +9,6 @@ var TreeView = {
 
 }
 
-TreeView.ctxPath = $(".logo").attr('href');
-
 
 /**
  * 渲染树结构
@@ -77,7 +75,6 @@ TreeView.treeBuild = function(uid, url){
         }
     });
     return treeList;
-    console.log(treeList)
 }
 
 
@@ -102,7 +99,6 @@ TreeView.treeBuildCommon = function(data, pos){
     treeNode["position"] = data.pos;
 
     return treeNode;
-    console.log(treeNode);
 }
 
 

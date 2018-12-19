@@ -82,7 +82,7 @@
                                     <td class="text-center"><span class="border bor borUse${results.resultList[i].blackList}">${results.resultList[i].blackList == 0?"<i class='fa fa-user-plus font-success'></i>&nbsp;良好":"<i class='fa fa-user-times font-danger'></i>&nbsp;拉黑"}</span></td>
                                     <td>${results.resultList[i].mobPhone}</td>
                                     <td>${results.resultList[i].address}</td>
-                                    <td>${results.resultList[i].modifyTime}</td>
+                                    <td>${results.resultList[i].modifyTime, "yyyy-MM-dd hh:mm:ss"}</td>
                                     <td class="height-middle text-center tb-w-120 ofg-font-size-normal"><span class="label label-warning font-size-default">${results.resultList[i].createUsername}</span></td>
                                     <td class="tb-w-170">
                                         <button name="修改" class="btn btn-default btn-sm" onclick="CmsRepairUser.checkOne(this)" space="true">

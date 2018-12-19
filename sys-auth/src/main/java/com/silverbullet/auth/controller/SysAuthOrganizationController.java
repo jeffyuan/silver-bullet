@@ -8,6 +8,7 @@ import com.silverbullet.utils.BaseDataResult;
 import com.silverbullet.utils.ToolUtil;
 import com.silverbullet.utils.TreeNode1;
 import com.sun.org.apache.bcel.internal.generic.IF_ACMPEQ;
+import org.apache.catalina.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -33,11 +34,11 @@ public class SysAuthOrganizationController {
     @Autowired
     private ISysAuthOrganizationService sysAuthOrganizationService;
 
-    @RequestMapping(value = "/list/{curpage}.html", method = RequestMethod.GET)
-    public ModelAndView index(@PathVariable("curpage") String curpage, String parentId){
+    @RequestMapping(value = "/list/pub.html", method = RequestMethod.GET)
+    public ModelAndView index(String curpage, String parentId){
 
         int nCurPage = 1;
-        String parentid = sysAuthOrganizationService.getOneByParentId("NONE").getId();
+        String parentid = sysAuthOrganizationService.getParamByParentId("NONE", 0, 0, false).getResultList().get(0).getId();
 
         if (curpage != null) {
             nCurPage = Integer.valueOf(curpage);
@@ -48,14 +49,40 @@ public class SysAuthOrganizationController {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("/SysAuthOrganization/list");
 
-        BaseDataResult<SysAuthOrganization> results = sysAuthOrganizationService.list(parentid, nCurPage, 5);
+        BaseDataResult<SysAuthOrganization> results = sysAuthOrganizationService.list(nCurPage, 5);
 
+        modelAndView.addObject("list","list");
+        modelAndView.addObject("method", "AuthOrganization.loadDataCommon");
         modelAndView.addObject("results", results);
         modelAndView.addObject("curPage", nCurPage);
 
         return modelAndView;
     }
 
+
+
+    @RequestMapping(value = "/list.html", method = RequestMethod.POST)
+    public ModelAndView listData(String curpage, String parentId) {
+        int nCurPage = 1;
+
+        nCurPage =  (curpage != null) ? Integer.valueOf(curpage) : nCurPage;
+        parentId = (parentId != null) ? parentId : "";
+
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("/SysAuthOrganization/listContent");
+
+
+        BaseDataResult<SysAuthOrganization> results = (parentId.isEmpty())?
+                sysAuthOrganizationService.list(nCurPage, 5):
+                sysAuthOrganizationService.getParamByParentId(parentId, nCurPage, 5, true);
+
+        modelAndView.addObject("list", "list");
+        modelAndView.addObject("method", "AuthOrganization.loadDataCommon");
+        modelAndView.addObject("results", results);
+        modelAndView.addObject("curPage", nCurPage);
+
+        return modelAndView;
+    }
 
 
 
@@ -83,8 +110,11 @@ public class SysAuthOrganizationController {
 
     @RequestMapping(value = "/edit.html", method = RequestMethod.POST)
     public String edit(Model model, String id) {
-        SysAuthOrganization sysAuthUser = sysAuthOrganizationService.getOneById(id);
-        model.addAttribute("obj", sysAuthUser);
+        SysAuthOrganization sysAuthOrganization = sysAuthOrganizationService.getOneById(id);
+        String parentName = sysAuthOrganizationService.getOneById(sysAuthOrganization.getParentId()).getName();
+
+        model.addAttribute("obj", sysAuthOrganization);
+        model.addAttribute("parentName", parentName);
         return "/SysAuthOrganization/model";
     }
 
@@ -103,7 +133,7 @@ public class SysAuthOrganizationController {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("/SysAuthPost/list");
 
-        BaseDataResult<SysAuthOrganization> results = sysAuthOrganizationService.list(parentId, nCurPage, 5);
+        BaseDataResult<SysAuthOrganization> results = sysAuthOrganizationService.list(nCurPage, 5);
 
         modelAndView.addObject("results", results);
         modelAndView.addObject("curPage", nCurPage);
@@ -191,6 +221,8 @@ public class SysAuthOrganizationController {
             modelAndView.addObject("results", results);
         }
 
+        modelAndView.addObject("list","list");
+        modelAndView.addObject("method", "AuthOrganization.loadDataCommon");
         modelAndView.addObject("parentId", parentId);
         modelAndView.addObject("curPage", nCurPage);
             return modelAndView;
@@ -215,7 +247,6 @@ public class SysAuthOrganizationController {
 
         return map;
 
-//        return sysAuthOrganizationService.findTreeNode();
     }
 
 }

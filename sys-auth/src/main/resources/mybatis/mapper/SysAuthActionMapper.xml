@@ -243,6 +243,7 @@
     select
     <include refid="Base_Column_List" />
     from sys_auth_action
+    order by modify_time desc
   </select>
   <select id="countNum" resultType="Integer">
     select count(*) from sys_auth_action

@@ -36,9 +36,9 @@
                     <td><input type="checkbox" /></td>
                     <th>${results.resultList[i].name}</th>
                     <th>${results.resultList[i].type}</th>
-                    <th>${results.resultList[i].createTime}</th>
+                    <th>${results.resultList[i].createTime, "yyyy-MM-dd hh:mm:ss"}</th>
                     <th>${results.resultList[i].modifyUser}</th>
-                    <th>${results.resultList[i].modifyTime}</th>
+                    <th>${results.resultList[i].modifyTime, "yyyy-MM-dd hh:mm:ss"}</th>
                     <th>${results.resultList[i].comments}</th>
                     <th>
                         <button name="修改" class="btn btn-default btn-sm" onclick="AuthActionTree.editOne(this)" space="true">
