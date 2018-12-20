@@ -20,7 +20,8 @@
         <module>sys-message</module>
         <module>sys-params</module>
         <module>cms-app</module>
-        <module>gebit-cloud</module>
+        <module>special-cloud-project</module>
+        <module>special-cloud-store</module>
         <!--<module>silverbullet-index</module>-->
     </modules>
 
