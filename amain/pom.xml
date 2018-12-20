@@ -64,11 +64,15 @@
 
 		<dependency>
 			<groupId>com.silverbullet</groupId>
-			<artifactId>gebit-cloud</artifactId>
+			<artifactId>special-cloud-project</artifactId>
 			<version>1.0-SNAPSHOT</version>
 		</dependency>
 
-
+		<dependency>
+			<groupId>com.silverbullet</groupId>
+			<artifactId>special-cloud-store</artifactId>
+			<version>1.0-SNAPSHOT</version>
+		</dependency>
 		<!--<dependency>-->
 			<!--<groupId>org.springframework.boot</groupId>-->
 			<!--<artifactId>spring-boot-starter-tomcat</artifactId>-->
