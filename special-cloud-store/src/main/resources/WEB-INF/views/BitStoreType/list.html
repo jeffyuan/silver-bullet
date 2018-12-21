@@ -1,0 +1,29 @@
+<style type="text/css">
+    .box-controls {
+        padding: 5px;
+    }
+    .btn-header {
+        height: 34px;
+    }
+</style>
+@layout("/layouts/bk-base.html") {
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <h1>
+        管道类别管理
+        <small>浏览</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Silver Bullet </a></li>
+        <li><a href="#">专题云管理</a></li>
+        <li><a href="#">专题云库基本信息管理</a></li>
+        <li class="active">管道类别管理</li>
+    </ol>
+</section>
+
+<div id="data-list-content">
+    @include("/BitStoreType/listContent.html"){}
+</div>
+
+<script src="${ctxPath}/static/bitStoreType/BitStoreType.js"></script>
+@}

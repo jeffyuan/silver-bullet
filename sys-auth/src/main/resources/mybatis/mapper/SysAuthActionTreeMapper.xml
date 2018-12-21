@@ -279,6 +279,7 @@
             OR FIND_IN_SET(#{post}, e.post_ids )
           </foreach>
         </if>
+        AND saa.resource_type = "menu"
       </where>
 
       ORDER BY length(saat.path), saat.sort ASC

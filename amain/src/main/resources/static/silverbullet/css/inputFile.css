@@ -788,13 +788,13 @@ i,span,button{
     display:none;
 }
 
-<<<<<<< Updated upstream
-.search_gp_span_narrow{
-    display: inline-block;
-    width: 15%;
-    text-align: right;
-    min-width: 45px;
-}
+/*<<<<<<< Updated upstream*/
+/*.search_gp_span_narrow{*/
+    /*display: inline-block;*/
+    /*width: 15%;*/
+    /*text-align: right;*/
+    /*min-width: 45px;*/
+/*}*/
 
 /*<<<<<<< Updated upstream*/
 /*.search_gp_span_small{*/
@@ -807,12 +807,12 @@ i,span,button{
     /*cursor: default!important;*/
     /*border-color: #fff;*/
     /*resize:none;*/
-=======
-.msg{
-    color: red;
-    display: none;
-}
->>>>>>> Stashed changes
+/*=======*/
+/*.msg{*/
+    /*color: red;*/
+    /*display: none;*/
+/*}*/
+/*>>>>>>> Stashed changes*/
 
 
 
@@ -863,4 +863,8 @@ i,span,button{
 
 .form-horizontal div{
     margin:8px 0;
+}
+
+.disNone{
+    display: none!important;
 }
