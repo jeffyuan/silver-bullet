@@ -49,8 +49,12 @@
             data: data,
             dataType: "json",
             success: function(data){
+                console.log(data)
                 TreeView.ActionList = data.list != null? TreeView.postActionChange(data.list):undefined;
                 datas = data.result.resultList;
+            },
+            error: function(){
+
             }
         });
 
@@ -87,7 +91,7 @@
 
         // 获取树信息
         var datas = TreeView.getData('post', option.url, {parentId: option.uid, postId: option.postId});
-
+        console.log(datas)
         if(datas[0] != ""){
             $.each(datas, function(k,v){
                 if(v == datas[0]){
@@ -98,7 +102,7 @@
                     v["pos"] = '#';
                 }
 
-                if($.inArray(v.id, TreeView.ActionList) >= 0){
+                if($.inArray(v.actionId, TreeView.ActionList) >= 0){
                     v.state = {};
                     v.state.checked = true;
                 }else{
@@ -119,15 +123,14 @@
      * @param pos
      */
     TreeView.treeBuildCommon = function(data){
-
         var treeNode = {};
-
         //构造树
         if(data.type == 1) {
             treeNode["lazyLoad"] = true;
         }
+        console.log(data)
         treeNode["text"] = data.name;
-        treeNode["id"] = data.id;
+        treeNode["id"] = data.actionId != "" ? data.actionId === undefined ? data.id : data.actionId : data.id;
         treeNode["icon"] = data.icon;
         treeNode["sort"] = data.sort;
         treeNode["parentuid"] = data.parentId;
@@ -163,7 +166,7 @@
                     v["pos"] = '#';
                 }
 
-                if($.inArray(v.id, TreeView.ActionList) >= 0){
+                if($.inArray(v.actionId, TreeView.ActionList) >= 0){
                     v.state = {};
                     v.state.checked = true;
                 }else{
@@ -206,16 +209,14 @@
      */
     $.extend({
         treeNode: function(options){
-
             var $opts = $.extend(treeNode, options);
 
             for(var i =0; i<TreeView.node.nodes.length; i++){
                 var id = TreeView.node.nodes[i].id;
                 $opts.dom.find("li[id='"+id+"']").remove();
             }
-
             TreeView.node.nodes = [];
-            TreeView.treeLazyLoad(TreeView.node, $opts.url, $opts.dom);
+            TreeView.treeLazyLoad(TreeView.node, $opts);
         }
     })
 

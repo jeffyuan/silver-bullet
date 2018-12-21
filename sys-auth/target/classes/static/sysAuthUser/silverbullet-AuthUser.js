@@ -28,6 +28,7 @@ AuthUser.passwordChange = "<form id=\"formParams\" class=\"m-t\" role=\"form\" m
  * @returns {string}
  */
 AuthUser.getHtmlInfo = function (url, params) {
+
     var dialogInfo = '';
     $.ajax({
         type: "post",
@@ -70,7 +71,7 @@ AuthUser.save = function (url, dialogItself) {
         data: $("#formParams").serialize(),
         dataType: "json",
         success: function (data) {
-            console.log(data);
+            // console.log(data);
             if (data.result == true) {
                 BootstrapDialog.alert({
                     type: BootstrapDialog.TYPE_WARNING,
@@ -105,6 +106,7 @@ AuthUser.check = function() {
     $("div[aria-checked='true']").each(function(){
         arrays.push($(this).parent().parent().attr('data-u'));
     });
+
     if (arrays.length != 1) {
         BootstrapDialog.alert({
             type: BootstrapDialog.TYPE_WARNING,
@@ -122,6 +124,7 @@ AuthUser.check = function() {
  * @param uid
  */
 AuthUser.checkCommon = function(uid){
+    // console.log(typeof (uid));
     var dialogInfo = AuthUser.getHtmlInfo(AuthUser.ctxPath + AuthUser.url + 'check.html', {id: uid});
     BootstrapDialog.show({
         title: '查看用户信息',
@@ -543,6 +546,9 @@ AuthUser.resetPassword = function () {
     });
 
 };
+/**
+ * 更改密码入口
+ */
 
 
 AuthUser.changePassword = function () {
@@ -564,6 +570,10 @@ AuthUser.changePassword = function () {
 
 };
 
+/**
+ * 验证密码
+ * @param id
+ */
 AuthUser.verifyPassword = function (id) {
     BootstrapDialog.show({
             title: '验证当前用户密码',
@@ -606,6 +616,10 @@ AuthUser.verifyPassword = function (id) {
         }
     );
 };
+/**
+ * 修改密码
+ * @param id
+ */
 AuthUser.setPassword = function (id) {
     BootstrapDialog.show({
             title: '更改用户密码',
@@ -624,12 +638,12 @@ AuthUser.setPassword = function (id) {
                         data: "id="+id+"&"+$("#formParams").serialize(),
                         dataType: "json",
                         success: function (data) {
-                            console.log($("#formParams").serialize())
+                            // console.log($("#formParams").serialize())
                             if (data.result == "true") {
                                 BootstrapDialog.alert({
                                     type: BootstrapDialog.TYPE_WARNING,
                                     title: '提示',
-                                    message: "重置成功！",
+                                    message: "修改成功！",
                                     buttonLabel: "确定"
                                 });
                                 dialogItself.close();

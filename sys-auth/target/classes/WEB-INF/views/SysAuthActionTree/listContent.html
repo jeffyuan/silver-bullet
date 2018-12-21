@@ -27,7 +27,7 @@
                     <th>修改人</th>
                     <th>修改时间</th>
                     <th>备注</th>
-                    <th>操作</th>
+                    <th class="tb-w-90">操作</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -54,7 +54,8 @@
             </table>
         </div>
     </div>
-    <#PageTag action="${ctxPath}/auth/sysauthactiontree/list/" totalNum="${results.totalNum}" perSize="5" curPage="${curPage}"></#PageTag>                <!--#PageTag-->
+    <#PageTag action="${ctxPath}/auth/sysauthactiontree/${list!}.html" totalNum="${results.totalNum!}" perSize="5"
+    curPage="${curPage!}" loadDataFunName="${method!}" searchValue="${searchValue!}" dom="#data-list-content-list"></#PageTag>                <!--#PageTag-->
 <!-- /.box-body -->
 </div>
 <!-- /.box -->

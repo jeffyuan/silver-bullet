@@ -54,7 +54,8 @@
             </table>
         </div>
     </div>
-    <#PageTag action="${ctxPath}/auth/sysauthactiontree/list/" totalNum="${results.totalNum}" perSize="5" curPage="${curPage}"></#PageTag>                <!--#PageTag-->
+    <#PageTag action="${ctxPath}/auth/sysauthactiontree/${list!}.html" totalNum="${results.totalNum!}" perSize="5"
+    curPage="${curPage!}" loadDataFunName="${method!}" searchValue="${searchValue!}" dom="#data-list-content-list"></#PageTag>                <!--#PageTag-->
 <!-- /.box-body -->
 </div>
 <!-- /.box -->

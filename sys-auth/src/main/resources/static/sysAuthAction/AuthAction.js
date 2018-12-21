@@ -43,6 +43,29 @@ AuthAction.loadData = function(obj, action, curpage) {
     return true;
 };
 
+
+/**
+ * 加载页面通用方法
+ * @param obj
+ * @param action
+ * @param value
+ * @param dom
+ * @returns {boolean}
+ */
+AuthAction.loadDataCommon = function(obj, action, value, dom){
+
+    var val = {
+        curpage: value,
+        parentId: ""
+    };
+
+
+    var dialogInfo = AuthAction.getHtmlInfo(action, val);
+    dialogInfo += "<script>AuthAction.checkboxInit();</script>";
+    $("#data-list-content").html(dialogInfo);
+    return true;
+}
+
 /**
  * 表格头部添加方法
  */

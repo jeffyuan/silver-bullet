@@ -118,8 +118,16 @@ public class SysAuthActionTreeService implements ISysAuthActionTreeService {
     }
 
     @Override
-    public boolean delete(String id) {
-        return sysAuthActionTreeMapper.deleteByPrimaryKey(id) == 1 ? true : false;
+    public boolean delete(String ids) {
+        String [] arrIds = ids.split(",");
+        boolean bret = true;
+        for (String id : arrIds) {
+            bret = sysAuthActionTreeMapper.deleteByPrimaryKey(id) == 1 ? true : false;
+            if (!bret) {
+                throw new RuntimeException("delete faild");
+            }
+        }
+        return bret;
     }
 
     @Override
@@ -163,19 +171,11 @@ public class SysAuthActionTreeService implements ISysAuthActionTreeService {
      * @return
      */
     @Override
-    public Boolean setTreeNodeSort(String id, String parentId, Integer sort, Integer status) {
+    public Boolean setTreeNodeSort(String[] ids, String[] sorts) {
 
         try{
-            Integer sort1 = sort-1;
-            Integer sort2 = sort+1;
-
-            if (status == 1) {
-                sysAuthActionTreeMapper.setTreeNodeSortUp(parentId, sort1.toString(), sort.toString());
-                sysAuthActionTreeMapper.setTreeNodeSortDown(id, parentId, sort1.toString());
-            } else {
-                sysAuthActionTreeMapper.setTreeNodeSortUp(parentId, sort2.toString(), sort.toString());
-                sysAuthActionTreeMapper.setTreeNodeSortDown(id, parentId, sort2.toString());
-            }
+            sysAuthActionTreeMapper.setTreeNodeSort(ids[0], sorts[1]);
+            sysAuthActionTreeMapper.setTreeNodeSort(ids[1], sorts[0]);
 
             return true;
         } catch (Exception ex){

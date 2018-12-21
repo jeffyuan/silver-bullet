@@ -92,7 +92,7 @@ TreeView.treeBuildCommon = function(data, pos){
         treeNode["lazyLoad"] = true;
     }
     treeNode["text"] = data.name;
-    treeNode["id"] = data.id;
+    treeNode["id"] = data.actionId != undefined? data.actionId : data.id;
     treeNode["icon"] = data.icon;
     treeNode["sort"] = data.sort;
     treeNode["parentuid"] = data.parentId;

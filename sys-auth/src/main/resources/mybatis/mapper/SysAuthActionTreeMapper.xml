@@ -40,6 +40,7 @@
     <include refid="Base_Column_List" />
     from sys_auth_actiontree
     where id = #{id,jdbcType=VARCHAR}
+    order by modify_time desc
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     <!--
@@ -255,6 +256,7 @@
   <select id="findList" resultMap="BaseResultMap">
     select <include refid="Base_Column_List" />
     from sys_auth_actiontree
+    order by modify_time desc
   </select>
   <select id="countNum" resultType="Integer">
     select count(*) from sys_auth_actiontree
@@ -281,7 +283,6 @@
         </if>
         AND saa.resource_type = "menu"
       </where>
-
       ORDER BY length(saat.path), saat.sort ASC
   </select>
 
@@ -309,5 +310,11 @@
     update sys_auth_actiontree
     set sort = #{sort, jdbcType=VARCHAR}
     where parent_id = #{parentId, jdbcType=VARCHAR} and sort = #{sortNow, jdbcType=VARCHAR}
+  </update>
+
+  <update id="setTreeNodeSort" parameterType="java.lang.String">
+    update sys_auth_actiontree
+    set sort = #{sort}
+    where action_id = #{id}
   </update>
 </mapper>

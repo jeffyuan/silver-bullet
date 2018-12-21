@@ -74,7 +74,7 @@ public class SysAuthPostService implements ISysAuthPostService {
 
             sysAuthPostNew.setName(sysAuthPost.getName());
             sysAuthPostNew.setModifyTime(Calendar.getInstance().getTime());
-            sysAuthPostNew.setModifyUser(userInfo.getName());
+            sysAuthPostNew.setModifyUser(userInfo.getId());
             sysAuthPostNew.setModifyUsername(userInfo.getUsername());
             sysAuthPostNew.setIsExtends(sysAuthPost.getIsExtends());
 
@@ -110,7 +110,7 @@ public class SysAuthPostService implements ISysAuthPostService {
             sysAuthPost.setCreateTime(Calendar.getInstance().getTime());
             sysAuthPost.setModifyTime(Calendar.getInstance().getTime());
 
-            sysAuthPost.setModifyUser(userInfo.getName());
+            sysAuthPost.setModifyUser(userInfo.getId());
             sysAuthPost.setModifyUsername(userInfo.getUsername());
             sysAuthPost.setState("1");
             return sysAuthPostMapper.insert(sysAuthPost) == 1 ? true : false;

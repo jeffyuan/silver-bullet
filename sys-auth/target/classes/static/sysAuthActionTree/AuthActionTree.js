@@ -45,6 +45,27 @@ AuthActionTree.loadData = function(obj, action, curpage) {
     return true;
 };
 
+/**
+ * 加载页面通用方法
+ * @param obj
+ * @param action
+ * @param value
+ * @param dom
+ * @returns {boolean}
+ */
+AuthActionTree.loadDataCommon = function(obj, action, value, dom){
+
+    var val = {
+        curpage: value,
+        parentId: ""
+    };
+
+    var dialogInfo = AuthActionTree.getHtmlInfo(action, val);
+    dialogInfo += "<script>AuthActionTree.checkboxInit();</script>";
+    $(dom).html(dialogInfo);
+    return true;
+}
+
 
 /**
  * 设置
@@ -75,7 +96,7 @@ AuthActionTree.setNodePosition = function (params, url) {
  */
 AuthActionTree.add = function() {
     var dialogInfo = AuthActionTree.getHtmlInfo(AuthActionTree.ctxPath + AuthActionTree.url + 'add.html', {});
-    data.blur(".wrapper", 1);
+    // data.blur(".wrapper", 1);
     BootstrapDialog.show({
         title: '添加权限',
         closable: true,
@@ -127,9 +148,7 @@ AuthActionTree.save = function(url, dialogItself) {
                 });
                 dialogItself.close();
                 // 刷新页面
-                CmsRepairType.treeNode(TreeView.node);
-                window.location.reload();
-                /*AuthActionTree.loadData(null, AuthActionTree.ctxPath + AuthActionTree.url + "list.html" ,1);*/
+                AuthActionTree.loadDataCommon(null, AuthActionTree.ctxPath + AuthActionTree.url + "list.html" ,1, "#data-list-content-list");
             } else {
                 if (data.errors != null) {
                     // 错误信息反馈到页面上
@@ -245,6 +264,7 @@ AuthActionTree.deleteOne = function(obj) {
  * @param ids 以,号分割的字符串
  */
 AuthActionTree.deleteCommon = function(ids) {
+    console.log(ids)
     BootstrapDialog.confirm({
         title: '删除提示',
         message: '是否确定删除?',
@@ -270,7 +290,7 @@ AuthActionTree.deleteCommon = function(ids) {
                                 buttonLabel: "确定"
                             });
                             // 刷新页面
-                            window.location.reload();
+                            AuthActionTree.loadDataCommon(null, AuthActionTree.ctxPath + AuthActionTree.url + "list.html" ,1, "#data-list-content-list");
                         } else {
                             BootstrapDialog.alert({
                                 type: BootstrapDialog.TYPE_WARNING,
@@ -518,6 +538,8 @@ AuthActionTree.treeEditButton = function(e){
  * @param e
  */
 AuthActionTree.treeNodeMove = function(e, status){
+    var ids = [];
+    var sorts = [];
 
     var $dom = $(e).parent().parent();
     $dom.css({
@@ -526,12 +548,23 @@ AuthActionTree.treeNodeMove = function(e, status){
     });
 
     var data = {
-        id: $dom.attr("id"),
+        ids: ids,
+        sorts: sorts,
         parentId: $dom.attr("parentuid"),
-        sort: $dom.attr("sort"),
-        statu: status
     }
 
+    data.ids.push($dom.attr("id"));
+    data.sorts.push($dom.attr("sort"));
+    if(status == 0){
+        data.ids.push($dom.next().attr("id"));
+        data.sorts.push($dom.next().attr("sort"));
+    }else{
+        data.ids.push($dom.prev().attr("id"));
+        data.sorts.push($dom.prev().attr("sort"));
+    }
+
+
+    console.log(data)
     if(status == 1 && $dom.attr("position") == 1){
         return ;
     }else if(status == 0 && $dom.attr("position") == 0){

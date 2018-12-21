@@ -38,7 +38,7 @@ public class    SysAuthActionController {
         BaseDataResult<SysAuthAction> results = sysAuthActionService.list(nCurPage, 5 );
 
         modelAndView.addObject("list","list");
-        modelAndView.addObject("method", "AuthAction.loadData");
+        modelAndView.addObject("method", "AuthAction.loadDataCommon");
         modelAndView.addObject("results", results);
         modelAndView.addObject("curPage", nCurPage);
 
@@ -58,7 +58,7 @@ public class    SysAuthActionController {
         BaseDataResult<SysAuthAction> results = sysAuthActionService.list(nCurPage, 5);
 
         modelAndView.addObject("list","list");
-        modelAndView.addObject("method", "AuthAction.loadData");
+        modelAndView.addObject("method", "AuthAction.loadDataCommon");
         modelAndView.addObject("results", results);
         modelAndView.addObject("curPage", nCurPage);
 
