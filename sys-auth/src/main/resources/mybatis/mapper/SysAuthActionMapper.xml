@@ -250,7 +250,7 @@
   </select>
 
   <select id="findListByPostId" parameterType="String" resultMap="BaseResultMap">
-    select saa.* from sys_auth_action saa, sys_auth_postaction sap where sap.post_id = #{postId} and sap.post_id = saa.id and saa.state = '1'
+    select saa.* from sys_auth_action saa, sys_auth_postaction sap where sap.post_id = #{postId} and sap.action_id = saa.id and saa.state = '1'
   </select>
 
   <select id="findTreeNode" resultType="java.util.Map">
