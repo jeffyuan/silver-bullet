@@ -406,7 +406,7 @@ table{
     text-shadow: 0 1px 0 rgba(0,0,0,.25);
 }
 
-i,span,button{
+i,button{
     text-shadow: 0 1px 2px rgba(0,0,0,.25);
 }
 
@@ -648,7 +648,7 @@ i,span,button{
 
 
 .NodeEditIcon:active{
-    box-shadow: 0 0 15px rgba(0,0,0,.7) inset;
+    /*box-shadow: 0 0 15px rgba(0,0,0,.7) inset;*/
 }
 
 .NodeEditList{
@@ -694,9 +694,9 @@ i,span,button{
 }
 
 .unClick{
-    background: #e8e8e8!important;
+    background: #808080!important;
     color: #ffffff !important;
-    box-shadow: 0 0 15px rgba(0,0,0,.7) inset!important;
+    /*box-shadow: 0 0 15px rgba(0,0,0,.7) inset!important;*/
     cursor:not-allowed;
     border-color:#808080!important;
 }
@@ -788,36 +788,6 @@ i,span,button{
     display:none;
 }
 
-/*<<<<<<< Updated upstream*/
-/*.search_gp_span_narrow{*/
-    /*display: inline-block;*/
-    /*width: 15%;*/
-    /*text-align: right;*/
-    /*min-width: 45px;*/
-/*}*/
-
-/*<<<<<<< Updated upstream*/
-/*.search_gp_span_small{*/
-    /*display: inline-block;*/
-    /*width: 35%;*/
-    /*text-align: right;*/
-    /*min-width: 45px;*/
-/*=======*/
-/*.check-text{*/
-    /*cursor: default!important;*/
-    /*border-color: #fff;*/
-    /*resize:none;*/
-/*=======*/
-/*.msg{*/
-    /*color: red;*/
-    /*display: none;*/
-/*}*/
-/*>>>>>>> Stashed changes*/
-
-
-
-/*>>>>>>> Stashed changes*/
-/*}*/
 
 .search_gp_span_big{
     display: inline-block;
@@ -867,4 +837,18 @@ i,span,button{
 
 .disNone{
     display: none!important;
+}
+
+.logo-black{
+    background: #222d32!important;
+    color: #ffffff!important;
+    border-right:1px solid #222d32!important;
+}
+
+.navbar-material a{
+    border:none!important;
+}
+
+.content-wrapper{
+    background: #f2f2f2!important;
 }

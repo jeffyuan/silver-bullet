@@ -51,7 +51,8 @@
     <link rel="stylesheet" href="${ctxPath}/static/silverbullet/css/animate.min.css">
     <!--swiper-4.4.1-->
     <link rel="stylesheet" href="${ctxPath}/static/swiper-4.4.1/dist/css/swiper.min.css">
-
+    <!--&lt;!&ndash;adminLte.expand.css&ndash;&gt;-->
+    <!--<link rel="stylesheet" href="${ctxPath}/static/silverbullet/css/adminLte.expand.css">-->
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -84,7 +85,7 @@
 <div class="wrapper" style="overflow-y:hidden;">
     @include("/fragments/bk-header.html"){}
     @include("/fragments/bk-leftmenu.html"){}
-    <div class="content-wrapper" style="background:#f5f5f5!important;overflow-y: hidden;">
+    <div class="content-wrapper" style="overflow-y: hidden;">
         <div class="fadeInCon" id="content_async" style="display: none;">
             ${layoutContent}
         </div>

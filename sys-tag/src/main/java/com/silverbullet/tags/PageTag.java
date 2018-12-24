@@ -157,7 +157,7 @@ public class PageTag extends GeneralVarTagBinding {
      */
     private void loadAjax() {
         StringBuilder paging = new StringBuilder("");
-        paging.append("<div class=\"box-footer\" style=\"padding-bottom: 0;\">");
+        paging.append("<div class=\"box-footer box-footer-box-Material\" style=\"padding-bottom: 0;\">");
         paging.append("<div class=\"row box-controls\">");
         paging.append("<div class=\"col-sm-3\">");
         paging.append("<div class=\"dataTables_info\">");
