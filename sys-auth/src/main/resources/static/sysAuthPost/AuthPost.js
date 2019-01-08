@@ -564,7 +564,7 @@ AuthPost.findNode = function(){
     var Nodes = $('#modelOrganizationTree').treeview('getChecked', [])
 
     $.each(Nodes, function(k,v){
-        Node.push(v.id);
+        Node.push(v.actionId);
     });
 
     console.log(Node)

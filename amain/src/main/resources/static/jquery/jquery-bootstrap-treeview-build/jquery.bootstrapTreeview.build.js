@@ -25,7 +25,10 @@
         nodeExpanded: undefined,  /*展开*/
         nodeCollapsed: undefined,  /*折叠*/
         postId: undefined,
-        ActionList: undefined
+        ActionList: undefined,
+        expandIcon: 'fa fa-caret-right fa-lg', //设置列表树可展开节点的图标
+        emptyIcon: '', //设置列表树中没有子节点的节点的图标
+        collapseIcon: 'fa fa-caret-down fa-lg' //设置列表树可收缩节点的图标
     }
 
     var treeNode = {
@@ -52,10 +55,8 @@
                 console.log(data)
                 TreeView.ActionList = data.list != null? TreeView.postActionChange(data.list):undefined;
                 datas = data.result.resultList;
+                console.log(datas)
             },
-            error: function(){
-
-            }
         });
 
         return datas;
@@ -112,7 +113,7 @@
                 treeList.push(TreeView.treeBuildCommon(v));
             });
         }
-
+        console.log(treeList)
         return treeList;
     }
 
@@ -129,8 +130,10 @@
             treeNode["lazyLoad"] = true;
         }
         console.log(data)
+
         treeNode["text"] = data.name;
-        treeNode["id"] = data.actionId != "" ? data.actionId === undefined ? data.id : data.actionId : data.id;
+        treeNode["id"] = data.id != "" ? data.id : "";
+        treeNode["actionId"] = data.actionId != "" ? data.actionId : "";
         treeNode["icon"] = data.icon;
         treeNode["sort"] = data.sort;
         treeNode["parentuid"] = data.parentId;
@@ -263,6 +266,9 @@
             onhoverColor: options.onhoverColor,
             uncheckedIcon: options.uncheckedIcon,
             checkedIcon: options.checkedIcon,
+            expandIcon: options.expandIcon, //设置列表树可展开节点的图标
+            emptyIcon: options.emptyIcon, //设置列表树中没有子节点的节点的图标
+            collapseIcon: options.collapseIcon,
             lazyLoad: function(node,addNode){
                 TreeView.treeLazyLoad(node, options);
                 TreeView.node = node;
@@ -301,7 +307,10 @@
             nodeUnchecked: TreeView.nodeUnchecked,
             nodeExpanded: TreeView.nodeExpanded,
             nodeCollapsed: TreeView.nodeCollapsed,
-            postId: TreeView.postId
+            postId: TreeView.postId,
+            expandIcon: TreeView.expandIcon, //设置列表树可展开节点的图标
+            emptyIcon: TreeView.emptyIcon, //设置列表树中没有子节点的节点的图标
+            collapseIcon: TreeView.collapseIcon
         };
 
         var $opts = $.extend(defaults, options);

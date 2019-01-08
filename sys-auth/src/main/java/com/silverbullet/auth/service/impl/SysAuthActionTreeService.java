@@ -166,8 +166,8 @@ public class SysAuthActionTreeService implements ISysAuthActionTreeService {
 
     /**
      * 根据id设置sort
-     *
-     * @param id
+     * @param ids
+     * @param sorts
      * @return
      */
     @Override

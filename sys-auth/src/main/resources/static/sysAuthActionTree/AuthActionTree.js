@@ -563,8 +563,6 @@ AuthActionTree.treeNodeMove = function(e, status){
         data.sorts.push($dom.prev().attr("sort"));
     }
 
-
-    console.log(data)
     if(status == 1 && $dom.attr("position") == 1){
         return ;
     }else if(status == 0 && $dom.attr("position") == 0){

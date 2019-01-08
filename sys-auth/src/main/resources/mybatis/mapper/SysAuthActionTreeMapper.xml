@@ -315,6 +315,6 @@
   <update id="setTreeNodeSort" parameterType="java.lang.String">
     update sys_auth_actiontree
     set sort = #{sort}
-    where action_id = #{id}
+    where id = #{id}
   </update>
 </mapper>
