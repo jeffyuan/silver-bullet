@@ -5,7 +5,7 @@ package com.silverbullet.core.pojo;
  * Created by jeffyuan on 2018/3/9.
  */
 public class UserInfo {
-    private String id;
+    private Integer id;
     private String username;
     private String password;
     private boolean remember;
@@ -61,11 +61,11 @@ public class UserInfo {
         this.userType = userType;
     }
 
-    public String getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 }

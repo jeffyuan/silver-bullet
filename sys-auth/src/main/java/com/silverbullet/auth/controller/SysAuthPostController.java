@@ -1,7 +1,9 @@
 package com.silverbullet.auth.controller;
 
+import com.silverbullet.auth.domain.SysAuthOrganization;
 import com.silverbullet.auth.domain.SysAuthPost;
 import com.silverbullet.auth.domain.SysAuthPostAction;
+import com.silverbullet.auth.service.ISysAuthOrganizationService;
 import com.silverbullet.auth.service.ISysAuthPostService;
 import com.silverbullet.core.validate.AddValidate;
 import com.silverbullet.utils.BaseDataResult;
@@ -28,6 +30,9 @@ public class SysAuthPostController {
 
     @Autowired
     private ISysAuthPostService sysAuthPostService;
+
+    @Autowired
+    private ISysAuthOrganizationService sysAuthOrganizationService;
 
     @RequestMapping(value = "/list/{curpage}.html", method = RequestMethod.GET)
     public ModelAndView index(@PathVariable("curpage") String curpage){
@@ -67,17 +72,47 @@ public class SysAuthPostController {
         return modelAndView;
     }
 
+    @RequestMapping(value = "/list.html", method = RequestMethod.POST)
+    public ModelAndView list(String curpage, String orgId){
+
+        int nCurPage = 1;
+        if (curpage != null) {
+            nCurPage = Integer.valueOf(curpage);
+        }
+
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("/SysAuthPost/list");
+
+        BaseDataResult<SysAuthPost> results = sysAuthPostService.getPostByOrgId(orgId, nCurPage, 5);
+
+        modelAndView.addObject("list","list");
+        modelAndView.addObject("OrganizationId", orgId);
+        modelAndView.addObject("method", "AuthAction.loadData");
+        modelAndView.addObject("results", results);
+        modelAndView.addObject("curPage", nCurPage);
+
+
+        return modelAndView;
+    }
+
+
     @RequestMapping(value = "/add.html", method = RequestMethod.POST)
-    public String add(Model model) {
+    public String add(Model model, String orgId) {
+        SysAuthOrganization sysAuthOrganization = sysAuthOrganizationService.getOneById(orgId);
+
         model.addAttribute("obj", new SysAuthPost());
+        model.addAttribute("orgObj", sysAuthOrganization);
         return "/SysAuthPost/model";
     }
 
 
     @RequestMapping(value = "/edit.html", method = RequestMethod.POST)
-    public String edit(Model model, String id) {
+    public String edit(Model model, String id, String orgId) {
         SysAuthPost sysAuthUser = sysAuthPostService.getOneById(id);
+        SysAuthOrganization sysAuthOrganization = sysAuthOrganizationService.getOneById(orgId);
         model.addAttribute("obj", sysAuthUser);
+        model.addAttribute("orgObj", sysAuthOrganization);
+
         return "/SysAuthPost/model";
     }
 
@@ -124,11 +159,12 @@ public class SysAuthPostController {
 
     @RequestMapping(value = "/setPostAction.do", method = RequestMethod.POST)
     @ResponseBody
-    public Map<String, Object> setPermission(String data){
+    public Map<String, Object> setPermission(String postIds, @RequestParam(value = "actionId[]") String[] actionId){
 
         Map<String, Object>mapRet = new HashMap<String, Object>();
 
-        boolean obj = sysAuthPostService.Handle(data);
+        boolean obj = sysAuthPostService.Handle(postIds, actionId);
+
         mapRet.put("result", obj);
 
         return mapRet;
@@ -145,6 +181,12 @@ public class SysAuthPostController {
         mapRet.put("result", postActionContent);
 
         return mapRet;
+    }
+
+    @RequestMapping(value = "modelTree.html", method = RequestMethod.POST)
+    public String modelTree(String uid, Model model){
+        model.addAttribute("uid", uid);
+        return "/SysAuthPost/modelTree";
     }
 
 

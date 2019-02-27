@@ -1,37 +1,6 @@
 package com.silverbullet.params.domain;
 
-import java.lang.String;
-import java.lang.String;
-import java.lang.String;
-import java.lang.String;
-import java.lang.String;
-import java.lang.Integer;
-import java.lang.String;
-import java.lang.String;
-import java.lang.String;
 import java.util.Date;
-import java.util.Date;
-import java.lang.String;
-import java.lang.String;
-import java.lang.String;
-import java.lang.String;
-import java.lang.String;
-import java.lang.String;
-import java.lang.String;
-import java.lang.String;
-import java.lang.String;
-import java.lang.String;
-import java.lang.Integer;
-import java.lang.String;
-import java.lang.String;
-import java.lang.String;
-import java.util.Date;
-import java.util.Date;
-import java.lang.String;
-import java.lang.String;
-import java.lang.String;
-import java.lang.String;
-import java.lang.String;
 
 public class SysParamsDictionaryItem {
 
@@ -60,11 +29,11 @@ public class SysParamsDictionaryItem {
     // 
     private String createUsername;
     // 
-    private String createUser;
+    private Integer createUser;
     // 
     private String modifyUsername;
     // 
-    private String modifyUser;
+    private Integer modifyUser;
     // 
     private String state = "0";
 
@@ -177,13 +146,13 @@ public class SysParamsDictionaryItem {
         this.createUsername = createUsername == null ? null : createUsername.trim();
     }
 
-    public String getCreateUser() {
+    public Integer getCreateUser() {
         return createUser;
     }
 
-    public void setCreateUser(String createUser) {
+    public void setCreateUser(Integer createUser) {
 
-        this.createUser = createUser == null ? null : createUser.trim();
+        this.createUser = createUser;
     }
 
     public String getModifyUsername() {
@@ -195,13 +164,13 @@ public class SysParamsDictionaryItem {
         this.modifyUsername = modifyUsername == null ? null : modifyUsername.trim();
     }
 
-    public String getModifyUser() {
+    public Integer getModifyUser() {
         return modifyUser;
     }
 
-    public void setModifyUser(String modifyUser) {
+    public void setModifyUser(Integer modifyUser) {
 
-        this.modifyUser = modifyUser == null ? null : modifyUser.trim();
+        this.modifyUser = modifyUser;
     }
 
     public String getState() {

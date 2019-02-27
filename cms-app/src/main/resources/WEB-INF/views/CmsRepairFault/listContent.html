@@ -71,7 +71,7 @@
                                     <td class="tb-w-60 text-center height-middle"><span class="ofg-radius">${(results.resultList[i].faultTypeId)==null?"暂无数据":(results.resultList[i].faultTypeId)}</span></td>
                                     <td>${results.resultList[i].faultDescribe}</td>
                                     <td>${results.resultList[i].faultReason}</td>
-                                    <td>${results.resultList[i].createTime}</td>
+                                    <td>${results.resultList[i].createTime, "yyyy-MM-dd hh:mm:ss"}</td>
                                     <td class="height-middle text-center tb-w-120 ofg-font-size-normal"><span class="label label-warning font-size-default">${results.resultList[i].createUsername}</span></td>
                                     <td class="tb-w-170">
                                         <button name="修改" class="btn btn-default btn-sm" onclick="CmsRepairFault.checkOne(this)" space="true">

@@ -1,4 +1,4 @@
-<div class="box">
+<div class="box box-Material">
     <div class="box-header">
         <h3 class="box-title">权限管理列表</h3>
     </div>
@@ -27,7 +27,7 @@
                     <th>修改人</th>
                     <th>修改时间</th>
                     <th>备注</th>
-                    <th>操作</th>
+                    <th class="tb-w-90">操作</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -36,9 +36,9 @@
                     <td><input type="checkbox" /></td>
                     <th>${results.resultList[i].name}</th>
                     <th>${results.resultList[i].type}</th>
-                    <th>${results.resultList[i].createTime}</th>
+                    <th>${results.resultList[i].createTime, "yyyy-MM-dd hh:mm:ss"}</th>
                     <th>${results.resultList[i].modifyUser}</th>
-                    <th>${results.resultList[i].modifyTime}</th>
+                    <th>${results.resultList[i].modifyTime, "yyyy-MM-dd hh:mm:ss"}</th>
                     <th>${results.resultList[i].comments}</th>
                     <th>
                         <button name="修改" class="btn btn-default btn-sm" onclick="AuthActionTree.editOne(this)" space="true">
@@ -54,7 +54,8 @@
             </table>
         </div>
     </div>
-    <#PageTag action="${ctxPath}/auth/sysauthactiontree/list/" totalNum="${results.totalNum}" perSize="5" curPage="${curPage}"></#PageTag>                <!--#PageTag-->
+    <#PageTag action="${ctxPath}/auth/sysauthactiontree/${list!}.html" totalNum="${results.totalNum!}" perSize="5"
+    curPage="${curPage!}" loadDataFunName="${method!}" searchValue="${searchValue!}" dom="#data-list-content-list"></#PageTag>                <!--#PageTag-->
 <!-- /.box-body -->
 </div>
 <!-- /.box -->

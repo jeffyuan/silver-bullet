@@ -20,6 +20,8 @@ public class PageTag extends GeneralVarTagBinding {
     private String action = "";
     private String loadDataFunName = "";  //加载数据的方法，否则将通过ajax方式进行加载到
     private String searchValue = "";
+    private String dom = "";
+    private String value1 = "";
 
     private void init(){
        // String tagName = (String) this.args[0];
@@ -29,6 +31,8 @@ public class PageTag extends GeneralVarTagBinding {
         curPage = (Integer)getAttributeValue("curPage");
         action = (String)getAttributeValue("action");
         searchValue = (String)getAttributeValue("searchValue");
+        dom = (String)getAttributeValue("dom");
+        value1 = (String)getAttributeValue("value1");
 
         Object obj = getAttributeValue("loadDataFunName");
         if (obj != null) {
@@ -46,7 +50,7 @@ public class PageTag extends GeneralVarTagBinding {
      */
     private void loadNormal() {
         StringBuilder paging = new StringBuilder("");
-        paging.append("<div class=\"box-footer no-padding\">");
+        paging.append("<div class=\"box-footer\" style=\"padding-bottom: 0;\">");
         paging.append("<div class=\"row box-controls\">");
         paging.append("<div class=\"col-sm-5\">");
         paging.append("<div class=\"dataTables_info\">");
@@ -81,7 +85,7 @@ public class PageTag extends GeneralVarTagBinding {
         }
 
 
-        paging.append("<li class=\"paginate_button active\"><span>").append(curPage).append("</span></li>");
+        paging.append("<li class=\"paginate_button active\"><span style=\"font-size:14px;\">").append(curPage).append("</span></li>");
 
         if(curPage + 1 <= pageNum){
             paging.append("<li class=\"paginate_button\"><a href=\"" + getGlobalLoadDataAHref(curPage + 1) + "\">")
@@ -143,7 +147,7 @@ public class PageTag extends GeneralVarTagBinding {
         }
 
         String loadDataFun = loadDataFunName;
-        loadDataFun += "("+searchValue +",'"+ action +"', " + pageNum +")";
+        loadDataFun += "('"+searchValue +"','"+ action +"', " + pageNum +",'"+dom+"')";
 
         return loadDataFun;
     }
@@ -153,7 +157,7 @@ public class PageTag extends GeneralVarTagBinding {
      */
     private void loadAjax() {
         StringBuilder paging = new StringBuilder("");
-        paging.append("<div class=\"box-footer no-padding\">");
+        paging.append("<div class=\"box-footer box-footer-box-Material\" style=\"padding-bottom: 0;\">");
         paging.append("<div class=\"row box-controls\">");
         paging.append("<div class=\"col-sm-3\">");
         paging.append("<div class=\"dataTables_info\">");
@@ -188,7 +192,7 @@ public class PageTag extends GeneralVarTagBinding {
         }
 
 
-        paging.append("<li class=\"paginate_button active\"><span>").append(curPage).append("</span></li>");
+        paging.append("<li class=\"paginate_button active\"><span style=\"font-size:14px;\">").append(curPage).append("</span></li>");
 
         if(curPage + 1 <= pageNum){
             paging.append("<li class=\"paginate_button\"><a href=\"javascript:void(0)\" onclick=\"" + getAjaxLoadDataFunTmp(curPage + 1)+ "\">")

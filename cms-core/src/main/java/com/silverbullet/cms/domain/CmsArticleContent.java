@@ -1,20 +1,12 @@
 package com.silverbullet.cms.domain;
 
+import com.silverbullet.core.validate.AddValidate;
+import com.silverbullet.core.validate.FullValidate;
+import org.hibernate.validator.constraints.NotBlank;
+
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Date;
-import com.silverbullet.core.validate.AddValidate;
-import com.silverbullet.core.validate.FullValidate;
-import org.hibernate.validator.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import java.lang.Integer;
-import org.hibernate.validator.constraints.NotEmpty;
-import java.lang.String;
-import com.silverbullet.core.validate.AddValidate;
-import com.silverbullet.core.validate.FullValidate;
-import org.hibernate.validator.constraints.NotBlank;
-import org.hibernate.validator.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 public class CmsArticleContent {
 
@@ -44,17 +36,13 @@ public class CmsArticleContent {
     @Size(max=64, message = "createUsername 长度不能超过64", groups = {FullValidate.class, AddValidate.class})
     private String createUsername;
     // createUser 
-    @NotBlank(message = "createUser 不能为空" , groups = {FullValidate.class, AddValidate.class})
-    @Size(max=32, message = "createUser 长度不能超过32", groups = {FullValidate.class, AddValidate.class})
-    private String createUser;
+    private Integer createUser;
     // modifyUsername 
     @NotBlank(message = "modifyUsername 不能为空" , groups = {FullValidate.class, AddValidate.class})
     @Size(max=64, message = "modifyUsername 长度不能超过64", groups = {FullValidate.class, AddValidate.class})
     private String modifyUsername;
     // modifyUser 
-    @NotBlank(message = "modifyUser 不能为空" , groups = {FullValidate.class, AddValidate.class})
-    @Size(max=32, message = "modifyUser 长度不能超过32", groups = {FullValidate.class, AddValidate.class})
-    private String modifyUser;
+    private Integer modifyUser;
     // contVersion 
     @NotNull(message = "contVersion 不能为空" , groups = {FullValidate.class, AddValidate.class})
     private Integer contVersion;
@@ -130,13 +118,13 @@ public class CmsArticleContent {
         this.createUsername = createUsername == null ? null : createUsername.trim();
     }
 
-    public String getCreateUser() {
+    public Integer getCreateUser() {
         return createUser;
     }
 
-    public void setCreateUser(String createUser) {
+    public void setCreateUser(Integer createUser) {
 
-        this.createUser = createUser == null ? null : createUser.trim();
+        this.createUser = createUser;
     }
 
     public String getModifyUsername() {
@@ -148,13 +136,13 @@ public class CmsArticleContent {
         this.modifyUsername = modifyUsername == null ? null : modifyUsername.trim();
     }
 
-    public String getModifyUser() {
+    public Integer getModifyUser() {
         return modifyUser;
     }
 
-    public void setModifyUser(String modifyUser) {
+    public void setModifyUser(Integer modifyUser) {
 
-        this.modifyUser = modifyUser == null ? null : modifyUser.trim();
+        this.modifyUser = modifyUser;
     }
 
     public Integer getContVersion() {

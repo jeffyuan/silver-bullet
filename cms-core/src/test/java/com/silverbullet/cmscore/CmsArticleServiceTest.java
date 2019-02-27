@@ -84,9 +84,9 @@ public class CmsArticleServiceTest {
         cmsArticle.setArtState("1");
         cmsArticle.setCreateTime(Calendar.getInstance().getTime());
         cmsArticle.setModifyTime(Calendar.getInstance().getTime());
-        cmsArticle.setCreateUser("40288b854a329988014a329a12f30002");
-        cmsArticle.setCreateUsername("管理员");
-        cmsArticle.setModifyUser("40288b854a329988014a329a12f30002");
+//        cmsArticle.setCreateUser("40288b854a329988014a329a12f30002");
+//        cmsArticle.setCreateUsername("管理员");
+//        cmsArticle.setModifyUser("40288b854a329988014a329a12f30002");
         cmsArticle.setModifyUsername("管理员");
         cmsArticle.setWriteAuthority("0");
         cmsArticle.setReadAuthority("0");
@@ -117,9 +117,9 @@ public class CmsArticleServiceTest {
         cmsArticleContent.setContState("1");
         cmsArticleContent.setContVersion(1);
         cmsArticleContent.setCreateTime(Calendar.getInstance().getTime());
-        cmsArticleContent.setCreateUser("40288b854a329988014a329a12f30002");
-        cmsArticleContent.setCreateUsername("管理员");
-        cmsArticleContent.setModifyUser("40288b854a329988014a329a12f30002");
+//        cmsArticleContent.setCreateUser("40288b854a329988014a329a12f30002");
+//        cmsArticleContent.setCreateUsername("管理员");
+//        cmsArticleContent.setModifyUser("40288b854a329988014a329a12f30002");
         cmsArticleContent.setModifyUsername("管理员");
 
         cmsArticleEntity.setCmsArticleContent(cmsArticleContent);

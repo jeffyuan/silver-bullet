@@ -29,8 +29,9 @@ public interface ISysAuthActionTreeService {
 
     /**
      * 根据id设置sort
-     * @param id
+     * @param ids
+     * @param sorts
      * @return
      */
-    public Boolean setTreeNodeSort(String id, String parentId, Integer sort, Integer status);
+    public Boolean setTreeNodeSort(String[] ids, String[] sorts);
 }

@@ -32,8 +32,8 @@ public class CmsArticleTypetreeTest {
         CmsArticleTypetree cmsArticleTypetree = new CmsArticleTypetree();
         cmsArticleTypetree.setId(ToolUtil.getUUID());
         cmsArticleTypetree.setName("首页");
-        cmsArticleTypetree.setCreateUser("40288b854a329988014a329a12f30002");
-        cmsArticleTypetree.setModifyUser("40288b854a329988014a329a12f30002");
+//        cmsArticleTypetree.setCreateUser("40288b854a329988014a329a12f30002");
+//        cmsArticleTypetree.setModifyUser("40288b854a329988014a329a12f30002");
         cmsArticleTypetree.setModifyTime(Calendar.getInstance().getTime());
         cmsArticleTypetree.setCreateTime(Calendar.getInstance().getTime());
         cmsArticleTypetree.setDomain("back");
@@ -50,8 +50,8 @@ public class CmsArticleTypetreeTest {
         cmsArticleTypetree = new CmsArticleTypetree();
         cmsArticleTypetree.setId(ToolUtil.getUUID());
         cmsArticleTypetree.setName("图片导航");
-        cmsArticleTypetree.setCreateUser("40288b854a329988014a329a12f30002");
-        cmsArticleTypetree.setModifyUser("40288b854a329988014a329a12f30002");
+//        cmsArticleTypetree.setCreateUser("40288b854a329988014a329a12f30002");
+//        cmsArticleTypetree.setModifyUser("40288b854a329988014a329a12f30002");
         cmsArticleTypetree.setModifyTime(Calendar.getInstance().getTime());
         cmsArticleTypetree.setCreateTime(Calendar.getInstance().getTime());
         cmsArticleTypetree.setDomain("back");
@@ -67,8 +67,8 @@ public class CmsArticleTypetreeTest {
         cmsArticleTypetree = new CmsArticleTypetree();
         cmsArticleTypetree.setId(ToolUtil.getUUID());
         cmsArticleTypetree.setName("新闻动态");
-        cmsArticleTypetree.setCreateUser("40288b854a329988014a329a12f30002");
-        cmsArticleTypetree.setModifyUser("40288b854a329988014a329a12f30002");
+//        cmsArticleTypetree.setCreateUser("40288b854a329988014a329a12f30002");
+//        cmsArticleTypetree.setModifyUser("40288b854a329988014a329a12f30002");
         cmsArticleTypetree.setModifyTime(Calendar.getInstance().getTime());
         cmsArticleTypetree.setCreateTime(Calendar.getInstance().getTime());
         cmsArticleTypetree.setDomain("back");

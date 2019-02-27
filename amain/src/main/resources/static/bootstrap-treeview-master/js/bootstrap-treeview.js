@@ -986,6 +986,9 @@
         // Add position
 		node.$el.attr("position", node.position);
 
+		//Add actionId
+		node.$el.attr("actionId", node.actionId);
+
 		// Add tags as badges
 		if (this._options.showTags && node.tags) {
 			$.each(node.tags, $.proxy(function addTag(id, tag) {

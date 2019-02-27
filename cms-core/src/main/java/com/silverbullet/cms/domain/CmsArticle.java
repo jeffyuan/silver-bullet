@@ -1,20 +1,12 @@
 package com.silverbullet.cms.domain;
 
+import com.silverbullet.core.validate.AddValidate;
+import com.silverbullet.core.validate.FullValidate;
+import org.hibernate.validator.constraints.NotBlank;
+
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Date;
-import com.silverbullet.core.validate.AddValidate;
-import java.lang.Integer;
-import java.lang.String;
-import com.silverbullet.core.validate.FullValidate;
-import org.hibernate.validator.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import org.hibernate.validator.constraints.NotEmpty;
-import com.silverbullet.core.validate.AddValidate;
-import com.silverbullet.core.validate.FullValidate;
-import org.hibernate.validator.constraints.NotBlank;
-import org.hibernate.validator.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 public class CmsArticle {
 
@@ -67,17 +59,13 @@ public class CmsArticle {
     @Size(max=64, message = "createUsername 长度不能超过64", groups = {FullValidate.class})
     private String createUsername;
     // createUser 
-    @NotBlank(message = "createUser 不能为空" , groups = {FullValidate.class})
-    @Size(max=32, message = "createUser 长度不能超过32", groups = {FullValidate.class})
-    private String createUser;
+    private Integer createUser;
     // modifyUsername 
     @NotBlank(message = "modifyUsername 不能为空" , groups = {FullValidate.class})
     @Size(max=64, message = "modifyUsername 长度不能超过64", groups = {FullValidate.class})
     private String modifyUsername;
     // modifyUser 
-    @NotBlank(message = "modifyUser 不能为空" , groups = {FullValidate.class})
-    @Size(max=32, message = "modifyUser 长度不能超过32", groups = {FullValidate.class})
-    private String modifyUser;
+    private Integer modifyUser;
     // writeAuthority 1:公开; 0:本人; 2:站点; 3:禁止编辑
     @NotBlank(message = "writeAuthority 不能为空" , groups = {FullValidate.class, AddValidate.class})
     @Size(max=2, message = "writeAuthority 长度不能超过2", groups = {FullValidate.class, AddValidate.class})
@@ -232,13 +220,13 @@ public class CmsArticle {
         this.createUsername = createUsername == null ? null : createUsername.trim();
     }
 
-    public String getCreateUser() {
+    public Integer getCreateUser() {
         return createUser;
     }
 
-    public void setCreateUser(String createUser) {
+    public void setCreateUser(Integer createUser) {
 
-        this.createUser = createUser == null ? null : createUser.trim();
+        this.createUser = createUser;
     }
 
     public String getModifyUsername() {
@@ -250,13 +238,13 @@ public class CmsArticle {
         this.modifyUsername = modifyUsername == null ? null : modifyUsername.trim();
     }
 
-    public String getModifyUser() {
+    public Integer getModifyUser() {
         return modifyUser;
     }
 
-    public void setModifyUser(String modifyUser) {
+    public void setModifyUser(Integer modifyUser) {
 
-        this.modifyUser = modifyUser == null ? null : modifyUser.trim();
+        this.modifyUser = modifyUser;
     }
 
     public String getWriteAuthority() {

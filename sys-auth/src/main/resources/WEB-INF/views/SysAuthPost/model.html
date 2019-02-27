@@ -3,7 +3,7 @@
         transition: border 0.3s;
     }
     #icon_choose:active{
-    ;
+
     }
 </style>
 <div>
@@ -16,12 +16,13 @@
         </div>
         <div class="form-group">
             <label>隶属部门</label><label style="color: red;" id="msg-parendId"></label>
-            <input type="text" value="${obj.organizationId}" name="OrganizationId" id="AuthOrganizationIdModel" class="form-control" readonly=”readonly”>
+            <input type="hidden" value="${orgObj.id!}" name="OrganizationId" id="AuthOrganizationIdModel" class="form-control" readonly=”readonly”>
+            <div class="inputVal" id="model-icon" >${orgObj.name!}</i></div>
         </div>
         <div class="form-group">
             <label>扩展性</label><label style="color: red;" id=""></label>
             <select name="isExtends" id="isExtends" class="form-control">
-                <option value="disabled selected" style="display: none;">${obj.isExtends}</option>
+                <option value="${obj.isExtends}" style="display: none;">${obj.isExtends == "1"?"是":obj.isExtends == "0"?"否":"请选择扩展性"}</option>
                 <option value="1">是</option>
                 <option value="0">否</option>
             </select>

@@ -41,8 +41,8 @@
                 <td>${results.resultList[i].title}</td>
                 <td>${results.resultList[i].source}</td>
                 <td>${results.resultList[i].author}</td>
-                <td>${results.resultList[i].publicTime}</td>
-                <td>${results.resultList[i].modifyTime}</td>
+                <td>${results.resultList[i].publicTime, "yyyy-MM-dd hh:mm:ss"}</td>
+                <td>${results.resultList[i].modifyTime, "yyyy-MM-dd hh:mm:ss"}</td>
                 <td>
                     <button name="修改" class="btn btn-default btn-sm" onclick="Cms.editOne(this)" space="true">
                         <i class="fa fa-fw fa-edit"></i>
