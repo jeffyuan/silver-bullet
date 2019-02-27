@@ -13,15 +13,15 @@
     <result column="path" jdbcType="VARCHAR" property="path" />
     <result column="comments" jdbcType="VARCHAR" property="comments" />
     <result column="type" jdbcType="CHAR" property="type" />
-    <result column="create_user" jdbcType="VARCHAR" property="createUser" />
+    <result column="create_user" jdbcType="INTEGER" property="createUser" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
-    <result column="modify_user" jdbcType="VARCHAR" property="modifyUser" />
+    <result column="modify_user" jdbcType="INTEGER" property="modifyUser" />
     <result column="modify_time" jdbcType="TIMESTAMP" property="modifyTime" />
     <result column="state" jdbcType="CHAR" property="state" />
     <result column="action_id" jdbcType="VARCHAR" property="actionId" />
     <result column="domain" jdbcType="VARCHAR" property="domain" />
     <result column="icon" jdbcType="VARCHAR" property="icon" />
-    <result column="params" jdbcType="VARCHAR" property="params" />
+    <result column="params" jdbcType="VARCHAR" property="params" /> 
   </resultMap>
   <sql id="Base_Column_List">
     <!--
@@ -40,6 +40,7 @@
     <include refid="Base_Column_List" />
     from sys_auth_actiontree
     where id = #{id,jdbcType=VARCHAR}
+    order by modify_time desc
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     <!--
@@ -62,8 +63,8 @@
       params)
     values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR},
       #{parentId,jdbcType=VARCHAR}, #{path,jdbcType=VARCHAR}, #{comments,jdbcType=VARCHAR},#{sort,jdbcType=VARCHAR},
-      #{type,jdbcType=CHAR}, #{createUser,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{modifyUser,jdbcType=VARCHAR}, #{modifyTime,jdbcType=TIMESTAMP}, #{state,jdbcType=CHAR}, 
+      #{type,jdbcType=CHAR}, #{createUser,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP},
+      #{modifyUser,jdbcType=INTEGER}, #{modifyTime,jdbcType=TIMESTAMP}, #{state,jdbcType=CHAR},
       #{actionId,jdbcType=VARCHAR}, #{domain,jdbcType=VARCHAR}, #{icon,jdbcType=VARCHAR}, 
       #{params,jdbcType=VARCHAR})
   </insert>
@@ -146,13 +147,13 @@
         #{type,jdbcType=CHAR},
       </if>
       <if test="createUser != null">
-        #{createUser,jdbcType=VARCHAR},
+        #{createUser,jdbcType=INTEGER},
       </if>
       <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
       </if>
       <if test="modifyUser != null">
-        #{modifyUser,jdbcType=VARCHAR},
+        #{modifyUser,jdbcType=INTEGER},
       </if>
       <if test="modifyTime != null">
         #{modifyTime,jdbcType=TIMESTAMP},
@@ -200,13 +201,13 @@
         type = #{type,jdbcType=CHAR},
       </if>
       <if test="createUser != null">
-        create_user = #{createUser,jdbcType=VARCHAR},
+        create_user = #{createUser,jdbcType=INTEGER},
       </if>
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
       <if test="modifyUser != null">
-        modify_user = #{modifyUser,jdbcType=VARCHAR},
+        modify_user = #{modifyUser,jdbcType=INTEGER},
       </if>
       <if test="modifyTime != null">
         modify_time = #{modifyTime,jdbcType=TIMESTAMP},
@@ -241,9 +242,9 @@
       path = #{path,jdbcType=VARCHAR},
       comments = #{comments,jdbcType=VARCHAR},
       type = #{type,jdbcType=CHAR},
-      create_user = #{createUser,jdbcType=VARCHAR},
+      create_user = #{createUser,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP},
-      modify_user = #{modifyUser,jdbcType=VARCHAR},
+      modify_user = #{modifyUser,jdbcType=INTEGER},
       modify_time = #{modifyTime,jdbcType=TIMESTAMP},
       state = #{state,jdbcType=CHAR},
       action_id = #{actionId,jdbcType=VARCHAR},
@@ -255,6 +256,7 @@
   <select id="findList" resultMap="BaseResultMap">
     select <include refid="Base_Column_List" />
     from sys_auth_actiontree
+    order by modify_time desc
   </select>
   <select id="countNum" resultType="Integer">
     select count(*) from sys_auth_actiontree
@@ -279,8 +281,8 @@
             OR FIND_IN_SET(#{post}, e.post_ids )
           </foreach>
         </if>
+        AND saa.resource_type = "menu"
       </where>
-
       ORDER BY length(saat.path), saat.sort ASC
   </select>
 
@@ -308,5 +310,11 @@
     update sys_auth_actiontree
     set sort = #{sort, jdbcType=VARCHAR}
     where parent_id = #{parentId, jdbcType=VARCHAR} and sort = #{sortNow, jdbcType=VARCHAR}
+  </update>
+
+  <update id="setTreeNodeSort" parameterType="java.lang.String">
+    update sys_auth_actiontree
+    set sort = #{sort}
+    where id = #{id}
   </update>
 </mapper>

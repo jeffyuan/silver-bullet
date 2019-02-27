@@ -13,9 +13,9 @@
     <result column="parent_id" jdbcType="VARCHAR" property="parentId" />
     <result column="path" jdbcType="VARCHAR" property="path" />
     <result column="comments" jdbcType="VARCHAR" property="comments" />
-    <result column="create_user" jdbcType="VARCHAR" property="createUser" />
+    <result column="create_user" jdbcType="INTEGER" property="createUser" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
-    <result column="modify_user" jdbcType="VARCHAR" property="modifyUser" />
+    <result column="modify_user" jdbcType="INTEGER" property="modifyUser" />
     <result column="modify_time" jdbcType="TIMESTAMP" property="modifyTime" />
     <result column="state" jdbcType="CHAR" property="state" />
     <result column="is_need_check" jdbcType="CHAR" property="isNeedCheck" />
@@ -60,8 +60,8 @@
       is_need_check, is_need_login,permission)
     values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, 
       #{resourceType,jdbcType=VARCHAR}, #{parentId,jdbcType=VARCHAR}, #{path,jdbcType=VARCHAR}, 
-      #{comments,jdbcType=VARCHAR}, #{createUser,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{modifyUser,jdbcType=VARCHAR}, #{modifyTime,jdbcType=TIMESTAMP}, #{state,jdbcType=CHAR}, 
+      #{comments,jdbcType=VARCHAR}, #{createUser,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP},
+      #{modifyUser,jdbcType=INTEGER}, #{modifyTime,jdbcType=TIMESTAMP}, #{state,jdbcType=CHAR},
       #{isNeedCheck,jdbcType=CHAR}, #{isNeedLogin,jdbcType=CHAR},#{permission,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.silverbullet.auth.domain.SysAuthAction">
@@ -140,13 +140,13 @@
         #{comments,jdbcType=VARCHAR},
       </if>
       <if test="createUser != null">
-        #{createUser,jdbcType=VARCHAR},
+        #{createUser,jdbcType=INTEGER},
       </if>
       <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
       </if>
       <if test="modifyUser != null">
-        #{modifyUser,jdbcType=VARCHAR},
+        #{modifyUser,jdbcType=INTEGER},
       </if>
       <if test="modifyTime != null">
         #{modifyTime,jdbcType=TIMESTAMP},
@@ -191,13 +191,13 @@
         comments = #{comments,jdbcType=VARCHAR},
       </if>
       <if test="createUser != null">
-        create_user = #{createUser,jdbcType=VARCHAR},
+        create_user = #{createUser,jdbcType=INTEGER},
       </if>
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
       <if test="modifyUser != null">
-        modify_user = #{modifyUser,jdbcType=VARCHAR},
+        modify_user = #{modifyUser,jdbcType=INTEGER},
       </if>
       <if test="modifyTime != null">
         modify_time = #{modifyTime,jdbcType=TIMESTAMP},
@@ -229,9 +229,9 @@
       parent_id = #{parentId,jdbcType=VARCHAR},
       path = #{path,jdbcType=VARCHAR},
       comments = #{comments,jdbcType=VARCHAR},
-      create_user = #{createUser,jdbcType=VARCHAR},
+      create_user = #{createUser,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP},
-      modify_user = #{modifyUser,jdbcType=VARCHAR},
+      modify_user = #{modifyUser,jdbcType=INTEGER},
       modify_time = #{modifyTime,jdbcType=TIMESTAMP},
       state = #{state,jdbcType=CHAR},
       is_need_check = #{isNeedCheck,jdbcType=CHAR},
@@ -243,13 +243,14 @@
     select
     <include refid="Base_Column_List" />
     from sys_auth_action
+    order by modify_time desc
   </select>
   <select id="countNum" resultType="Integer">
     select count(*) from sys_auth_action
   </select>
 
   <select id="findListByPostId" parameterType="String" resultMap="BaseResultMap">
-    select saa.* from sys_auth_action saa, sys_auth_postaction sap where sap.post_id = #{postId} and sap.post_id = saa.id and saa.state = '1'
+    select saa.* from sys_auth_action saa, sys_auth_postaction sap where sap.post_id = #{postId} and sap.action_id = saa.id and saa.state = '1'
   </select>
 
   <select id="findTreeNode" resultType="java.util.Map">

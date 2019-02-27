@@ -21,7 +21,7 @@ public interface ISysAuthPostService {
     public boolean Insert(SysAuthPost sysAuthPost);
 
 
-    public boolean Handle(String data);
+    public boolean Handle(String postIds, String[] actionId);
     public List<SysAuthPostAction> findCheck(String postId);
 
     public BaseDataResult<SysAuthPost>getPostByOrgId(String organizationId, int pageNum, int pageSize);

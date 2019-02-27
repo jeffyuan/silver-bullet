@@ -9,8 +9,6 @@ var TreeView = {
 
 }
 
-TreeView.ctxPath = $(".logo").attr('href');
-
 
 /**
  * 渲染树结构
@@ -77,7 +75,6 @@ TreeView.treeBuild = function(uid, url){
         }
     });
     return treeList;
-    console.log(treeList)
 }
 
 
@@ -95,14 +92,13 @@ TreeView.treeBuildCommon = function(data, pos){
         treeNode["lazyLoad"] = true;
     }
     treeNode["text"] = data.name;
-    treeNode["id"] = data.id;
+    treeNode["id"] = data.actionId != undefined? data.actionId : data.id;
     treeNode["icon"] = data.icon;
     treeNode["sort"] = data.sort;
     treeNode["parentuid"] = data.parentId;
     treeNode["position"] = data.pos;
 
     return treeNode;
-    console.log(treeNode);
 }
 
 

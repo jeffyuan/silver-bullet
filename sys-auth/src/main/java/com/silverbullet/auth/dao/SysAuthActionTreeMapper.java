@@ -12,7 +12,9 @@ public interface SysAuthActionTreeMapper extends CrudRepository<SysAuthActionTre
     List<SysAuthActionTree> findTreeNode(String parentId);
     String findListByActionId(String actionId);
 
-    Integer setTreeNodeSortDown(@Param("id") String id, @Param("parentId") String parentId, @Param("sort") String sort);
+    Integer setTreeNodeSort(@Param("id") String id, @Param("sort") String sort);
 
-    Integer setTreeNodeSortUp(@Param("parentId") String parentId, @Param("sortNow") String sortNow, @Param("sort")String sort);
+//    Integer setTreeNodeSortDown(@Param("id") String id, @Param("parentId") String parentId, @Param("sort") String sort);
+//
+//    Integer setTreeNodeSortUp(@Param("parentId") String parentId, @Param("sortNow") String sortNow, @Param("sort")String sort);
 }

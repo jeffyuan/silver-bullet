@@ -1,16 +1,14 @@
 package com.silverbullet.controller;
 
-import com.silverbullet.auth.domain.SysAuthUser;
 import com.silverbullet.core.pojo.UserInfo;
 import com.silverbullet.service.UserActionService;
+import com.silverbullet.utils.ToolUtil;
 import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -30,8 +28,8 @@ public class AmainController {
     protected UserActionService userActionService;
 
     //@RequiresRoles("SYSSSO")
-    @RequestMapping(value="/index",method= RequestMethod.GET)
-    public String index(Model model){
+    @RequestMapping(value = "/index", method = RequestMethod.GET)
+    public String index(Model model) {
         //logger.info("[APP]/index");
 
         UserInfo userInfo = (UserInfo) SecurityUtils.getSubject().getPrincipal();
@@ -40,8 +38,8 @@ public class AmainController {
         return "index";
     }
 
-    @RequestMapping(value="",method= RequestMethod.GET)
-    public String defaultIndex(Model model){
+    @RequestMapping(value = "", method = RequestMethod.GET)
+    public String defaultIndex(Model model) {
         //logger.info("[APP]/index");
         return "index";
     }
@@ -70,11 +68,28 @@ public class AmainController {
 
 
     @RequestMapping(value = "/control.html", method = RequestMethod.POST)
-    public String control(Model model, String controller, String obj, String refresh){
+    public String control(Model model, String controller, String obj, String refresh) {
 
         model.addAttribute("searchObj", obj);
         model.addAttribute("refresh", refresh);
 
-        return "/control/"+controller;
+        return "/control/" + controller;
+    }
+
+    @RequestMapping(value = "/verifyPassword.do", method = RequestMethod.POST)
+    @ResponseBody
+    public Map<String, String> verifyPassword(String password) {
+        Map<String, String> mapRet = new HashMap<String, String>();
+        UserInfo userInfo = (UserInfo) SecurityUtils.getSubject().getPrincipal();
+        String userPassword = userActionService.getUserPassword(ToolUtil.toString(userInfo.getId()));
+        String passwordMD5 = ToolUtil.getPassword(10, "11", password, "MD5");
+        if (userPassword.equals(passwordMD5)){
+            mapRet.put("result","true");
+            mapRet.put("message","验证成功");
+        }else {
+            mapRet.put("result","false");
+            mapRet.put("message","验证失败");
+        }
+        return mapRet;
     }
 }

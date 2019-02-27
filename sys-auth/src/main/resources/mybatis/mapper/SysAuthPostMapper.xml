@@ -10,10 +10,10 @@
     <result column="id" jdbcType="VARCHAR" property="id" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="create_username" jdbcType="VARCHAR" property="createUsername" />
-    <result column="create_user" jdbcType="VARCHAR" property="createUser" />
+    <result column="create_user" jdbcType="INTEGER" property="createUser" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="modify_username" jdbcType="VARCHAR" property="modifyUsername" />
-    <result column="modify_user" jdbcType="VARCHAR" property="modifyUser" />
+    <result column="modify_user" jdbcType="INTEGER" property="modifyUser" />
     <result column="modify_time" jdbcType="TIMESTAMP" property="modifyTime" />
     <result column="state" jdbcType="VARCHAR" property="state" />
     <result column="is_extends" jdbcType="VARCHAR" property="isExtends" />
@@ -36,6 +36,7 @@
     <include refid="Base_Column_List" />
     from sys_auth_post
     where id = #{id,jdbcType=VARCHAR}
+    ORDER BY modify_time DESC
   </select>
 
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
@@ -56,8 +57,8 @@
       modify_username, modify_user, modify_time, 
       state, is_extends)
     values (#{organizationId,jdbcType=VARCHAR}, #{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
-      #{createUsername,jdbcType=VARCHAR}, #{createUser,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{modifyUsername,jdbcType=VARCHAR}, #{modifyUser,jdbcType=VARCHAR}, #{modifyTime,jdbcType=TIMESTAMP}, 
+      #{createUsername,jdbcType=VARCHAR}, #{createUser,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP},
+      #{modifyUsername,jdbcType=VARCHAR}, #{modifyUser,jdbcType=INTEGER}, #{modifyTime,jdbcType=TIMESTAMP},
       #{state,jdbcType=VARCHAR}, #{isExtends,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.silverbullet.auth.domain.SysAuthPost">
@@ -115,7 +116,7 @@
         #{createUsername,jdbcType=VARCHAR},
       </if>
       <if test="createUser != null">
-        #{createUser,jdbcType=VARCHAR},
+        #{createUser,jdbcType=INTEGER},
       </if>
       <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
@@ -124,7 +125,7 @@
         #{modifyUsername,jdbcType=VARCHAR},
       </if>
       <if test="modifyUser != null">
-        #{modifyUser,jdbcType=VARCHAR},
+        #{modifyUser,jdbcType=INTEGER},
       </if>
       <if test="modifyTime != null">
         #{modifyTime,jdbcType=TIMESTAMP},
@@ -154,7 +155,7 @@
         create_username = #{createUsername,jdbcType=VARCHAR},
       </if>
       <if test="createUser != null">
-        create_user = #{createUser,jdbcType=VARCHAR},
+        create_user = #{createUser,jdbcType=INTEGER},
       </if>
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
@@ -163,7 +164,7 @@
         modify_username = #{modifyUsername,jdbcType=VARCHAR},
       </if>
       <if test="modifyUser != null">
-        modify_user = #{modifyUser,jdbcType=VARCHAR},
+        modify_user = #{modifyUser,jdbcType=INTEGER},
       </if>
       <if test="modifyTime != null">
         modify_time = #{modifyTime,jdbcType=TIMESTAMP},
@@ -186,10 +187,10 @@
     set organization_id = #{organizationId,jdbcType=VARCHAR},
       name = #{name,jdbcType=VARCHAR},
       create_username = #{createUsername,jdbcType=VARCHAR},
-      create_user = #{createUser,jdbcType=VARCHAR},
+      create_user = #{createUser,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       modify_username = #{modifyUsername,jdbcType=VARCHAR},
-      modify_user = #{modifyUser,jdbcType=VARCHAR},
+      modify_user = #{modifyUser,jdbcType=INTEGER},
       modify_time = #{modifyTime,jdbcType=TIMESTAMP},
       state = #{state,jdbcType=VARCHAR},
       is_extends = #{isExtends,jdbcType=VARCHAR}
@@ -200,6 +201,7 @@
     select
     <include refid="Base_Column_List" />
     from sys_auth_post
+    ORDER BY modify_time DESC
   </select>
 
   <select id="countNum" resultType="Integer">
@@ -207,7 +209,9 @@
   </select>
 
     <select id="findListByUserId" parameterType="String" resultMap="BaseResultMap">
-        select sap.* from sys_auth_userpost sau, sys_auth_post sap where sau.user_id=#{id} and sau.post_id = sap.id and sap.state = '1'
+        select sap.*
+        from sys_auth_userpost sau, sys_auth_post sap
+        where sau.user_id=#{id} and sau.post_id = sap.id and sap.state = '1'
     </select>
 
     <select id="countNumByOrganizationId" resultType="Integer">
@@ -221,5 +225,6 @@
       <include refid="Base_Column_List" />
       from sys_auth_post
       where organization_id = #{organizationId,jdbcType=VARCHAR}
+      order by modify_time desc
     </select>
 </mapper>

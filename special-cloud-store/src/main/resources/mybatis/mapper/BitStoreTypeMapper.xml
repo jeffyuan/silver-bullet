@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.silverbullet.specialcloudstore.dao.BitStoreTypeMapper">
+  <resultMap id="BaseResultMap" type="com.silverbullet.specialcloudstore.domain.BitStoreType">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="version" jdbcType="BIGINT" property="version" />
+    <result column="author" jdbcType="BIGINT" property="author" />
+    <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="del_type" jdbcType="VARCHAR" property="delType" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="no" jdbcType="VARCHAR" property="no" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="update_date" jdbcType="TIMESTAMP" property="updateDate" />
+    <result column="updator" jdbcType="BIGINT" property="updator" />
+  </resultMap>
+
+  <sql id="Base_Column_List">
+    id,version,author,create_date,del_type,name,no,remark,update_date,updator
+  </sql>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from bit_store_type
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from bit_store_type
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+
+  <insert id="insert"  keyProperty="id" useGeneratedKeys="true" parameterType="com.silverbullet.specialcloudstore.domain.BitStoreType">
+    insert into bit_store_type (id,version,author,create_date,del_type,name,no,remark,update_date,updator)
+    values (#{id,jdbcType=BIGINT},#{version,jdbcType=BIGINT},#{author,jdbcType=BIGINT},#{createDate,jdbcType=TIMESTAMP},#{delType,jdbcType=VARCHAR},#{name,jdbcType=VARCHAR},#{no,jdbcType=VARCHAR},#{remark,jdbcType=VARCHAR},#{updateDate,jdbcType=TIMESTAMP},#{updator,jdbcType=BIGINT})
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.silverbullet.specialcloudstore.domain.BitStoreType">
+    insert into bit_store_type
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+
+        <if test="id != null">
+               id ,
+        </if>
+        <if test="version != null">
+               version ,
+        </if>
+        <if test="author != null">
+               author ,
+        </if>
+        <if test="createDate != null">
+               create_date ,
+        </if>
+        <if test="delType != null">
+               del_type ,
+        </if>
+        <if test="name != null">
+               name ,
+        </if>
+        <if test="no != null">
+               no ,
+        </if>
+        <if test="remark != null">
+               remark ,
+        </if>
+        <if test="updateDate != null">
+               update_date ,
+        </if>
+        <if test="updator != null">
+               updator ,
+        </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+        <if test="id != null">
+            #{id,jdbcType=BIGINT},
+         </if>
+        <if test="version != null">
+            #{version,jdbcType=BIGINT},
+         </if>
+        <if test="author != null">
+            #{author,jdbcType=BIGINT},
+         </if>
+        <if test="createDate != null">
+            #{createDate,jdbcType=TIMESTAMP},
+         </if>
+        <if test="delType != null">
+            #{delType,jdbcType=VARCHAR},
+         </if>
+        <if test="name != null">
+            #{name,jdbcType=VARCHAR},
+         </if>
+        <if test="no != null">
+            #{no,jdbcType=VARCHAR},
+         </if>
+        <if test="remark != null">
+            #{remark,jdbcType=VARCHAR},
+         </if>
+        <if test="updateDate != null">
+            #{updateDate,jdbcType=TIMESTAMP},
+         </if>
+        <if test="updator != null">
+            #{updator,jdbcType=BIGINT},
+         </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.silverbullet.specialcloudstore.domain.BitStoreType">
+    update bit_store_type
+    <set>
+        <if test="id != null">
+         id = #{id,jdbcType=BIGINT},
+        </if>
+        <if test="version != null">
+         version = #{version,jdbcType=BIGINT},
+        </if>
+        <if test="author != null">
+         author = #{author,jdbcType=BIGINT},
+        </if>
+        <if test="createDate != null">
+         create_date = #{createDate,jdbcType=TIMESTAMP},
+        </if>
+        <if test="delType != null">
+         del_type = #{delType,jdbcType=VARCHAR},
+        </if>
+        <if test="name != null">
+         name = #{name,jdbcType=VARCHAR},
+        </if>
+        <if test="no != null">
+         no = #{no,jdbcType=VARCHAR},
+        </if>
+        <if test="remark != null">
+         remark = #{remark,jdbcType=VARCHAR},
+        </if>
+        <if test="updateDate != null">
+         update_date = #{updateDate,jdbcType=TIMESTAMP},
+        </if>
+        <if test="updator != null">
+         updator = #{updator,jdbcType=BIGINT},
+        </if>
+    </set>
+     where id = #{id,jdbcType=BIGINT}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="com.silverbullet.specialcloudstore.domain.BitStoreType">
+
+    update bit_store_type
+    set id = #{id,jdbcType=BIGINT},version = #{version,jdbcType=BIGINT},author = #{author,jdbcType=BIGINT},create_date = #{createDate,jdbcType=TIMESTAMP},del_type = #{delType,jdbcType=VARCHAR},name = #{name,jdbcType=VARCHAR},no = #{no,jdbcType=VARCHAR},remark = #{remark,jdbcType=VARCHAR},update_date = #{updateDate,jdbcType=TIMESTAMP},updator = #{updator,jdbcType=BIGINT}
+     where id = #{id,jdbcType=BIGINT}
+  </update>
+
+  <select id="findList" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from bit_store_type
+  </select>
+
+  <select id="countNum" resultType="Integer">
+    select count(*) from bit_store_type
+  </select>
+
+</mapper>

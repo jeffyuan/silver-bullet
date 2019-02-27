@@ -2,13 +2,11 @@ package com.silverbullet.cms.domain;
 
 import com.silverbullet.core.validate.AddValidate;
 import com.silverbullet.core.validate.FullValidate;
-import javafx.scene.input.DataFormat;
 import org.hibernate.validator.constraints.NotBlank;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Date;
-import java.util.IntSummaryStatistics;
 
 public class CmsRepairUser {
 
@@ -43,9 +41,7 @@ public class CmsRepairUser {
     private String createUsername;
 
     // createUser
-    @NotBlank(message = "createUser 不能为空" , groups = {FullValidate.class})
-    @Size(max=32, message = "createUser 长度不能超过32", groups = {FullValidate.class})
-    private String createUser;
+    private Integer createUser;
 
     //createTime
     @NotNull(message = "createTime 不能为空" , groups = {FullValidate.class})
@@ -57,9 +53,7 @@ public class CmsRepairUser {
     private String modifyUsername;
 
     // modifyUser
-    @NotBlank(message = "modifyUser 不能为空" , groups = {FullValidate.class})
-    @Size(max=32, message = "modifyUser 长度不能超过32", groups = {FullValidate.class})
-    private String modifyUser;
+    private Integer modifyUser;
 
     // modifyTime
     @NotNull(message = "modifyTime 不能为空" , groups = {FullValidate.class})
@@ -133,12 +127,12 @@ public class CmsRepairUser {
         this.createUsername = createUsername == null ? null : createUsername.trim();
     }
 
-    public String getCreateUser() {
+    public Integer getCreateUser() {
         return createUser;
     }
 
-    public void setCreateUser(String createUser) {
-        this.createUser = createUser == null ? null : createUser.trim();
+    public void setCreateUser(Integer createUser) {
+        this.createUser = createUser;
     }
 
     public String getModifyUsername() {
@@ -149,12 +143,12 @@ public class CmsRepairUser {
         this.modifyUsername = modifyUsername == null ? null : modifyUsername.trim();
     }
 
-    public String getModifyUser() {
+    public Integer getModifyUser() {
         return modifyUser;
     }
 
-    public void setModifyUser(String modifyUser) {
-        this.modifyUser = modifyUser == null ? null : modifyUser.trim();
+    public void setModifyUser(Integer modifyUser) {
+        this.modifyUser = modifyUser;
 }
 
     public Date getModifyTime() {

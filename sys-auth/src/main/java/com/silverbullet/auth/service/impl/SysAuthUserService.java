@@ -18,9 +18,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Calendar;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * 用户管理 service接口
@@ -56,7 +54,7 @@ public class SysAuthUserService implements ISysAuthUserService {
     }
 
     @Override
-    public SysAuthUser getOneById(String id) {
+    public SysAuthUser getOneById(Integer id) {
 
         return sysAuthUserMapper.selectByPrimaryKey(id);
     }
@@ -64,13 +62,23 @@ public class SysAuthUserService implements ISysAuthUserService {
     @Override
     public List<Map<String, String>> getOneByUserId(String id) {
 
-        return sysAuthUserOrgMapper.findListByUserId(id);
+        return sysAuthUserOrgMapper.findListByUserId(ToolUtil.toInteger(id));
     }
 
     @Override
     public List<Map<String, String>> getPostByUserId(String id) {
 
-        return sysAuthUserPostMapper.findListByUserId(id);
+        return sysAuthUserPostMapper.findListByUserId(ToolUtil.toInteger(id));
+    }
+
+    @Override
+    public String getUserOrgId(String UserId) {
+        return sysAuthUserOrgMapper.getUserOrgId(ToolUtil.toInteger(UserId));
+    }
+
+    @Override
+    public String getUserPostId(String UserId) {
+        return sysAuthUserPostMapper.getUserPostId(ToolUtil.toInteger(UserId));
     }
 
     @Override
@@ -93,12 +101,12 @@ public class SysAuthUserService implements ISysAuthUserService {
             sysAuthUserNew.setModifyTime(Calendar.getInstance().getTime());
             //userOrg
             sysAuthUserOrg.setId(UorgId);
-            sysAuthUserOrg.setUserId(sysAuthUserNew.getId());
+            sysAuthUserOrg.setUserId(sysAuthUser.getId());
             sysAuthUserOrg.setOrganizationId(OrganizationId);
             sysAuthUserOrgMapper.updateByPrimaryKey(sysAuthUserOrg);
             //userPost
             sysAuthUserPost.setId(UpostId);
-            sysAuthUserPost.setUserId(sysAuthUserNew.getId());
+            sysAuthUserPost.setUserId(sysAuthUser.getId());
             sysAuthUserPost.setPostId(postId);
             sysAuthUserPostMapper.updateByPrimaryKey(sysAuthUserPost);
 
@@ -116,9 +124,9 @@ public class SysAuthUserService implements ISysAuthUserService {
         String[] arrIds = ids.split(",");
         boolean bret = true;
         for (String id : arrIds) {
-            sysAuthUserOrgMapper.deleteByUserId(id);
-            sysAuthUserPostMapper.deleteByUserId(id);
-            bret = sysAuthUserMapper.deleteByPrimaryKey(id) == 1 ? true : false;
+            sysAuthUserOrgMapper.deleteByUserId(ToolUtil.toInteger(id));
+            sysAuthUserPostMapper.deleteByUserId(ToolUtil.toInteger(id));
+            bret = sysAuthUserMapper.deleteByPrimaryKey(ToolUtil.toInteger(id)) == 1 ? true : false;
             if (!bret) {
                 throw new RuntimeException("delete faild");
             }
@@ -133,26 +141,32 @@ public class SysAuthUserService implements ISysAuthUserService {
             SysAuthUserOrg sysAuthUserOrg = new SysAuthUserOrg();
             SysAuthUserPost sysAuthUserPost = new SysAuthUserPost();
 
-            String userId = ToolUtil.getUUID();
 
-            sysAuthUser.setId(userId);
-            sysAuthUser.setCreateTime(Calendar.getInstance().getTime());
-            sysAuthUser.setModifyTime(Calendar.getInstance().getTime());
+            Date time = Calendar.getInstance().getTime();
             sysAuthUser.setModifyUser(userInfo.getId());
             sysAuthUser.setCreateUser(userInfo.getId());
             sysAuthUser.setState("0");
             sysAuthUser.setPassword(ToolUtil.getPassword(10, "11", "SYSADMIN", "MD5"));
             sysAuthUser.setSalt("11");
-            sysAuthUser.setLoginTime(Calendar.getInstance().getTime());
-            sysAuthUserOrg.setId(ToolUtil.getUUID());
-            sysAuthUserOrg.setUserId(userId);
-            sysAuthUserOrg.setOrganizationId(OrganizationId);
-            sysAuthUserOrgMapper.insert(sysAuthUserOrg);
-            sysAuthUserPost.setId(ToolUtil.getUUID());
-            sysAuthUserPost.setUserId(userId);
-            sysAuthUserPost.setPostId(postId);
-            sysAuthUserPostMapper.insert(sysAuthUserPost);
-            return sysAuthUserMapper.insert(sysAuthUser) == 1 ? true : false;
+            sysAuthUser.setUserType("1");
+            sysAuthUser.setLoginTime(time);
+            sysAuthUser.setCreateTime(time);
+            sysAuthUser.setModifyTime(time);
+            sysAuthUserMapper.insert(sysAuthUser);
+            Integer userId = sysAuthUserMapper.getUserId(time);
+            if (userId != null) {
+                sysAuthUserOrg.setId(ToolUtil.getUUID());
+                sysAuthUserOrg.setUserId(userId);
+                sysAuthUserOrg.setOrganizationId(OrganizationId);
+                sysAuthUserOrgMapper.insert(sysAuthUserOrg);
+                sysAuthUserPost.setId(ToolUtil.getUUID());
+                sysAuthUserPost.setUserId(userId);
+                sysAuthUserPost.setPostId(postId);
+                sysAuthUserPostMapper.insert(sysAuthUserPost);
+                return true;
+            } else {
+                return false;
+            }
         } catch (Exception ex) {
             logger.error("Insert Error: " + ex.getMessage());
             return false;
@@ -182,11 +196,11 @@ public class SysAuthUserService implements ISysAuthUserService {
             SysAuthUserOrg sysAuthUserOrg = new SysAuthUserOrg();
             SysAuthUserPost sysAuthUserPost = new SysAuthUserPost();
             sysAuthUserOrg.setId(ToolUtil.getUUID());
-            sysAuthUserOrg.setUserId(UserId);
+            sysAuthUserOrg.setUserId(ToolUtil.toInteger(UserId));
             sysAuthUserOrg.setOrganizationId(OrganizationId);
             int orgInsert = sysAuthUserOrgMapper.insert(sysAuthUserOrg);
             sysAuthUserPost.setId(ToolUtil.getUUID());
-            sysAuthUserPost.setUserId(UserId);
+            sysAuthUserPost.setUserId(ToolUtil.toInteger(UserId));
             sysAuthUserPost.setPostId(PostId);
             int postInsert = sysAuthUserPostMapper.insert(sysAuthUserPost);
             return orgInsert + postInsert == 2 ? true : false;
@@ -201,13 +215,14 @@ public class SysAuthUserService implements ISysAuthUserService {
         try {
             SysAuthUserOrg sysAuthUserOrg = new SysAuthUserOrg();
             SysAuthUserPost sysAuthUserPost = new SysAuthUserPost();
+            sysAuthUserMapper.updateEditTimeById(UserId, Calendar.getInstance().getTime());
 
             sysAuthUserOrg.setId(org_id);
-            sysAuthUserOrg.setUserId(UserId);
+            sysAuthUserOrg.setUserId(ToolUtil.toInteger(UserId));
             sysAuthUserOrg.setOrganizationId(OrganizationId);
             int orgUpdate = sysAuthUserOrgMapper.updateByPrimaryKey(sysAuthUserOrg);
             sysAuthUserPost.setId(post_id);
-            sysAuthUserPost.setUserId(UserId);
+            sysAuthUserPost.setUserId(ToolUtil.toInteger(UserId));
             sysAuthUserPost.setPostId(postId);
             int postUpdate = sysAuthUserPostMapper.updateByPrimaryKey(sysAuthUserPost);
             return orgUpdate + postUpdate == 2 ? true : false;
@@ -215,5 +230,72 @@ public class SysAuthUserService implements ISysAuthUserService {
             logger.error("Insert Error: " + ex.getMessage());
             return false;
         }
+    }
+
+    @Override
+    public boolean resetPassword(String ids) {
+        String[] arrIds = ids.split(",");
+        String password = ToolUtil.getPassword(10, "11", "SYSADMIN", "MD5");
+
+        boolean bret = true;
+        for (String id : arrIds) {
+            sysAuthUserMapper.updateEditTimeById(id, Calendar.getInstance().getTime());
+            bret = sysAuthUserMapper.resetPassword(id, password) == 1 ? true : false;
+            if (!bret) {
+                throw new RuntimeException("reset faild");
+            }
+        }
+        return bret;
+    }
+
+    @Override
+    public String getUserPassword(String id) {
+        return sysAuthUserMapper.getUserPassword(id);
+    }
+
+    @Override
+    public boolean changePassword(String id, String newPassword) {
+        sysAuthUserMapper.updateEditTimeById(id, Calendar.getInstance().getTime());
+        return sysAuthUserMapper.changePassword(id, newPassword);
+    }
+
+    @Override
+    public Map<String, Object> changeOrgPost(String userId) {
+        Map<String, Object> user = new HashMap<String, Object>();
+        String orgName;
+        String orgId;
+        String postName;
+        String postId;
+        if (sysAuthUserOrgMapper.findListByUserId(ToolUtil.toInteger(userId)).size() == 0) {
+            orgName = "";
+            orgId = "";
+        } else {
+            orgName = sysAuthUserOrgMapper.findListByUserId(ToolUtil.toInteger(userId)).get(0).get("organizationName");
+            orgId = sysAuthUserOrgMapper.findListByUserId(ToolUtil.toInteger(userId)).get(0).get("organizationId");
+        }
+
+        if (sysAuthUserPostMapper.findListByUserId(ToolUtil.toInteger(userId)).size() == 0) {
+            postName = "";
+            postId = "";
+        } else {
+            postName = sysAuthUserPostMapper.findListByUserId(ToolUtil.toInteger(userId)).get(0).get("postName");
+            postId = sysAuthUserPostMapper.findListByUserId(ToolUtil.toInteger(userId)).get(0).get("postId");
+        }
+        user.put("orgName", orgName);
+        user.put("orgId", orgId);
+        user.put("postName", postName);
+        user.put("postId", postId);
+        return user;
+
+    }
+
+    @Override
+    public Map<String, String> getUserOrgPost(String id) {
+        Map<String, String> userOrgPost = new HashMap<String, String>();
+        String org_id = sysAuthUserOrgMapper.getUserOrgId(ToolUtil.toInteger(id));
+        String post_id = sysAuthUserPostMapper.getUserPostId(ToolUtil.toInteger(id));
+        userOrgPost.put("org_id", org_id);
+        userOrgPost.put("post_id", post_id);
+        return userOrgPost;
     }
 }

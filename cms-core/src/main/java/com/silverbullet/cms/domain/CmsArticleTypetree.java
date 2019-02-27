@@ -1,20 +1,12 @@
 package com.silverbullet.cms.domain;
 
+import com.silverbullet.core.validate.AddValidate;
+import com.silverbullet.core.validate.FullValidate;
+import org.hibernate.validator.constraints.NotBlank;
+
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Date;
-import com.silverbullet.core.validate.AddValidate;
-import com.silverbullet.core.validate.FullValidate;
-import org.hibernate.validator.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import java.lang.Integer;
-import org.hibernate.validator.constraints.NotEmpty;
-import java.lang.String;
-import com.silverbullet.core.validate.AddValidate;
-import com.silverbullet.core.validate.FullValidate;
-import org.hibernate.validator.constraints.NotBlank;
-import org.hibernate.validator.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 public class CmsArticleTypetree {
 
@@ -45,16 +37,12 @@ public class CmsArticleTypetree {
     @Size(max=1, message = "type 长度不能超过1", groups = {FullValidate.class, AddValidate.class})
     private String type;
     // createUser 
-    @NotBlank(message = "createUser 不能为空" , groups = {FullValidate.class})
-    @Size(max=32, message = "createUser 长度不能超过32", groups = {FullValidate.class})
-    private String createUser;
+    private Integer createUser;
     // createTime 
     @NotNull(message = "createTime 不能为空" , groups = {FullValidate.class})
     private Date createTime;
     // modifyUser 
-    @NotBlank(message = "modifyUser 不能为空" , groups = {FullValidate.class})
-    @Size(max=32, message = "modifyUser 长度不能超过32", groups = {FullValidate.class})
-    private String modifyUser;
+    private Integer modifyUser;
     // modifyTime 
     @NotNull(message = "modifyTime 不能为空" , groups = {FullValidate.class})
     private Date modifyTime;
@@ -142,13 +130,13 @@ public class CmsArticleTypetree {
         this.type = type == null ? null : type.trim();
     }
 
-    public String getCreateUser() {
+    public Integer getCreateUser() {
         return createUser;
     }
 
-    public void setCreateUser(String createUser) {
+    public void setCreateUser(Integer createUser) {
 
-        this.createUser = createUser == null ? null : createUser.trim();
+        this.createUser = createUser;
     }
 
     public Date getCreateTime() {
@@ -160,13 +148,13 @@ public class CmsArticleTypetree {
         this.createTime = createTime;
     }
 
-    public String getModifyUser() {
+    public Integer getModifyUser() {
         return modifyUser;
     }
 
-    public void setModifyUser(String modifyUser) {
+    public void setModifyUser(Integer modifyUser) {
 
-        this.modifyUser = modifyUser == null ? null : modifyUser.trim();
+        this.modifyUser = modifyUser;
     }
 
     public Date getModifyTime() {

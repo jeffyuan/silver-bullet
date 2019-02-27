@@ -2,35 +2,47 @@
     <h4 id="msg" style="color: red;"></h4>
     <form id="formParams" class="m-t" role="form" method="post">
         <input type="hidden" name="id" class="form-control" value="${obj.id!}">
-        <input type="hidden" name = "UorgId" class="form-control" value="${org[0].id!}">
-        <input type="hidden" name="UpostId" class="form-control" value="${post[0].id!}">
+        <input type="hidden" id="UserId" name="UserId" class="form-control" value="${userId!}">
+        <input type="hidden" name="UorgId" class="form-control" value="${UorgId!}">
+        <input type="hidden" name="UpostId" class="form-control" value="${UpostId!}">
         <div class="form-group">
-            <label>名称</label><label style="color: red;" id="msg-name"></label>
-            <input type="text" name="name" class="form-control" value="${obj.name!}" placeholder="名称" required="">
+            <label>名称：</label><label style="color: red;" id="msg-name"></label>
+            <input type="text" name="name" class="form-control ${style!}" value="${obj.name!}" placeholder="名称" required=""${disabled}>
         </div>
         <div class="form-group">
-            <label>用户名</label><label style="color: red;" id="msg-dicKey"></label>
-            <input type="text" name="username" class="form-control" value="${obj.username!}" placeholder="用户名" required="">
+            <label>用户名：</label><label style="color: red;" id="msg-username"></label>
+            <input type="text" name="username" class="form-control ${style!}" value="${obj.username!}" placeholder="用户名"
+                   required=""${disabled}>
         </div>
         <div class="form-group">
-            <label>隶属部门</label><label style="color: red;" id=""></label>
-            <select name="OrganizationId" id="actionTreeName" class="form-control">
-                <option value="${org[0].organizationId!}" selected="selected">${org[0].organizationName!}</option>
+            <label>隶属部门：</label><label style="color: red;" id="msg-OrganizationId"></label>
+            <select name="OrganizationId" id="actionTreeName" class="form-control ${style!}"
+                    onchange="AuthUser.setOptionAction(this)"${disabled}>
+
+                <option value="${OrganizationId!}" style="display: none;">${OrganizationName ==
+                    ""?"请选择部门":OrganizationName}
+                </option>
+                @for(var i = 0; i< org.~size; i++){
+                <option value="${org[i].id!}">${org[i].name!}</option>
+                @}
             </select>
         </div>
         <div class="form-group">
-            <label>所在岗位</label><label style="color: red;" id=""></label>
-            <select name="postId" id="postName" class="form-control">
-                <option value="${post[0].postId!}" selected="selected">${post[0].postName!}</option>
+            <label>所在岗位：</label><label style="color: red;" id="msg-postId"></label>
+            <select name="postId" id="postName" class="form-control ${style!}"${disabled}>
+                <option value="${postId!}" style="display:none;" >${postName == ""?"请选择岗位":postName}</option>
+                <option value="${postId!}">${postName!}</option>
+                <!--<option value="${post[0].postId!}" selected="selected">${post[0].postName!}</option>-->
             </select>
         </div>
+        <!--<div class="form-group">-->
+            <!--<label>类型：</label><label id="msg-type" style="color: red;"></label>-->
+            <!--<input type="text" name="userType" class="form-control" value="${obj.userType!}" placeholder="类型"-->
+                   <!--required="">-->
+        <!--</div>-->
         <div class="form-group">
-            <label>类型</label><label id="msg-type" style="color: red;"></label>
-            <input type="text" name="userType" class="form-control" value="${obj.userType!}" placeholder="类型" required="">
-        </div>
-        <div class="form-group">
-            <label>备注</label><label id="msg-comments" style="color: red;"></label>
-            <textarea name="comments" class="form-control" placeholder="Enter ...">${obj.comments!}</textarea>
+            <label>备注：</label><label id="msg-comments" style="color: red;"></label>
+            <textarea name="comments" class="form-control ${style!}" placeholder="Enter ..."${disabled}>${obj.comments!}</textarea>
         </div>
     </form>
 </div>

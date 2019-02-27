@@ -2,8 +2,11 @@ package com.silverbullet.auth.controller;
 
 import com.silverbullet.auth.domain.SysAuthAction;
 import com.silverbullet.auth.domain.SysAuthActionTree;
+import com.silverbullet.auth.domain.SysAuthPostAction;
 import com.silverbullet.auth.domain.SysAuthUser;
 import com.silverbullet.auth.service.ISysAuthActionTreeService;
+import com.silverbullet.auth.service.ISysAuthPostActionService;
+import com.silverbullet.auth.service.ISysAuthPostService;
 import com.silverbullet.core.validate.AddValidate;
 import com.silverbullet.utils.BaseDataResult;
 import com.silverbullet.utils.ToolUtil;
@@ -14,10 +17,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.ArrayList;
@@ -36,8 +36,11 @@ public class SysAuthActionTreeController {
     @Autowired
     private ISysAuthActionTreeService sysAuthActionTreeService;
 
-    @RequestMapping(value = "/list/{curpage}.html", method = RequestMethod.GET)
-    public ModelAndView index(@PathVariable("curpage") String curpage){
+    @Autowired
+    private ISysAuthPostActionService sysAuthPostActionService;
+
+    @RequestMapping(value = "/list/pub.html", method = RequestMethod.GET)
+    public ModelAndView index(String curpage){
         int nCurPage = 1;
         if (curpage != null) {
             nCurPage = Integer.valueOf(curpage);
@@ -47,6 +50,28 @@ public class SysAuthActionTreeController {
         modelAndView.setViewName("/SysAuthActionTree/list");
 
         BaseDataResult<SysAuthActionTree> results = sysAuthActionTreeService.list(nCurPage, 5);
+        modelAndView.addObject("results", results);
+        modelAndView.addObject("curPage", nCurPage);
+        modelAndView.addObject("list","list");
+        modelAndView.addObject("method", "AuthActionTree.loadDataCommon");
+
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "/list.html", method = RequestMethod.POST)
+    public ModelAndView listData(String curpage){
+        int nCurPage = 1;
+        if (curpage != null) {
+            nCurPage = Integer.valueOf(curpage);
+        }
+
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("/SysAuthActionTree/listContent");
+
+        BaseDataResult<SysAuthActionTree> results = sysAuthActionTreeService.list(nCurPage, 5);
+
+        modelAndView.addObject("list","list");
+        modelAndView.addObject("method", "AuthActionTree.loadDataCommon");
         modelAndView.addObject("results", results);
         modelAndView.addObject("curPage", nCurPage);
 
@@ -118,19 +143,23 @@ public class SysAuthActionTreeController {
 
     @RequestMapping(value = "/tree.do", method = RequestMethod.POST)
     @ResponseBody
-    public Map<String, Object> treeNode(String parentId){
-        if(parentId == null){
-            parentId = "NONE";
-        }
+    public Map<String, Object> treeNode(String parentId, String postId){
+
+        parentId = parentId == null ? "NONE": parentId;
 
         Map<String, Object> map = new HashMap<>();
 
         BaseDataResult<SysAuthActionTree> result = sysAuthActionTreeService.findTreeNode(parentId);
 
+        List<SysAuthPostAction> list = postId == null ?
+                new ArrayList<>():
+                sysAuthPostActionService.getParamsByPostId(postId);
+
         if(result.getResultList().isEmpty()){
             map.put("noData", ToolUtil.noData());
         }else{
             map.put("result", result);
+            map.put("list", list);
         }
 
         return map;
@@ -147,18 +176,18 @@ public class SysAuthActionTreeController {
 
     @RequestMapping(value = "/treeNodeMove.do", method = RequestMethod.POST)
     @ResponseBody
-    public Map<String, Object> treeNodeMove(String id, String parentId, Integer sort, Integer statu) {
+    public Map<String, Object> treeNodeMove(@RequestParam(value = "ids[]") String[] ids,@RequestParam(value = "sorts[]") String[] sorts) {
 
         Map<String, Object> mapt = new HashMap<>();
         BaseDataResult<SysAuthActionTree> nodeList = new BaseDataResult<>();
 
-        if(id == null){
+        if(ids == null){
             mapt.put("status", false);
             mapt.put("message", "修改失败");
             return mapt;
         }
 
-        Boolean status = sysAuthActionTreeService.setTreeNodeSort(id, parentId, sort, statu);
+        Boolean status = sysAuthActionTreeService.setTreeNodeSort(ids, sorts);
 
         if(status == true) {
             mapt.put("status", true);

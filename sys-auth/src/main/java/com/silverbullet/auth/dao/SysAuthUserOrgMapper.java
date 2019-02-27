@@ -5,7 +5,8 @@ import com.silverbullet.data.repository.CrudRepository;
 import java.util.List;
 import java.util.Map;
 
-public interface SysAuthUserOrgMapper extends CrudRepository<SysAuthUserOrg, String>{
-    public List<Map<String, String>> findListByUserId(String id);
-    public int deleteByUserId(String id);
+public interface SysAuthUserOrgMapper extends CrudRepository<SysAuthUserOrg, Integer>{
+    public List<Map<String, String>> findListByUserId(Integer id);
+    public int deleteByUserId(Integer id);
+    public String getUserOrgId(Integer id);
 }

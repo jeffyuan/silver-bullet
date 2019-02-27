@@ -43,6 +43,29 @@ AuthAction.loadData = function(obj, action, curpage) {
     return true;
 };
 
+
+/**
+ * 加载页面通用方法
+ * @param obj
+ * @param action
+ * @param value
+ * @param dom
+ * @returns {boolean}
+ */
+AuthAction.loadDataCommon = function(obj, action, value, dom){
+
+    var val = {
+        curpage: value,
+        parentId: ""
+    };
+
+
+    var dialogInfo = AuthAction.getHtmlInfo(action, val);
+    dialogInfo += "<script>AuthAction.checkboxInit();</script>";
+    $("#data-list-content").html(dialogInfo);
+    return true;
+}
+
 /**
  * 表格头部添加方法
  */
@@ -63,6 +86,7 @@ AuthAction.add = function() {
                     $(this).text("");
                 });
                 $("#msg").text("");
+
 
                 // 保存
                 AuthAction.save(AuthAction.ctxPath + AuthAction.url + 'save.do', dialogItself);
@@ -104,7 +128,7 @@ AuthAction.save = function(url, dialogItself) {
                 if (data.errors != null) {
                     // 错误信息反馈到页面上
                     for (var i = 0 ; i < data.errors.length; i++) {
-                        $("#msg-" + data.errors[i].field).text('  (' + data.errors[i].defaultMessage + ')');
+                        $("#msg-" + data.errors[i].field).text('  (' + data.errors[i].defaultMessage + ')').fadeIn(200);
                     }
                 } else {
                     $("#msg").text(data.message);
@@ -331,6 +355,28 @@ AuthAction.getActionSelect = function () {
         }
     });
 }
+
+
+/**
+ * 搜索框下拉
+ * @param e
+ */
+AuthAction.inputSlideToggle = function(e){
+    $("#input").hide(300);
+    $("#search").slideToggle();
+    $("#return").show(300);
+}
+
+/**
+ * 搜索框上拉
+ * @param e
+ */
+AuthAction.inputSlideUp = function(e){
+    $("#search").slideUp();
+    $("#input").show(300);
+    $("#return").hide(300);
+}
+
 
 $(function () {
     AuthAction.checkboxInit();

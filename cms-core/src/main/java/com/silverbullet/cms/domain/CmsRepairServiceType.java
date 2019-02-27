@@ -50,9 +50,7 @@ public class CmsRepairServiceType {
     private String createUsername;
 
     // createUser
-    @NotBlank(message = "createUser 不能为空" , groups = {FullValidate.class})
-    @Size(max=32, message = "createUser 长度不能超过32", groups = {FullValidate.class})
-    private String createUser;
+    private Integer createUser;
 
     //createTime
     @NotNull(message = "createTime 不能为空" , groups = {FullValidate.class})
@@ -64,9 +62,7 @@ public class CmsRepairServiceType {
     private String modifyUsername;
 
     // modifyUser
-    @NotBlank(message = "modifyUser 不能为空" , groups = {FullValidate.class})
-    @Size(max=32, message = "modifyUser 长度不能超过32", groups = {FullValidate.class})
-    private String modifyUser;
+    private Integer modifyUser;
 
     // modifyTime
     @NotNull(message = "modifyTime 不能为空" , groups = {FullValidate.class})
@@ -146,12 +142,12 @@ public class CmsRepairServiceType {
         this.createUsername = createUsername == null ? null : createUsername.trim();
     }
 
-    public String getCreateUser() {
+    public Integer getCreateUser() {
         return createUser;
     }
 
-    public void setCreateUser(String createUser) {
-        this.createUser = createUser == null ? null : createUser.trim();
+    public void setCreateUser(Integer createUser) {
+        this.createUser = createUser;
     }
 
     public String getModifyUsername() {
@@ -162,12 +158,12 @@ public class CmsRepairServiceType {
         this.modifyUsername = modifyUsername == null ? null : modifyUsername.trim();
     }
 
-    public String getModifyUser() {
+    public Integer getModifyUser() {
         return modifyUser;
     }
 
-    public void setModifyUser(String modifyUser) {
-        this.modifyUser = modifyUser == null ? null : modifyUser.trim();
+    public void setModifyUser(Integer modifyUser) {
+        this.modifyUser = modifyUser;
     }
 
     public Date getModifyTime() {

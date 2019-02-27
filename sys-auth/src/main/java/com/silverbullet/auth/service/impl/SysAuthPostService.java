@@ -53,7 +53,7 @@ public class SysAuthPostService implements ISysAuthPostService {
         listResults.setResultList(sysAuthPostMapper.findList());
         listResults.setTotalNum(sysAuthPostMapper.countNum());
 
-             return listResults;
+        return listResults;
     }
 
 
@@ -74,7 +74,7 @@ public class SysAuthPostService implements ISysAuthPostService {
 
             sysAuthPostNew.setName(sysAuthPost.getName());
             sysAuthPostNew.setModifyTime(Calendar.getInstance().getTime());
-            sysAuthPostNew.setModifyUser(userInfo.getName());
+            sysAuthPostNew.setModifyUser(userInfo.getId());
             sysAuthPostNew.setModifyUsername(userInfo.getUsername());
             sysAuthPostNew.setIsExtends(sysAuthPost.getIsExtends());
 
@@ -110,7 +110,7 @@ public class SysAuthPostService implements ISysAuthPostService {
             sysAuthPost.setCreateTime(Calendar.getInstance().getTime());
             sysAuthPost.setModifyTime(Calendar.getInstance().getTime());
 
-            sysAuthPost.setModifyUser(userInfo.getName());
+            sysAuthPost.setModifyUser(userInfo.getId());
             sysAuthPost.setModifyUsername(userInfo.getUsername());
             sysAuthPost.setState("1");
             return sysAuthPostMapper.insert(sysAuthPost) == 1 ? true : false;
@@ -123,30 +123,12 @@ public class SysAuthPostService implements ISysAuthPostService {
     }
 
     @Override
-    public boolean Handle(String data) {
-        Map<String, String> datas = new HashMap<>();
-        Map<String, String>result = new HashMap<>();
-        String x[] = data.split("&");
-        String m[] = new String[5];
-        for(int i=0;i<x.length;i++){
-            if(x[i].matches(".*actionId.*") == true){
-                 m = x[i].split(":");
-            }else{
-                String y[] = x[i].split(":");
-                datas.put(y[0],y[1]);
-            }
-        }
-        String n[] = datas.get("postIds").split(",");
-        for(int i=0;i<n.length;i++){
-            result.put(m[1],n[i]);
-        }
-        String actionId[] = datas.get("postIds").split(",");
-
-        sysAuthPostActionMapper.deleteByPrimaryKey(m[1]);
+    public boolean Handle(String postIds, String[] actionId) {
+        sysAuthPostActionMapper.deleteByPrimaryKey(postIds);
         SysAuthPostAction sysAuthPostAction = new SysAuthPostAction();
         for(int i=0;i< actionId.length;i++){
             sysAuthPostAction.setId(ToolUtil.getUUID());
-            sysAuthPostAction.setPostId(m[1]);
+            sysAuthPostAction.setPostId(postIds);
             sysAuthPostAction.setActionId(actionId[i]);
 
             sysAuthPostActionMapper.insert(sysAuthPostAction);
