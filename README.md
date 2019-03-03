@@ -4,18 +4,25 @@
 
 本系统工程采用maven进行代码管理
 >silver-bullet
->>amain　　　　　　　　　//存放WEB部分内容<br>
->>cms-app　　　　　　　　//通用文章管理的应用服务
->>cms-core　　　　　　　//通用的文章管理core，包括对文件的管理、文章类别管理，包括评论、回复<br> 
->>code-generator　　　　//基于mybatic的代码自动生成<br> 
+>>silverbullet-common     //基础组件目录<br>
+>>>silverbullet-activiti　　　　　　　//流程引擎activiti<br>
+>>>silverbullet-cms-core　　　　　　　//通用的文章管理core，包括对文件的管理、文章类别管理，包括评论、回复<br>
+>>>silverbullet-code-generator　　　　//基于mybatic的代码自动生成<br>
+>>>silverbullet-msg-activemq　//消息模块，集成activemq<br>
+>>>silverbullet-msg-ws　  //消息模块，集成websocket<br>
+>>>silverbullet-index-es　  //索引引擎 elasticsearch<br>
+>>>silverbullet-utils　　//存放配置、通用工具等<br>
+>>silverbullet-module     //模块目录<br>
+>>>cms-app　　　　　　　　//通用文章管理的应用服务<br>
+>>>silverbullet-base-auth　　　　　　　//存放用户、机构、菜单管理等<br>
+>>>silverbullet-base-log　　　　　　　//日志管理<br>
+>>>silverbullet-base-tag　　　　　　　//标签模块<br>
+>>>silverbullet-base-params　　　　　//数据字典模块<br>
+>>silverbullet-web        //web应用目录<br>
+>>>amain　　　　　　　　　//存放WEB部分内容<br>
+
 >>doc　　　　　　　　　　//文档<br> 
->>sys-core　　　　　　　//存放配置、通用工具等<br> 
->>sys-auth　　　　　　　//存放用户、机构、菜单管理等<br> 
->>sys-log　　　　　　　//日志管理<br> 
->>sys-message　　　　　//消息模块，集成activemq<br> 
->>sys-params　　　　　//数据字典模块<br> 
->>sys-tag　　　　　　　//标签模块<br> 
->>ztest　　　　　　　　//测试demo模块<br> 
+
 
 
 # 操作手册
@@ -25,6 +32,7 @@
 String moduleName = "cms-core";      // 子工程名称
 String prjPackage = "silverbullet";  // 工程的名称，一般为com下面的包名，例如com.silverbullet
 String modulePackage = "cms";       // 模块名称，一般为com.silverbullet下面的子包名，例如com.silverbullet.auth
+String moduleDir = "silverbulllet-modules";
 
 >填写业务表的信息
 List<TableConfig> listTables = new ArrayList<TableConfig>();

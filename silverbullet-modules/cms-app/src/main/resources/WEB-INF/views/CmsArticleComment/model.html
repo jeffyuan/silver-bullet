@@ -1,0 +1,46 @@
+<div class="layer-content">
+    <h4 id="msg" style="color: red;"></h4>
+    <form id="formCms" class="m-t" role="form" method="post">
+              <input type="hidden" name="id" class="form-control" value="${obj.id!}">
+             <div class="form-group">
+                 <label>module</label><label style="color: red;" id="msg-module"></label>
+                 <input type="text" name="module" class="form-control" value="${obj.module!}" placeholder="module" required="">
+             </div>
+             <div class="form-group">
+                 <label>moduleFilterKey</label><label style="color: red;" id="msg-moduleFilterKey"></label>
+                 <input type="text" name="moduleFilterKey" class="form-control" value="${obj.moduleFilterKey!}" placeholder="moduleFilterKey" required="">
+             </div>
+             <div class="form-group">
+                 <label>content</label><label style="color: red;" id="msg-content"></label>
+                 <input type="text" name="content" class="form-control" value="${obj.content!}" placeholder="content" required="">
+             </div>
+             <div class="form-group">
+                 <label>contentHtml</label><label style="color: red;" id="msg-contentHtml"></label>
+                 <input type="text" name="contentHtml" class="form-control" value="${obj.contentHtml!}" placeholder="contentHtml" required="">
+             </div>
+             <div class="form-group">
+                 <label>createTime</label><label style="color: red;" id="msg-createTime"></label>
+                 <input type="text" name="createTime" class="form-control" value='${obj.createTime!, "yyyy-MM-dd hh:mm:ss"}' placeholder="createTime" required="">
+             </div>
+             <div class="form-group">
+                 <label>createUsername</label><label style="color: red;" id="msg-createUsername"></label>
+                 <input type="text" name="createUsername" class="form-control" value="${obj.createUsername!}" placeholder="createUsername" required="">
+             </div>
+             <div class="form-group">
+                 <label>createUser</label><label style="color: red;" id="msg-createUser"></label>
+                 <input type="text" name="createUser" class="form-control" value="${obj.createUser!}" placeholder="createUser" required="">
+             </div>
+             <div class="form-group">
+                 <label>praisYes</label><label style="color: red;" id="msg-praisYes"></label>
+                 <input type="text" name="praisYes" class="form-control" value="${obj.praisYes!}" placeholder="praisYes" required="">
+             </div>
+             <div class="form-group">
+                 <label>praisNo</label><label style="color: red;" id="msg-praisNo"></label>
+                 <input type="text" name="praisNo" class="form-control" value="${obj.praisNo!}" placeholder="praisNo" required="">
+             </div>
+             <div class="form-group">
+                 <label>adopt</label><label style="color: red;" id="msg-adopt"></label>
+                 <input type="text" name="adopt" class="form-control" value="${obj.adopt!}" placeholder="adopt" required="">
+             </div>
+    </form>
+</div>

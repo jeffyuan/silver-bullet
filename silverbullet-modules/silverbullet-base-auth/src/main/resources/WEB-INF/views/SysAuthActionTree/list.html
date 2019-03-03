@@ -1,0 +1,42 @@
+@layout("/layouts/bk-base.html") {
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <h1>
+        菜单管理
+        <small>浏览</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i>Silver Bullet</a></li>
+        <li><a href="#">系统管理</a></li>
+        <li class="active">菜单管理</li>
+    </ol>
+</section>
+
+<div id="data-list-content">
+    <div id="listContent" class="fadeInCon">
+        <section class="content">
+            <div class="row">
+                <div id="data-list-content-tree" class="col-md-3">
+                    @include("/SysAuthActionTree/tree.html"){}
+                </div>
+                <div id="data-list-content-list" class="col-md-9">
+                    @include("/SysAuthActionTree/listContent.html"){}
+                </div>
+                <!-- /.col -->
+            </div>
+            <!-- /.row -->
+        </section>
+    </div>
+</div>
+<script src="${ctxPath}/static/jquery/jquery-bootstrap-treeview-build/jquery.bootstrapTreeview.build.js"></script>
+<script src="${ctxPath}${beetlfn.getForLookupPath('/static/sysAuthActionTree/AuthActionTree.js')}"></script>
+<script>
+    $(function(){
+        AuthActionTree.TreeNode("#authActionTree");
+    });
+</script>
+</body>
+</html>
+
+
+@}

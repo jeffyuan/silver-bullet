@@ -1,0 +1,34 @@
+<div class="layer-content">
+    <h4 id="msg" style="color: red;"></h4>
+    <form id="formParams" class="m-t" role="form" method="post">
+        <input type="hidden" name="id" class="form-control" value="${obj.id!}" />
+        <input type="hidden" name="parentId" class="form-control" value="${obj.parentId!}" />
+        <div class="form-group">
+            <label>名称</label><label style="color: red;" id="msg-name"></label>
+            <input type="text" name="name" class="form-control" value="${obj.name!}" placeholder="名称" required=""/>
+        </div>
+        <div class="form-group">
+            <label>链接</label><label style="color: red;" id="msg-dicKey"></label>
+            <input type="text" name="url" class="form-control" value="${obj.url!}" placeholder="请求路径" required=""/>
+        </div>
+        <div class="form-group">
+            <label>类型</label><label id="msg-type" style="color: red;"></label>
+            <select class="form-control" name="resourceType" id="action-type">
+                <option value="menu">菜单</option>
+                <option value="button">权限</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>备注</label><label id="msg-comments" style="color: red;"></label>
+            <textarea name="comments" class="form-control" placeholder="请输入备注...">${obj.comments}</textarea>
+        </div>
+    </form>
+</div>
+<script type="text/javascript">
+    $(function(){
+        var resourceType = '${obj.resourceType}';
+        if (resourceType != null && resourceType.length > 0) {
+            $("#action-type option[value='"+resourceType+"']").attr("selected","selected")
+        }
+    });
+</script>

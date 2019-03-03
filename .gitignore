@@ -87,5 +87,4 @@ hs_err_pid*
 .idea/libraries/Maven__org_springframework_spring_core_4_3_13_RELEASE.xml
 code-generator/code-generator.iml
 .idea/dataSources.ids
-
-
+.idea/*

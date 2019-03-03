@@ -1,0 +1,44 @@
+<!-- /.search form -->
+<!-- sidebar menu: : style can be found in sidebar.less -->
+<ul class="sidebar-menu">
+    <li class="">
+        <a href="${ctxPath}/index"><i class="fa fa-dashboard"></i> <span>仪表盘</span></a>
+    </li><!--active-->
+    @for(menu in menus!) {
+    <li class="treeview">
+        <a href="#">
+            <i class="${menu.iconCls}"></i>
+            <span>${menu.text}</span>
+            <span class="pull-right-container">
+                  <i class="fa fa-angle-left pull-right"></i>
+            </span>
+        </a>
+        <ul class="treeview-menu">
+            @for(submenu in menu.children!) {
+            <li class="${submenu.children.~size == 0? '':'treeview'}">
+                <a href="${ctxPath}/${submenu.children.~size == 0? submenu.attributes.url:'#'}">
+                    <i class="${submenu.iconCls}"></i>
+                    <span>${submenu.text}</span>
+                    <span class="pull-right-container ${submenu.children.~size == 0? 'disNone':''}">
+                      <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    @for(lastmenu in submenu.children!){
+                    <li>
+                        <a href="${ctxPath}/${lastmenu.attributes.url}">
+                            <i class="${lastmenu.iconCls}"></i>
+                            ${lastmenu.text}
+                        </a>
+                    </li>
+                    @}
+                </ul>
+            </li>
+
+            @}
+        </ul>
+    </li>
+    @}
+
+</ul>
+

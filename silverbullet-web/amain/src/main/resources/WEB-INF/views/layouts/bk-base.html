@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport" />
+    <title>silverbullet</title>
+
+    <link rel="stylesheet" href="${ctxPath}${beetlfn.getForLookupPath('/static/bootstrap/dist/css/bootstrap.min.css')}" />
+    <link rel="stylesheet" href="${ctxPath}${beetlfn.getForLookupPath('/static/fonts/css/font-awesome.min.css')}" />
+    <link rel="stylesheet" href="${ctxPath}${beetlfn.getForLookupPath('/static/Ionicons/css/ionicons.min.css')}" />
+    <link rel="stylesheet" href="${ctxPath}/static/select2/dist/css/select2.min.css">
+    <link rel="stylesheet" href="${ctxPath}/static/adminlte/css/AdminLTE.min.css" />
+    <link rel="stylesheet" href="${ctxPath}/static/adminlte/css/skins/_all-skins.min.css" />
+    <link rel="stylesheet" href="${ctxPath}/static/adminlte/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css" />
+    <link rel="stylesheet" href="${ctxPath}/static/adminlte/plugins/iCheck/flat/blue.css" />
+    <link rel="stylesheet" href="${ctxPath}${beetlfn.getForLookupPath('/static/jquery/treegrid/css/jquery.treegrid.css')}" />
+
+    <link rel="stylesheet" href="${ctxPath}/static/jquery/easyui/themes/default/easyui.css" />
+    <link rel="stylesheet" href="${ctxPath}/static/jquery/easyui/themes/icon.css" />
+
+    <link rel="stylesheet" href="${ctxPath}/static/bootstrap-treeview/css/bootstrap-treeview.css"/>
+    <link rel="stylesheet" href="${ctxPath}${beetlfn.getForLookupPath('/static/silverbullet/css/inputFile.css')}"/>
+    <link rel="stylesheet" href="${ctxPath}${beetlfn.getForLookupPath('/static/silverbullet/css/mediaSetting.css')}"/>
+    <link rel="stylesheet" href="${ctxPath}/static/swiper-4.4.1/dist/css/swiper.min.css">
+    <link rel="stylesheet" href="${ctxPath}${beetlfn.getForLookupPath('/static/silverbullet/css/amain.css')}" >
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- jQuery 3 -->
+    <script src="${ctxPath}/static/jquery/jquery.min.js"></script>
+    <script src="${ctxPath}/static/html2canvas/html2canvas.min.js"></script>
+    <script src="${ctxPath}/static/jquery/jquery-ui.min.js"></script>
+    <script src="${ctxPath}/static/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="${ctxPath}/static/bootstrap-treeview/js/bootstrap-treeview.js" ></script>
+
+    <style>
+        .modal-content{
+            border-radius: 5px 5px 0 0;
+        }
+         body{
+             overflow: hidden;
+         }
+        .main-content {
+            overflow: auto;
+            min-height: 600px;
+            width: 100%;
+        }
+    </style>
+</head>
+<body class="hold-transition sidebar-mini wysihtml5-supported skin-blue-light">
+<div class="wrapper" style="overflow-y:hidden;">
+    @include("/fragments/bk-header.html"){}
+    @include("/fragments/bk-leftmenu.html"){}
+    <div class="content-wrapper" style="overflow-y: hidden;">
+        <div class="fadeInCon" id="content_async" style="display: none;">
+            ${layoutContent}
+        </div>
+        @include("/fragments/bk-footer.html"){}
+    </div>
+</div>
+
+<script src="${ctxPath}${beetlfn.getForLookupPath('/static/adminlte/js/adminlte.min.js')}"></script>
+<script src="${ctxPath}${beetlfn.getForLookupPath('/static/swiper-4.4.1/dist/js/swiper.min.js')}"></script>
+
+<script src="${ctxPath}${beetlfn.getForLookupPath('/static/jquery/treegrid/js/jquery.treegrid.js')}"></script>
+<script type="text/javascript" src="${ctxPath}${beetlfn.getForLookupPath('/static/jquery/treegrid/js/jquery.treegrid.bootstrap3.js')}"></script>
+<!--自定义js-->
+<script src="${ctxPath}${beetlfn.getForLookupPath('/static/silverbullet/amain.js')}"></script>
+<script src="${ctxPath}${beetlfn.getForLookupPath('/static/silverbullet/search.js')}"></script>
+<script src="${ctxPath}${beetlfn.getForLookupPath('/static/silverbullet/menu.js')}"></script>
+<script src="${ctxPath}${beetlfn.getForLookupPath('/static/silverbullet/ofgMain.js')}"></script>
+
+<script src="${ctxPath}${beetlfn.getForLookupPath('/static/layer/3.1/layer.js')}"></script>
+<script src="${ctxPath}/static/adminlte/plugins/iCheck/icheck.min.js"></script>
+<script src="${ctxPath}/static/jquery/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+<script src="${ctxPath}/static/echarts/echarts.min.js"></script>
+
+<script>
+    // bounce动画
+    // $(".fadeInCon").delay(200).show().addClass("animated bounceInUp");
+    $(".fadeInCon").fadeIn(200);
+    // $.widget.bridge('uibutton', $.ui.button);
+
+    jQuery(document).ready(function(){
+        loadMenu();
+        Menu.menuActive();
+        // 初始化消息队列
+        // initMsg();
+        autoChangeContentSize();
+    });
+</script>
+</body>
+</html>

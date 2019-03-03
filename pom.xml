@@ -10,19 +10,20 @@
     <version>1.0-SNAPSHOT</version>
 
     <modules>
-        <module>sys-core</module>
-        <module>sys-auth</module>
-        <module>amain</module>
-        <module>sys-tag</module>
-        <module>ztest</module>
-        <module>sys-log</module>
-        <module>cms-core</module>
-        <module>sys-message</module>
-        <module>sys-params</module>
-        <module>cms-app</module>
-        <module>special-cloud-project</module>
-        <module>special-cloud-store</module>
+        <module>silverbullet-common/silverbullet-utils</module>
+        <module>silverbullet-modules/silverbullet-base-auth</module>
+        <module>silverbullet-modules/silverbullet-base-tag</module>
+        <module>silverbullet-modules/silverbullet-base-log</module>
+        <module>silverbullet-common/silverbullet-cms-core</module>
+        <module>silverbullet-modules/silverbullet-base-params</module>
+        <module>silverbullet-modules/cms-app</module>
+        <module>silverbullet-modules/special-cloud-project</module>
+        <module>silverbullet-modules/special-cloud-store</module>
         <!--<module>silverbullet-index</module>-->
+        <module>silverbullet-common/silverbullet-msg-activemq</module>
+        <module>silverbullet-common/silverbullet-index-es</module>
+        <module>silverbullet-common/silverbullet-msg-ws</module>
+        <module>silverbullet-web/amain</module>
     </modules>
 
     <parent>
@@ -67,6 +68,7 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
+            <optional>true</optional>
             <scope>runtime</scope>
         </dependency>
         <dependency>

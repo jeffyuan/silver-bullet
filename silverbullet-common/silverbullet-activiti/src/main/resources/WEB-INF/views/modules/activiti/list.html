@@ -1,0 +1,21 @@
+@layout("/layouts/bk-base.html") {
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <h1>
+        模型管理
+        <small>浏览</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i>Silver Bullet</a></li>
+        <li><a href="#"><i class="fa fa-files-o"></i>系统管理</a></li>
+        <li class="active"><a href=""><i class="fa fa-circle-o"></i>用户管理</a></li>
+    </ol>
+</section>
+
+<!-- Main content -->
+<div id="data-list-content">
+    @include("/modules/activiti/listContent.html"){}
+</div>
+<script src="${ctxPath}/static/silverbullet/jsencrypt.min.js"></script>
+<script src="${ctxPath}/static/sysActiviti/silverbullet-Activiti.js"></script>
+@}

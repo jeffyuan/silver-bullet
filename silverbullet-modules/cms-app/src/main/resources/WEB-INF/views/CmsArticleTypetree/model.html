@@ -1,0 +1,27 @@
+<div class="layer-content">
+    <h4 id="msg" style="color: red;"></h4>
+    <form id="formCms" class="m-t" role="form" method="post">
+        <input type="hidden" name="id" class="form-control" value="${obj.id!}">
+        <input type="hidden" name="parentId" class="form-control" value="${obj.parentId!}">
+        <div class="form-group">
+            <label>name</label><label style="color: red;" id="msg-name"></label>
+            <input type="text" name="name" class="form-control" value="${obj.name!}" placeholder="name" required="">
+        </div>
+        <div class="form-group">
+            <label>sort</label><label style="color: red;" id="msg-sort"></label>
+            <input type="text" name="sort" class="form-control" value="${obj.sort!}" placeholder="sort" required="">
+        </div>
+        <div class="form-group">
+            <label>type</label><label style="color: red;" id="msg-type"></label>
+            <input type="text" name="type" class="form-control" value="${obj.type!}" placeholder="type" required="">
+        </div>
+        <div class="form-group">
+            <label>domain</label><label style="color: red;" id="msg-domain"></label>
+            <input type="text" name="domain" class="form-control" value="${obj.domain!}" placeholder="domain" required="">
+        </div>
+        <div class="form-group">
+            <label>comments</label><label style="color: red;" id="msg-comments"></label>
+            <input type="text" name="comments" class="form-control" value="${obj.comments!}" placeholder="comments" required="">
+        </div>
+    </form>
+</div>

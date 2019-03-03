@@ -1,0 +1,56 @@
+<div class="layer-content">
+    <h4 id="msg" style="color: red;"></h4>
+    <form id="formParams" class="m-t" role="form" method="post">
+        <input type="hidden" name="id" class="form-control" value="${obj.id!}">
+        <div class="form-group">
+            <label>名称：</label><label style="color: red;" id="msg-name"></label>
+            <input type="text" name="name" class="form-control ${style!}" value="${obj.name!}" placeholder="名称"
+                   required="" ${disabled}>
+        </div>
+        <div class="form-group">
+            <label>词典KEY：</label><label style="color: red;" id="msg-dicKey"></label>
+            <input type="text" name="dicKey" class="form-control ${style!}" value="${obj.dicKey!}" placeholder="词典KEY"
+                   required="" ${disabled}>
+        </div>
+        <div class="form-group" id="div-dicValue">
+            <label>词典VALUE：</label><label style="color: red;" id="msg-dicValue"></label>
+            <input type="text" name="dicValue" class="form-control ${style!}" value="${obj.dicValue!}" placeholder="词典VALUE"
+                   required="" ${disabled}>
+        </div>
+        <div class="form-group">
+            <label>类型：</label><label id="msg-type" style="color: red;"></label>
+            <select name="type" id="diction-type" class="form-control ${style!}" placeholder="类型" required="" ${disabled}>
+                @for(typeItemInfo in typeinfo){
+                   <option value="${typeItemInfo.key}">${typeItemInfo.value}</option>
+                @}
+            </select>
+        </div>
+        <div class="form-group">
+            <label>备注：</label><label id="msg-comments" style="color: red;"></label>
+            <textarea name="comments" class="form-control ${style!}" value="${obj.comments!}" placeholder="Enter ..."
+                      ${disabled}>${obj.comments!}</textarea>
+        </div>
+    </form>
+</div>
+<script type="text/javascript">
+    $(function(){
+        var resourceType = '${obj.type}';
+        if (resourceType != null && resourceType.length > 0) {
+            $("#diction-type option[value='"+resourceType+"']").attr("selected","selected");
+        }
+
+        displayDicValue();
+        $("#diction-type").change(function(){
+            displayDicValue();
+        });
+    });
+
+    function displayDicValue() {
+        var selectVal = $("#diction-type").children('option:selected').val();
+        if (selectVal == "0") {
+            $("#div-dicValue").show();
+        } else {
+            $("#div-dicValue").hide();
+        }
+    }
+</script>

@@ -1,0 +1,36 @@
+{
+  "groups": [
+    {
+      "name": "spring.activiti.ext",
+      "type": "com.silverbullet.activiti.ext.ActivitiExtendProperties",
+      "sourceType": "com.silverbullet.activiti.ext.ActivitiExtendProperties"
+    }
+  ],
+  "properties": [
+    {
+      "name": "spring.activiti.ext.activity-font-name",
+      "type": "java.lang.String",
+      "sourceType": "com.silverbullet.activiti.ext.ActivitiExtendProperties",
+      "defaultValue": "宋体"
+    },
+    {
+      "name": "spring.activiti.ext.database-schema-update",
+      "type": "java.lang.String",
+      "sourceType": "com.silverbullet.activiti.ext.ActivitiExtendProperties",
+      "defaultValue": "false"
+    },
+    {
+      "name": "spring.activiti.ext.label-font-name",
+      "type": "java.lang.String",
+      "sourceType": "com.silverbullet.activiti.ext.ActivitiExtendProperties",
+      "defaultValue": "宋体"
+    },
+    {
+      "name": "spring.activiti.ext.process-definition-cache-limit",
+      "type": "java.lang.Integer",
+      "sourceType": "com.silverbullet.activiti.ext.ActivitiExtendProperties",
+      "defaultValue": 0
+    }
+  ],
+  "hints": []
+}
