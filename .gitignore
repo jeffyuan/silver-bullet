@@ -88,3 +88,7 @@ hs_err_pid*
 code-generator/code-generator.iml
 .idea/dataSources.ids
 .idea/*
+
+target
+.idea/inspectionProfiles/Project_Default.xml
+doc/*
